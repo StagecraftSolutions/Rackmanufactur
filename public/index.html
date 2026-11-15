@@ -480,6 +480,7 @@ td input.shop { min-width: 110px; }
 .ex-mod { fill: #23262a; stroke: #5d646c; stroke-width: .35; } .ex-vline { stroke: #4b5159; stroke-width: .35; } .ex-tag { fill: none; stroke: #6b737c; stroke-width: .3; } .ex-ir { fill: #3a1418; } .ex-sw { fill: #c9ced4; }
 .exled-g { fill: #22c55e; } .exled-o { fill: #f97316; } .exled-b { fill: #60a5fa; } .exled-off { fill: #3a3f45; } .ex-lcdl { fill: #d7dbd2; stroke: #6b737c; stroke-width: .3; } .ex-lcdt { fill: #2a2e33; opacity: .75; } .ex-swb { fill: #15171a; stroke: #6b737c; stroke-width: .3; } .ex-swt { fill: #3a3f45; }
 .exbtn-gd { fill: #1b2b20; stroke: #22c55e; stroke-width: .7; } .ex-wmag { fill: #d946ef; } .ex-segoff { fill: #2a2e33; } .ex-sego { fill: #f97316; } .ex-segg { fill: #22c55e; } .ex-seg7 { fill: #0d0e10; stroke: #3a3f45; stroke-width: .3; } .exred { fill: #ef4444; }
+.ex-tft { fill: #050607; stroke: #3a3f45; stroke-width: .4; } .ex-ring2 { fill: #22262a; stroke: #3a3f45; stroke-width: .5; } .ex-grillw { fill: #0d0e10; stroke: #2a2e33; stroke-width: .6; } .ex-slot { fill: #1b1d20; } .ex-badge { fill: #d9dde2; stroke: #8d959e; stroke-width: .3; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -989,7 +990,7 @@ const DEVDB = {
   // Licht, Video, Strom
   swisson_xnd8: { n: 'Swisson XND-8 Art-Net-Node', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 160, chk: 1, url: 'https://www.swisson.com', io: { f: 'lcd:1 Display; xlr5:8 DMX In/Out; rj45:2 etherCON', r: 'powercon:2 Netz In/Thru' } },
   swisson_xsp5r: { n: 'Swisson XSP-5R DMX-Splitter', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.swisson.com', io: { f: 'xlr5:7 DMX In, Thru, 5× Out', r: 'powercon:2 Netz In/Thru' } },
-  novastar_mx20: { n: 'NovaStar MX20 LED-Controller', mk: 'NovaStar', g: 'Video · LED', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.novastar.tech', io: { f: 'lcd:1 Display; knob:1 Drehregler; usba:1 USB', r: 'hdmi:4 2× HDMI 1.3 In + Loop; bnc:2 3G-SDI In + Loop; rj45:8 6× LED-Out, 2× Steuerung; sfp:2 10G Glasfaser; bnc:2 Genlock In/Loop; iec:1 Netz' } },
+  novastar_mx20: { n: 'NovaStar MX20 LED-Controller', mk: 'NovaStar', g: 'Video · LED', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.novastar.tech', io: { f: 'btn:1 Ein/Standby; lcd:1 2″-TFT; knob:1 Drehregler, BACK; usba:1 USB 2.0', r: 'rj45:3 2× Ethernet (Steuerung), AUX; opt:1 S/PDIF Out; bnc:4 Genlock In/Loop, 3G-SDI In/Loop; hdmi:4 2× HDMI 1.3 In + Loop; ethercon:6 LED-Ausgänge 1–6; sfp:2 OPT 1/2 (10G); iec:1 Netz' } },
   eurolite_sb1100: { n: 'Eurolite SB-1100 Stromverteiler 32 A', mk: 'Eurolite', g: 'Strom', fit: 'rack', he: 3, d: 295, price: 399, note: 'abgekündigt, Nachfolger SB-1100B (No. 30248376)', url: 'https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html', io: { f: 'rcd:1 FI 40 A/30 mA 4-polig; brk:9 2× LS C16 3-polig, 3× LS C16 1-polig; cee16f:2 CEE 16 A Out 5-polig (abgesichert)', r: 'schuko:6 Schutzkontakt mit Klappdeckel (abgesichert); cee32f:1 CEE 32 A Out (Durchgang); gland:1 Zuleitung fest mit CEE 32 A Stecker' } },
 };
 const DEV_GROUPS = [...new Set(Object.values(DEVDB).map(d => d.g))];
@@ -1504,6 +1505,26 @@ EXACT.wing_rack = { hw: 440, f: [
   { t: 'xlr', x: 248.2, y: 152, s: 11 }, { t: 'xlr', x: 275.6, y: 152, s: 11 },
   { t: 'txt', x: 362, y: 131, v: 'EXPANSION SLOT', s: 2.4 }, { t: 'rect', x: 297.3, y: 136.2, w: 129.2, h: 36.2, c: 'ex-mod' },
   { t: 'sd', x: 337, y: 158, s: 9 }, { t: 'sd', x: 383, y: 158, s: 9 }, { t: 'txt', x: 362, y: 143, v: 'WING-LIVE · SD-KARTEN', s: 2 },
+] };
+// NovaStar MX20 (Datenblatt-Abbildungen V1.0): Gehäuse 443 mm, Rackohren fest
+EXACT.novastar_mx20 = { hw: 482.6, f: [
+  { t: 'txt', x: 23.2, y: 7.5, v: 'COEX', s: 3.4, c: 'exorange' }, { t: 'rect', x: 44.5, y: 6.3, w: 3.2, h: 1.2, c: 'exled-g' },
+  { t: 'enc', x: 46.6, y: 20, r: 6.6, plain: 1 }, { t: 'txt', x: 46.6, y: 20, v: '⏻', s: 4.5 }, { t: 'usba', x: 46.6, y: 34.8, s: 9 },
+  { t: 'rect', x: 118.1, y: 5.5, w: 43.7, h: 32.5, c: 'ex-tft' },
+  { t: 'ledc', x: 239, y: 22, r: 16, c: 'ex-ring2' }, { t: 'enc', x: 239, y: 22, r: 12, plain: 1 }, { t: 'ledc', x: 264.9, y: 30.8, r: 8, c: 'ex-ring2' }, { t: 'btn', x: 264.9, y: 30.8, w: 11, h: 11, c: 'exbtn-dk', v: 'BACK' },
+  { t: 'rect', x: 289.2, y: 4.4, w: 175.4, h: 35.2, c: 'ex-grillw' }, ...[0, 1, 2, 3, 4].map(k => ({ t: 'rect', x: 295, y: 8 + k * 6.6, w: 163, h: 2.6, c: 'ex-slot' })),
+  { t: 'rect', x: 407.4, y: 7.7, w: 47, h: 8.3, c: 'ex-badge' }, { t: 'txt', x: 418, y: 11.9, v: 'MX20', s: 5.5, c: 'exorange' }, { t: 'txt', x: 443, y: 11.9, v: 'NOVASTAR', s: 2.2, c: 'exdark' },
+], r: [
+  { t: 'txt', x: 25, y: 9, v: 'CONTROL', s: 1.8 }, { t: 'rj45', x: 38.1, y: 15.5, s: 10 }, { t: 'rj45', x: 38.1, y: 29.8, s: 10 }, { t: 'txt', x: 38.1, y: 41, v: 'ETHERNET', s: 1.6 },
+  { t: 'rj45', x: 58.7, y: 29.3, s: 10 }, { t: 'txt', x: 58.7, y: 41, v: 'AUX', s: 1.6 }, { t: 'opt', x: 76.2, y: 29.3, s: 8 }, { t: 'txt', x: 76.2, y: 41, v: 'SPDIF OUT', s: 1.6 },
+  { t: 'bnc', x: 61.7, y: 10.4, s: 11 }, { t: 'bnc', x: 81.8, y: 10.4, s: 11 }, { t: 'txt', x: 71.7, y: 19, v: 'GENLOCK IN · LOOP', s: 1.6 },
+  { t: 'bnc', x: 118.9, y: 10.4, s: 11 }, { t: 'bnc', x: 139, y: 10.4, s: 11 }, { t: 'txt', x: 129, y: 19, v: '3G-SDI IN · LOOP', s: 1.6 },
+  { t: 'hdmi', x: 95.8, y: 29.8, s: 11 }, { t: 'hdmi', x: 128.9, y: 29.8, s: 11 }, { t: 'txt', x: 112, y: 41, v: 'HDMI 1.3 · 1 IN/LOOP', s: 1.6 },
+  { t: 'hdmi', x: 159.5, y: 29.8, s: 11 }, { t: 'hdmi', x: 192.6, y: 29.8, s: 11 }, { t: 'txt', x: 176, y: 41, v: 'HDMI 1.3 · 2 IN/LOOP', s: 1.6 },
+  { t: 'vline', x: 213, y: 3, h: 38 }, { t: 'txt', x: 291, y: 5, v: 'OUTPUT 1–6', s: 2 },
+  ...[230, 254.3, 278.9, 303.5, 327.8, 352.1].map(x => ({ t: 'ethercon', x, y: 22, s: 13 })),
+  { t: 'rect', x: 367.2, y: 11, w: 14, h: 22, c: 'ex-mod' }, { t: 'txt', x: 374.2, y: 8, v: 'OPT 1', s: 1.6 }, { t: 'txt', x: 374.2, y: 37, v: 'OPT 2', s: 1.6 },
+  { t: 'sw', x: 412.3, y: 10.4, w: 8, h: 7 }, { t: 'iec', x: 423.8, y: 32.4, s: 17 }, { t: 'ledc', x: 444.4, y: 34, r: 3, c: 'pg-metal' },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
