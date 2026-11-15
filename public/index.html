@@ -450,6 +450,28 @@ td input.shop { min-width: 110px; }
 /* Geräte aus der Datenbank */
 .pcblue { fill: #1f5fbf; } .pcwhite { fill: #e9ecef; } .gold { fill: #d4a634; } .ocfib { fill: #6fd1ff; } .rcaring { fill: #c8102e; }
 [data-shdev] { cursor: ew-resize; }
+.devbrand { font-family: var(--f-mono); font-weight: 500; letter-spacing: .08em; opacity: .75; }
+.devhl { stroke: rgba(255, 255, 255, .14); stroke-width: .5; }
+.devsh { stroke: rgba(0, 0, 0, .45); stroke-width: .5; }
+.pg-portk { fill: #2a2e33; }
+.pg-led { fill: #3ddc84; }
+.pg-pwr { fill: #3ddc84; }
+.pg-lcdl { fill: #6fb6e8; opacity: .55; }
+.pg-knobl { stroke: #c9ced4; stroke-width: .45; stroke-linecap: round; }
+.pg-lbl { font-family: var(--f-mono); font-size: 2.1px; letter-spacing: .05em; opacity: .8; }
+.pg-ceebase { fill: #9a0e22; stroke: #5e0714; stroke-width: .3; }
+.pg-ceein { fill: #6e0a18; }
+.pg-ceelid { fill: #e05a6a; }
+.pg-ceepin { fill: #d9b45a; }
+.pg-brk { fill: #e8eaed; stroke: #9aa1a9; stroke-width: .2; }
+.pg-brkt { fill: #1b1d20; }
+.pg-rcdt { fill: #2b6fd6; }
+.exlbl { fill: #e8eaed; font-family: var(--f-display); font-weight: 600; letter-spacing: .04em; dominant-baseline: central; }
+.exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
+.ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
+.ex-lbl { fill: #c9ced4; opacity: .6; }
+.pg-lamp { fill: #d42a2a; } .pg-lampb { fill: #2a2e33; stroke: #6b737c; stroke-width: .3; }
+.pg-schuko { fill: #141517; stroke: #3a3f45; stroke-width: .4; } .pg-schukol { fill: #1d1f22; stroke: #2c3035; stroke-width: .4; } .pg-schukoh { fill: #2a2d31; }
 .devmk { font-family: var(--f-display); font-weight: 600; letter-spacing: .02em; }
 .pg-metal { fill: #c9ced4; stroke: #6b737c; stroke-width: .2; }
 .pg-hole { fill: #050607; }
@@ -940,7 +962,7 @@ const DEVDB = {
   swisson_xnd8: { n: 'Swisson XND-8 Art-Net-Node', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 160, chk: 1, url: 'https://www.swisson.com', io: { f: 'lcd:1 Display; xlr5:8 DMX In/Out; rj45:2 etherCON', r: 'powercon:2 Netz In/Thru' } },
   swisson_xsp5r: { n: 'Swisson XSP-5R DMX-Splitter', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.swisson.com', io: { f: 'xlr5:7 DMX In, Thru, 5× Out', r: 'powercon:2 Netz In/Thru' } },
   novastar_mx20: { n: 'NovaStar MX20 LED-Controller', mk: 'NovaStar', g: 'Video · LED', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.novastar.tech', io: { f: 'lcd:1 Display; knob:1 Drehregler; usba:1 USB', r: 'hdmi:4 2× HDMI 1.3 In + Loop; bnc:2 3G-SDI In + Loop; rj45:8 6× LED-Out, 2× Steuerung; sfp:2 10G Glasfaser; bnc:2 Genlock In/Loop; iec:1 Netz' } },
-  eurolite_sb1100: { n: 'Eurolite SB-1100 Stromverteiler 32 A', mk: 'Eurolite', g: 'Strom', fit: 'rack', he: 3, d: 220, chk: 1, url: 'https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html', io: { f: 'cee:1 CEE 32 A In; cee:1 CEE 32 A Out (Durchgang); btn:1 Sicherungen', r: '' } },
+  eurolite_sb1100: { n: 'Eurolite SB-1100 Stromverteiler 32 A', mk: 'Eurolite', g: 'Strom', fit: 'rack', he: 3, d: 295, price: 399, note: 'abgekündigt, Nachfolger SB-1100B (No. 30248376)', url: 'https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html', io: { f: 'rcd:1 FI 40 A/30 mA 4-polig; brk:9 2× LS C16 3-polig, 3× LS C16 1-polig; cee16f:2 CEE 16 A Out 5-polig (abgesichert)', r: 'schuko:6 Schutzkontakt mit Klappdeckel (abgesichert); cee32f:1 CEE 32 A Out (Durchgang); gland:1 Zuleitung fest mit CEE 32 A Stecker' } },
 };
 const DEV_GROUPS = [...new Set(Object.values(DEVDB).map(d => d.g))];
 const thomannQ = d => 'https://www.thomann.de/de/search_dir.html?sw=' + encodeURIComponent(d.n.replace(/\s*\(.*\)/, ''));
@@ -996,51 +1018,122 @@ function shelfGaps(it, min = 30) {   // freie Bereiche [von, bis] in mm
 const shelfDepth = it => Math.max(shelfOf(it).depth, ...(it.devs || []).map(o => devOf(o.dev)?.d || 0));
 
 /* ---------- Gerätefront / -rückseite zeichnen ---------- */
-function ioGlyphs(spec, x0, y0, w, h, cap = 40) {
-  const parts = parseIO(spec).filter(p => p.t !== 'txt');
-  const s = Math.max(2.2, Math.min(h * .3, 7));
-  const size = { rj45: [1.25, 1], sfp: [1.6, .7], bnc: [1, 1], xlr: [1.9, 1.9], xlr5: [1.9, 1.9], hdmi: [1.4, .55], usb: [1, .45], usba: [1, .45], usbc: [.9, .35], iec: [1.4, 1.05], lcd: [5, 2.2], jack: [.8, .8], dc: [.7, .7], opt: [.8, .8], sd: [2.2, .35], btn: [3, .9], knob: [1.3, 1.3], powercon: [1.9, 1.9], cee: [4.2, 4.2], ant: [.8, .8] };
-  const list = [];
-  parts.forEach(p => { const n = p.t === 'lcd' || p.t === 'btn' ? Math.min(p.n, 4) : p.n; for (let i = 0; i < n; i++) list.push(p.t); });
-  let shown = list.slice(0, cap), more = list.length - shown.length;
-  // Zeilen bilden
-  const gap = s * .35, rows = [[]]; let rw = 0;
-  const maxRows = Math.max(1, Math.floor((h - 2) / (s * 1.25)));
-  shown.forEach(t => { const [gw] = size[t] || [1, 1]; const ww = gw * s; if (rw + ww > w && rows[rows.length - 1].length) { if (rows.length >= maxRows) { more++; return; } rows.push([]); rw = 0; } rows[rows.length - 1].push(t); rw += ww + gap; });
-  let g = '';
-  const rowH = rows.map(r => Math.max(...r.map(t => (size[t] || [1, 1])[1] * s), s * .5));
-  const totH = rowH.reduce((a, b) => a + b, 0) + (rows.length - 1) * gap;
-  let y = y0 + (h - totH) / 2;
-  rows.forEach((r, ri) => {
-    let x = x0;
-    r.forEach(t => {
-      const [gw, gh] = size[t] || [1, 1], ww = gw * s, hh = gh * s, cx = x + ww / 2, cy = y + rowH[ri] / 2, f = v => v.toFixed(2);
-      switch (t) {
-        case 'bnc': case 'jack': case 'dc': case 'ant': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 5)}" class="pg-hole"/>`; break;
-        case 'xlr': case 'xlr5': case 'powercon': case 'knob': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="${t === 'powercon' ? 'pg-pcon' : t === 'knob' ? 'pg-knob' : 'pg-ring'}"/>${t === 'knob' ? '' : `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3.2)}" class="pg-hole"/>`}`; break;
-        case 'cee': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-cee"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3)}" class="pg-hole"/>`; break;
-        case 'lcd': g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".5" class="pg-lcd"/>`; break;
-        case 'btn': for (let k = 0; k < 3; k++) g += `<rect x="${f(x + k * ww / 3)}" y="${f(cy - hh / 2)}" width="${f(ww / 3 - .5)}" height="${f(hh)}" rx=".4" class="pg-btn"/>`; break;
-        case 'iec': g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".6" class="pg-iec"/>`; break;
-        default: g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${t === 'usbc' ? f(hh / 2) : '.3'}" class="pg-${t === 'rj45' || t === 'sfp' ? 'port' : 'slot'}"/>`;
-      }
-      x += ww + gap;
-    });
-    y += rowH[ri] + gap;
-  });
-  if (more > 0) g += `<text x="${(x0 + w).toFixed(2)}" y="${(y0 + h - 1).toFixed(2)}" class="pg-more" text-anchor="end">+${more}</text>`;
+const MK_SHORT = { 'Blackmagic Design': 'Blackmagicdesign', Ubiquiti: 'UniFi', Shure: 'SHURE', Behringer: 'behringer', Midas: 'MIDAS', Swisson: 'SWISSON', NovaStar: 'NovaStar', Eurolite: 'EUROLITE' };
+const PORT_LBL = { rj45: 'RJ45', sfp: 'SFP', bnc: 'BNC', xlr: 'XLR', xlr5: 'DMX', hdmi: 'HDMI', usb: 'USB', usba: 'USB', usbc: 'USB-C', iec: 'AC', dc: 'DC', jack: '6,3', opt: 'OPT', powercon: 'PCON', cee: 'CEE 32A', cee32m: 'CEE 32A IN', cee32f: 'CEE 32A OUT', cee16m: 'CEE 16A IN', cee16f: 'CEE 16A', brk: 'LS', rcd: 'FI', sd: 'SD', ant: 'ANT' };
+const PORT_SZ = { rj45: [1.25, 1], sfp: [1.6, .7], bnc: [1, 1], xlr: [1.75, 1.75], xlr5: [1.75, 1.75], hdmi: [1.4, .55], usb: [1, .45], usba: [1, .45], usbc: [.9, .35], iec: [1.45, 1.05], jack: [.85, .85], dc: [.75, .75], opt: [.8, .8], sd: [2.4, .38], powercon: [1.9, 1.9], cee: [4.4, 4.4], cee32m: [4.6, 4.6], cee32f: [5, 5.4], cee16m: [3.7, 3.7], cee16f: [4, 4.4], brk: [.95, 2.4], rcd: [1.9, 2.4], ant: [.8, .8] };
+const POWER = ['iec', 'dc', 'powercon', 'cee32m', 'cee16m'];
+function portLabel(p) {
+  const t = p.txt || '';
+  if (/Antenne/i.test(t)) return 'ANT';
+  if (/MADI/.test(t) && p.t === 'bnc') return 'SDI · MADI';
+  if (/SDI/.test(t) && p.t === 'bnc') return 'SDI';
+  if (/Timecode/.test(t) && p.t !== 'bnc') return 'TC';
+  if (/AES50|StageConnect|ULTRANET/.test(t) && p.t === 'rj45') return 'AES50';
+  if (/Dante/.test(t)) return 'DANTE';
+  if (/Kopfhörer/.test(t)) return 'PHONES';
+  if (/DMX/.test(t)) return 'DMX';
+  if (/Glasfaser|10G/.test(t) && p.t === 'sfp') return 'SFP+';
+  return PORT_LBL[p.t] || p.t.toUpperCase();
+}
+
+// CEE (rot, 400 V, 5-polig): Stifte/Buchsen im Kreis, Schutzleiter unten größer
+function ceePins(cx, cy, r, male) {
+  const f = v => v.toFixed(2); let g = '';
+  [90, 162, 234, 306, 18].forEach((a, i) => { const q = a * Math.PI / 180, pr = i === 0 ? r * .2 : r * .14; g += `<circle cx="${f(cx + Math.cos(q) * r * .58)}" cy="${f(cy + Math.sin(q) * r * .58)}" r="${f(pr)}" class="${male ? 'pg-ceepin' : 'pg-hole'}"/>`; });
   return g;
 }
-// Gerätekörper mit Name und Anschlüssen (side 'f' vorn, 'r' hinten)
+function ceeGlyph(t, x, cy, ww, hh) {
+  const f = v => v.toFixed(2), cx = x + ww / 2;
+  if (t.endsWith('m')) {   // Einbaustecker: quadratischer Flansch, runder Kragen mit Nase, Stifte
+    const r = ww / 2;
+    return `<rect x="${f(x)}" y="${f(cy - r)}" width="${f(ww)}" height="${f(ww)}" rx="${f(r * .18)}" class="pg-ceebase"/>`
+      + `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(r * .86)}" class="pg-cee"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(r * .72)}" class="pg-ceein"/>`
+      + `<rect x="${f(cx - r * .09)}" y="${f(cy - r * .86)}" width="${f(r * .18)}" height="${f(r * .2)}" class="pg-ceein"/>` + ceePins(cx, cy, r * .72, true);
+  }
+  // Einbaukupplung: Gehäuse mit Klappdeckel (oben angeschlagen), Buchse sichtbar
+  const bw = ww, bh = hh, by = cy - bh / 2, r = bw * .36;
+  return `<rect x="${f(x)}" y="${f(by)}" width="${f(bw)}" height="${f(bh)}" rx="${f(bw * .12)}" class="pg-cee"/>`
+    + `<rect x="${f(x + bw * .08)}" y="${f(by + bh * .03)}" width="${f(bw * .84)}" height="${f(bh * .12)}" rx="${f(bh * .05)}" class="pg-ceelid"/>`
+    + `<circle cx="${f(cx)}" cy="${f(by + bh * .58)}" r="${f(r)}" class="pg-ceein"/>` + ceePins(cx, by + bh * .58, r, false)
+    + `<rect x="${f(cx - bw * .1)}" y="${f(by + bh * .93)}" width="${f(bw * .2)}" height="${f(bh * .05)}" class="pg-ceelid"/>`;
+}
+function glyphAt(t, x, cy, s) {   // ein Anschluss, x = linke Kante
+  const [gw, gh] = PORT_SZ[t] || [1, 1], ww = gw * s, hh = gh * s, cx = x + ww / 2, f = v => v.toFixed(2);
+  switch (t) {
+    case 'bnc': case 'jack': case 'dc': case 'ant': return `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 5)}" class="pg-hole"/>`;
+    case 'xlr': case 'xlr5': return `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-ring"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2.9)}" class="pg-hole"/><rect x="${f(cx - ww / 9)}" y="${f(cy - ww / 2 - ww * .05)}" width="${f(ww / 4.5)}" height="${f(ww / 7)}" class="pg-metal"/>`;
+    case 'powercon': return `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-pcon"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3.2)}" class="pg-hole"/>`;
+    case 'cee32m': case 'cee32f': case 'cee16m': case 'cee16f': return ceeGlyph(t, x, cy, ww, hh);
+    case 'brk': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".3" class="pg-brk"/><rect x="${f(x + ww * .22)}" y="${f(cy - hh * .2)}" width="${f(ww * .56)}" height="${f(hh * .3)}" rx=".2" class="pg-brkt"/>`;
+    case 'rcd': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".3" class="pg-brk"/><rect x="${f(x + ww * .3)}" y="${f(cy - hh * .2)}" width="${f(ww * .4)}" height="${f(hh * .3)}" rx=".2" class="pg-brkt"/><circle cx="${f(x + ww * .5)}" cy="${f(cy + hh * .3)}" r="${f(ww * .12)}" class="pg-rcdt"/>`;
+    case 'cee': return `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-cee"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3)}" class="pg-hole"/>`;
+    case 'iec': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${f(hh * .25)}" class="pg-iec"/><rect x="${f(x + ww * .2)}" y="${f(cy - hh * .22)}" width="${f(ww * .6)}" height="${f(hh * .44)}" class="pg-hole"/>`;
+    case 'rj45': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".25" class="pg-port"/><rect x="${f(cx - ww * .2)}" y="${f(cy + hh * .3)}" width="${f(ww * .4)}" height="${f(hh * .2)}" class="pg-portk"/><circle cx="${f(x + ww * .18)}" cy="${f(cy - hh * .32)}" r="${f(s * .07)}" class="pg-led"/>`;
+    case 'sfp': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".25" class="pg-port"/><rect x="${f(x + ww * .1)}" y="${f(cy - hh * .18)}" width="${f(ww * .8)}" height="${f(hh * .36)}" class="pg-portk"/>`;
+    case 'hdmi': return `<polygon points="${f(x)},${f(cy - hh / 2)} ${f(x + ww)},${f(cy - hh / 2)} ${f(x + ww)},${f(cy + hh * .1)} ${f(x + ww * .85)},${f(cy + hh / 2)} ${f(x + ww * .15)},${f(cy + hh / 2)} ${f(x)},${f(cy + hh * .1)}" class="pg-port"/>`;
+    case 'opt': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${f(hh * .2)}" class="pg-port"/>`;
+    case 'sd': return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${f(hh / 2)}" class="pg-slot"/>`;
+    default: return `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${t === 'usbc' ? f(hh / 2) : '.3'}" class="pg-slot"/>`;
+  }
+}
+// Gerätekörper mit Hersteller, Modell, Display, Bedienelementen und beschrifteten Anschlussgruppen (side 'f' vorn, 'r' hinten)
 function devFace(d, x, y, w, h, side = 'f', name) {
-  const silver = d.col === 'silver', cls = silver ? 'dev-silver' : 'dev-black', tc = silver ? 'on-silver' : 'on-black';
-  let g = `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="1" class="${cls}"/>`;
-  const fs = Math.max(2.4, Math.min(h * .2, w / 18, 5.5));
-  const label = name || d.n;
-  const maxCh = Math.floor((w - 4) / (fs * .5));
-  g += `<text x="${(x + 2.5).toFixed(2)}" y="${(y + fs + 1.2).toFixed(2)}" class="devmk ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(label.length > maxCh ? label.slice(0, maxCh - 1) + '…' : label)}</text>`;
-  const spec = side === 'f' ? d.io.f : d.io.r;
-  if (spec) g += ioGlyphs(spec, x + 2.5, y + fs + 2.2, w - 5, h - fs - 3.4);
+  const silver = d.col === 'silver', cls = silver ? 'dev-silver' : 'dev-black', tc = silver ? 'on-silver' : 'on-black', f = v => v.toFixed(2);
+  let g = `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="1.2" class="${cls}"/>`;
+  g += `<line x1="${f(x + 1)}" y1="${f(y + .35)}" x2="${f(x + w - 1)}" y2="${f(y + .35)}" class="devhl"/><line x1="${f(x + 1)}" y1="${f(y + h - .3)}" x2="${f(x + w - 1)}" y2="${f(y + h - .3)}" class="devsh"/>`;
+  const pad = Math.min(3, w * .03), small = h < 24 || w < 70;
+  const mk = MK_SHORT[d.mk] || d.mk || '', label = (name || d.n).replace(/\s*\((?:[^)]*)\)\s*$/, '');
+  // Kopfzeile: Hersteller klein, Modell groß
+  const fsM = Math.max(1.9, Math.min(3, h * .075)), fsN = Math.max(2.4, Math.min(5.2, h * .13));
+  let ty = y + pad + fsM;
+  const maxCh = n => Math.max(4, Math.floor((w - pad * 2 - 4) / (n * .52)));
+  const cut = (t, n) => t.length > maxCh(n) ? t.slice(0, maxCh(n) - 1) + '…' : t;
+  if (small) {
+    g += `<text x="${f(x + pad)}" y="${f(y + h / 2)}" class="devmk ${tc}" style="font-size:${f(Math.min(fsN, h * .3))}px" dominant-baseline="central">${esc(cut(label + (side === 'r' ? ' · hinten' : ''), Math.min(fsN, h * .3)))}</text>`;
+    return g;
+  }
+  g += `<text x="${f(x + pad)}" y="${f(ty)}" class="devbrand ${tc}" style="font-size:${f(fsM)}px">${esc(mk)}</text>`;
+  ty += fsN + .4;
+  g += `<text x="${f(x + pad)}" y="${f(ty)}" class="devmk ${tc}" style="font-size:${f(fsN)}px">${esc(cut(label + (side === 'r' ? ' · Rückseite' : ''), fsN))}</text>`;
+  if (side === 'f') g += `<circle cx="${f(x + w - pad - 1)}" cy="${f(y + pad + 1)}" r=".75" class="pg-pwr"/>`;
+  // Inhaltsbereich
+  const top = ty + 1.6, bot = y + h - pad, ch = bot - top; if (ch < 4) return g;
+  const parts = parseIO(side === 'f' ? d.io.f : d.io.r).filter(p => p.t !== 'txt');
+  const ui = parts.filter(p => ['lcd', 'btn', 'knob'].includes(p.t));
+  let ports = parts.filter(p => !['lcd', 'btn', 'knob'].includes(p.t));
+  ports = [...ports.filter(p => !POWER.includes(p.t)), ...ports.filter(p => POWER.includes(p.t))];
+  let cx = x + pad;
+  const right = x + w - pad;
+  // Displays, Tasten, Regler
+  ui.forEach(p => {
+    if (p.t === 'lcd') for (let k = 0; k < Math.min(p.n, 4); k++) {
+      const lw = Math.min(ch * 1.7, (w - pad * 2) * (p.n > 1 ? .13 : .2)), lh = Math.min(ch * .78, lw * .6);
+      if (cx + lw > right) break;
+      const ly = top + (ch - lh) / 2;
+      g += `<rect x="${f(cx)}" y="${f(ly)}" width="${f(lw)}" height="${f(lh)}" rx=".6" class="pg-lcd"/><rect x="${f(cx + lw * .08)}" y="${f(ly + lh * .2)}" width="${f(lw * .55)}" height="${f(lh * .12)}" class="pg-lcdl"/><rect x="${f(cx + lw * .08)}" y="${f(ly + lh * .45)}" width="${f(lw * .8)}" height="${f(lh * .1)}" class="pg-lcdl"/><rect x="${f(cx + lw * .08)}" y="${f(ly + lh * .66)}" width="${f(lw * .4)}" height="${f(lh * .1)}" class="pg-lcdl"/>`;
+      cx += lw + 2;
+    }
+    if (p.t === 'btn') { const bs = Math.min(ch * .32, 4.2); for (let r = 0; r < 2; r++) for (let k = 0; k < 3; k++) g += `<rect x="${f(cx + k * (bs + .8))}" y="${f(top + ch / 2 - bs - .4 + r * (bs + .8))}" width="${f(bs)}" height="${f(bs)}" rx=".5" class="pg-btn"/>`; cx += 3 * (bs + .8) + 1.6; }
+    if (p.t === 'knob') for (let k = 0; k < Math.min(p.n, 4); k++) { const r = Math.min(ch * .32, 4.5), kx = cx + r, ky = top + ch / 2; g += `<circle cx="${f(kx)}" cy="${f(ky)}" r="${f(r)}" class="pg-knob"/><line x1="${f(kx)}" y1="${f(ky)}" x2="${f(kx + r * .6)}" y2="${f(ky - r * .6)}" class="pg-knobl"/>`; cx += r * 2 + 1.6; }
+  });
+  if (!ports.length) return g;
+  // Anschlussgruppen: Größe so wählen, dass alles in die Breite passt
+  const avail = right - cx, lblH = ch > 12 ? 2.6 : 0;
+  const layoutFor = s => ports.map(p => {
+    const [gw, gh] = PORT_SZ[p.t] || [1, 1], rows = p.n > 8 && (ch - lblH) > gh * s * 2.3 ? 2 : 1, cols = Math.ceil(p.n / rows), gap = s * .28;
+    const cw = cols * gw * s + (cols - 1) * gap;
+    return { p, rows, cols, gap, cw: Math.max(cw, lblH ? portLabel(p).length * 1.25 : 0), gw: gw * s, gh: gh * s };
+  });
+  let s = Math.min((ch - lblH) * .62, 6.2), L = layoutFor(s), tot = () => L.reduce((a, c) => a + c.cw, 0) + (L.length - 1) * 2.4;
+  for (let i = 0; i < 12 && tot() > avail; i++) { s *= .88; L = layoutFor(s); }
+  let px = Math.max(cx, side === 'f' ? right - tot() : cx);
+  L.forEach(c => {
+    if (px + c.cw > right + .5) return;
+    const blockH = c.rows * c.gh + (c.rows - 1) * c.gap, by = top + (ch - lblH - blockH) / 2, x0 = px + (c.cw - (c.cols * c.gw + (c.cols - 1) * c.gap)) / 2;
+    for (let k = 0; k < c.p.n; k++) { const r = Math.floor(k / c.cols), col = k % c.cols; g += glyphAt(c.p.t, x0 + col * (c.gw + c.gap), by + r * (c.gh + c.gap) + c.gh / 2, s); }
+    if (lblH) g += `<text x="${f(px + c.cw / 2)}" y="${f(bot - .3)}" class="pg-lbl ${tc}" text-anchor="middle">${esc(c.p.n > 1 ? portLabel(c.p) + ' ' + c.p.n : portLabel(c.p))}</text>`;
+    px += c.cw + 2.4;
+  });
   return g;
 }
 
@@ -1184,6 +1277,55 @@ function heRange(it) {
   return it.he <= 1 ? `HE ${fmtN(a)}` : `HE ${fmtN(a)}–${fmtN(b)}`;
 }
 const sideTxt = it => it.side === 'rear' ? 'hinten' : 'vorn';
+
+/* ---------- Maßstäbliche Gerätefronten (Positionen in mm, nach Herstellerfoto/Datenblatt) ----------
+   face.f: Frontplatte inkl. Rackohren (Breite 482,6 mm) · face.r: Gehäuserückseite (Breite d.hw), von hinten gesehen
+   Element { t, x, y } = Mittelpunkt (bzw. linke obere Ecke bei din/mcb/rcd/txt), Maße in mm */
+const EXACT = {
+  eurolite_sb1100: {
+    hw: 430,
+    f: [
+      { t: 'logo', x: 74, y: 27, v: 'eurolite', s: 10 }, { t: 'logo', x: 122, y: 27, v: 'SB-1100', s: 8.5 }, { t: 'txt', x: 160, y: 27, v: 'POWER DISTRIBUTOR', s: 2.6, a: 'start' },
+      { t: 'txt', x: 25, y: 47, v: 'L1', s: 3.4 }, { t: 'lamp', x: 36, y: 46 }, { t: 'txt', x: 25, y: 67, v: 'L2', s: 3.4 }, { t: 'lamp', x: 36, y: 66 }, { t: 'txt', x: 25, y: 87, v: 'L3', s: 3.4 }, { t: 'lamp', x: 36, y: 86 },
+      { t: 'din', x: 52, y: 36, w: 252, h: 62 },
+      { t: 'rcd', x: 55, y: 40, w: 70, h: 54 }, { t: 'mcb', x: 128, y: 40, n: 3, h: 54 }, { t: 'mcb', x: 183, y: 40, n: 3, h: 54 },
+      { t: 'mcb', x: 238, y: 40, n: 1, h: 54 }, { t: 'mcb', x: 256, y: 40, n: 1, h: 54 }, { t: 'mcb', x: 274, y: 40, n: 1, h: 54 },
+      { t: 'txt', x: 90, y: 106, v: 'FAULT-CURRENT CIRCUIT', s: 2.6 }, { t: 'txt', x: 154, y: 106, v: '16A OUTPUT 1', s: 2.6 }, { t: 'txt', x: 209, y: 106, v: '16A OUTPUT 2', s: 2.6 }, { t: 'txt', x: 265, y: 106, v: 'OUTPUT L1 L2 L3', s: 2.6 },
+      { t: 'cee16f', x: 346, y: 70, w: 60, h: 74 }, { t: 'cee16f', x: 414, y: 70, w: 60, h: 74 },
+      { t: 'txt', x: 346, y: 116, v: '16A OUTPUT 1', s: 2.6 }, { t: 'txt', x: 414, y: 116, v: '16A OUTPUT 2', s: 2.6 },
+    ],
+    r: [
+      { t: 'schuko', x: 36, y: 31 }, { t: 'schuko', x: 128, y: 31 }, { t: 'schuko', x: 218, y: 31 },
+      { t: 'schuko', x: 80, y: 88 }, { t: 'schuko', x: 168, y: 88 }, { t: 'schuko', x: 254, y: 88 },
+      { t: 'txt', x: 82, y: 60, v: 'L3', s: 5 }, { t: 'txt', x: 172, y: 60, v: 'L2', s: 5 }, { t: 'txt', x: 260, y: 60, v: 'L1', s: 5 },
+      { t: 'cee32f', x: 336, y: 64, w: 80, h: 96 }, { t: 'txt', x: 336, y: 122, v: '32A OUTPUT', s: 3 },
+      { t: 'txt', x: 404, y: 18, v: 'POWER INPUT', s: 2.6 }, { t: 'txt', x: 404, y: 22, v: 'AC 380–400 V', s: 2.4 },
+      { t: 'gland', x: 404, y: 62 }, { t: 'txt', x: 398, y: 124, v: 'www.eurolite.de', s: 3 },
+    ],
+  },
+};
+function exactFace(d, id, side, X, Y) {
+  const E = EXACT[id], L = E && E[side]; if (!L) return '';
+  const f = v => v.toFixed(2); let g = '';
+  L.forEach(e => {
+    const x = X + e.x, y = Y + e.y;
+    switch (e.t) {
+      case 'txt': g += `<text x="${f(x)}" y="${f(y)}" class="exlbl" style="font-size:${e.s || 3}px" text-anchor="${e.a || 'middle'}">${esc(e.v)}</text>`; break;
+      case 'logo': g += `<text x="${f(x)}" y="${f(y)}" class="exlogo" style="font-size:${e.s}px">${esc(e.v)}</text>`; break;
+      case 'lamp': g += `<circle cx="${f(x)}" cy="${f(y)}" r="4.2" class="pg-lampb"/><circle cx="${f(x)}" cy="${f(y)}" r="3" class="pg-lamp"/>`; break;
+      case 'din': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="1" class="ex-din"/>`; break;
+      case 'mcb': for (let k = 0; k < e.n; k++) { const mx = x + k * 17.5; g += `<rect x="${f(mx + .3)}" y="${f(y)}" width="16.9" height="${e.h}" rx=".8" class="pg-brk"/><rect x="${f(mx + 5.2)}" y="${f(y + e.h * .36)}" width="7.1" height="${f(e.h * .22)}" rx=".6" class="pg-brkt"/><rect x="${f(mx + 2.5)}" y="${f(y + 3)}" width="12" height="4" class="ex-lbl"/>`; }
+        if (e.n > 1) g += `<rect x="${f(x + 5.2)}" y="${f(y + e.h * .44)}" width="${f(e.n * 17.5 - 10.4)}" height="1.6" class="pg-brkt"/>`; break;
+      case 'rcd': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx=".8" class="pg-brk"/><rect x="${f(x + e.w * .38)}" y="${f(y + e.h * .36)}" width="${f(e.w * .24)}" height="${f(e.h * .22)}" rx=".6" class="pg-brkt"/><circle cx="${f(x + e.w * .78)}" cy="${f(y + e.h * .2)}" r="2.6" class="pg-rcdt"/><rect x="${f(x + 4)}" y="${f(y + 3)}" width="${f(e.w * .4)}" height="5" class="ex-lbl"/>`; break;
+      case 'cee16f': case 'cee32f': g += ceeGlyph(e.t, x - e.w / 2, y, e.w, e.h); break;
+      case 'schuko': g += `<rect x="${f(x - 23)}" y="${f(y - 24)}" width="46" height="48" rx="4" class="pg-schuko"/><rect x="${f(x - 17)}" y="${f(y - 24)}" width="34" height="5" rx="1.5" class="pg-schukoh"/><rect x="${f(x - 14)}" y="${f(y - 14)}" width="28" height="32" rx="3" class="pg-schukol"/><rect x="${f(x - 4)}" y="${f(y + 14)}" width="8" height="5" rx="1" class="pg-schukoh"/>`; break;
+      case 'gland': g += `<circle cx="${f(x)}" cy="${f(y)}" r="11" class="pg-schuko"/><circle cx="${f(x)}" cy="${f(y)}" r="7.5" class="pg-schukol"/><circle cx="${f(x)}" cy="${f(y)}" r="5" class="pg-hole"/>`; break;
+      default: g += glyphAt(e.t, x - (PORT_SZ[e.t] || [1])[0] * (e.s || 8) / 2, y, e.s || 8);
+    }
+  });
+  return g;
+}
+const isExact = (id, side) => !!(EXACT[id] && EXACT[id][side]);
 function title(it) {
   switch (it.kind) {
     case 'dpanel': return `Steckerfeld ${it._letter}`;
@@ -1486,7 +1628,7 @@ function faceSVG(it, xL, W, live = false) {
     case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
       g += panelBase(xL, y, W19, h, cls);
-      if (it.dev && devOf(it.dev)) { g += devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'f', it.name); break; }
+      if (it.dev && devOf(it.dev)) { g += isExact(it.dev, 'f') ? exactFace(devOf(it.dev), it.dev, 'f', xL, y) : devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'f', it.name); break; }
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
       const name = it.name || 'Gerät';
       let fs = Math.min(h * .34, 13);
@@ -1551,7 +1693,8 @@ function backSVG(it, xL, W) {
       break;
     case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
-      if (it.dev && devOf(it.dev)) { if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls); g += devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'r', (it.name || devOf(it.dev).n) + ' · Rückseite'); break; }
+      if (it.dev && isExact(it.dev, 'r')) { const hw = EXACT[it.dev].hw, X = xL + (W19 - hw) / 2; g += `<rect x="${X}" y="${y}" width="${hw}" height="${h}" rx="1" class="${cls}"/>` + exactFace(devOf(it.dev), it.dev, 'r', X, y); break; }
+      if (it.dev && devOf(it.dev)) { if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls); g += devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'r', it.name || devOf(it.dev).n); break; }
       if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls);
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
       const name = (it.name || 'Gerät') + ' · Rückseite';
@@ -1611,7 +1754,7 @@ function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: ei
   // eigene Seite – deckende Fläche dahinter, damit in den Fugen nichts von der anderen Seite durchscheint
   sideItems(own).forEach(it => { s += `<rect x="${xL}" y="${CW + it.pos * HE}" width="${W19}" height="${it.he * HE}" class="backing" pointer-events="none"/>`; });
   sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W, !opt.still)}</g>`; });
-  if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
+  if (!sideItems(own).length && !sideItems(own === 'front' ? 'rear' : 'front').length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
   // freie Plätze: + bei Hover
   if (!opt.still && (mode === 'front' || c.rear)) {
     const mine = sideItems(own);
@@ -2036,7 +2179,7 @@ function renderSteps() {
   document.querySelectorAll('.step').forEach(el => { el.hidden = +el.dataset.step !== state.step; });
   document.querySelectorAll('.steps [data-step]').forEach(b => { if (+b.dataset.step === state.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
 }
-const devInfo = d => `<div class="devinfo"><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
+const devInfo = d => `<div class="devinfo"><p class="eyebrow">${Object.keys(DEVDB).some(k => DEVDB[k] === d && EXACT[k]) ? 'Darstellung maßstäblich nach Herstellerfoto/Datenblatt' : 'Darstellung schematisch – Lage der Anschlüsse nicht maßstäblich'}${d.note ? ' · ' + esc(d.note) : ''}</p><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
 function devRows() {
   const r = [];
   [...sideItems('front'), ...sideItems('rear')].forEach(it => {

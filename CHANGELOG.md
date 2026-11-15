@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-15 – Stand 13 · Gerätedarstellung
+
+- Rackwannen ohne perspektivische Linien; leere Bereiche schwarz.
+- Neue Gerätedarstellung: Hersteller und Modell, Displays, Tasten, Regler, Anschlüsse in beschrifteten Gruppen (z. B. „RJ45 24“, „SDI 9“), viele Ports zweireihig, Netz hinten rechts, Status-LED.
+- **Maßstäbliche Fronten** (Positionen in mm nach Herstellerfoto/Datenblatt), zuerst **Eurolite SB-1100**: vorn Phasenlampen, FI 40 A, 2 × LS C16 3-polig, 3 × LS C16 1-polig, 2 × CEE-16-Kupplung; hinten 6 × Schuko mit Klappdeckel, CEE-32-Kupplung, Zuleitung. Daten korrigiert (295 mm tief, abgekündigt, Nachfolger SB-1100B).
+- CEE-Stecker und -Kupplungen 16/32 A, LS- und FI-Schalter als Symbole.
+- Inspektor zeigt, ob ein Gerät maßstäblich oder schematisch dargestellt ist.
+
 ## 2026-11-15 – Stand 12
 
 - Popup „Module“ gegliedert: Steckerfelder, Blenden, Rackwannen, Schubladen, Sonstiges (Bürstenblende). Reiter „Zubehör“ entfällt, lose Teile gibt es in Stufe 3.
