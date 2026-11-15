@@ -477,6 +477,7 @@ td input.shop { min-width: 110px; }
 .devinfo { font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
 .devinfo p { margin: 0 0 4px; }
 #devSearch { width: 100%; margin-bottom: 10px; }
+.subh { margin: 10px 0 6px; font-size: 12px; font-family: var(--f-mono); font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
 /* Fuß mit Rechtlichem */
 .site-foot {
   max-width: 1600px; margin: 32px auto 0; padding-top: 14px; border-top: 1px solid var(--line);
@@ -569,7 +570,6 @@ td input.shop { min-width: 110px; }
           <button type="button" class="btn primary lg" data-open="module">+ Element hinzufügen</button>
           <div class="addgrid">
             <button type="button" class="btn" data-open="module">Module</button>
-            <button type="button" class="btn" data-open="zubehoer">Zubehör</button>
             <button type="button" class="btn" data-open="geraete">Geräte</button>
             <button type="button" class="btn" data-open="eigene">Eigene Elemente</button>
           </div>
@@ -672,7 +672,6 @@ td input.shop { min-width: 110px; }
   </div>
   <div class="dlg-tabs" role="tablist">
     <button type="button" role="tab" data-tab="module">Module</button>
-    <button type="button" role="tab" data-tab="zubehoer">Zubehör</button>
     <button type="button" role="tab" data-tab="geraete">Geräte</button>
     <button type="button" role="tab" data-tab="eigene">Eigene Elemente</button>
   </div>
@@ -917,7 +916,10 @@ const DEVDB = {
   usw_pro_max_24_poe: { n: 'UniFi Pro Max 24 PoE', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 285, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-pro-max-24-poe', io: { f: 'lcd:1 Touch-Display; rj45:24 16× GbE PoE+, 8× 2,5GbE PoE++; sfp:2 10G SFP+', r: 'iec:1 Netz' } },
   usw_24_poe: { n: 'UniFi Switch 24 PoE (USW-24-PoE)', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 200, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-24-poe', io: { f: 'lcd:1 Display; rj45:24 GbE, davon 16× PoE+; sfp:2 1G SFP', r: 'iec:1 Netz' } },
   // Shure
-  ulxd4: { n: 'Shure ULXD4 (Einkanal, halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'free', w: 214, h: 43, d: 180, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V' } },
+  ulxd4: { n: 'Shure ULXD4 (Einkanal, halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 180, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V' } },
+  qlxd4: { n: 'Shure QLXD4 (halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 180, chk: 1, url: 'https://www.shure.com/de-DE/search?q=QLXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V' } },
+  slxd4: { n: 'Shure SLXD4 (halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 170, chk: 1, url: 'https://www.shure.com/de-DE/search?q=SLXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; dc:1 12–18 V' } },
+  psm900_p9t: { n: 'Shure PSM900 P9T Sender (halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P9T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:2 Audio In (Kombi XLR/Klinke); jack:2 Loop Out; dc:1 15 V' } },
   ulxd4d: { n: 'Shure ULXD4D (Zweikanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4D', io: { f: 'lcd:2 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
   ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:4 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; jack:1 AES3 Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
   psm1000_p10t: { n: 'Shure PSM1000 P10T Sender', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P10T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz' } },
@@ -943,38 +945,53 @@ const DEVDB = {
 const DEV_GROUPS = [...new Set(Object.values(DEVDB).map(d => d.g))];
 const thomannQ = d => 'https://www.thomann.de/de/search_dir.html?sw=' + encodeURIComponent(d.n.replace(/\s*\(.*\)/, ''));
 const devOf = id => DEVDB[id] || null;
-const fitTxt = d => d.fit === 'rack' ? `19″ · ${fmtHE(d.he)}` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : '1/2'} Rackbreite · BMD-Wanne` : `${d.w} × ${d.h} mm · Thomann-Wanne`;
+const fitTxt = d => d.fit === 'rack' ? `19″ · ${fmtHE(d.he)}` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : '1/2'} Rackbreite · BMD-Raster` : d.fit === 'half' ? 'halbe Rackbreite · Shure-Rackkit' : `${d.w} × ${d.h} mm · in Rackwanne`;
+const devW = d => d.w || Math.round((d.frac || 1 / 3) * 432);   // Breite für freie Wannen
+const devH = d => d.h || 41;
 // „typ:anzahl Text; …“ → [{t, n, txt}]
 const parseIO = s => (s || '').split(';').map(x => x.trim()).filter(Boolean).map(x => { const m = x.match(/^(\w+):(\d+)\s*(.*)$/); return m ? { t: m[1], n: +m[2], txt: m[3] } : { t: 'txt', n: 0, txt: x }; });
 const ioTxt = s => parseIO(s).map(p => p.n > 1 ? `${p.n}× ${p.txt || p.t}` : (p.txt || p.t)).join(', ') || '–';
 
 /* ---------- Rackwannen für Geräte ---------- */
 const SHELVES = {
-  bmd_urs: { n: 'Blackmagic Universal Rack Shelf', short: 'BMD Universal Rack Shelf', mk: 'Blackmagic Design', art: 'CONVNTRM/YA/RSU', price: 109, src: 'web', q: 'UVP blackmagicdesign.com 11/2026', shop: 'Blackmagic Design', he: 1, mode: 'grid', cells: 6, depth: 260, url: BMD + 'teranexmini',
-    info: '1 HE, Raster in Sechsteln: drittel (2/6) und halbe (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte, Schrauben.' },
-  thon_1u: { n: 'Thon Rack Adapter 1U 25 (Rackwanne)', short: 'Thon Rackwanne 1 HE', mk: 'Thomann', art: 'Thomann 127151', price: null, src: 'check', q: 'thomann.de · Preis prüfen', shop: 'Thomann', he: 1, mode: 'free', innerW: 435, depth: 255, url: 'https://www.thomann.de/de/thon_rackwanne_1he.htm',
-    info: 'Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bevorzugt bündig zur Vorderkante.' },
+  ah_1u: { bom: 'tray1', n: 'Rackwanne 1 HE, 375 mm tief (Adam Hall 87551)', short: 'Rackwanne 1 HE', mk: 'Adam Hall', art: 'Adam Hall 87551', price: 24.00, src: 'web', q: 'envirel', he: 1, mode: 'free', innerW: 440, depth: 375, acc: ['free', 'bmd', 'half'], url: 'https://www.adamhall.com',
+    info: 'Rackwanne mit Rackohren. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).' },
+  ah_2u: { bom: 'tray2', n: 'Rackwanne 2 HE, 375 mm tief (Adam Hall 87552)', short: 'Rackwanne 2 HE', mk: 'Adam Hall', art: 'Adam Hall 87552', price: 29.50, src: 'web', q: 'aweo', he: 2, mode: 'free', innerW: 440, depth: 375, acc: ['free', 'bmd', 'half'], url: 'https://www.adamhall.com',
+    info: 'Rackwanne mit Rackohren, 2 HE. Geräte frei anordnen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).' },
+  bmd_urs: { n: 'Blackmagic Universal Rack Shelf', short: 'BMD Universal Rack Shelf', mk: 'Blackmagic Design', art: 'CONVNTRM/YA/RSU', price: 109, src: 'web', q: 'UVP blackmagicdesign.com 11/2026', shop: 'Blackmagic Design', he: 1, mode: 'grid', cells: 6, depth: 260, acc: ['bmd'], url: BMD + 'teranexmini',
+    info: 'Rackwanne mit festen Verschraubungspunkten für Blackmagic-Geräte: Raster in Sechsteln, 1/3 (2/6) und 1/2 (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte.' },
+  thon_1u: { n: 'Thon Rack Adapter 1U 25 (Rackwanne)', short: 'Thon Rackwanne 1 HE', mk: 'Thomann', art: 'Thomann 127151', price: null, src: 'check', q: 'thomann.de · Preis prüfen', shop: 'Thomann', he: 1, mode: 'free', innerW: 435, depth: 255, acc: ['free', 'bmd', 'half'], url: 'https://www.thomann.de/de/thon_rackwanne_1he.htm',
+    info: 'Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante.' },
+  shure_kit: { n: 'Shure Rackmontage-Kit für zwei Geräte halber Breite', short: 'Shure-Rackkit', mk: 'Shure', art: 'im Lieferumfang der Geräte', price: null, src: 'ref', q: 'liegt Shure-Empfängern/-Sendern halber Breite bei', he: 1, mode: 'grid', cells: 2, depth: 0, acc: ['half'], kit: true, url: 'https://www.shure.com/de-DE',
+    info: 'Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen.' },
 };
-const shelfOf = it => SHELVES[it.shelf] || SHELVES.thon_1u;
-const devCells = d => Math.round((d.frac || 1 / 3) * 6);
-const shelfW = it => shelfOf(it).mode === 'grid' ? 6 : shelfOf(it).innerW;
-const shelfUsed = it => (it.devs || []).reduce((s, x) => s + (shelfOf(it).mode === 'grid' ? devCells(devOf(x.dev)) : devOf(x.dev).w), 0);
+const shelfOf = it => SHELVES[it.shelf] || SHELVES.ah_1u;
+const cellsOf = (d, Sh) => Math.max(1, Math.round((d.frac || 1 / 3) * Sh.cells));
+const devCells = d => cellsOf(d, SHELVES.bmd_urs);
+const shelfW = it => shelfOf(it).mode === 'grid' ? shelfOf(it).cells : shelfOf(it).innerW;
+const shelfUsed = it => (it.devs || []).reduce((s, x) => s + (shelfOf(it).mode === 'grid' ? cellsOf(devOf(x.dev), shelfOf(it)) : devW(devOf(x.dev))), 0);
+const shelfAccepts = (it, d) => !!d && shelfOf(it).acc.includes(d.fit);
 function shelfFits(it, dev, x, skip = -1) {
-  const S = shelfOf(it), d = devOf(dev); if (!d) return false;
-  if (S.mode === 'grid' ? d.fit !== 'bmd' : d.fit !== 'free') return false;
-  const w = S.mode === 'grid' ? devCells(d) : d.w;
+  const S = shelfOf(it), d = devOf(dev); if (!d || !shelfAccepts(it, d)) return false;
+  const wOf = q => S.mode === 'grid' ? cellsOf(q, S) : devW(q), w = wOf(d);
   if (x < 0 || x + w > shelfW(it) + 1e-6) return false;
-  return (it.devs || []).every((o, i) => { if (i === skip) return true; const ow = S.mode === 'grid' ? devCells(devOf(o.dev)) : devOf(o.dev).w; return x + w <= o.x + 1e-6 || o.x + ow <= x + 1e-6; });
+  return (it.devs || []).every((o, i) => { if (i === skip) return true; const ow = wOf(devOf(o.dev)); return x + w <= o.x + 1e-6 || o.x + ow <= x + 1e-6; });
 }
 function shelfFree(it, dev) {   // erste freie Position von links
   const S = shelfOf(it), step = S.mode === 'grid' ? 1 : 1;
-  const xs = S.mode === 'grid' ? [0, 1, 2, 3, 4, 5] : [0, ...(it.devs || []).map(o => o.x + devOf(o.dev).w + 2)].sort((a, b) => a - b);
+  const xs = S.mode === 'grid' ? [...Array(S.cells).keys()] : [0, ...(it.devs || []).map(o => o.x + devW(devOf(o.dev)) + 2)].sort((a, b) => a - b);
   for (const x of xs) if (shelfFits(it, dev, x)) return x;
   if (S.mode === 'free') for (let x = 0; x <= S.innerW; x += step) if (shelfFits(it, dev, x)) return x;
   return null;
 }
 function shelfPack(it) {   // Thomann-Wanne: alle Geräte von links bündig, 2 mm Abstand
-  let x = 0; (it.devs || []).sort((a, b) => a.x - b.x).forEach(o => { o.x = x; x += devOf(o.dev).w + 2; });
+  let x = 0; (it.devs || []).sort((a, b) => a.x - b.x).forEach(o => { o.x = x; x += devW(devOf(o.dev)) + 2; });
+}
+function shelfGaps(it, min = 30) {   // freie Bereiche [von, bis] in mm
+  const S = shelfOf(it), occ = (it.devs || []).map(o => [o.x, o.x + devW(devOf(o.dev))]).sort((a, b) => a[0] - b[0]), out = [];
+  let x = 0; occ.forEach(([a, b]) => { if (a - x >= min) out.push([x, a]); x = Math.max(x, b); });
+  if (S.innerW - x >= min) out.push([x, S.innerW]);
+  return out;
 }
 const shelfDepth = it => Math.max(shelfOf(it).depth, ...(it.devs || []).map(o => devOf(o.dev)?.d || 0));
 
@@ -1053,7 +1070,7 @@ function makeItem(kind, o = {}) {
   if (kind === 'custom') { it.art = o.art || ''; it.price = o.price ?? null; it.shop = o.shop || ''; }
   if (kind === 'brush') it.he = 1;
   if (kind === 'device' && o.dev && DEVDB[o.dev]) { const d = DEVDB[o.dev]; it.dev = o.dev; it.name = o.name ?? d.n; it.he = d.he; it.depth = d.d; it.color = d.col || 'black'; }
-  if (kind === 'shelf') { it.shelf = SHELVES[o.shelf] ? o.shelf : 'thon_1u'; it.he = o.he ?? SHELVES[it.shelf].he; it.devs = (o.devs || []).map(x => ({ ...x })); }
+  if (kind === 'shelf') { it.shelf = SHELVES[o.shelf] ? o.shelf : 'ah_1u'; it.he = o.he ?? SHELVES[it.shelf].he; it.devs = (o.devs || []).map(x => ({ ...x })); it.antFront = !!o.antFront; }
   return it;
 }
 function railDefault(ct, depth) { return ct.railMax != null ? Math.min(ct.railMax, depth) : depth - 25; }
@@ -1133,7 +1150,8 @@ function normalize(s) {
     }
     if (it.kind === 'label') fixCells(it);
     if (it.kind === 'custom') { it.art = it.art || ''; it.price = it.price ?? null; it.shop = it.shop || ''; }
-    if (it.kind === 'shelf') { it.shelf = SHELVES[it.shelf] ? it.shelf : 'thon_1u'; it.devs = (it.devs || []).filter(x => DEVDB[x.dev]); }
+    if (it.kind === 'tray') { it.kind = 'shelf'; it.shelf = it.he >= 2 ? 'ah_2u' : 'ah_1u'; it.he = SHELVES[it.shelf].he; it.devs = []; delete it.depth; }
+    if (it.kind === 'shelf') { it.shelf = SHELVES[it.shelf] ? it.shelf : 'ah_1u'; it.devs = (it.devs || []).filter(x => DEVDB[x.dev]); it.antFront = !!it.antFront; }
     if (it.kind === 'device' && it.dev && !DEVDB[it.dev]) delete it.dev;
   });
   s.v = 5;
@@ -1224,7 +1242,7 @@ function warnings(L) {
     if (it.side === 'rear' && !c.rear) w.push({ err: true, t: `„${title(it)}“ ist hinten montiert, das Case hat aber keine hintere Rackschiene.` });
     if (it.side === 'rear' && c.rear && d > c.railRear) w.push({ err: true, t: `„${title(it)}“ (hinten, ${d} mm) ragt über die Frontschiene hinaus.` });
     if (isDev(it) && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
-    if (it.kind === 'shelf') { const Sh = shelfOf(it); if (Sh.mode === 'free' && shelfUsed(it) > Sh.innerW) w.push({ err: true, t: `${Sh.short} ${heRange(it)}: Geräte zusammen ${Math.round(shelfUsed(it))} mm breit, die Wanne hat innen ${Sh.innerW} mm.` }); it.devs.forEach(o => { const d = devOf(o.dev); if (Sh.mode === 'free' && d.h > it.he * HE - 4) w.push({ t: `${d.n} ist ${d.h} mm hoch und ragt aus der Wanne (${fmtHE(it.he)}).` }); }); }
+    if (it.kind === 'shelf') { const Sh = shelfOf(it); if (Sh.mode === 'free' && shelfUsed(it) > Sh.innerW) w.push({ err: true, t: `${Sh.short} ${heRange(it)}: Geräte zusammen ${Math.round(shelfUsed(it))} mm breit, die Wanne hat innen ${Sh.innerW} mm.` }); it.devs.forEach(o => { const d = devOf(o.dev); if (Sh.mode === 'free' && devH(d) > it.he * HE - 3) w.push({ t: `${d.n} ist ${devH(d)} mm hoch und ragt aus der Wanne (${fmtHE(it.he)}).` }); }); }
     if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + 0.5) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
   });
   collisions().forEach(k => w.push({ err: true, t: `Kollision ${heRange({ pos: k.top, he: k.bot - k.top })}: „${title(k.a)}“ (vorn, bis ${Math.round(k.to)} mm) trifft „${title(k.b)}“ (hinten, ab ${Math.round(k.from)} mm) – ${Math.round(k.to - k.from)} mm Überdeckung.` }));
@@ -1357,7 +1375,8 @@ function caseFrame(W, he, rowsH) {
 function cellX(it, i) { return it.offset + (i - (it.div - 1) / 2) * it.pitch; }
 
 // Vorderseite eines Moduls (für Front-Module in der Vorderansicht, Rück-Module in der Rückansicht)
-function faceSVG(it, xL, W) {
+const plusAt = (id, key, x, y, w, h, tip) => { const cx = x + w / 2, cy = y + h / 2, r = Math.min(7, h / 2.6, w / 2.6); return `<g class="free" data-shfree="${id}:${key}"><rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" class="freehit"/><g class="plus" pointer-events="none"><circle cx="${cx.toFixed(2)}" cy="${cy.toFixed(2)}" r="${r.toFixed(2)}"/><path d="M${(cx - r / 2).toFixed(2)} ${cy.toFixed(2)}h${r.toFixed(2)}M${cx.toFixed(2)} ${(cy - r / 2).toFixed(2)}v${r.toFixed(2)}"/></g><title>${esc(tip)}</title></g>`; };
+function faceSVG(it, xL, W, live = false) {
   const y = CW + it.pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, inner = W19 - EAR * 2;
   let g = '';
   switch (it.kind) {
@@ -1436,18 +1455,33 @@ function faceSVG(it, xL, W) {
     }
     case 'shelf': {
       const S = shelfOf(it), x0 = xL + EAR + 3, iw = inner - 6, yb = y + h - 2.2, f = v => v.toFixed(2);
+      const drag = (i, d, body) => `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${body}</g>`;
+      if (S.kit) {   // Shure: zwei halbe Geräte, Seitenteile als Rackohren
+        g += panelBase(xL, y, EAR + 5, h) + panelBase(xL + W19 - EAR - 5, y, EAR + 5, h);
+        if (it.antFront) [xL + (EAR + 5) / 2, xL + W19 - (EAR + 5) / 2].forEach(cx => { g += `<circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="3.6" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="1.3" class="pg-hole"/>`; });
+        const cw = iw / 2;
+        g += `<rect x="${f(x0 + cw - .6)}" y="${f(y + .6)}" width="1.2" height="${f(h - 1.2)}" class="pnl"/>`;
+        const occ = [false, false];
+        it.devs.forEach((o, i) => { const d = devOf(o.dev); occ[o.x] = true; g += drag(i, d, devFace(d, x0 + o.x * cw + .5, y + .8, cw - 1, h - 1.6, 'f')); });
+        occ.forEach((v, k) => { if (!v) g += `<rect x="${f(x0 + k * cw + .5)}" y="${f(y + .8)}" width="${f(cw - 1)}" height="${f(h - 1.6)}" rx=".8" class="pnl"/><text x="${f(x0 + k * cw + cw / 2)}" y="${f(y + h / 2)}" class="freetxt">HALBE BREITE FREI</text>` + (live ? plusAt(it.id, k, x0 + k * cw + .5, y + .8, cw - 1, h - 1.6, `Gerät ${k ? 'rechts' : 'links'} einsetzen`) : ''); });
+        break;
+      }
       g += panelBase(xL, y, EAR + 5, h) + panelBase(xL + W19 - EAR - 5, y, EAR + 5, h);
       g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" class="well" style="fill:#08090a"/>`;
+      // Wanne in Perspektive (leere Bereiche bleiben schwarz)
+      g += `<path d="M${f(x0 + 8)} ${f(yb)} L${f(x0 + 34)} ${f(y + 6)} L${f(x0 + iw - 34)} ${f(y + 6)} L${f(x0 + iw - 8)} ${f(yb)}" class="trayline"/>`;
       if (S.mode === 'grid') {
-        const cw = iw / 6, occ = Array(6).fill(false);
-        it.devs.forEach((o, i) => { const d = devOf(o.dev), n = devCells(d); for (let k = o.x; k < o.x + n; k++) occ[k] = true; g += `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${devFace(d, x0 + o.x * cw + .4, y + 1.2, n * cw - .8, h - 2.4, 'f')}</g>`; });
-        occ.forEach((v, k) => { if (!v) g += `<rect x="${f(x0 + k * cw + .4)}" y="${f(y + 1.2)}" width="${f(cw - .8)}" height="${f(h - 2.4)}" rx=".8" class="pnl"/>`; });
+        const cw = iw / S.cells;
+        for (let k = 1; k < S.cells; k++) g += `<line x1="${f(x0 + k * cw)}" y1="${f(yb - 1)}" x2="${f(x0 + k * cw)}" y2="${f(yb + 2)}" class="trayline"/>`;
+        it.devs.forEach((o, i) => { const d = devOf(o.dev), n = cellsOf(d, S); g += drag(i, d, devFace(d, x0 + o.x * cw + .4, y + 1.2, n * cw - .8, h - 2.4, 'f')); });
+        if (live) { const occ = Array(S.cells).fill(false); it.devs.forEach(o => { for (let k = o.x; k < o.x + cellsOf(devOf(o.dev), S); k++) occ[k] = true; }); occ.forEach((v, k) => { if (!v && Object.keys(DEVDB).some(id => shelfFits(it, id, k))) g += plusAt(it.id, k, x0 + k * cw + .4, y + 1.2, cw - .8, h - 2.4, `Gerät ab ${k + 1}/6 einsetzen`); }); }
       } else {
         const sc = iw / S.innerW;
-        it.devs.forEach((o, i) => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${devFace(d, x0 + o.x * sc, yb - dh, d.w * sc, dh, 'f')}</g>`; });
-        g += `<rect x="${x0}" y="${f(yb)}" width="${iw}" height="2.2" class="pnl"/>`;
-        if (!it.devs.length) g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-tr1)">${esc(S.short.toUpperCase())} · GERÄTE FREI ANORDNEN</text>`;
+        it.devs.forEach((o, i) => { const d = devOf(o.dev), dh = Math.min(devH(d), h - 4); g += drag(i, d, devFace(d, x0 + o.x * sc, yb - dh, devW(d) * sc, dh, 'f')); });
+        if (live) shelfGaps(it).forEach(([a, b]) => { g += plusAt(it.id, Math.round(a), x0 + a * sc, y + 1.2, (b - a) * sc, h - 3.4, `Gerät einsetzen · ${Math.round(b - a)} mm frei`); });
       }
+      g += `<rect x="${x0}" y="${f(yb)}" width="${iw}" height="2.2" class="pnl"/>`;
+      if (!it.devs.length) g += `<text x="${W - xL - EAR - 6}" y="${f(yb - 3)}" class="traytxt" text-anchor="end">${esc(S.short.toUpperCase())} · ${S.depth} MM</text>`;
       break;
     }
     case 'device': case 'custom': {
@@ -1532,9 +1566,10 @@ function backSVG(it, xL, W) {
     }
     case 'shelf': {
       const S = shelfOf(it), x0 = xL + EAR + 3, iw = inner - 6;
-      g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" rx="1" class="trayback"/>`;
-      if (S.mode === 'grid') { const cw = iw / 6; it.devs.forEach(o => { const d = devOf(o.dev), n = devCells(d); g += devFace(d, mx(x0 + (o.x + n) * cw) + .4, y + 1.2, n * cw - .8, h - 2.4, 'r'); }); }
-      else { const sc = iw / S.innerW, yb = y + h - 2.2; it.devs.forEach(o => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += devFace(d, mx(x0 + (o.x + d.w) * sc), yb - dh, d.w * sc, dh, 'r'); }); }
+      if (!S.kit) g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" rx="1" class="trayback"/>`;
+      if (S.mode === 'grid') { const cw = iw / S.cells; it.devs.forEach(o => { const d = devOf(o.dev), n = cellsOf(d, S); g += devFace(d, mx(x0 + (o.x + n) * cw) + .4, y + 1.2, n * cw - .8, h - 2.4, 'r'); }); }
+      else { const sc = iw / S.innerW, yb = y + h - 2.2; it.devs.forEach(o => { const d = devOf(o.dev), dh = Math.min(devH(d), h - 4); g += devFace(d, mx(x0 + (o.x + devW(d)) * sc), yb - dh, devW(d) * sc, dh, 'r'); }); }
+      if (!it.devs.length && !S.kit) g += `<text x="${W / 2}" y="${y + h / 2}" class="traytxt" text-anchor="middle" dominant-baseline="central">${esc(S.short.toUpperCase())} · RÜCKKANTE BEI ${S.depth} MM</text>`;
       break;
     }
     case 'label': case 'brush':
@@ -1576,7 +1611,7 @@ function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: ei
   sel = keepSel;
   // eigene Seite – deckende Fläche dahinter, damit in den Fugen nichts von der anderen Seite durchscheint
   sideItems(own).forEach(it => { s += `<rect x="${xL}" y="${CW + it.pos * HE}" width="${W19}" height="${it.he * HE}" class="backing" pointer-events="none"/>`; });
-  sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W)}</g>`; });
+  sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W, !opt.still)}</g>`; });
   if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
   // freie Plätze: + bei Hover
   if (!opt.still && (mode === 'front' || c.rear)) {
@@ -1678,7 +1713,8 @@ function bom() {
         if (it.tray) add('tray' + it.tray.he, ART['tray' + it.tray.he], 1);
         break;
       case 'tray': add('tray' + it.he, ART['tray' + it.he], 1); break;
-      case 'shelf': { const Sh = shelfOf(it); add('shelf_' + it.shelf, { n: Sh.n, art: Sh.art, price: Sh.price, src: Sh.src, q: Sh.q, shop: Sh.shop }, 1);
+      case 'shelf': { const Sh = shelfOf(it); if (!Sh.kit) { if (Sh.bom) add(Sh.bom, ART[Sh.bom], 1); else add('shelf_' + it.shelf, { n: Sh.n, art: Sh.art, price: Sh.price, src: Sh.src, q: Sh.q, shop: Sh.shop }, 1); }
+        if (Sh.kit && it.antFront) add('shure_antfront', { n: 'Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)', art: '', src: 'check', q: 'Art.-Nr. je Gerätefamilie prüfen' }, 1);
         it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + it.id + '_' + o.x, { n: `Gerät: ${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); }); break; }
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
@@ -1840,12 +1876,12 @@ function renderInsp() {
     case 'shelf': {
       const Sh = shelfOf(it), grid = Sh.mode === 'grid';
       h += `<p class="hint">${esc(Sh.art)} · ${Sh.price != null ? EUR.format(Sh.price) : 'Preis offen'} · ${esc(Sh.info)} <a href="${Sh.url}" target="_blank" rel="noopener">Produktseite</a></p>`;
-      if (!grid) h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3], it.he)}</div></div>`;
-      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Belegt: ${grid ? `${shelfUsed(it)} von 6 Sechsteln` : `${Math.round(shelfUsed(it))} von ${Sh.innerW} mm`}</span>${grid ? '' : '<button type="button" class="btn sm" data-shpack>Links bündig anordnen</button>'}</div>`;
+      if (Sh.kit) h += `<label class="check"><input type="checkbox" data-f="antFront" ${it.antFront ? 'checked' : ''}> Antennen nach vorn (BNC an den Seitenteilen)</label>`;
+      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Belegt: ${grid ? `${shelfUsed(it)} von ${Sh.cells} ${Sh.cells === 2 ? 'Hälften' : 'Sechsteln'}` : `${Math.round(shelfUsed(it))} von ${Sh.innerW} mm`}</span>${grid ? '' : '<button type="button" class="btn sm" data-shpack>Links bündig anordnen</button>'}</div>`;
       h += '<ul class="shlist">' + it.devs.map((o, i) => { const d = devOf(o.dev);
-        const pos = grid ? `<select data-shx="${i}" aria-label="Position">${[0, 1, 2, 3, 4, 5].filter(x => x === o.x || shelfFits(it, o.dev, x, i)).map(x => `<option value="${x}" ${x === o.x ? 'selected' : ''}>ab ${x + 1}/6</option>`).join('')}</select>` : `<input type="number" data-shx="${i}" min="0" max="${Sh.innerW - d.w}" step="1" value="${Math.round(o.x)}" aria-label="Abstand links in mm">`;
+        const pos = grid ? `<select data-shx="${i}" aria-label="Position">${[...Array(Sh.cells).keys()].filter(x => x === o.x || shelfFits(it, o.dev, x, i)).map(x => `<option value="${x}" ${x === o.x ? 'selected' : ''}>${Sh.cells === 2 ? (x ? 'rechts' : 'links') : 'ab ' + (x + 1) + '/6'}</option>`).join('')}</select>` : `<input type="number" data-shx="${i}" min="0" max="${Sh.innerW - devW(d)}" step="1" value="${Math.round(o.x)}" aria-label="Abstand links in mm">`;
         return `<li><span class="nm">${esc(d.n)}<small>${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}</small></span>${pos}<button type="button" class="btn sm danger" data-shdel="${i}" aria-label="${esc(d.n)} entfernen">×</button></li>`; }).join('') + '</ul>';
-      const cand = Object.entries(DEVDB).filter(([, d]) => d.fit === (grid ? 'bmd' : 'free'));
+      const cand = Object.entries(DEVDB).filter(([, d]) => Sh.acc.includes(d.fit));
       h += `<div class="row" style="align-items:flex-end"><div class="field" style="flex:2 1 200px"><label for="f_shadd">Gerät hinzufügen</label><select id="f_shadd">${cand.map(([k, d]) => `<option value="${k}" ${shelfFree(it, k) == null ? 'disabled' : ''}>${esc(d.n)} · ${esc(fitTxt(d))}</option>`).join('')}</select></div><button type="button" class="btn primary" data-shadd>Hinzufügen</button></div>`;
       if (!grid) h += `<p class="hint">Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.</p>`;
       break;
@@ -1962,7 +1998,8 @@ function notesData() {
       out.push({ drill: drill || bd.length > 0, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + (bd.length ? `Blindplatten mittig bohren – ${bd.join(', ')}. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
-    if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
+    if (it.kind === 'shelf' && shelfOf(it).kit) { out.push({ h: `Shure-Rackkit · ${where}`, t: `${it.devs.map(o => `${devOf(o.dev).n} ${o.x ? 'rechts' : 'links'}`).join(', ') || 'leer'}: mit Verbindungsblech mittig verschrauben, Seitenteile als Rackohren.${it.antFront ? ' Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.' : ''}${it.devs.length < 2 ? ' Freie Hälfte mit Blindblech schließen.' : ''}` }); }
+    else if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
     if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
     if (it.kind === 'label' && it.cells.some(r => r.some(Boolean))) out.push({ h: `Beschriftung · ${where}`, t: `${it.div} Teilungen à ${fmtN(it.pitch)} mm, ${it.lines} Zeile${it.lines > 1 ? 'n' : ''}. Streifen ${it.stripW} × ${it.stripH} mm als PDF drucken (100 %), schneiden, einschieben.`, map: it.cells.map((r, i) => `${i + 1} ${r.filter(Boolean).join(' / ') || '–'}`).join(' · ') });
@@ -2041,7 +2078,7 @@ function setCaseType(type) {
   if (!ct.lids) { c.lidF = false; c.lidR = false; }
 }
 /* ---------- Popup: Element hinzufügen ---------- */
-const dlg = { tab: 'module', side: 'front', pos: 0 };
+const dlg = { tab: 'module', side: 'front', pos: 0, shelf: null };
 const TPLKEY = 'rackwerk-tpl';
 function tpls() { try { return JSON.parse(localStorage.getItem(TPLKEY)) || []; } catch (e) { return []; } }
 function setTpls(l) { try { localStorage.setItem(TPLKEY, JSON.stringify(l)); } catch (e) {} }
@@ -2051,7 +2088,8 @@ function gapAt(side, pos) {
   const next = s.filter(o => o.pos >= pos).reduce((m, o) => Math.min(m, o.pos), Infinity);
   return Math.max(0, Math.min(next, state.case.he) - pos);
 }
-function openAdd(tab, side, pos) {
+function openAdd(tab, side, pos, shelf = null) {
+  dlg.shelf = shelf;
   if (tab) dlg.tab = tab;
   dlg.side = side || (view === 'rear' ? 'rear' : 'front');
   if (dlg.side === 'rear' && !state.case.rear) dlg.side = 'front';
@@ -2078,24 +2116,41 @@ function renderDlg() {
       <div class="opt"><span class="on">Beschriftungsblende</span><span class="oa">${esc(ART.label.art)} · ${price(ART.label)} · Teilungen, PDF</span><div class="chips">${chip('label', 0.5)}</div></div>
       <div class="opt"><span class="on">Gitterblende</span><span class="oa">Adam Hall 872205 VR / 8722x VR · Rackwanne dahinter möglich</span><div class="chips">${[0.5, 1, 2, 3, 4].map(x => chip('vent', x)).join('')}</div></div>
       <div class="opt"><span class="on">Rackblende</span><span class="oa">Adam Hall 8722x STL · Stahl</span><div class="chips">${[1, 2, 3, 4].map(x => chip('blank', x)).join('')}</div></div>
+    </div></div>`;
+    h += `<div class="cgroup"><h3>Rackwannen · Geräte lassen sich in jede Wanne setzen</h3><div class="opts">
+      <div class="opt"><span class="on">Rackwanne Adam Hall</span><span class="oa">87551 / 87552 · 375 mm · ${price(ART.tray1)} / ${price(ART.tray2)}</span><div class="chips">${chip('shelf', 1, '1 HE', 'data-shelf="ah_1u"')}${chip('shelf', 2, '2 HE', 'data-shelf="ah_2u"')}</div></div>
+      <div class="opt"><span class="on">${esc(SHELVES.bmd_urs.n)}</span><span class="oa">${esc(SHELVES.bmd_urs.art)} · ${price(SHELVES.bmd_urs)} · Verschraubung für BMD-Geräte 1/3 + 1/2</span><div class="chips">${chip('shelf', 1, '1 HE', 'data-shelf="bmd_urs"')}</div></div>
+      <div class="opt"><span class="on">${esc(SHELVES.thon_1u.n)}</span><span class="oa">${esc(SHELVES.thon_1u.art)} · ${SHELVES.thon_1u.innerW} mm innen · 255 mm</span><div class="chips">${chip('shelf', 1, '1 HE', 'data-shelf="thon_1u"')}</div></div>
+    </div></div>`;
+    h += `<div class="cgroup"><h3>Schubladen</h3><div class="opts">
+      <div class="opt"><span class="on">Schublade Adam Hall</span><span class="oa">87401 E / 87402 / 87403 / 87404 · 392 mm</span><div class="chips">${[1, 2, 3, 4].map(x => chip('drawer', x)).join('')}</div></div>
+    </div></div>`;
+    h += `<div class="cgroup"><h3>Sonstiges</h3><div class="opts">
       <div class="opt"><span class="on">Bürstenblende</span><span class="oa">${esc(ART.brush.art)} · ${price(ART.brush)} · Kabeldurchführung</span><div class="chips">${chip('brush', 1)}</div></div>
     </div></div>`;
   }
-  if (dlg.tab === 'zubehoer') {
-    h += `<div class="cgroup"><h3>Im Rack · Adam Hall</h3><div class="opts">
-      <div class="opt"><span class="on">Rackwanne</span><span class="oa">87551 / 87552 · 375 mm · ${price(ART.tray1)} / ${price(ART.tray2)}</span><div class="chips">${[1, 2].map(x => chip('tray', x)).join('')}</div></div>
-      <div class="opt"><span class="on">Schublade</span><span class="oa">87401 E / 87402 / 87403 / 87404 · 392 mm</span><div class="chips">${[1, 2, 3, 4].map(x => chip('drawer', x)).join('')}</div></div>
-    </div></div>
-    <div class="cgroup"><h3>Rackwannen für Geräte</h3><div class="opts">
-      <div class="opt"><span class="on">${esc(SHELVES.bmd_urs.n)}</span><span class="oa">${esc(SHELVES.bmd_urs.art)} · ${price(SHELVES.bmd_urs)} · Raster 1/3 + 1/2 Rackbreite</span><div class="chips"><button type="button" class="chip" data-insshelf="bmd_urs">Einsetzen · 1 HE</button></div></div>
-      <div class="opt"><span class="on">${esc(SHELVES.thon_1u.n)}</span><span class="oa">${esc(SHELVES.thon_1u.art)} · ${SHELVES.thon_1u.innerW} mm innen · Geräte frei anordnen</span><div class="chips"><button type="button" class="chip" data-insshelf="thon_1u">Einsetzen · 1 HE</button></div></div>
-    </div></div>
-    <div class="cgroup"><h3>Lose Teile · ohne Platz im Rack</h3><div data-accbox class="body" style="padding:0"></div></div>`;
+  const shIt = dlg.shelf && state.items.find(i => i.id === dlg.shelf.id && i.kind === 'shelf');
+  if (dlg.tab === 'geraete' && shIt) {
+    const Sh = shelfOf(shIt), x = dlg.shelf.x;
+    const list = Object.entries(DEVDB).filter(([k]) => shelfFits(shIt, k, x));
+    const where = Sh.mode === 'grid' ? (Sh.cells === 2 ? (x ? 'rechte Hälfte' : 'linke Hälfte') : `ab ${x + 1}/6`) : `ab ${x} mm von links`;
+    h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">${esc(Sh.short)} · ${heRange(shIt)} · ${esc(where)} · ${list.length} passende Geräte</span><button type="button" class="btn sm" data-shall>Alle Geräte zeigen</button></div>`;
+    const groups = [...new Set(list.map(([, d]) => d.g))];
+    h += groups.length ? groups.map(gr => `<div class="cgroup"><h3>${esc(gr)}</h3><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
+      <button type="button" class="opt" data-insdb="${k}"><span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span></button>`).join('')}</div></div>`).join('') : '<p class="hint">An dieser Stelle passt kein Gerät aus der Datenbank.</p>';
   }
-  if (dlg.tab === 'geraete') {
+  else if (dlg.tab === 'geraete') {
     h += `<input id="devSearch" type="search" placeholder="Gerät suchen, z. B. Teranex, ULXD, UniFi …" aria-label="Gerät suchen">`;
-    h += DEV_GROUPS.map(gr => `<div class="cgroup" data-devgroup><h3>${esc(gr)}</h3><div class="opts">${Object.entries(DEVDB).filter(([, d]) => d.g === gr).map(([k, d]) => `
-      <button type="button" class="opt" data-insdb="${k}"><span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span></button>`).join('')}</div></div>`).join('');
+    const SECT = [
+      ['rack', '19″-Rackgeräte · eigene Rackohren'],
+      ['half', 'Halbe Rackbreite · Shure-Rackkit (liegt bei): zwei Geräte mittig nebeneinander'],
+      ['bmd', 'Blackmagic 1/3 und 1/2 Rackbreite · Universal Rack Shelf'],
+      ['free', 'Nicht 19″ · in eine Rackwanne'],
+    ];
+    h += SECT.map(([fit, head]) => { const list = Object.entries(DEVDB).filter(([, d]) => d.fit === fit); if (!list.length) return '';
+      const groups = [...new Set(list.map(([, d]) => d.g))];
+      return `<div class="cgroup" data-devgroup><h3>${esc(head)}</h3>${groups.map(gr => `<h4 class="subh">${esc(gr)}</h4><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
+        <button type="button" class="opt" data-insdb="${k}"><span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span></button>`).join('')}</div>`).join('')}</div>`; }).join('');
     h += `<div class="cgroup" data-devgroup><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
       <button type="button" class="opt" data-insdev="${i}"><span class="on">${esc(d.name)}</span><span class="oa">${fmtHE(d.he)} · ${d.depth} mm tief</span></button>`).join('')}</div></div>
     <div class="cgroup"><h3>Eigenes Gerät</h3><div class="row">
@@ -2104,7 +2159,7 @@ function renderDlg() {
       <div class="field"><label for="dDepth">Tiefe (mm)</label><input id="dDepth" type="number" min="0" max="1000" step="5" value="250"></div>
       <button type="button" class="btn primary" data-insdevown>Einsetzen</button>
     </div></div>
-    <p class="dlg-foot">Geräte stehen nicht in der Bestellung, ihre Tiefe zählt für die Kollisionsprüfung. Blackmagic-Geräte mit 1/3 oder 1/2 Rackbreite kommen in die BMD-Wanne, kleine Geräte in die Thomann-Wanne; ist eine passende Wanne ausgewählt, landen sie dort.</p>`;
+    <p class="dlg-foot">Geräte stehen nicht in der Bestellung, ihre Tiefe zählt für die Kollisionsprüfung. Ist eine Rackwanne ausgewählt und passt das Gerät hinein, landet es dort; sonst wird eine passende Wanne bzw. ein Shure-Rackkit angelegt.</p>`;
   }
   if (dlg.tab === 'eigene') {
     const list = tpls();
@@ -2125,9 +2180,9 @@ function renderDlg() {
     <div class="cgroup"><h3>Meine Elemente · in diesem Browser gespeichert</h3>${list.length ? list.map(x => `
       <div class="tpl"><span>${esc(x.name)}<small>${fmtHE(x.he)} · ${x.depth} mm${x.art ? ' · ' + esc(x.art) : ''}${x.price != null ? ' · ' + EUR.format(x.price) : ''}</small></span><button type="button" class="btn sm primary" data-tpl="${x.id}">Einsetzen</button><button type="button" class="btn sm danger" data-tpldel="${x.id}" aria-label="${esc(x.name)} löschen">×</button></div>`).join('') : '<p class="hint">Noch keine eigenen Elemente gespeichert.</p>'}</div>`;
   }
+  document.querySelector('#addDlg .target').style.visibility = shIt && dlg.tab === 'geraete' ? 'hidden' : '';
   $('#dlgBody').innerHTML = h;
   $('#dlgBody').scrollTop = 0;
-  if (dlg.tab === 'zubehoer') renderAcc();
 }
 function insertItem(kind, o = {}) {
   const it = makeItem(kind, { ...o, side: dlg.side });
@@ -2144,17 +2199,20 @@ function insertItem(kind, o = {}) {
 function insertDev(id) {
   const d = DEVDB[id]; if (!d) return;
   if (d.fit === 'rack') { insertItem('device', { dev: id }); return; }
-  const want = d.fit === 'bmd' ? 'bmd_urs' : 'thon_1u';
-  const ok = i => i.kind === 'shelf' && i.shelf === want && shelfFree(i, id) != null;
-  const target = state.items.find(i => i.id === sel && ok(i)) || state.items.find(i => ok(i) && i.side === dlg.side && Math.abs(i.pos - dlg.pos) < 1e-6);
+  const fixed = dlg.shelf && state.items.find(i => i.id === dlg.shelf.id && i.kind === 'shelf');
+  if (fixed && shelfAccepts(fixed, d)) { const x = shelfFits(fixed, id, dlg.shelf.x) ? dlg.shelf.x : shelfFree(fixed, id); if (x != null) { fixed.devs.push({ dev: id, x }); sel = fixed.id; dlg.shelf = null; closeAdd(); state.step = 2; render(); toast(`${d.n} → ${shelfOf(fixed).short} ${heRange(fixed)}`); return; } }
+  const ok = i => i.kind === 'shelf' && shelfAccepts(i, d) && shelfFree(i, id) != null;
+  const pref = d.fit === 'bmd' ? 'bmd_urs' : d.fit === 'half' ? 'shure_kit' : null;
+  const target = state.items.find(i => i.id === sel && ok(i)) || state.items.find(i => ok(i) && i.side === dlg.side && Math.abs(i.pos - dlg.pos) < 1e-6) || (pref && state.items.find(i => ok(i) && i.shelf === pref && i.side === dlg.side));
   if (target) { target.devs.push({ dev: id, x: shelfFree(target, id) }); sel = target.id; closeAdd(); state.step = 2; render(); toast(`${d.n} → ${shelfOf(target).short} ${heRange(target)}`); return; }
-  insertItem('shelf', { shelf: want, devs: [{ dev: id, x: 0 }] });
+  insertItem('shelf', { shelf: pref || (devH(d) > HE - 4 ? 'ah_2u' : 'ah_1u'), devs: [{ dev: id, x: 0 }] });
 }
 function dlgClick(t) {
   if (t.closest('[data-close]')) { closeAdd(); return true; }
-  const tab = t.closest('[data-tab]'); if (tab) { dlg.tab = tab.dataset.tab; renderDlg(); return true; }
+  const tab = t.closest('[data-tab]'); if (tab) { dlg.tab = tab.dataset.tab; if (dlg.tab !== 'geraete') dlg.shelf = null; renderDlg(); return true; }
   const ts = t.closest('[data-tside]'); if (ts) { dlg.side = ts.dataset.tside; dlg.pos = gapAt(dlg.side, dlg.pos) ? dlg.pos : firstFree(dlg.side, 1); renderDlg(); return true; }
-  const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant }); return true; }
+  const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant, shelf: ins.dataset.shelf }); return true; }
+  if (t.closest('[data-shall]')) { dlg.shelf = null; renderDlg(); return true; }
   const db = t.closest('[data-insdb]'); if (db) { insertDev(db.dataset.insdb); return true; }
   const shi = t.closest('[data-insshelf]'); if (shi) { insertItem('shelf', { shelf: shi.dataset.insshelf }); return true; }
   const dv = t.closest('[data-insdev]'); if (dv) { const d = DEVICES[+dv.dataset.insdev]; insertItem('device', { ...d }); return true; }
@@ -2458,6 +2516,7 @@ document.addEventListener('click', e => {
   const op = t.closest('[data-open]'); if (op) { openAdd(op.dataset.open); return; }
   if (t.closest('[data-loadfile]')) { $('#fileIn').click(); return; }
   const png = t.closest('[data-png]'); if (png) { exportPng(png.dataset.png === 'view' ? view : png.dataset.png); return; }
+  const sf = t.closest('[data-shfree]'); if (sf) { const [id, k] = sf.dataset.shfree.split(':'); const it = state.items.find(i => i.id === id); if (it) { sel = it.id; openAdd('geraete', it.side, it.pos, { id, x: +k }); } return; }
   const fr = t.closest('[data-free]'); if (fr) { openAdd(null, view, +fr.dataset.free); return; }
   const go = t.closest('[data-goto], .steps [data-step]');
   if (go) { state.step = +(go.dataset.goto || go.dataset.step); render(); window.scrollTo({ top: 0 }); return; }
@@ -2553,6 +2612,7 @@ document.addEventListener('change', e => {
     else if (f === 'foam') it.foam = t.checked;
     else if (f === 'color') it.color = t.value;
     else if (f === 'rearFix') it.rearFix = t.checked;
+    else if (f === 'antFront') it.antFront = t.checked;
     else if (f === 'variant') {
       const P = PANELS[t.value], n = P.cols * P.rows;
       it.variant = t.value; it.he = P.he;
@@ -2600,7 +2660,8 @@ document.addEventListener('input', e => {
   const q = e.target.value.trim().toLowerCase();
   document.querySelectorAll('#dlgBody [data-devgroup]').forEach(gr => {
     let any = false;
-    gr.querySelectorAll('.opt').forEach(o => { const hit = !q || o.textContent.toLowerCase().includes(q) || (o.dataset.insdb || '').replace(/_/g, ' ').includes(q) || gr.querySelector('h3').textContent.toLowerCase().includes(q); o.hidden = !hit; any = any || hit; });
+    gr.querySelectorAll('.opt').forEach(o => { const sh = o.parentElement.previousElementSibling; const hit = !q || o.textContent.toLowerCase().includes(q) || (o.dataset.insdb || '').replace(/_/g, ' ').includes(q) || (sh && sh.tagName === 'H4' && sh.textContent.toLowerCase().includes(q)); o.hidden = !hit; any = any || hit; });
+    gr.querySelectorAll('h4.subh').forEach(h4 => { h4.hidden = ![...h4.nextElementSibling.children].some(o => !o.hidden); });
     gr.hidden = !any;
   });
 });
@@ -2614,18 +2675,19 @@ function shelfDragMove(e) {
   if (!drag.moved && Math.abs(dx) < 2) return;
   drag.moved = true; e.preventDefault();
   const it = drag.it, Sh = shelfOf(it), iw = W19 - EAR * 2 - 6, o = it.devs[hd.i], d = devOf(o.dev);
-  const unit = Sh.mode === 'grid' ? iw / 6 : iw / Sh.innerW;
+  const unit = Sh.mode === 'grid' ? iw / Sh.cells : iw / Sh.innerW;
   let want = Math.round(hd.ox + dx / unit);
-  want = Math.max(0, Math.min((Sh.mode === 'grid' ? 6 - devCells(d) : Sh.innerW - d.w), want));
+  want = Math.max(0, Math.min((Sh.mode === 'grid' ? Sh.cells - cellsOf(d, Sh) : Sh.innerW - devW(d)), want));
   // nächste freie Position in Zugrichtung suchen (Thomann: bis an das Nachbargerät heran)
   if (shelfFits(it, o.dev, want, hd.i)) hd.nx = want;
-  else { const dir = want > hd.nx ? -1 : 1; for (let k = 1, v = want + dir; k <= (Sh.mode === 'grid' ? 6 : Sh.innerW); k++, v += dir) { if (v === hd.nx) break; if (shelfFits(it, o.dev, v, hd.i)) { hd.nx = v; break; } } }
+  else { const dir = want > hd.nx ? -1 : 1; for (let k = 1, v = want + dir; k <= (Sh.mode === 'grid' ? Sh.cells : Sh.innerW); k++, v += dir) { if (v === hd.nx) break; if (shelfFits(it, o.dev, v, hd.i)) { hd.nx = v; break; } } }
   hd.el.setAttribute('transform', `translate(${((hd.nx - hd.ox) * unit).toFixed(2)} 0)`);
 }
 function svgY(svg, e) { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()).y; }
 function draggable(it, g) { return g.classList.contains('dr') && it; }
 stage.addEventListener('pointerdown', e => {
   if (e.button !== 0) return;
+  if (e.target.closest('[data-shfree]')) return;
   const g = e.target.closest('[data-id]'); const svg = stage.querySelector('svg');
   if (!g || !svg) return;
   const it = state.items.find(i => i.id === g.dataset.id); if (!it) return;
@@ -2652,7 +2714,7 @@ stage.addEventListener('pointermove', e => {
 function endDrag(e) {
   if (!drag || (e && e.pointerId !== drag.id)) return;
   const d = drag; drag = null;
-  if (d.h && d.moved) { const o = d.it.devs[d.h.i]; o.x = d.h.nx; sel = d.it.id; selSlot = null; render(); toast(`${devOf(o.dev).n} → ${shelfOf(d.it).mode === 'grid' ? 'ab ' + (o.x + 1) + '/6' : Math.round(o.x) + ' mm von links'}`); return; }
+  if (d.h && d.moved) { const o = d.it.devs[d.h.i]; o.x = d.h.nx; sel = d.it.id; selSlot = null; render(); toast(`${devOf(o.dev).n} → ${shelfOf(d.it).mode === 'grid' ? (shelfOf(d.it).cells === 2 ? (o.x ? 'rechts' : 'links') : 'ab ' + (o.x + 1) + '/6') : Math.round(o.x) + ' mm von links'}`); return; }
   if (d.moved) { place(d.it, d.pos); sel = d.it.id; selSlot = null; render(); toast(`${title(d.it)} → ${heRange(d.it)}`); return; }
   sel = d.it.id; selSlot = d.slot;
   render();

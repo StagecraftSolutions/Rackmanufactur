@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-15 – Stand 12
+
+- Popup „Module“ gegliedert: Steckerfelder, Blenden, Rackwannen, Schubladen, Sonstiges (Bürstenblende). Reiter „Zubehör“ entfällt, lose Teile gibt es in Stufe 3.
+- Popup „Geräte“ gegliedert: 19″-Rackgeräte, halbe Rackbreite (Shure-Rackkit), Blackmagic 1/3 und 1/2, nicht 19″ (Rackwanne).
+- Jede Rackwanne nimmt Geräte auf (Adam Hall 87551/87552, Thon, BMD); die BMD-Wanne hat feste Verschraubungspunkte. Leere Bereiche bleiben schwarz, Wanne perspektivisch.
+- Shure-Rackkit: zwei Geräte halber Breite (ULXD4, QLXD4, SLXD4, PSM900 P9T) mittig nebeneinander, optional Antennen nach vorn mit BNC an den Seitenteilen.
+- **+** auch waagerecht in Rackwannen: freie Plätze zeigen beim Überfahren ein Plus, das Popup listet nur die Geräte, die genau dort passen.
+- Alte Rackwannen in gespeicherten Projekten werden zu Wannen mit Geräten.
+
 ## 2026-11-15 – Stand 11
 
 - Neue Stecker: powerCON In blau / Out weiß (D-Format), opticalCON DUO, SDI (BNC 75 Ω isoliert), Cinch/RCA (D-Format), Klinke 6,3 mm TRS/TS (D-Format).
