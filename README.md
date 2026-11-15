@@ -144,3 +144,7 @@ Es lädt nur hoch, löscht auf dem Server nichts. HTML-Dateien kommen zuletzt. I
 | `bom()` / `shopOf()` / `normalize()` | Stückliste, Lieferant ableiten, Migration gespeicherter Stände nach v5 |
 
 Quellen-Kennzeichnung in der Stückliste: `cart` = Warenkorb, `web` = Webpreis 11/2026, `ref` = Art.-Nr. belegt, `check` = prüfen, `user` = eigene Angabe.
+
+## Lizenz
+
+MIT, siehe [LICENSE](LICENSE). Schriften (OFL 1.1) und jsPDF (MIT) behalten ihre eigenen Lizenzen.
