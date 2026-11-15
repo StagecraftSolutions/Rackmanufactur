@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rackwerk Konfigurator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Werkbank mit drei Spalten – Bibliothek | Rack-Ansicht | Inspektor – darunter Stückliste und Fertigungshinweise */
+:root {
+  --bg: #e9ecef;
+  --surface: #ffffff;
+  --surface-2: #f3f5f7;
+  --line: #d3d8de;
+  --fg: #14181d;
+  --muted: #5b6570;
+  --accent: #1d5bd0;
+  --accent-soft: #e2eafb;
+  --true1: #e0b000;
+  --warn: #b45309;
+  --warn-soft: #fdf1e2;
+  --ok: #157a3c;
+  --ok-soft: #e3f3e8;
+  --danger: #b42318;
+  --danger-soft: #fbe7e5;
+  --stage: #d9dde2;
+
+  /* Hardware – bewusst themenunabhängig, so sieht das Material aus */
+  --hw-case: #25282c;
+  --hw-corner: #9ba2aa;
+  --hw-well: #0c0d0f;
+  --hw-rail: #7f868e;
+  --hw-railhole: #26292d;
+  --hw-panel: #1b1d20;
+  --hw-flange: #2d3136;
+  --hw-face: #4b5159;
+  --hw-face-dk: #131518;
+  --hw-metal: #cdd2d8;
+  --hw-hole: #050607;
+  --hw-tr1: #f2c200;
+  --hw-tr1-lt: #ffe37d;
+  --hw-ink: #e8eaed;
+  --hw-ink-dim: #8c939b;
+  --hw-dev-black: #2f3338;
+  --hw-dev-silver: #b9bfc7;
+  --hw-label: #f2efe4;
+  --hw-drill: #ff6b2c;
+  --hw-free: #3a3f45;
+
+  --f-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --r: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101316; --surface: #181c20; --surface-2: #1f2429; --line: #2d343b;
+    --fg: #e5e8eb; --muted: #97a1ab; --accent: #79a4ff; --accent-soft: #1d2a44;
+    --true1: #f2c200; --warn: #f0a050; --warn-soft: #33261a; --ok: #5cc98a; --ok-soft: #17291f;
+    --danger: #ff8a7d; --danger-soft: #3a1d1a; --stage: #0b0d0f; --hw-case: #2c3035;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101316; --surface: #181c20; --surface-2: #1f2429; --line: #2d343b;
+  --fg: #e5e8eb; --muted: #97a1ab; --accent: #79a4ff; --accent-soft: #1d2a44;
+  --true1: #f2c200; --warn: #f0a050; --warn-soft: #33261a; --ok: #5cc98a; --ok-soft: #17291f;
+  --danger: #ff8a7d; --danger-soft: #3a1d1a; --stage: #0b0d0f; --hw-case: #2c3035;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--f-body); font-size: 14px; line-height: 1.45;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Kopf */
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;
+  padding-block: 18px 14px; max-width: 1600px; margin: 0 auto;
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand h1 {
+  font-family: var(--f-display); font-weight: 700; font-size: 30px; letter-spacing: .01em;
+  margin: 0; text-transform: uppercase; line-height: 1;
+}
+.brand .tag {
+  font-family: var(--f-mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
+}
+.stripe { width: 6px; height: 28px; background: repeating-linear-gradient(-45deg, var(--true1) 0 5px, var(--fg) 5px 10px); border-radius: 2px; align-self: center; }
+.summary { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.pill {
+  display: inline-flex; align-items: baseline; gap: 6px; padding: 6px 10px; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); font-size: 13px; white-space: nowrap;
+}
+.pill b { font-family: var(--f-mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.pill.bad { background: var(--danger-soft); border-color: transparent; color: var(--danger); }
+.pill.good { background: var(--ok-soft); border-color: transparent; color: var(--ok); }
+
+/* Raster */
+.grid {
+  display: grid; gap: 16px; max-width: 1600px; margin: 0 auto;
+  grid-template-columns: 300px minmax(0, 1fr) 360px; align-items: start;
+}
+@media (max-width: 1240px) { .grid { grid-template-columns: 280px minmax(0, 1fr); } .col-right { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; } }
+@media (max-width: 820px) { .grid { grid-template-columns: minmax(0, 1fr); } .col-right { grid-template-columns: minmax(0, 1fr); } }
+.col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); min-width: 0; }
+.card > header {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 14px; border-bottom: 1px solid var(--line);
+}
+.card > header h2 {
+  margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 17px; text-transform: uppercase; letter-spacing: .04em;
+}
+.card .body { padding: 12px 14px; display: flex; flex-direction: column; gap: 12px; }
+.hint { color: var(--muted); font-size: 12.5px; margin: 0; }
+.eyebrow { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+/* Formulare */
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.field label { font-size: 12px; color: var(--muted); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: end; }
+.row > .field { flex: 1 1 100px; }
+input[type="text"], input[type="number"], select, textarea {
+  width: 100%; padding: 7px 9px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2);
+  min-width: 0;
+}
+input[type="number"] { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+textarea { font-family: var(--f-mono); font-size: 12px; min-height: 140px; resize: vertical; }
+input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); }
+.check { display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 6px 11px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface-2);
+  cursor: pointer; font-size: 13px; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.btn.danger:hover { border-color: var(--danger); color: var(--danger); }
+.btn.sm { padding: 3px 8px; font-size: 12px; }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  font-family: var(--f-mono); font-size: 12px; padding: 4px 9px; border-radius: 5px;
+  border: 1px solid var(--line); background: var(--surface-2); cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Bibliothek */
+.lib { display: flex; flex-direction: column; }
+.lib-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 9px 0; border-top: 1px dashed var(--line); align-items: center; }
+.lib-row:first-child { border-top: 0; padding-top: 0; }
+.lib-row .t { font-weight: 500; }
+.lib-row .a { grid-column: 1 / -1; font-size: 11.5px; color: var(--muted); font-family: var(--f-mono); }
+.lib-row .chips { justify-content: flex-end; }
+
+/* Rack-Bühne */
+.stage-card > header { flex-wrap: wrap; }
+@media (min-width: 821px) { .stage-card { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); } }
+.tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.tabs button { border: 0; background: transparent; padding: 5px 12px; cursor: pointer; font-size: 13px; }
+.tabs button[aria-pressed="true"] { background: var(--fg); color: var(--surface); }
+.stage { background: var(--stage); padding: 18px; border-radius: 0 0 var(--r) var(--r); overflow-x: auto; }
+.stage svg { display: block; width: 100%; height: auto; min-width: 560px; margin: 0 auto; }
+.stage svg.side { max-width: 900px; }
+.stage-foot { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+.legend { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+.warns { display: flex; flex-direction: column; gap: 6px; padding: 0 14px 12px; }
+.warn { font-size: 13px; padding: 7px 10px; border-radius: 6px; background: var(--warn-soft); color: var(--warn); }
+.warn.err { background: var(--danger-soft); color: var(--danger); }
+
+/* SVG-Hardware */
+svg text { font-family: var(--f-mono); }
+.case { fill: var(--hw-case); }
+.corner { fill: var(--hw-corner); }
+.well { fill: var(--hw-well); }
+.rail { fill: var(--hw-rail); }
+.railhole { fill: var(--hw-railhole); }
+.henum { fill: var(--hw-ink-dim); font-size: 6px; text-anchor: middle; dominant-baseline: central; }
+.pnl { fill: var(--hw-panel); stroke: #000; stroke-width: .3; }
+.earslot { fill: var(--hw-hole); }
+.flange { fill: var(--hw-flange); }
+.blankp { fill: #24272b; stroke: #3a3e43; stroke-width: .4; }
+.screw { fill: var(--hw-metal); }
+.face { fill: var(--hw-face); }
+.facedk { fill: var(--hw-face-dk); }
+.pinhole { fill: var(--hw-hole); }
+.pin { fill: var(--hw-metal); }
+.hole { fill: var(--hw-hole); stroke: #3b3f45; stroke-width: .5; }
+.tr1 { fill: var(--hw-tr1); }
+.tr1lt { fill: var(--hw-tr1-lt); }
+.drill { fill: none; stroke: var(--hw-drill); stroke-width: .9; stroke-dasharray: 2 1.4; }
+.drilltxt { fill: var(--hw-drill); font-size: 3.2px; text-anchor: middle; font-weight: 500; }
+.slab { fill: var(--hw-ink); font-size: 3.3px; text-anchor: middle; }
+.slab.dim { fill: var(--hw-ink-dim); }
+.engr { fill: var(--hw-ink-dim); font-size: 4px; letter-spacing: .3px; }
+.pletter { fill: var(--hw-ink); font-family: var(--f-display); font-weight: 700; font-size: 9px; text-anchor: middle; dominant-baseline: central; }
+.dev-black { fill: var(--hw-dev-black); stroke: #000; stroke-width: .3; }
+.dev-silver { fill: var(--hw-dev-silver); stroke: #6d737a; stroke-width: .3; }
+.devname { font-family: var(--f-display); font-weight: 600; text-anchor: middle; dominant-baseline: central; letter-spacing: .2px; }
+.on-black { fill: var(--hw-ink); }
+.on-silver { fill: #1b1d20; }
+.devhe { font-size: 4.2px; text-anchor: middle; dominant-baseline: central; }
+.labelstrip { fill: var(--hw-label); }
+.labeltxt { fill: #1b1d20; font-size: 6px; text-anchor: middle; dominant-baseline: central; font-family: var(--f-display); font-weight: 600; letter-spacing: .6px; }
+.handle { fill: var(--hw-hole); stroke: #3d4248; stroke-width: .6; }
+.lock { fill: var(--hw-metal); }
+.brush { stroke: #555b62; stroke-width: .35; }
+.trayline { fill: none; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
+.traytxt { fill: var(--hw-tr1); font-size: 3.6px; }
+.gapbox { fill: none; stroke: var(--hw-ink-dim); stroke-width: .5; stroke-dasharray: 2 2; }
+.freetxt { fill: var(--hw-ink-dim); font-size: 6px; text-anchor: middle; dominant-baseline: central; letter-spacing: .5px; }
+.over { fill: rgba(220, 40, 30, .28); stroke: #e0402f; stroke-width: .8; stroke-dasharray: 3 2; }
+.overtxt { fill: #ff8a7d; font-size: 6px; text-anchor: middle; }
+.selbox { fill: none; stroke: var(--accent); stroke-width: 1.4; }
+.slotsel { fill: none; stroke: var(--accent); stroke-width: 1.1; }
+.item { cursor: pointer; }
+.item:hover .pnl, .item:hover .dev-black { filter: brightness(1.25); }
+[data-slot] { cursor: pointer; }
+.side-body { fill: #3a3f46; stroke: #15171a; stroke-width: .4; }
+.side-front { fill: #16181b; }
+.side-tray { fill: none; stroke: var(--hw-tr1); stroke-width: .9; }
+.side-drawer { fill: #2b2f35; stroke: #15171a; stroke-width: .4; }
+.side-dev { fill: #50565e; stroke: #15171a; stroke-width: .4; }
+.side-txt { fill: var(--hw-ink); font-size: 6px; dominant-baseline: central; }
+.ruler { stroke: var(--hw-ink-dim); stroke-width: .5; }
+.rulertxt { fill: var(--hw-ink-dim); font-size: 6px; text-anchor: middle; }
+.depthline { stroke: var(--hw-tr1); stroke-width: .8; stroke-dasharray: 3 2; }
+.rearpnl { fill: #2b2e33; stroke: #000; stroke-width: .3; }
+.ghost { opacity: .35; }
+.trayback { fill: rgba(0, 0, 0, .35); stroke: var(--hw-tr1); stroke-width: .8; }
+.rearinfo { fill: var(--hw-ink-dim); font-size: 3.8px; letter-spacing: .2px; }
+.rearinfo.on-silver { fill: #3a3e43; }
+.cbody { fill: #4a5058; stroke: #15171a; stroke-width: .4; }
+.cnum { fill: var(--hw-ink); font-size: 6.5px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+.cnum.on-tr { fill: #1b1d20; }
+
+/* Inspektor */
+.insp-title { display: flex; align-items: center; gap: 10px; }
+.insp-title .big { font-family: var(--f-display); font-size: 22px; font-weight: 700; line-height: 1.1; }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
+.pal {
+  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 4px 5px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); cursor: pointer; font-size: 11px; line-height: 1.15; text-align: center;
+}
+.pal:hover { border-color: var(--accent); }
+.pal svg { width: 26px; height: 30px; }
+.slots { display: flex; flex-direction: column; gap: 4px; }
+.slot {
+  display: grid; grid-template-columns: 26px minmax(0, 1.35fr) minmax(0, 1fr); gap: 6px; align-items: center;
+  padding: 3px 4px; border-radius: 6px; border: 1px solid transparent;
+}
+.slot.on { border-color: var(--accent); background: var(--accent-soft); }
+.slot .n { font-family: var(--f-mono); font-size: 12px; text-align: center; color: var(--muted); cursor: pointer; }
+.slot select, .slot input { padding: 4px 6px; font-size: 12.5px; }
+.fixed { font-size: 12.5px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.badge { font-family: var(--f-mono); font-size: 10.5px; padding: 1px 6px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.badge.y { background: var(--true1); color: #1b1d20; border-color: transparent; }
+.badge.o { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+
+/* Belegung */
+.order { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.order li {
+  display: grid; grid-template-columns: 16px 58px minmax(0, 1fr) auto; gap: 8px; align-items: center;
+  padding: 7px 8px; border-radius: 6px; cursor: pointer; border: 1px solid transparent;
+}
+.order li:hover { background: var(--surface-2); }
+.order li.on { border-color: var(--accent); background: var(--accent-soft); }
+.order li.drop { border-top: 2px solid var(--accent); }
+.grip { color: var(--muted); cursor: grab; font-size: 12px; letter-spacing: -2px; user-select: none; }
+.pos { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.oname { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ohe { font-family: var(--f-mono); font-size: 12px; }
+
+/* Stückliste */
+.wide { max-width: 1600px; margin: 16px auto 0; display: grid; gap: 16px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 1100px) { .wide { grid-template-columns: minmax(0, 1fr); } }
+.tablewrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 500; font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 6px 10px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+td.num, th.num { text-align: right; font-family: var(--f-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td input { padding: 4px 6px; font-size: 12.5px; }
+td input.price { width: 84px; text-align: right; font-family: var(--f-mono); }
+td input.art { min-width: 150px; font-family: var(--f-mono); }
+td .sub { display: block; font-size: 11.5px; color: var(--muted); }
+.st { font-family: var(--f-mono); font-size: 10.5px; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.st.cart { background: var(--ok-soft); color: var(--ok); }
+.st.ref { background: var(--accent-soft); color: var(--accent); }
+.st.web { background: var(--surface-2); color: var(--ok); border: 1px solid var(--ok-soft); }
+.st.check { background: var(--warn-soft); color: var(--warn); }
+.st.user { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+tfoot td { font-weight: 600; border-bottom: 0; }
+.notes { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.notes li { padding: 9px 11px; border-radius: 6px; background: var(--surface-2); font-size: 13px; }
+.notes li b { font-family: var(--f-display); font-weight: 600; font-size: 15px; letter-spacing: .02em; display: block; margin-bottom: 2px; }
+.notes .map { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); display: block; margin-top: 4px; word-break: break-word; }
+.notes li.drillnote { background: var(--warn-soft); }
+details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+.acc-row { display: grid; grid-template-columns: minmax(0, 1fr) 70px; gap: 8px; align-items: center; }
+.acc-row .nm { font-size: 13px; }
+.acc-row .nm small { display: block; color: var(--muted); font-size: 11.5px; }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--surface); padding: 8px 14px; border-radius: 6px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
+.toast.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+</style>
+
+<header class="top">
+  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rackwerk</h1><span class="tag">19″ Case- &amp; Steckerfeld-Konfigurator</span></div>
+  <div class="summary" id="summary"></div>
+</header>
+
+<main class="grid">
+  <!-- Links: Case + Bibliothek + Zubehör -->
+  <div class="col">
+    <section class="card">
+      <header><h2>Case</h2><span class="eyebrow" id="caseHeTag"></span></header>
+      <div class="body" id="caseForm"></div>
+    </section>
+    <section class="card">
+      <header><h2>Module</h2><span class="eyebrow">hinzufügen</span></header>
+      <div class="body">
+        <p class="hint">Neue Module landen unter dem ausgewählten Modul.</p>
+        <div class="lib" id="lib"></div>
+      </div>
+    </section>
+    <section class="card">
+      <header><h2>Zubehör</h2><span class="eyebrow">lose Teile</span></header>
+      <div class="body" id="acc"></div>
+    </section>
+  </div>
+
+  <!-- Mitte: Ansicht -->
+  <div class="col">
+    <section class="card stage-card">
+      <header>
+        <h2 id="stageTitle">Live-Ansicht</h2>
+        <div class="tabs" role="group" aria-label="Ansicht">
+          <button type="button" id="tabFront" aria-pressed="true">Live</button>
+          <button type="button" id="tabRear" aria-pressed="false">Rückansicht</button>
+          <button type="button" id="tabSide" aria-pressed="false">Seite / Tiefe</button>
+        </div>
+      </header>
+      <div class="stage" id="stage"></div>
+      <div class="warns" id="warns"></div>
+      <div class="stage-foot">
+        <span class="legend"><span class="sw" style="background:var(--hw-tr1)"></span>powerCON TRUE1 / Rackwanne</span>
+        <span class="legend"><span class="sw" style="background:var(--hw-drill)"></span>Loch aufbohren</span>
+        <span class="legend"><span class="sw" style="background:var(--hw-rail)"></span>Rackschiene</span>
+        <span id="stageHint">Klick auf ein Modul oder Loch wählt es aus.</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Rechts: Inspektor + Belegung -->
+  <div class="col col-right">
+    <section class="card">
+      <header><h2>Auswahl</h2><span class="eyebrow" id="inspTag"></span></header>
+      <div class="body" id="insp"></div>
+    </section>
+    <section class="card">
+      <header><h2>Belegung</h2><span class="eyebrow">von oben, ziehen zum Sortieren</span></header>
+      <div class="body" style="padding-inline:8px"><ol class="order" id="order"></ol></div>
+    </section>
+  </div>
+</main>
+
+<section class="wide">
+  <section class="card">
+    <header><h2>Stückliste</h2><button type="button" class="btn sm" id="copyBom">Als Tabelle kopieren</button></header>
+    <div class="tablewrap"><table id="bom"></table></div>
+    <div class="body"><p class="hint">„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche, Händler steht unter dem Artikel; vor der Bestellung prüfen. Leere Preise und Art.-Nr. kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.</p></div>
+  </section>
+  <div class="col">
+    <section class="card">
+      <header><h2>Fertigung</h2><button type="button" class="btn sm" id="copyNotes">Kopieren</button></header>
+      <div class="body"><ul class="notes" id="notes"></ul></div>
+    </section>
+    <section class="card">
+      <header><h2>Projekt</h2></header>
+      <div class="body">
+        <div class="actions">
+          <button type="button" class="btn" id="btnExample">Beispiel laden</button>
+          <button type="button" class="btn danger" id="btnReset">Leeres Case</button>
+        </div>
+        <details>
+          <summary>Konfiguration als JSON (sichern / einspielen)</summary>
+          <div class="body" style="padding-inline:0">
+            <textarea id="json" spellcheck="false" aria-label="Konfiguration als JSON"></textarea>
+            <div class="actions">
+              <button type="button" class="btn sm" id="jsonCopy">Kopieren</button>
+              <button type="button" class="btn sm" id="jsonLoad">Einspielen</button>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+  </div>
+</section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+'use strict';
+const HE = 44.45, W19 = 482.6, EAR = 16, CW = 18;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtHE = h => String(h).replace('.', ',') + ' HE';
+const fmtN = n => String(Math.round(n * 100) / 100).replace('.', ',');
+const EUR = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+/* ---------- Katalog ---------- */
+// src: cart = Preis aus deinem Warenkorb · ref = Art.-Nr. recherchiert · check = bitte prüfen
+const CON = {
+  pc_in:  { s: 'TRUE1 IN',  n: 'powerCON TRUE1 In',              art: 'Seetronic SAC3MPX TR1',    price: 2.90, src: 'cart', g: 'pcin' },
+  pc_out: { s: 'TRUE1 OUT', n: 'powerCON TRUE1 Out',             art: 'Seetronic SAC3FPX-LY TR1', price: 4.50, src: 'cart', g: 'pcout' },
+  blank:  { s: 'Blind',     n: 'Blindplatte D-Format',           art: 'Millenium Blanking Plate D Format', price: 0.70, src: 'cart', g: 'blank' },
+  xlr3f:  { s: 'XLR3 F',    n: 'XLR 3-pol Buchse',               art: 'Neutrik NC3FD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrf', p: 3 },
+  xlr3m:  { s: 'XLR3 M',    n: 'XLR 3-pol Stecker',              art: 'Neutrik NC3MD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrm', p: 3 },
+  dmx5m:  { s: 'DMX IN',    n: 'DMX 5-pol Stecker (In)',         art: 'Neutrik NC5MD-L-1',  price: null, src: 'check', q: 'kein Euro-Preis gefunden', g: 'xlrm', p: 5 },
+  dmx5f:  { s: 'DMX OUT',   n: 'DMX 5-pol Buchse (Out)',         art: 'Neutrik NC5FD-L-1',  price: 11.70, src: 'web', q: 'Thomann', g: 'xlrf', p: 5 },
+  rj45:   { s: 'RJ45',      n: 'Netzwerk RJ45 (etherCON)',       art: 'Neutrik NE8FDP',     price: 9.10, src: 'web', q: 'Thomann', g: 'rj45' },
+  hdmi:   { s: 'HDMI',      n: 'HDMI-Durchführung',              art: 'Neutrik NAHDMI-W-B', price: 14.50, src: 'web', q: 'Thomann', g: 'hdmi' },
+  usb:    { s: 'USB',       n: 'USB-Durchführung',               art: 'Neutrik NAUSB-W-B',  price: 6.90, src: 'web', q: 'Thomann', g: 'usb' },
+  bnc:    { s: 'BNC',       n: 'BNC-Durchführung',               art: 'Neutrik NBB-75DFIB', price: null, src: 'check', g: 'bnc' },
+  nl4:    { s: 'NL4',       n: 'speakON 4-pol',                  art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
+  open:   { s: 'offen',     n: 'Loch offen (ohne Einsatz)',      art: '', price: null, src: 'user', g: 'open', nobom: true },
+};
+const PICK = ['xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'bnc', 'nl4', 'blank', 'open'];
+
+const ART = {
+  dpanel: { n: 'U-Rackblende 1 HE · 12× D-Loch · Zugentlastung', art: 'Adam Hall 872215', price: 9.50, src: 'cart' },
+  label:  { n: 'U-Rackblende 0,5 HE mit Beschriftungsstreifen',  art: 'Adam Hall 872205 LBL', price: 5.90, src: 'cart' },
+  brush:  { n: 'U-Rackblende 1 HE mit Bürstenleiste (Öffnung 400 × 21 mm)', art: 'Adam Hall 87221 BRUSH', price: 15.90, src: 'web', q: 'Thomann' },
+  m3:     { n: 'Rack Screw M3 × 12 schwarz, 48 Stk. (für D-Einsätze)', art: 'Thon Rack Screw M3 x 12 BK', price: 9.60, src: 'cart' },
+  tray1:  { n: 'Rackwanne 1 HE, 375 mm tief, 25 kg',             art: 'Adam Hall 87551', price: 24.00, src: 'web', q: 'envirel' },
+  tray2:  { n: 'Rackwanne 2 HE, 375 mm tief',                     art: 'Adam Hall 87552', price: 29.50, src: 'web', q: 'aweo' },
+  vent0_5: { n: 'U-Lüftungsblende 0,5 HE, Rundlochung, Stahl 1,5 mm', art: 'Adam Hall 872205 VR', price: 5.50, src: 'web', q: 'Music Store / Thomann (dort als 872005 VR)' },
+  vent1:  { n: 'U-Lüftungsblende 1 HE, Rundlochung',            art: 'Adam Hall 87221 VR', price: 4.90, src: 'web', q: 'Rockshop' },
+  vent2:  { n: 'U-Lüftungsblende 2 HE, Rundlochung',             art: 'Adam Hall 87222 VR', price: 6.90, src: 'web', q: 'aweo' },
+  vent3:  { n: 'U-Lüftungsblende 3 HE, Rundlochung',             art: 'Adam Hall 87223 VR', price: null, src: 'ref', q: 'gelistet bei Huss, kein Preis' },
+  vent4:  { n: 'Gitterblende 4 HE',                               art: '', price: null, src: 'check', q: 'kein Adam-Hall-Artikel gefunden' },
+  blank1: { n: 'U-Rackblende 1 HE, Stahl',                        art: 'Adam Hall 87221 STL', price: 8.99, src: 'web', q: 'eBay' },
+  blank2: { n: 'U-Rackblende 2 HE, Stahl',                        art: 'Adam Hall 87222 STL', price: 4.85, src: 'web', q: 'Rockshop' },
+  blank3: { n: 'U-Rackblende 3 HE, Stahl',                        art: 'Adam Hall 87223 STL', price: 9.00, src: 'web', q: 'Rockshop' },
+  blank4: { n: 'U-Rackblende 4 HE, Stahl',                        art: 'Adam Hall 87224 STL', price: 13.50, src: 'web', q: 'Rockshop' },
+  drawer1: { n: 'Rackschublade 1 HE Eco, Stahl, 392 mm tief',     art: 'Adam Hall 87401 E', price: 68.00, src: 'web', q: 'Thomann über Geizhals' },
+  drawer2: { n: 'Rackschublade 2 HE, Stahl, Vollauszug, abschließbar, 392 mm', art: 'Adam Hall 87402', price: null, src: 'ref', q: 'kein Euro-Preis gefunden' },
+  drawer3: { n: 'Rackschublade 3 HE, Stahl, 392 mm tief',         art: 'Adam Hall 87403', price: 82.00, src: 'web', q: 'Thomann' },
+  drawer4: { n: 'Rackschublade 4 HE, Stahl, abschließbar, 392 mm', art: 'Adam Hall 87404', price: 85.00, src: 'web', q: 'Music Store' },
+  foam1:  { n: 'Schaumstoffeinlage für Schublade 1 HE',           art: '', price: null, src: 'check' },
+  foam2:  { n: 'Mikro-Schaumstoffeinlage für Schublade 2 HE',     art: 'Adam Hall 87402 MI', price: 38.00, src: 'web', q: 'Music Store' },
+  foam3:  { n: 'Schaumstoffeinlage für Schublade 3 HE',           art: '', price: null, src: 'check' },
+  foam4:  { n: 'Schaumstoffeinlage für Schublade 4 HE',           art: '', price: null, src: 'check' },
+};
+const artKey = (kind, he) => kind + String(he).replace('.', '_');
+// Datenbasis Cases: procaseshop.de › 19 Zoll Racks › Rackmodule › Pro Rackmodule (Stand 11/2026, Preise nur mit Händler-Login)
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+const CASES = {
+  pro560: {
+    n: 'ProCase Pro Rackmodul · 560 mm', short: 'Pro Rackmodul 560', sys: 560, use: 482, rss: true, lids: true,
+    he: [...range(1, 18), 20, 25], art: he => 'ProCase 1355' + String(he).padStart(2, '0'),
+    info: 'Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex, strukturlackiert · inkl. 4 Geräteschrauben-Sätze',
+    outer: he => `525 × ${Math.round(he * HE + 33)} × 560 mm`,
+  },
+  pro715: {
+    n: 'ProCase Pro Rackmodul · 715 mm', short: 'Pro Rackmodul 715', sys: 715, use: 637, useEst: true, rss: true, lids: false,
+    he: [1, 2, 3, 4, 5, 8], art: he => 'ProCase 13555' + he,
+    info: 'Innenrack, Systemtiefe 715 mm · stufenlose RSS-Rackschiene vorne · hinten je 2 Kabeldurchführungen oben und unten · inkl. 4 Geräteschrauben-Sätze. Nutztiefe vom Hersteller nicht angegeben, 637 mm abgeleitet (482 mm + 155 mm Mehrtiefe) – bitte messen.',
+    outer: he => `525 × ${Math.round(he * HE + 33)} × 715 mm`,
+  },
+  custom: {
+    n: 'Anderes Case (eigene Angabe)', short: 'Case', sys: null, use: null, rss: false, lids: false,
+    he: [...range(1, 20), 24, 25], art: () => '',
+    info: 'Eigene Bauform. Einbautiefe von Frontschiene bis Rückwand eintragen.',
+  },
+};
+const RAIL_REAR = { n: '2. Rackschienenpaar hinten', art: 'ProCase 11910', price: null, src: 'ref', q: 'procaseshop.de · Option am Rackmodul' };
+const DEPTH = { dpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392, gap: 0 };
+const ACC_DEFAULT = [
+  { id: 'rss',   n: 'Geräteschrauben-Satz für RSS-Schiene, 20 Stk.',      art: 'ProCase 119212', price: null, src: 'ref', q: 'procaseshop.de · auch 4er (11920) und 100er (11924)', pack: 20, qty: 0, auto: 'rss' },
+  { id: 'm6',    n: 'Rackschrauben-Set M6, 8 Stk. (Blister)',            art: 'Adam Hall 5924 BLP', price: null, src: 'ref', q: 'kein Preis gefunden', pack: 8, qty: 0, auto: 'hole' },
+  { id: 'cage',  n: 'Käfigmuttern M6, 20 Stk. (für 2-mm-Stahlschienen)', art: 'Adam Hall 5653', price: 5.50, src: 'web', q: 'Thomann · für 3,5-mm-Alu-Schienen: 5650', pack: 20, qty: 0, auto: 'hole' },
+  { id: 'lace',  n: 'Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite',   art: '', price: null, src: 'check', qty: 0 },
+  { id: 'cable', n: 'Kabelbinder für Zugentlastung (Pack)',               art: '', price: null, src: 'check', qty: 0 },
+];
+
+/* ---------- Zustand ---------- */
+function makeItem(kind, o = {}) {
+  const it = { id: uid(), kind, he: o.he ?? 1 };
+  if (kind === 'dpanel') {
+    it.he = 1;
+    it.slots = ['pc_in', 'pc_out', ...Array(10).fill('blank')];
+    it.labels = ['Power In', 'Power Out', ...Array(10).fill('')];
+  }
+  if (kind === 'vent' || kind === 'blank') it.tray = null;
+  if (kind === 'label') { it.he = 0.5; it.text = ''; }
+  if (kind === 'drawer') { it.he = o.he ?? 2; it.foam = false; }
+  if (kind === 'device') { it.name = o.name ?? 'Gerät'; it.depth = o.depth ?? 250; it.color = 'black'; it.rearFix = !!o.rearFix; }
+  if (kind === 'brush') it.he = 1;
+  return it;
+}
+function makeCase(type = 'pro560', he = 6) {
+  const t = CASES[type];
+  const depth = t.use ?? 450;
+  return { type, he, depth, rear: true, railRear: depth - 25, lidF: false, lidR: false, name: '' };
+}
+function example() {
+  const p = makeItem('dpanel');
+  p.slots = ['pc_in', 'pc_out', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi'];
+  p.labels = ['Power In', 'Power Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
+  const v = makeItem('vent', { he: 2 }); v.tray = { he: 1, depth: 375 };
+  return {
+    v: 3,
+    case: makeCase('pro560', 8),
+    items: [p, makeItem('vent', { he: 0.5 }), makeItem('device', { name: 'Funkempfänger', he: 1, depth: 220 }), makeItem('device', { name: 'Netzwerk-Switch', he: 1, depth: 440, rearFix: true }), v, makeItem('drawer', { he: 2 })],
+    acc: ACC_DEFAULT.map(a => ({ ...a })),
+    ov: {}, pack: 48,
+  };
+}
+function empty() {
+  return { v: 3, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
+}
+const KEY = 'rackwerk-v1';
+function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.case) return normalize(s); } catch (e) {} return null; }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+function normalize(s) {
+  // Katalogdaten der Standard-Zubehörteile immer aktuell halten, Mengen behalten
+  const acc = Array.isArray(s.acc) ? s.acc : [];
+  s.acc = ACC_DEFAULT.map(d => ({ ...d, qty: acc.find(a => a.id === d.id)?.qty ?? 0 })).concat(acc.filter(a => !ACC_DEFAULT.some(d => d.id === a.id)));
+  s.ov = s.ov || {};
+  if (!s.pack || (s.v || 1) < 2) s.pack = 48;
+  // Alte Bauformen (flight/shock/double/studio) → eigene Angabe, Tiefe behalten
+  if (!CASES[s.case.type]) s.case = { ...makeCase('custom', s.case.he), depth: +s.case.depth || 450, name: s.case.name || '' };
+  const c = s.case;
+  if (c.rear == null) c.rear = true;
+  if (c.railRear == null) c.railRear = (+c.depth || 450) - 25;
+  c.lidF = !!c.lidF; c.lidR = !!c.lidR;
+  s.v = 3;
+  s.items.forEach(it => { it.id = it.id || uid(); });
+  return s;
+}
+
+let state = load() || example();
+let sel = state.items[0]?.id ?? null;
+let selSlot = null;
+let view = 'front';
+
+/* ---------- Ableitungen ---------- */
+function layout() {
+  let pos = 0, letter = 0;
+  state.items.forEach(it => { it._pos = pos; pos += it.he; it._letter = it.kind === 'dpanel' ? String.fromCharCode(65 + letter++) : null; });
+  return { used: pos };
+}
+function heRange(it) {
+  const a = it._pos + 1, b = it._pos + it.he;
+  return it.he <= 1 ? `HE ${fmtN(a)}` : `HE ${fmtN(a)}–${fmtN(b)}`;
+}
+function title(it) {
+  switch (it.kind) {
+    case 'dpanel': return `Steckerfeld ${it._letter}`;
+    case 'vent': return `Gitterblende ${fmtHE(it.he)}`;
+    case 'blank': return `Rackblende ${fmtHE(it.he)}`;
+    case 'label': return it.text ? `Beschriftung „${it.text}“` : 'Beschriftungsblende';
+    case 'brush': return 'Bürstenblende';
+    case 'drawer': return `Schublade ${fmtHE(it.he)}`;
+    case 'device': return it.name || 'Gerät';
+    case 'gap': return 'Leer (Abstand)';
+  }
+}
+function itemDepth(it) {
+  if (it.kind === 'device') return +it.depth || 0;
+  if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) return +it.tray.depth || 0;
+  return DEPTH[it.kind] ?? 0;
+}
+function warnings(L) {
+  const w = [];
+  const he = state.case.he;
+  if (L.used > he) w.push({ err: true, t: `Die Belegung braucht ${fmtHE(L.used)}, das Case hat ${fmtHE(he)}. Case vergrößern oder ${fmtHE(L.used - he)} entfernen.` });
+  const off = state.items.find(it => it.kind !== 'gap' && it._pos % 1 !== 0 && it.he >= 1);
+  if (off && !CASES[state.case.type].rss) w.push({ t: `Ab „${title(off)}“ ist das Lochraster um 0,5 HE versetzt. Eine zweite 0,5-HE-Blende oder ein 0,5-HE-Abstand gleicht das aus.` });
+  if (!CASES[state.case.type].he.includes(he)) w.push({ t: `${CASES[state.case.type].short} gibt es bei procaseshop nicht in ${he} HE.` });
+  state.items.forEach(it => {
+    const d = itemDepth(it);
+    if (d > state.case.depth) w.push({ err: true, t: `„${title(it)}“ ist ${d} mm tief, das Case bietet ${state.case.depth} mm Einbautiefe.` });
+    if (it.kind === 'device' && it.rearFix && !state.case.rear) w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
+  });
+  if (state.case.rear && state.case.railRear > state.case.depth) w.push({ err: true, t: `Die hintere Rackschiene (${state.case.railRear} mm) liegt hinter der Rückwand (${state.case.depth} mm).` });
+  return w;
+}
+
+/* ---------- Stecker-Glyphen (mm, Mittelpunkt cx/cy) ---------- */
+function glyph(t, cx, cy) {
+  const c = CON[t] || CON.blank, g = c.g;
+  if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
+  let s = `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="${g === 'blank' ? 'blankp' : 'flange'}"/>`
+        + `<circle cx="${cx + 9.5}" cy="${cy - 12}" r="1.3" class="screw"/><circle cx="${cx - 9.5}" cy="${cy + 12}" r="1.3" class="screw"/>`;
+  if (g === 'blank') return s;
+  const pins = (n, r, cls, rad) => {
+    const ang = n === 3 ? [210, 330, 90] : [150, 210, 270, 330, 30];
+    return ang.map(a => { const q = a * Math.PI / 180; return `<circle cx="${(cx + Math.cos(q) * rad).toFixed(2)}" cy="${(cy + Math.sin(q) * rad).toFixed(2)}" r="${r}" class="${cls}"/>`; }).join('');
+  };
+  const blades = (r) => [270, 30, 150].map(a => `<rect x="${cx - 1.6}" y="${cy - r - .7}" width="3.2" height="1.4" class="pin" transform="rotate(${a + 90} ${cx} ${cy})"/>`).join('');
+  switch (g) {
+    case 'pcin':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3" class="face"/>${blades(5.6)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`;
+      break;
+    case 'pcout':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="tr1lt"/><circle cx="${cx}" cy="${cy}" r="6.6" class="facedk"/>${blades(4.2)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`;
+      break;
+    case 'xlrf':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="facedk"/><circle cx="${cx}" cy="${cy}" r="9" class="face"/>${pins(c.p, c.p === 3 ? 1.5 : 1.15, 'pinhole', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 3}" y="${cy - 14.6}" width="6" height="3" rx=".8" class="pin"/>`;
+      break;
+    case 'xlrm':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="9.2" class="facedk"/>${pins(c.p, c.p === 3 ? 1.1 : .9, 'pin', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 1.4}" y="${cy - 10.4}" width="2.8" height="1.8" class="face"/>`;
+      break;
+    case 'rj45':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 4.2}" y="${cy - 3.6}" width="8.4" height="6.4" class="face"/><rect x="${cx - 1.6}" y="${cy + 2.8}" width="3.2" height="1.6" class="face"/>`;
+      break;
+    case 'hdmi':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><polygon points="${cx - 6},${cy - 2.3} ${cx + 6},${cy - 2.3} ${cx + 6},${cy + .4} ${cx + 4.4},${cy + 2.3} ${cx - 4.4},${cy + 2.3} ${cx - 6},${cy + .4}" class="face"/>`;
+      break;
+    case 'usb':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 5.4}" y="${cy - 2.4}" width="10.8" height="4.8" class="face"/><rect x="${cx - 4.4}" y="${cy - 1.6}" width="8.8" height="1.6" class="pin"/>`;
+      break;
+    case 'bnc':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="5.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".9" class="pin"/>`;
+      break;
+    case 'nl4':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3.2" class="face"/><rect x="${cx - 1.2}" y="${cy - 8}" width="2.4" height="3" class="face"/>`;
+      break;
+  }
+  return s;
+}
+function miniGlyph(t) {
+  return `<svg viewBox="-14 -16 28 32" aria-hidden="true">${glyph(t, 0, 0)}</svg>`;
+}
+
+/* ---------- Live-Ansicht (Front) ---------- */
+// Rackschienen: RSS = stufenlose Nutschiene (ProCase), sonst Vierkantlochraster
+function railsSVG(xL, he) {
+  let s = '';
+  const rss = CASES[state.case.type].rss;
+  [xL, xL + W19 - EAR].forEach(x => {
+    s += `<rect x="${x}" y="${CW}" width="${EAR}" height="${he * HE}" class="rail"/>`;
+    if (rss) s += `<rect x="${x + EAR / 2 - 2}" y="${CW + 2}" width="4" height="${he * HE - 4}" rx="2" class="railhole"/>`;
+    else for (let u = 0; u < he; u++) [6.35, 22.25, 38.1].forEach(o => { s += `<rect x="${x + EAR / 2 - 1.7}" y="${CW + u * HE + o - 1.7}" width="3.4" height="3.4" class="railhole"/>`; });
+  });
+  return s;
+}
+function panelBase(x, y, w, h, cls = 'pnl') {
+  const ys = h >= HE * .9 ? [y + 6.35, y + h - 6.35] : [y + h / 2];
+  let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1.2" class="${cls}"/>`;
+  ys.forEach(yy => { s += `<rect x="${x + 4.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/><rect x="${x + w - 11.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/>`; });
+  return s;
+}
+function frontSVG(L) {
+  const he = state.case.he, rows = Math.max(he, L.used);
+  const W = W19 + CW * 2, H = rows * HE + CW * 2, caseH = he * HE + CW * 2;
+  const xL = CW, inner = W19 - EAR * 2;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Live-Ansicht des Racks von vorn">
+  <defs>
+    <pattern id="vent" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--hw-well)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--hw-free)" stroke-width="1.2"/></pattern>
+  </defs>`;
+  // Case
+  s += `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
+  [[0, 0], [W - 16, 0], [0, caseH - 16], [W - 16, caseH - 16]].forEach(([x, y]) => { s += `<rect x="${x}" y="${y}" width="16" height="16" rx="4" class="corner"/>`; });
+  s += `<rect x="${xL}" y="${CW}" width="${W19}" height="${he * HE}" class="well"/>`;
+  s += railsSVG(xL, he);
+  for (let u = 0; u < he; u++) s += `<text x="${CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
+  // frei
+  if (L.used < he) {
+    const y = CW + L.used * HE, h = (he - L.used) * HE;
+    s += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" fill="url(#hatch)" data-free="1"/>`;
+    s += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">FREI · ${fmtHE(he - L.used).toUpperCase()}</text>`;
+  }
+  // Module
+  state.items.forEach(it => {
+    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel;
+    let g = `<g class="item" data-id="${it.id}">`;
+    switch (it.kind) {
+      case 'dpanel': {
+        g += panelBase(xL, y, W19, h);
+        g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+        const x0 = xL + EAR + 7, pitch = (W19 - (EAR + 7) * 2) / 12, cy = y + 18.6;
+        it.slots.forEach((t, i) => {
+          const cx = +(x0 + pitch * (i + .5)).toFixed(2);
+          g += `<g data-slot="${i}">${glyph(t, cx, cy)}`;
+          if (i === 1) g += `<circle cx="${cx}" cy="${cy}" r="14.6" class="drill"/>`;
+          if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${h - 1.4}" rx="2" class="slotsel"/>`;
+          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+          g += `<text x="${cx}" y="${y + h - 3.2}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > 11 ? lab.slice(0, 10) + '…' : lab)}</text>`;
+          g += `</g>`;
+        });
+        break;
+      }
+      case 'vent': case 'blank': {
+        g += panelBase(xL, y, W19, h);
+        if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>`;
+        else g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">RACKBLENDE ${fmtHE(it.he).toUpperCase()}</text>`;
+        if (it.tray) {
+          const th = it.tray.he * HE - 3;
+          g += `<rect x="${xL + EAR + 3}" y="${y + h - th - 1.5}" width="${inner - 6}" height="${th}" rx="1" class="trayline"/>`;
+          g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="traytxt" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
+        }
+        break;
+      }
+      case 'label': {
+        g += panelBase(xL, y, W19, h);
+        g += `<rect x="${xL + EAR + 10}" y="${y + 4}" width="${inner - 20}" height="${h - 8}" rx="1" class="labelstrip"/>`;
+        g += `<text x="${W / 2}" y="${y + h / 2 + .4}" class="labeltxt">${esc((it.text || 'Beschriftung').toUpperCase())}</text>`;
+        break;
+      }
+      case 'brush': {
+        g += panelBase(xL, y, W19, h);
+        const by = y + h / 2 - 5;
+        g += `<rect x="${xL + EAR + 14}" y="${by}" width="${inner - 28}" height="10" rx="2" class="facedk"/>`;
+        let br = '';
+        for (let x = xL + EAR + 16; x < xL + W19 - EAR - 16; x += 1.6) br += `<line x1="${x.toFixed(1)}" y1="${by + .6}" x2="${(x + .5).toFixed(1)}" y2="${by + 9.4}" class="brush"/>`;
+        g += br;
+        break;
+      }
+      case 'drawer': {
+        g += panelBase(xL, y, W19, h);
+        const hh = Math.min(12, h * .3);
+        g += `<rect x="${W / 2 - 60}" y="${y + h / 2 - hh / 2}" width="120" height="${hh}" rx="${hh / 2}" class="handle"/>`;
+        g += `<circle cx="${xL + W19 - EAR - 22}" cy="${y + h / 2}" r="4.2" class="lock"/><rect x="${xL + W19 - EAR - 22.6}" y="${y + h / 2 - 2.4}" width="1.2" height="4.8" class="facedk"/>`;
+        g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
+        break;
+      }
+      case 'device': {
+        const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
+        g += panelBase(xL, y, W19, h, cls);
+        g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
+        const name = it.name || 'Gerät';
+        let fs = Math.min(h * .34, 13);
+        if (it.he <= .5) fs = Math.min(h * .5, 8);
+        const est = name.length * fs * .48;
+        if (est > inner - 30) fs = fs * (inner - 30) / est;
+        if (it.he <= .5) {
+          g += `<text x="${W / 2}" y="${y + h / 2}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)} · ${esc(fmtHE(it.he))}</text>`;
+        } else {
+          g += `<text x="${W / 2}" y="${y + h / 2 - fs * .32}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
+          g += `<text x="${W / 2}" y="${y + h / 2 + fs * .55}" class="devhe ${tc}" style="font-size:${Math.max(3.4, fs * .42).toFixed(2)}px">${esc(fmtHE(it.he))}</text>`;
+        }
+        break;
+      }
+      case 'gap': {
+        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" class="gapbox" style="fill:transparent"/>`;
+        g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">LEER · ${fmtHE(it.he).toUpperCase()}</text>`;
+        break;
+      }
+    }
+    if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
+    s += g + '</g>';
+  });
+  if (L.used > he) {
+    const y = CW + he * HE;
+    s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.used - he) * HE}" class="over" pointer-events="none"/>`;
+    s += `<text x="${W / 2}" y="${y - 3}" class="overtxt">▼ PASST NICHT INS CASE</text>`;
+  }
+  return s + '</svg>';
+}
+
+/* ---------- Rückansicht (von hinten gesehen, links/rechts gespiegelt) ---------- */
+function rearGlyph(t, cx, cy, n) {
+  const c = CON[t] || CON.blank, g = c.g;
+  if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
+  if (g === 'blank') return `<rect x="${cx - 11}" y="${cy - 13}" width="22" height="26" rx="2" class="blankp"/>`;
+  const tr = g === 'pcin' || g === 'pcout';
+  return `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
+    + `<text x="${cx}" y="${cy}" class="cnum${tr ? ' on-tr' : ''}">${n}</text>`;
+}
+function rearSVG(L) {
+  const c = state.case, he = c.he, rows = Math.max(he, L.used), D = +c.depth || 0;
+  const W = W19 + CW * 2, H = rows * HE + CW * 2, caseH = he * HE + CW * 2;
+  const xL = CW, inner = W19 - EAR * 2, mx = x => +(W - x).toFixed(2);
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Rückansicht des Racks, seitenverkehrt">
+  <defs>
+    <pattern id="ventR" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
+  </defs>`;
+  s += `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
+  [[0, 0], [W - 16, 0], [0, caseH - 16], [W - 16, caseH - 16]].forEach(([x, y]) => { s += `<rect x="${x}" y="${y}" width="16" height="16" rx="4" class="corner"/>`; });
+  s += `<rect x="${xL}" y="${CW}" width="${W19}" height="${he * HE}" class="well"/>`;
+  if (c.rear) {
+    s += railsSVG(xL, he);
+    s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">RÜCKSCHIENE · ${c.railRear} MM HINTER FRONT · RÜCKWAND ${D} MM</text>`;
+  } else {
+    [xL, xL + W19 - EAR].forEach(x => { s += `<rect x="${x + .5}" y="${CW + .5}" width="${EAR - 1}" height="${he * HE - 1}" class="gapbox"/>`; });
+    s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">KEINE HINTERE RACKSCHIENE · RÜCKWAND ${D} MM</text>`;
+  }
+  for (let u = 0; u < he; u++) s += `<text x="${W - CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
+  if (L.used < he) {
+    const y = CW + L.used * HE, h = (he - L.used) * HE;
+    s += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">FREI · ${fmtHE(he - L.used).toUpperCase()}</text>`;
+  }
+  state.items.forEach(it => {
+    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, d = itemDepth(it);
+    const info = d ? `${d} MM TIEF · ${Math.max(0, D - d)} MM BIS RÜCKWAND` : '';
+    const infoTxt = `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo" text-anchor="end">${info}</text>`;
+    let g = `<g class="item" data-id="${it.id}">`;
+    switch (it.kind) {
+      case 'dpanel': {
+        g += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" rx="1" class="rearpnl"/>`;
+        g += `<text x="${mx(xL + EAR / 2)}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+        const x0 = xL + EAR + 7, pitch = (W19 - (EAR + 7) * 2) / 12, cy = y + 18.6;
+        it.slots.forEach((t, i) => {
+          const cx = mx(x0 + pitch * (i + .5));
+          g += `<g data-slot="${i}">${rearGlyph(t, cx, cy, i + 1)}`;
+          if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${h - 1.4}" rx="2" class="slotsel"/>`;
+          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+          g += `<text x="${cx}" y="${y + h - 3.2}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > 11 ? lab.slice(0, 10) + '…' : lab)}</text></g>`;
+        });
+        break;
+      }
+      case 'vent': case 'blank': {
+        g += `<g class="ghost">${it.kind === 'vent' ? `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#ventR)"/>` : `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/>`}</g>`;
+        g += `<text x="${xL + EAR + 6}" y="${y + 6}" class="rearinfo">${(it.kind === 'vent' ? 'GITTERBLENDE ' : 'RACKBLENDE ') + fmtHE(it.he).toUpperCase()} · VORN</text>`;
+        if (it.tray) {
+          const th = it.tray.he * HE - 3, ty = y + h - th - 1.5;
+          g += `<rect x="${xL + EAR + 3}" y="${ty}" width="${inner - 6}" height="${th}" rx="1" class="trayback"/>`;
+          g += `<text x="${W / 2}" y="${ty + th / 2}" class="traytxt" text-anchor="middle" dominant-baseline="central">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · RÜCKKANTE BEI ${it.tray.depth} MM</text>`;
+        }
+        g += infoTxt;
+        break;
+      }
+      case 'drawer':
+        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" rx="1" class="side-drawer"/>`;
+        g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-ink)">SCHUBLADE ${fmtHE(it.he).toUpperCase()} · RÜCKWAND</text>` + infoTxt;
+        break;
+      case 'device': {
+        const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
+        if (it.rearFix) g += panelBase(xL, y, W19, h, cls);
+        g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
+        const name = (it.name || 'Gerät') + ' · Rückseite';
+        let fs = Math.min(h * .3, 10);
+        if (it.he <= .5) fs = Math.min(h * .45, 7);
+        const est = name.length * fs * .48;
+        if (est > inner - 30) fs = fs * (inner - 30) / est;
+        g += `<text x="${W / 2}" y="${y + h / 2 - (it.he <= .5 ? 0 : fs * .25)}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
+        g += `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo ${tc}" text-anchor="end">${info}${it.rearFix ? ' · HINTEN VERSCHRAUBT' : ''}</text>`;
+        break;
+      }
+      case 'label': case 'brush':
+        g += `<g class="ghost"><rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/></g>`;
+        g += `<text x="${xL + EAR + 6}" y="${y + h / 2}" class="rearinfo" dominant-baseline="central">${esc(title(it)).toUpperCase()} · VORN</text>`;
+        break;
+      case 'gap':
+        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" class="gapbox" style="fill:transparent"/>`;
+        break;
+    }
+    if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
+    s += g + '</g>';
+  });
+  if (L.used > he) {
+    const y = CW + he * HE;
+    s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.used - he) * HE}" class="over" pointer-events="none"/>`;
+  }
+  return s + '</svg>';
+}
+
+/* ---------- Seitenansicht ---------- */
+function sideSVG(L) {
+  const he = state.case.he, rows = Math.max(he, L.used), D = +state.case.depth || 0;
+  const maxD = Math.max(D, ...state.items.map(itemDepth));
+  const X0 = CW + 6, W = X0 + maxD + CW + 20, caseH = he * HE + CW * 2, H = rows * HE + CW * 2 + 26;
+  let s = `<svg class="side" viewBox="0 0 ${W} ${H}" role="img" aria-label="Seitenansicht mit Einbautiefen">`;
+  s += `<rect x="0" y="0" width="${X0 + D + CW}" height="${caseH}" rx="5" class="case"/>`;
+  s += `<rect x="${X0}" y="${CW}" width="${D}" height="${he * HE}" class="well"/>`;
+  s += `<rect x="${X0}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
+  if (state.case.rear) s += `<rect x="${X0 + state.case.railRear - 1.5}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
+  state.items.forEach(it => {
+    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it);
+    let g = `<g class="item" data-id="${it.id}">`;
+    g += `<rect x="${X0 - 2.5}" y="${y}" width="2.5" height="${h}" class="side-front"/>`;
+    let label = title(it), dl = '';
+    if (it.kind === 'device') { g += `<rect x="${X0 + 3}" y="${y + 1}" width="${Math.max(d - 3, 1)}" height="${h - 2}" class="side-dev"/>`; dl = `${d} mm`; }
+    else if (it.kind === 'drawer') { g += `<rect x="${X0 + 3}" y="${y + 1}" width="${d - 3}" height="${h - 2}" class="side-drawer"/>`; dl = `${d} mm`; }
+    else if (it.kind === 'dpanel') { g += `<rect x="${X0}" y="${y + 1}" width="${d}" height="${h - 2}" class="side-body"/>`; dl = `ca. ${d} mm inkl. Stecker`; }
+    else if (it.kind === 'label') { g += `<rect x="${X0}" y="${y + 1}" width="${d}" height="${h - 2}" class="side-body"/>`; }
+    else if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
+      const th = it.tray.he * HE - 2, ty = y + h - th;
+      g += `<path d="M${X0} ${ty} L${X0} ${y + h} L${X0 + d} ${y + h} L${X0 + d} ${ty + th * .45}" class="side-tray"/>`;
+      label += ' + Rackwanne'; dl = `${d} mm`;
+    }
+    if (it.kind !== 'gap' && h > 9) {
+      const tx = X0 + 8;
+      g += `<text x="${tx}" y="${y + h / 2}" class="side-txt">${esc(label)}${dl ? ' · ' + esc(dl) : ''}</text>`;
+    }
+    if (d > D) g += `<rect x="${X0 + D}" y="${y}" width="${d - D}" height="${h}" class="over"/>`;
+    if (it.id === sel) g += `<rect x="${X0 - 3.5}" y="${y - 1}" width="${Math.max(d, 20) + 4.5}" height="${h + 2}" rx="2" class="selbox"/>`;
+    s += g + '</g>';
+  });
+  // Lineal
+  const ry = Math.max(caseH, rows * HE + CW * 2) + 8;
+  s += `<line x1="${X0}" y1="${ry}" x2="${X0 + maxD}" y2="${ry}" class="ruler"/>`;
+  for (let m = 0; m <= maxD; m += 50) {
+    s += `<line x1="${X0 + m}" y1="${ry - (m % 100 ? 2 : 4)}" x2="${X0 + m}" y2="${ry}" class="ruler"/>`;
+    if (m % 100 === 0) s += `<text x="${X0 + m}" y="${ry + 8}" class="rulertxt">${m}</text>`;
+  }
+  s += `<line x1="${X0 + D}" y1="${CW - 6}" x2="${X0 + D}" y2="${ry}" class="depthline"/>`;
+  s += `<text x="${X0 + D - 2}" y="${CW - 8}" class="rulertxt" style="text-anchor:end;fill:var(--hw-tr1)">Einbautiefe ${D} mm</text>`;
+  if (state.case.rear) s += `<text x="${X0 + state.case.railRear}" y="${ry - 6}" class="rulertxt" style="fill:var(--hw-rail)">Rückschiene ${state.case.railRear}</text>`;
+  return s + '</svg>';
+}
+
+/* ---------- Stückliste ---------- */
+function bom() {
+  const rows = new Map();
+  const add = (key, base, qty, note) => {
+    if (!qty) return;
+    const r = rows.get(key);
+    if (r) { r.qty += qty; return; }
+    rows.set(key, { key, n: base.n, art: base.art || '', price: base.price ?? null, src: base.src || 'check', qty, note: [note, base.q && (base.src === 'web' ? 'Webpreis: ' + base.q : base.q)].filter(Boolean).join(' · ') });
+  };
+  const c = state.case, ct = CASES[c.type], he2 = String(c.he).padStart(2, '0');
+  if (c.type === 'custom') add('case', { n: `Case · ${c.he} HE · ${c.depth} mm Einbautiefe`, art: c.name || '', src: 'user' }, 1);
+  else add('case', { n: `19″ ${ct.short.replace(/ \d+$/, '')} ${c.he} HE · Systemtiefe ${ct.sys} mm · Nutztiefe ${ct.useEst ? 'ca. ' : ''}${ct.use} mm`, art: ct.art(c.he), src: 'ref', q: 'procaseshop.de · Preis nur mit Händler-Login' + (c.name ? ' · ' + c.name : '') }, 1);
+  if (c.rear) add('rail_rear', c.type === 'custom' ? { ...RAIL_REAR, art: '', src: 'check', q: '' } : RAIL_REAR, 1);
+  if (ct.lids && c.lidF) add('lidF', { n: `Deckel vorne für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}D`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de' : 'Art.-Nr. nach Muster 135502D abgeleitet' }, 1);
+  if (ct.lids && c.lidR) add('lidR', { n: `Deckel hinten für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}DH`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de · montiert: 135502DHM' : 'Art.-Nr. nach Muster 135502DH abgeleitet' }, 1);
+  let m3 = 0;
+  state.items.forEach(it => {
+    switch (it.kind) {
+      case 'dpanel':
+        add('dpanel', ART.dpanel, 1);
+        it.slots.forEach(t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q }, 1); m3 += 2; });
+        break;
+      case 'vent': case 'blank':
+        add(artKey(it.kind, it.he), ART[artKey(it.kind, it.he)] || { n: `${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)}`, src: 'check' }, 1);
+        if (it.tray) add('tray' + it.tray.he, ART['tray' + it.tray.he], 1);
+        break;
+      case 'label': add('label', ART.label, 1); break;
+      case 'brush': add('brush', ART.brush, 1); break;
+      case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
+      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)})`, art: '', src: 'user' }, 1); break;
+    }
+  });
+  if (m3) add('m3', ART.m3, Math.ceil(m3 / (state.pack || 100)), `${m3} Schrauben nötig · Pack à ${state.pack} Stk.`);
+  state.acc.forEach(a => { if (a.qty > 0) add('acc_' + a.id, { n: a.n, art: a.art, price: a.price ?? null, src: a.src || 'user', q: a.q }, a.qty); });
+  // Überschreibungen
+  return [...rows.values()].map(r => {
+    const o = state.ov[r.key] || {};
+    const price = o.price != null && o.price !== '' ? +o.price : r.price;
+    const art = o.art != null ? o.art : r.art;
+    const src = (o.price != null && o.price !== '') ? (+o.price === r.price ? r.src : 'user') : r.src;
+    return { ...r, price, art, src };
+  });
+}
+const SRC_TXT = { cart: 'Warenkorb', web: 'Webpreis 11/2026', ref: 'Art.-Nr. belegt', check: 'prüfen', user: 'eigene Angabe' };
+
+/* ---------- Render ---------- */
+function renderCase() {
+  const c = state.case, ct = CASES[c.type], pro = c.type !== 'custom';
+  const heList = ct.he.includes(c.he) ? ct.he : [...ct.he, c.he].sort((a, b) => a - b);
+  const heOpts = heList.map(h => `<option value="${h}" ${h === c.he ? 'selected' : ''}>${h} HE${ct.he.includes(h) ? '' : ' (nicht lieferbar)'}</option>`).join('');
+  $('#caseForm').innerHTML = `
+    <div class="field"><label for="caseType">Bauform</label><select id="caseType" data-case="type">${Object.entries(CASES).map(([k, v]) => `<option value="${k}" ${k === c.type ? 'selected' : ''}>${v.n}</option>`).join('')}</select></div>
+    <div class="row">
+      <div class="field"><label for="caseHe">Höhe</label><select id="caseHe" data-case="he">${heOpts}</select></div>
+      <div class="field"><label for="caseDepth">${pro ? 'Nutztiefe' : 'Einbautiefe'} (mm)</label><input id="caseDepth" type="number" min="100" max="1000" step="1" value="${c.depth}" data-case="depth" ${pro && !ct.useEst ? 'readonly' : ''}></div>
+    </div>
+    <label class="check"><input type="checkbox" data-case="rear" ${c.rear ? 'checked' : ''}> Rackschienen hinten${pro ? ' (ProCase 11910)' : ''}</label>
+    ${c.rear ? `<div class="field"><label for="caseRail">Hintere Schiene ab Frontschiene (mm)</label><input id="caseRail" type="number" min="50" max="1000" step="1" value="${c.railRear}" data-case="railRear"></div>` : ''}
+    ${ct.lids ? `<div class="row"><label class="check"><input type="checkbox" data-case="lidF" ${c.lidF ? 'checked' : ''}> Deckel vorne</label><label class="check"><input type="checkbox" data-case="lidR" ${c.lidR ? 'checked' : ''}> Deckel hinten</label></div>` : ''}
+    <p class="hint">${esc(ct.info)}${ct.outer ? ` Außenmaß ca. ${ct.outer(c.he)} (B × H × T).` : ''}${c.rear ? ' Die Lage der hinteren Schiene ist ein Startwert, bitte am Case messen.' : ''}</p>
+    <div class="field"><label for="caseName">${pro ? 'Notiz' : 'Case-Artikel / Notiz'}</label><input id="caseName" type="text" placeholder="${pro ? 'z. B. Projekt oder Inventarnummer' : 'z. B. Hersteller und Art.-Nr.'}" value="${esc(c.name)}" data-case="name"></div>`;
+}
+function renderLib() {
+  const heChips = (kind, list) => list.map(h => `<button type="button" class="chip" data-add="${kind}" data-he="${h}">${String(h).replace('.', ',')}</button>`).join('');
+  $('#lib').innerHTML = `
+    <div class="lib-row"><span class="t">Steckerfeld 1 HE</span><div class="chips"><button type="button" class="chip" data-add="dpanel" data-he="1">+ 12× D</button></div><span class="a">Adam Hall 872215 · Loch 1/2 = powerCON TRUE1 In/Out</span></div>
+    <div class="lib-row"><span class="t">Gitterblende</span><div class="chips">${heChips('vent', [0.5, 1, 2, 3, 4])}</div><span class="a">HE wählen · Rackwanne dahinter möglich</span></div>
+    <div class="lib-row"><span class="t">Rackblende</span><div class="chips">${heChips('blank', [1, 2, 3, 4])}</div><span class="a">HE wählen · Rackwanne dahinter möglich</span></div>
+    <div class="lib-row"><span class="t">Schublade</span><div class="chips">${heChips('drawer', [1, 2, 3, 4])}</div><span class="a">Adam Hall 87401 E / 87402 / 87403 / 87404 · 392 mm</span></div>
+    <div class="lib-row"><span class="t">Gerät (Platzhalter)</span><div class="chips">${heChips('device', [1, 2, 3, 4])}</div><span class="a">Name mittig, Höhe in HE, Tiefe für Seitenansicht</span></div>
+    <div class="lib-row"><span class="t">Beschriftungsblende</span><div class="chips"><button type="button" class="chip" data-add="label" data-he="0.5">0,5</button></div><span class="a">Adam Hall 872205 LBL</span></div>
+    <div class="lib-row"><span class="t">Bürstenblende</span><div class="chips"><button type="button" class="chip" data-add="brush" data-he="1">1</button></div><span class="a">Kabeldurchführung</span></div>
+    <div class="lib-row"><span class="t">Leer (Abstand)</span><div class="chips">${heChips('gap', [0.5, 1, 2])}</div><span class="a">Platz ohne Bauteil</span></div>`;
+}
+// Schrauben: vorn 4 je Modul (2 bei 0,5 HE), hinten 4 je hinten verschraubtem Gerät.
+// Bei RSS-Schienen (ProCase) sind 4 Geräteschrauben-Sätze beim Rackmodul dabei.
+function suggestScrews() {
+  const n = state.items.reduce((n, it) => n + (it.kind === 'gap' ? 0 : it.he < 1 ? 2 : 4) + (it.kind === 'device' && it.rearFix && state.case.rear ? 4 : 0), 0);
+  return CASES[state.case.type].rss ? Math.max(0, n - 4) : n;
+}
+function accFits(a) { return !a.auto || (a.auto === 'rss') === !!CASES[state.case.type].rss; }
+function renderAcc() {
+  const sug = suggestScrews();
+  $('#acc').innerHTML = state.acc.map(a => `
+    <div class="acc-row">
+      <div class="nm">${esc(a.n)}${a.art ? `<small>${esc(a.art)}</small>` : ''}${a.auto ? (accFits(a) ? `<small>Bedarf ${sug} Stk.${a.auto === 'rss' ? ' (4 liegen bei)' : ''} → ${Math.ceil(sug / (a.pack || 1))} Pack <button type="button" class="btn sm" data-accsug="${a.id}" style="margin-left:4px">übernehmen</button></small>` : `<small>${a.auto === 'rss' ? 'nur für ProCase-RSS-Schienen' : 'bei RSS-Schiene nicht nötig'}</small>`) : ''}</div>
+      <input type="number" min="0" step="1" value="${a.qty}" data-acc="${a.id}" aria-label="Menge ${esc(a.n)}">
+    </div>`).join('') + `
+    <div class="row"><div class="field"><label for="accNew">Eigene Position</label><input id="accNew" type="text" placeholder="z. B. Rackleuchte"></div><button type="button" class="btn" id="accAdd">Hinzufügen</button></div>`;
+}
+function renderInsp() {
+  const it = state.items.find(i => i.id === sel);
+  const box = $('#insp');
+  if (!it) { $('#inspTag').textContent = ''; box.innerHTML = `<p class="hint">Kein Modul ausgewählt. Klicke ein Modul in der Ansicht an oder füge eines hinzu.</p>`; return; }
+  $('#inspTag').textContent = heRange(it);
+  const idx = state.items.indexOf(it);
+  const heSel = (list, cur, key = 'he') => `<select id="f_${key}" data-f="${key}">${list.map(h => `<option value="${h}" ${h === cur ? 'selected' : ''}>${fmtHE(h)}</option>`).join('')}</select>`;
+  let h = `<div class="insp-title"><span class="big">${esc(title(it))}</span></div>
+    <div class="actions">
+      <button type="button" class="btn sm" data-act="up" ${idx === 0 ? 'disabled' : ''}>↑ nach oben</button>
+      <button type="button" class="btn sm" data-act="down" ${idx === state.items.length - 1 ? 'disabled' : ''}>↓ nach unten</button>
+      <button type="button" class="btn sm" data-act="dup">Duplizieren</button>
+      <button type="button" class="btn sm danger" data-act="del">Entfernen</button>
+    </div>`;
+  switch (it.kind) {
+    case 'dpanel': {
+      h += `<p class="hint">Adam Hall 872215 · 12 D-Löcher. Loch 1 und 2 sind fest mit powerCON TRUE1 In/Out belegt, Loch 2 wird aufgebohrt.</p>`;
+      h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null && selSlot >= 2 ? 'Loch ' + (selSlot + 1) : 'nächstes Loch'}</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" data-assign="${t}" title="${esc(CON[t].n + (CON[t].art ? ' · ' + CON[t].art : ''))}">${miniGlyph(t)}<span>${esc(CON[t].s)}</span></button>`).join('')}</div></div>`;
+      h += `<div class="slots">`;
+      it.slots.forEach((t, i) => {
+        const on = selSlot === i ? ' on' : '';
+        if (i < 2) {
+          h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><span class="fixed">${esc(CON[t].s)} <span class="badge y">fest</span>${i === 1 ? '<span class="badge o">aufbohren</span>' : ''}</span><input type="text" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
+        } else {
+          h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select><input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
+        }
+      });
+      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Loch 3–12 auf Blindplatte</button></div>`;
+      break;
+    }
+    case 'vent': case 'blank': {
+      const trayOpts = [1, 2].filter(x => x <= it.he);
+      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel(it.kind === 'vent' ? [0.5, 1, 2, 3, 4] : [1, 2, 3, 4], it.he)}</div></div>`;
+      if (it.he >= 1) h += `<label class="check"><input type="checkbox" id="f_tray" data-f="tray" ${it.tray ? 'checked' : ''}> Rackwanne dahinter verschrauben</label>`;
+      else h += `<p class="hint">Adam Hall 872205 VR · 0,5 HE. Für eine Rackwanne braucht die Blende mindestens 1 HE.</p>`;
+      if (it.tray) {
+        h += `<div class="row">
+          <div class="field"><label for="f_trayhe">Wannenhöhe</label><select id="f_trayhe" data-f="trayhe">${trayOpts.map(x => `<option value="${x}" ${x === it.tray.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div>
+          <div class="field"><label for="f_traydepth">Tiefe (mm)</label><input id="f_traydepth" type="number" min="50" max="900" step="10" value="${it.tray.depth}" data-f="traydepth"></div></div>`;
+      }
+      h += `<p class="hint">Rackwannen sind nur hinter Gitter- und Rackblenden vorgesehen und sitzen bündig unten in der Blende. Adam Hall 87551 (1 HE) und 87552 (2 HE) sind 375 mm tief.</p>`;
+      break;
+    }
+    case 'drawer':
+      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3, 4], it.he)}</div></div>`;
+      h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
+      h += `<p class="hint">${esc(ART['drawer' + it.he].art)} · 392 mm Außentiefe, 25 kg Traglast.${it.he === 2 ? ' Schaumstoffeinlage: 87402 MI.' : ''}</p>`;
+      break;
+    case 'device':
+      h += `<div class="field"><label for="f_name">Bezeichnung</label><input id="f_name" type="text" value="${esc(it.name)}" data-f="name"></div>
+        <div class="row">
+          <div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12], it.he)}</div>
+          <div class="field"><label for="f_depth">Tiefe (mm)</label><input id="f_depth" type="number" min="0" max="1000" step="5" value="${it.depth}" data-f="depth"></div>
+        </div>
+        <div class="field"><label for="f_color">Front</label><select id="f_color" data-f="color"><option value="black" ${it.color !== 'silver' ? 'selected' : ''}>schwarz</option><option value="silver" ${it.color === 'silver' ? 'selected' : ''}>silber</option></select></div>
+        <label class="check"><input type="checkbox" id="f_rear" data-f="rearFix" ${it.rearFix ? 'checked' : ''} ${state.case.rear ? '' : 'disabled'}> Hinten an der Rackschiene verschrauben</label>
+        <p class="hint">${state.case.rear ? `Hintere Schiene bei ${state.case.railRear} mm. Hinten verschraubte Geräte zeigt die Rückansicht mit Rackohren.` : 'Für hinten verschraubte Geräte zuerst „Rackschienen hinten“ beim Case einschalten.'}</p>`;
+      break;
+    case 'label':
+      h += `<div class="field"><label for="f_text">Beschriftungsstreifen</label><input id="f_text" type="text" maxlength="48" value="${esc(it.text)}" data-f="text"></div><p class="hint">Adam Hall 872205 LBL · 0,5 HE.</p>`;
+      break;
+    case 'brush':
+      h += `<p class="hint">Adam Hall 87221 BRUSH · 1 HE, 1,5 mm Stahl, Bürstenöffnung 400 × 21 mm.</p>`;
+      break;
+    case 'gap':
+      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4], it.he)}</div></div><p class="hint">Freier Platz im Rack, erscheint nicht in der Stückliste.</p>`;
+      break;
+  }
+  box.innerHTML = h;
+}
+function renderOrder() {
+  $('#order').innerHTML = state.items.map(it => `
+    <li draggable="true" data-id="${it.id}" class="${it.id === sel ? 'on' : ''}">
+      <span class="grip" aria-hidden="true">⋮⋮</span>
+      <span class="pos">${heRange(it)}</span>
+      <span class="oname">${esc(title(it))}</span>
+      <span class="ohe">${fmtHE(it.he)}</span>
+    </li>`).join('') || '<li><span></span><span></span><span class="hint">Noch keine Module</span><span></span></li>';
+}
+function renderBom() {
+  const rows = bom();
+  let sum = 0, missing = 0;
+  const body = rows.map(r => {
+    const tot = r.price != null ? r.price * r.qty : null;
+    if (tot != null) sum += tot; else missing++;
+    return `<tr>
+      <td class="num">${r.qty}×</td>
+      <td>${esc(r.n)}${r.note ? `<span class="sub">${esc(r.note)}</span>` : ''}</td>
+      <td><input class="art" type="text" value="${esc(r.art)}" placeholder="Art.-Nr. eintragen" data-art="${r.key}" aria-label="Artikelnummer ${esc(r.n)}"></td>
+      <td><span class="st ${r.src}">${SRC_TXT[r.src]}</span></td>
+      <td class="num"><input class="price" type="text" inputmode="decimal" value="${r.price != null ? r.price.toFixed(2).replace('.', ',') : ''}" placeholder="—" data-price="${r.key}" aria-label="Einzelpreis ${esc(r.n)}"></td>
+      <td class="num">${tot != null ? EUR.format(tot) : '—'}</td>
+    </tr>`;
+  }).join('');
+  $('#bom').innerHTML = `<thead><tr><th class="num">Menge</th><th>Artikel</th><th>Art.-Nr.</th><th>Quelle</th><th class="num">Einzel €</th><th class="num">Summe</th></tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr><td></td><td colspan="3">${missing ? `Summe bekannter Preise · ${missing} Position${missing > 1 ? 'en' : ''} ohne Preis` : 'Gesamtsumme'}</td><td></td><td class="num">${EUR.format(sum)}</td></tr></tfoot>`;
+  return { sum, missing, rows };
+}
+function notesData() {
+  const out = [];
+  state.items.forEach(it => {
+    if (it.kind === 'dpanel') {
+      const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
+      out.push({ drill: true, h: `Steckerfeld ${it._letter} · ${heRange(it)}`, t: 'Loch 2 für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. Loch 1 TRUE1 In (SAC3MPX TR1). Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.', map });
+    }
+    if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
+      out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${heRange(it)}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
+    }
+    if (it.kind === 'device' && it.rearFix && state.case.rear) out.push({ h: `${it.name || 'Gerät'} · ${heRange(it)}`, t: `Hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel hinten). Gerätetiefe ${it.depth} mm.` });
+    if (it.kind === 'label' && it.text) out.push({ h: `Beschriftung · ${heRange(it)}`, t: `Streifen „${it.text}“ drucken und einschieben.` });
+  });
+  return out;
+}
+function renderNotes() {
+  const n = notesData();
+  $('#notes').innerHTML = n.length ? n.map(x => `<li class="${x.drill ? 'drillnote' : ''}"><b>${esc(x.h)}</b>${esc(x.t)}${x.map ? `<span class="map">${esc(x.map)}</span>` : ''}</li>`).join('') : '<li>Keine Arbeitsschritte. Steckerfelder und Rackwannen erscheinen hier.</li>';
+}
+function renderStage(L) {
+  $('#stage').innerHTML = view === 'front' ? frontSVG(L) : view === 'rear' ? rearSVG(L) : sideSVG(L);
+  $('#stageTitle').textContent = { front: 'Live-Ansicht', rear: 'Rückansicht', side: 'Seitenansicht' }[view];
+  $('#stageHint').textContent = view === 'rear' ? 'Von hinten gesehen, seitenverkehrt: powerCON sitzt rechts. Zahlen = Lochnummer von vorn.' : 'Klick auf ein Modul oder Loch wählt es aus.';
+  $('#tabFront').setAttribute('aria-pressed', view === 'front');
+  $('#tabRear').setAttribute('aria-pressed', view === 'rear');
+  $('#tabSide').setAttribute('aria-pressed', view === 'side');
+}
+function renderSummary(L, B) {
+  const he = state.case.he, over = L.used > he;
+  $('#caseHeTag').textContent = `${he} HE · ${state.case.depth} mm`;
+  $('#summary').innerHTML = `
+    <span class="pill ${over ? 'bad' : L.used === he ? 'good' : ''}">Belegt <b>${fmtN(L.used)} / ${he} HE</b></span>
+    <span class="pill">Steckerfelder <b>${state.items.filter(i => i.kind === 'dpanel').length}</b></span>
+    <span class="pill">Summe <b>${EUR.format(B.sum)}</b>${B.missing ? `<span style="color:var(--muted);font-size:12px">+ ${B.missing} offen</span>` : ''}</span>`;
+}
+function renderWarns(L) {
+  $('#warns').innerHTML = warnings(L).map(w => `<div class="warn ${w.err ? 'err' : ''}">${esc(w.t)}</div>`).join('');
+}
+function renderSoft() {
+  const L = layout();
+  renderStage(L); renderOrder(); renderWarns(L); renderNotes();
+  const B = renderBom(); renderSummary(L, B);
+  $('#inspTag').textContent = (state.items.find(i => i.id === sel) && heRange(state.items.find(i => i.id === sel))) || '';
+  if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
+  save();
+}
+function render() { layout(); renderCase(); renderInsp(); renderAcc(); renderSoft(); }
+function stripped() { return JSON.parse(JSON.stringify(state, (k, v) => k.startsWith('_') ? undefined : v)); }
+
+/* ---------- Aktionen ---------- */
+function addItem(kind, he) {
+  const it = makeItem(kind, { he: +he });
+  if (kind === 'device') it.name = `Gerät ${fmtHE(+he)}`;
+  const i = state.items.findIndex(x => x.id === sel);
+  state.items.splice(i < 0 ? state.items.length : i + 1, 0, it);
+  sel = it.id; selSlot = kind === 'dpanel' ? 2 : null;
+  render();
+}
+function move(d) {
+  const i = state.items.findIndex(x => x.id === sel), j = i + d;
+  if (i < 0 || j < 0 || j >= state.items.length) return;
+  [state.items[i], state.items[j]] = [state.items[j], state.items[i]];
+  render();
+}
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 1800); }
+async function copy(text, fallbackEl) {
+  try { await navigator.clipboard.writeText(text); toast('In die Zwischenablage kopiert'); }
+  catch (e) {
+    const ta = fallbackEl || document.createElement('textarea');
+    if (!fallbackEl) { ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); }
+    ta.select(); try { document.execCommand('copy'); toast('Kopiert'); } catch (e2) { toast('Bitte markierten Text manuell kopieren'); }
+    if (!fallbackEl) ta.remove();
+  }
+}
+const parseNum = v => { const n = parseFloat(String(v).replace(/\./g, '').replace(',', '.')); return isNaN(n) ? null : n; };
+const parsePrice = v => { const s = String(v).trim(); if (!s) return null; const n = parseFloat(s.replace(',', '.')); return isNaN(n) ? null : n; };
+
+document.addEventListener('click', e => {
+  const t = e.target;
+  const add = t.closest('[data-add]');
+  if (add) return addItem(add.dataset.add, add.dataset.he);
+  const assign = t.closest('[data-assign]');
+  if (assign) {
+    const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'dpanel') return;
+    let i = selSlot != null && selSlot >= 2 ? selSlot : it.slots.findIndex((s, k) => k >= 2 && s === 'blank');
+    if (i < 2) i = 2;
+    it.slots[i] = assign.dataset.assign;
+    selSlot = Math.min(11, i + 1);
+    renderInsp(); renderSoft(); return;
+  }
+  const pick = t.closest('[data-pick]');
+  if (pick) { selSlot = +pick.dataset.pick; renderInsp(); renderSoft(); return; }
+  const act = t.closest('[data-act]');
+  if (act) {
+    const a = act.dataset.act, i = state.items.findIndex(x => x.id === sel), it = state.items[i];
+    if (a === 'up') move(-1);
+    if (a === 'down') move(1);
+    if (a === 'dup' && it) { const c = JSON.parse(JSON.stringify(stripped().items[i])); c.id = uid(); state.items.splice(i + 1, 0, c); sel = c.id; render(); }
+    if (a === 'del' && it) { state.items.splice(i, 1); sel = state.items[Math.min(i, state.items.length - 1)]?.id ?? null; selSlot = null; render(); }
+    if (a === 'clearslots' && it) { for (let k = 2; k < 12; k++) { it.slots[k] = 'blank'; } render(); }
+    return;
+  }
+  const sug = t.closest('[data-accsug]');
+  if (sug) { const a = state.acc.find(x => x.id === sug.dataset.accsug); a.qty = Math.ceil(suggestScrews() / (a.pack || 1)); renderAcc(); renderSoft(); return; }
+  if (t.id === 'accAdd') { const v = $('#accNew').value.trim(); if (!v) return; state.acc.push({ id: uid(), n: v, art: '', qty: 1 }); renderAcc(); renderSoft(); toast('Position hinzugefügt'); return; }
+  // SVG
+  const stage = t.closest('#stage');
+  if (stage) {
+    const g = t.closest('[data-id]');
+    const slot = t.closest('[data-slot]');
+    if (g) { sel = g.dataset.id; selSlot = slot ? +slot.dataset.slot : null; }
+    else if (t.closest('[data-free]')) { sel = state.items[state.items.length - 1]?.id ?? null; selSlot = null; }
+    render();
+    if (selSlot != null) { const el = document.querySelector(`[data-slotrow="${selSlot}"] select, [data-slotrow="${selSlot}"] input`); el && el.focus({ preventScroll: true }); }
+    return;
+  }
+  const li = t.closest('#order li[data-id]');
+  if (li) { sel = li.dataset.id; selSlot = null; render(); }
+});
+
+document.addEventListener('input', e => {
+  const t = e.target, it = state.items.find(i => i.id === sel);
+  if (t.dataset.label != null && it) { it.labels[+t.dataset.label] = t.value; renderSoft(); return; }
+  if (t.dataset.f && it && ['name', 'text', 'depth', 'traydepth'].includes(t.dataset.f)) {
+    const f = t.dataset.f;
+    if (f === 'depth') it.depth = parseNum(t.value) ?? 0;
+    else if (f === 'traydepth') it.tray.depth = parseNum(t.value) ?? 0;
+    else it[f] = t.value;
+    renderSoft(); $('.insp-title .big') && ($('.insp-title .big').textContent = title(it));
+    return;
+  }
+  if (t.dataset.case === 'name') { state.case.name = t.value; renderSoft(); return; }
+  if (t.dataset.case === 'depth') { state.case.depth = parseNum(t.value) ?? 0; renderSoft(); return; }
+  if (t.dataset.case === 'railRear') { state.case.railRear = parseNum(t.value) ?? 0; renderSoft(); return; }
+  if (t.dataset.acc) { const a = state.acc.find(x => x.id === t.dataset.acc); a.qty = Math.max(0, parseInt(t.value, 10) || 0); const L = layout(); const B = renderBom(); renderSummary(L, B); save(); return; }
+});
+document.addEventListener('change', e => {
+  const t = e.target, it = state.items.find(i => i.id === sel);
+  if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
+  if (t.dataset.f && it) {
+    const f = t.dataset.f;
+    if (f === 'he') { it.he = +t.value; if (it.tray && it.he < 1) it.tray = null; else if (it.tray && it.tray.he > it.he) it.tray.he = 1; }
+    else if (f === 'tray') it.tray = t.checked ? { he: 1, depth: 375 } : null;
+    else if (f === 'rearFix') it.rearFix = t.checked;
+    else if (f === 'trayhe') it.tray.he = +t.value;
+    else if (f === 'foam') it.foam = t.checked;
+    else if (f === 'color') it.color = t.value;
+    else return;
+    render(); return;
+  }
+  if (t.dataset.case === 'he') { state.case.he = +t.value; render(); return; }
+  if (t.dataset.case === 'type') {
+    const c = state.case, ct = CASES[t.value];
+    c.type = t.value;
+    if (!ct.he.includes(c.he)) c.he = ct.he.find(h => h >= c.he) ?? ct.he[ct.he.length - 1];
+    if (ct.use) { c.depth = ct.use; c.railRear = Math.min(c.railRear, ct.use - 25); }
+    if (!ct.lids) { c.lidF = false; c.lidR = false; }
+    render(); return;
+  }
+  if (['rear', 'lidF', 'lidR'].includes(t.dataset.case)) { state.case[t.dataset.case] = t.checked; render(); return; }
+  if (t.dataset.price) { const o = state.ov[t.dataset.price] = state.ov[t.dataset.price] || {}; o.price = parsePrice(t.value); renderSoft(); return; }
+  if (t.dataset.art) { const o = state.ov[t.dataset.art] = state.ov[t.dataset.art] || {}; o.art = t.value; renderSoft(); return; }
+});
+
+// Ziehen zum Sortieren
+let dragId = null;
+const order = $('#order');
+order.addEventListener('dragstart', e => { const li = e.target.closest('li[data-id]'); if (!li) return; dragId = li.dataset.id; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', dragId); } catch (x) {} });
+order.addEventListener('dragover', e => { e.preventDefault(); order.querySelectorAll('.drop').forEach(n => n.classList.remove('drop')); const li = e.target.closest('li[data-id]'); li && li.classList.add('drop'); });
+order.addEventListener('dragleave', e => { if (!order.contains(e.relatedTarget)) order.querySelectorAll('.drop').forEach(n => n.classList.remove('drop')); });
+order.addEventListener('drop', e => {
+  e.preventDefault();
+  const li = e.target.closest('li[data-id]');
+  if (!dragId) return;
+  const from = state.items.findIndex(x => x.id === dragId);
+  const [m] = state.items.splice(from, 1);
+  let to = li ? state.items.findIndex(x => x.id === li.dataset.id) : state.items.length;
+  if (to < 0) to = state.items.length;
+  state.items.splice(to, 0, m);
+  sel = m.id; dragId = null; render();
+});
+
+$('#tabFront').onclick = () => { view = 'front'; renderSoft(); };
+$('#tabRear').onclick = () => { view = 'rear'; renderSoft(); };
+$('#tabSide').onclick = () => { view = 'side'; renderSoft(); };
+$('#copyBom').onclick = () => {
+  const rows = bom();
+  const lines = [['Menge', 'Artikel', 'Art.-Nr.', 'Einzelpreis', 'Summe'].join('\t')].concat(rows.map(r => [r.qty, r.n, r.art, r.price != null ? fmtN(r.price) : '', r.price != null ? fmtN(r.price * r.qty) : ''].join('\t')));
+  copy(lines.join('\n'));
+};
+$('#copyNotes').onclick = () => copy(notesData().map(n => `${n.h}\n${n.t}${n.map ? '\n' + n.map : ''}`).join('\n\n'));
+$('#jsonCopy').onclick = () => copy($('#json').value, $('#json'));
+$('#jsonLoad').onclick = () => {
+  try { const s = normalize(JSON.parse($('#json').value)); if (!s.items || !s.case) throw 0; state = s; sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Konfiguration übernommen'); }
+  catch (e) { toast('JSON ist ungültig. Bitte den kompletten Text einfügen.'); }
+};
+$('#btnExample').onclick = () => { const ov = state.ov; state = example(); state.ov = ov; sel = state.items[0].id; selSlot = null; render(); toast('Beispiel geladen'); };
+const reset = $('#btnReset');
+reset.onclick = () => {
+  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; render(); delete reset.dataset.arm; reset.textContent = 'Leeres Case'; toast('Neues Case angelegt'); return; }
+  reset.dataset.arm = '1'; reset.textContent = 'Wirklich leeren?';
+  setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Leeres Case'; }, 3000);
+};
+
+renderLib();
+render();
+})();
+</script>
+
+</html>
