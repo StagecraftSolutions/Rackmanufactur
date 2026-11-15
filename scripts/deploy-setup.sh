@@ -32,10 +32,24 @@ if [[ -f "$ENV_FILE" ]]; then
   set -a; source "$ENV_FILE"; set +a
 fi
 
-ask SFTP_HOST "Server (Host, z. B. ssh.example.de)" "${SFTP_HOST:-}"
-[[ -n "$SFTP_HOST" ]] || { say "Server fehlt."; exit 1; }
-ask SFTP_PORT "Port" "${SFTP_PORT:-22}"
-[[ "$SFTP_PORT" =~ ^[0-9]+$ ]] || { say "Port muss eine Zahl sein."; exit 1; }
+# Server abfragen und gleich prüfen – bei Tippfehler nochmal fragen, ohne alles neu einzugeben
+mkdir -p "$KH_DIR"; chmod 700 "$KH_DIR"
+tmp_kh="$(mktemp)"; trap 'rm -f "$tmp_kh"' EXIT
+while true; do
+  ask SFTP_HOST "Server (Host, z. B. ssh.example.de)" "${SFTP_HOST:-}"
+  [[ -n "$SFTP_HOST" ]] || { say "Server fehlt."; exit 1; }
+  ask SFTP_PORT "Port" "${SFTP_PORT:-22}"
+  [[ "$SFTP_PORT" =~ ^[0-9]+$ ]] || { say "Port muss eine Zahl sein."; SFTP_PORT=22; continue; }
+  say "Prüfe $SFTP_HOST:$SFTP_PORT …"
+  if ssh-keyscan -p "$SFTP_PORT" -T 10 "$SFTP_HOST" 2>/dev/null >"$tmp_kh" && [[ -s "$tmp_kh" ]]; then break; fi
+  say "Server nicht erreichbar oder kein SSH auf Port $SFTP_PORT. Bitte Host und Port prüfen."
+  yes_no "Nochmal eingeben?" || exit 1
+done
+say "Fingerprints des Servers:"
+ssh-keygen -lf "$tmp_kh" | sed 's/^/  /'
+say "Vergleiche sie mit den Angaben deines Hosters (Kundenmenü oder Support)."
+yes_no "Stimmen die Fingerprints?" || { say "Abgebrochen. Nichts gespeichert."; exit 1; }
+say ""
 ask SFTP_USER "Benutzername" "${SFTP_USER:-}"
 [[ -n "$SFTP_USER" ]] || { say "Benutzername fehlt."; exit 1; }
 ask SFTP_REMOTE_PATH "Zielordner auf dem Server (z. B. /html/rackwerk oder rackwerk)" "${SFTP_REMOTE_PATH:-}"
@@ -63,18 +77,6 @@ else
   fi
 fi
 
-# Host-Schlüssel holen und bestätigen lassen
-say ""
-say "Hole den Host-Schlüssel von $SFTP_HOST:$SFTP_PORT …"
-mkdir -p "$KH_DIR"; chmod 700 "$KH_DIR"
-tmp_kh="$(mktemp)"; trap 'rm -f "$tmp_kh"' EXIT
-if ! ssh-keyscan -p "$SFTP_PORT" -T 10 "$SFTP_HOST" 2>/dev/null >"$tmp_kh" || [[ ! -s "$tmp_kh" ]]; then
-  say "Server nicht erreichbar oder kein SSH auf Port $SFTP_PORT."; exit 1
-fi
-say "Fingerprints des Servers:"
-ssh-keygen -lf "$tmp_kh" | sed 's/^/  /'
-say "Vergleiche sie mit den Angaben deines Hosters (Kundenmenü oder Support)."
-yes_no "Stimmen die Fingerprints?" || { say "Abgebrochen. Nichts gespeichert."; exit 1; }
 cp "$tmp_kh" "$KH_FILE"; chmod 600 "$KH_FILE"
 
 # .env schreiben

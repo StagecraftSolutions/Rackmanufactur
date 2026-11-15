@@ -219,6 +219,9 @@ svg text { font-family: var(--f-mono); }
 .lock { fill: var(--hw-metal); }
 .brush { stroke: #555b62; stroke-width: .35; }
 .trayline { fill: none; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
+.trayfloor { fill: var(--hw-tr1); fill-opacity: .1; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
+.backing { fill: var(--hw-well); }
+.veil { fill: var(--hw-well); opacity: .6; }
 .traytxt { fill: var(--hw-tr1); font-size: 3.6px; }
 .gapbox { fill: none; stroke: var(--hw-ink-dim); stroke-width: .5; stroke-dasharray: 2 2; }
 .freetxt { fill: var(--hw-ink-dim); font-size: 6px; text-anchor: middle; dominant-baseline: central; letter-spacing: .5px; }
@@ -481,7 +484,7 @@ td input.shop { min-width: 110px; }
         <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" data-loadfile>Projektdatei laden</button><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm danger" id="btnReset">Neues Projekt</button></div></header>
         <div class="body">
           <div class="projfields">
-            <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. FOH-Rack Stadthalle" data-proj="name"></div>
+            <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. Anschlussrack 8 HE" data-proj="name"></div>
             <div class="field"><label for="pClient">Kunde / Veranstaltung</label><input id="pClient" type="text" placeholder="optional" data-proj="client"></div>
             <div class="field full"><label for="pNote">Notiz</label><textarea id="pNote" placeholder="z. B. Inventarnummer, Einsatzort, Termin" data-proj="note"></textarea></div>
           </div>
@@ -865,19 +868,19 @@ function example() {
   p.slots = ['xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'blank'];
   const lb = makeItem('label', { pos: 0, div: 12, lines: 2 });
   lb.cells = [['Mic 1', 'XLR'], ['Mic 2', 'XLR'], ['Mic 3', 'XLR'], ['Mic 4', 'XLR'], ['Out L', 'XLR'], ['Out R', 'XLR'], ['DMX In', '5-pol'], ['DMX Out', '5-pol'], ['Netz', 'Cat'], ['Video', 'HDMI'], ['USB', ''], ['', '']];
-  const v = makeItem('vent', { he: 2, pos: 4 }); v.tray = { he: 1, depth: 375 };
-  const rp = makeItem('dpanel', { pos: 0, side: 'rear', variant: 'd12tb', outD: true });
+  const v = makeItem('vent', { he: 1, pos: 4 }); v.tray = { he: 1, depth: 375 };
+  const rp = makeItem('dpanel', { pos: 7, side: 'rear', variant: 'd12tb', outD: true });
   rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
   return {
     v: 5, step: 2,
-    project: { name: 'Beispiel · FOH-Rack', client: '', note: '' },
+    project: { name: 'Beispiel · Anschlussrack', client: '', note: '' },
     case: makeCase('pro560', 8),
     items: [
       lb, p, makeItem('vent', { he: 0.5, pos: 1.5 }),
       makeItem('device', { name: 'Funkempfänger', he: 1, depth: 220, pos: 2 }),
       makeItem('device', { name: 'Netzwerk-Switch', he: 1, depth: 280, pos: 3 }),
-      v, makeItem('drawer', { he: 2, pos: 6 }),
-      rp, makeItem('device', { name: 'Stagebox-Splitter', he: 1, depth: 150, pos: 3, side: 'rear' }),
+      v, makeItem('drawer', { he: 2, pos: 5 }),
+      rp,
     ],
     acc: ACC_DEFAULT.map(a => ({ ...a })),
     ov: {}, pack: 48,
@@ -1160,8 +1163,12 @@ function faceSVG(it, xL, W) {
       if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent${PID})"/>`;
       else g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">RACKBLENDE ${fmtHE(it.he).toUpperCase()}</text>`;
       if (it.tray) {
-        const th = it.tray.he * HE - 3;
-        g += `<rect x="${xL + EAR + 3}" y="${y + h - th - 1.5}" width="${inner - 6}" height="${th}" rx="1" class="trayline"/>`;
+        // Wanne von vorn gesehen: Boden als Trapez, Rückwand kleiner und etwas höher (Blick leicht von oben)
+        const th = it.tray.he * HE - 3, x0 = xL + EAR + 3, x1 = xL + W19 - EAR - 3, yb = y + h - 1.5, yt = yb - th;
+        const ins = 26, ybk = yb - th * .34, ytk = yt + th * .14, f = v => v.toFixed(2);
+        g += `<path d="M${f(x0)} ${f(yb)} L${f(x0 + ins)} ${f(ybk)} L${f(x1 - ins)} ${f(ybk)} L${f(x1)} ${f(yb)} Z" class="trayfloor"/>`;
+        g += `<rect x="${f(x0 + ins)}" y="${f(ytk)}" width="${f(x1 - x0 - ins * 2)}" height="${f(ybk - ytk)}" class="trayline"/>`;
+        g += `<path d="M${f(x0)} ${f(yb)} V${f(yt)} L${f(x0 + ins)} ${f(ytk)} M${f(x1)} ${f(yb)} V${f(yt)} L${f(x1 - ins)} ${f(ytk)}" class="trayline"/>`;
         g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="traytxt" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
       }
       break;
@@ -1311,10 +1318,18 @@ function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: ei
   else [xL, xL + W19 - EAR].forEach(x => { s += `<rect x="${x + .5}" y="${CW + .5}" width="${EAR - 1}" height="${he * HE - 1}" class="gapbox"/>`; });
   if (mode === 'rear') s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">${c.rear ? `RÜCKSCHIENE · ${c.railRear} MM HINTER FRONT · ` : 'KEINE HINTERE RACKSCHIENE · '}RÜCKWAND ${c.depth} MM</text>`;
   for (let u = 0; u < he; u++) s += `<text x="${mode === 'front' ? CW / 2 : W - CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
-  // andere Seite
-  if (mode === 'front') sideItems('rear').forEach(it => { s += `<g class="item" data-id="${it.id}">${behindSVG(it, xL, 'HINTEN: ')}</g>`; });
-  else sideItems('front').forEach(it => { s += `<g class="item" data-id="${it.id}">${backSVG(it, xL, W)}</g>`; });
-  // eigene Seite
+  // andere Seite: nur zur Orientierung – nicht auswählbar, in der Rückansicht abgedunkelt
+  const keepSel = sel; sel = null;
+  s += '<g class="other" pointer-events="none" aria-hidden="true">';
+  if (mode === 'front') sideItems('rear').forEach(it => { s += behindSVG(it, xL, 'HINTEN: '); });
+  else {
+    sideItems('front').forEach(it => { s += backSVG(it, xL, W); });
+    if (sideItems('front').length) s += `<rect x="${xL}" y="${CW}" width="${W19}" height="${rows * HE}" class="veil"/>`;
+  }
+  s += '</g>';
+  sel = keepSel;
+  // eigene Seite – deckende Fläche dahinter, damit in den Fugen nichts von der anderen Seite durchscheint
+  sideItems(own).forEach(it => { s += `<rect x="${xL}" y="${CW + it.pos * HE}" width="${W19}" height="${it.he * HE}" class="backing" pointer-events="none"/>`; });
   sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W)}</g>`; });
   if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
   // freie Plätze: + bei Hover
@@ -1696,8 +1711,8 @@ function renderNotes() {
   $('#labelPdfAll').disabled = !state.items.some(i => i.kind === 'label');
 }
 const HINTS = {
-  front: 'Module der Vorderseite per Ziehen verschieben. Gestrichelt: hinten montierte Module.',
-  rear: 'Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte zeigen ihre Rückseite.',
+  front: 'Module der Vorderseite per Ziehen verschieben. Gestrichelt: hinten montierte Module (zum Bearbeiten in die Rückansicht wechseln).',
+  rear: 'Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte sind abgedunkelt und zeigen ihre Rückseite (bearbeiten in der Vorderansicht).',
   side: 'Front links. Rot = Kollision zwischen vorn und hinten montierten Modulen. Alle Module per Ziehen verschiebbar.',
 };
 function renderStage(L) {

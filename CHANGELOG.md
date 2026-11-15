@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-15 – Stand 9
+
+- Beispiel passt ins Case: vorn 7 HE, hinten 1 HE (Steckerfeld B in HE 8), Name „Beispiel · Anschlussrack“ ohne Ortsbezug; Platzhalter „z. B. Anschlussrack 8 HE“.
+- Module der anderen Seite sind in Vorder- und Rückansicht nicht mehr auswählbar; in der Rückansicht ist die Vorderseite abgedunkelt.
+- Deckende Fläche hinter jedem Modul: nichts von der anderen Seite scheint mehr durch die Fugen (auch im PNG).
+- Rackwanne hinter Gitter-/Rackblende in der Vorderansicht perspektivisch (Boden als Trapez, Rückwand).
+- Setup-Skript prüft den Server direkt nach der Host-Eingabe.
+
 ## 2026-11-15 – Stand 8 · Online stellen
 
 - Seite liegt jetzt in `public/`; nur dieser Ordner wird hochgeladen.
