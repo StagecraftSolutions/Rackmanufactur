@@ -983,7 +983,7 @@ const DEVDB = {
   // Mischpulte, Stageboxen
   wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 4, d: 326, url: 'https://www.behringer.com/en/products/0604-AAE', io: { f: 'lcd:1 10,1″-Touchscreen; btn:1 Tasten; knob:6 Encoder/Regler; usba:1 USB; jack:1 Kopfhörer', r: 'xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Kopfhörer, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/Audio-Netzwerk; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Netz' } },
   midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ACR', io: { f: 'xlrf:32 Mic In (Midas PRO); xlr:16 Line Out; btn:1 Mute All', r: 'iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out' } },
-  midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL16', io: { f: 'xlr:24 16× Mic In, 8× Out; rj45:3 2× AES50, ULTRANET; jack:1 ADAT', r: 'iec:1 Netz' } },
+  midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 2, d: 230, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ACJ', io: { f: 'xlrf:16 Mic In (Midas PRO); xlr:8 Line Out; lcd:1 Anzeige; btn:1 GAIN/HPF/CONFIG; knob:2 Head Amp, Level; jack:1 Kopfhörer', r: 'iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; din:2 MIDI In/Out' } },
   midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line In; xlr:2 StageConnect', r: 'dc:1 Netzteil' } },
   midas_dn4816o: { n: 'Midas DN4816-O (StageConnect Out)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line Out; xlr:2 StageConnect; rj45:1 ULTRANET', r: 'dc:1 Netzteil' } },
   midas_dn4888: { n: 'Midas DN4888 (StageConnect 8×8)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 169, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4888', io: { f: 'xlr:16 8× Line In, 8× Line Out; xlr:2 StageConnect', r: '' } },
@@ -1575,6 +1575,30 @@ EXACT.midas_dl32 = { hw: 482.6, f: [
   { t: 'rect', x: 287.2, y: 83.2, w: 38, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 306.2, y: 86.5, v: 'ADAT OUT', s: 2.6 }, { t: 'opt', x: 297.5, y: 115.5, s: 8 }, { t: 'opt', x: 315.1, y: 115.5, s: 8 },
   { t: 'rect', x: 328.3, y: 83.2, w: 59.7, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 358.2, y: 86.5, v: 'AES/EBU', s: 2.6 }, { t: 'xlr', x: 344.4, y: 107.6, s: 13 }, { t: 'xlr', x: 372.6, y: 107.6, s: 13 },
   { t: 'rect', x: 391.2, y: 83.2, w: 51.8, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 417, y: 86.5, v: 'MIDI IN · OUT', s: 2.6 }, { t: 'din', x: 404.4, y: 109.2, r: 8 }, { t: 'din', x: 430.4, y: 109.2, r: 8 },
+] };
+// Midas DL16 (Herstellerfotos midasconsoles.com): 2 HE, Front und Rückseite auf 482,6 mm
+const D16 = [39.8, 65.8, 91.7, 118.2, 144.2, 170.1, 196.1, 222], O16 = [260.6, 286.6, 312.5, 338.5, 364.4, 390.3, 416.3, 442.8];
+EXACT.midas_dl16 = { hw: 482.6, f: [
+  { t: 'rect', x: 25.3, y: 4.8, w: 211.2, h: 75.4, c: 'ex-mod' }, { t: 'rect', x: 246, y: 4.8, w: 227.6, h: 41, c: 'ex-mod' }, { t: 'rect', x: 246, y: 48.3, w: 227.6, h: 31.9, c: 'ex-mod' },
+  ...D16.flatMap((x, i) => [{ t: 'txt', x, y: 9, v: 'IN ' + (i + 1), s: 2.4 }, { t: 'xlrf', x, y: 25.9, s: 11 }, { t: 'txt', x, y: 48.3, v: 'IN ' + (i + 9), s: 2.4 }, { t: 'xlrf', x, y: 64, s: 11 }]),
+  ...O16.flatMap((x, i) => [{ t: 'txt', x, y: 52, v: 'OUT ' + (i + 1), s: 2.4 }, { t: 'xlr', x, y: 66, s: 11 }]),
+  { t: 'logo', x: 256.4, y: 22.5, v: 'MIDAS', s: 7 }, { t: 'logo', x: 266, y: 35, v: 'DL16', s: 6 },
+  { t: 'rect', x: 299.8, y: 9, w: 32, h: 18, c: 'ex-seg7' }, { t: 'txt', x: 315.8, y: 18, v: 'In 1', s: 8, c: 'exred' },
+  { t: 'btn', x: 302.9, y: 39.8, w: 7, h: 5, c: 'exbtn-a' }, { t: 'btn', x: 324.6, y: 39.8, w: 7, h: 5, c: 'exbtn-r' }, { t: 'btn', x: 345.7, y: 39.8, w: 7, h: 5, c: 'exbtn-w' },
+  { t: 'txt', x: 302.9, y: 34, v: 'GAIN', s: 1.8 }, { t: 'txt', x: 324.6, y: 34, v: 'HPF', s: 1.8 }, { t: 'txt', x: 345.7, y: 34, v: 'CONFIG', s: 1.8 },
+  ...[0, 1, 2, 3, 4, 5].map(k => ({ t: 'ledc', x: 350.5, y: 10 + k * 3.6, r: .7, c: k < 2 ? 'exled-off' : 'exled-o' })),
+  { t: 'txt', x: 371.6, y: 9, v: 'HEAD AMP', s: 2.2 }, { t: 'enc', x: 371.6, y: 27.1, r: 7, plain: 1 },
+  ...[0, 1, 2, 3, 4, 5, 6].map(k => ({ t: 'ledc', x: 393.3, y: 12 + k * 4.6, r: .8, c: k < 2 ? 'exled-o' : 'exled-g' })),
+  { t: 'txt', x: 416.3, y: 9, v: 'MONITORING', s: 2.2 }, { t: 'enc', x: 416.3, y: 27.1, r: 6, plain: 1 }, { t: 'jack', x: 443.4, y: 27.1, s: 14 }, { t: 'txt', x: 443.4, y: 40, v: 'PHONES', s: 2 },
+], r: [
+  { t: 'iec', x: 52.7, y: 31.5, s: 17 }, { t: 'txt', x: 77.6, y: 22, v: 'POWER', s: 2.4 }, { t: 'sw', x: 77.6, y: 32.1, w: 8, h: 11 },
+  ...[150.8, 191.8, 232.2, 272.6, 313].map(x => ({ t: 'rect', x, y: 13.5, w: 27, h: 3, c: 'ex-slot' })),
+  { t: 'rect', x: 29, y: 46.5, w: 18.3, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 38.2, y: 50, v: 'USB', s: 2.4 }, { t: 'usb', x: 37.6, y: 72.7, s: 9 },
+  { t: 'rect', x: 49.7, y: 46.5, w: 59.4, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 79.4, y: 50, v: 'A — AES50 — B', s: 2.4 }, { t: 'ethercon', x: 64.8, y: 66.7, s: 13 }, { t: 'ethercon', x: 92.1, y: 66.7, s: 13 },
+  { t: 'rect', x: 112.1, y: 46.5, w: 75.7, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 127.3, y: 50, v: 'ULTRANET', s: 2.4 }, { t: 'ethercon', x: 127.3, y: 66.7, s: 13 },
+  { t: 'txt', x: 170.6, y: 50, v: 'ADAT OUT', s: 2.4 }, { t: 'opt', x: 161.2, y: 74.5, s: 7 }, { t: 'opt', x: 180, y: 74.5, s: 7 }, { t: 'ledc', x: 148.5, y: 75.6, r: .9, c: 'exled-o' },
+  { t: 'rect', x: 190.9, y: 46.5, w: 52.7, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 217.2, y: 50, v: 'MIDI IN · OUT', s: 2.4 }, { t: 'din', x: 204.2, y: 67.9, r: 8 }, { t: 'din', x: 230.3, y: 67.9, r: 8 },
+  { t: 'logo', x: 320, y: 60, v: 'MIDAS', s: 14 }, { t: 'logo', x: 345, y: 80, v: 'DL16', s: 6 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
