@@ -476,6 +476,7 @@ td input.shop { min-width: 110px; }
 .exmabar { fill: #3a4048; } .exmagreen { fill: #22c55e; } .exmayel { fill: #eab308; } .exencring { fill: none; stroke: #22c55e; stroke-width: .9; }
 .ex-mod { fill: #23262a; stroke: #5d646c; stroke-width: .35; } .ex-vline { stroke: #4b5159; stroke-width: .35; } .ex-tag { fill: none; stroke: #6b737c; stroke-width: .3; } .ex-ir { fill: #3a1418; } .ex-sw { fill: #c9ced4; }
 .exled-g { fill: #22c55e; } .exled-o { fill: #f97316; } .exled-b { fill: #60a5fa; } .exled-off { fill: #3a3f45; } .ex-lcdl { fill: #d7dbd2; stroke: #6b737c; stroke-width: .3; } .ex-lcdt { fill: #2a2e33; opacity: .75; } .ex-swb { fill: #15171a; stroke: #6b737c; stroke-width: .3; } .ex-swt { fill: #3a3f45; }
+.exbtn-gd { fill: #1b2b20; stroke: #22c55e; stroke-width: .7; } .ex-wmag { fill: #d946ef; } .ex-segoff { fill: #2a2e33; } .ex-sego { fill: #f97316; } .ex-segg { fill: #22c55e; } .ex-seg7 { fill: #0d0e10; stroke: #3a3f45; stroke-width: .3; } .exred { fill: #ef4444; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -975,7 +976,7 @@ const DEVDB = {
   ua845uwb: { n: 'Shure UA845UWB Antennenverteiler', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 250, chk: 1, url: 'https://www.shure.com/de-DE/search?q=UA845UWB', io: { f: 'btn:1 Netzschalter', r: 'bnc:12 Antenne A/B In, 10× Out (5 Empfänger); bnc:2 Kaskade; dc:5 Strom für Empfänger; iec:1 Netz' } },
   pa821b: { n: 'Shure PA821B Antennen-Combiner (PSM)', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=PA821B', io: { f: 'bnc:1 Antenne Out (vorn)', r: 'bnc:8 8× Sender In; iec:1 Netz' } },
   // Mischpulte, Stageboxen
-  wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 3, d: 270, chk: 1, url: 'https://www.behringer.com/search?q=wing%20rack', io: { f: 'lcd:1 7″-Touchscreen; knob:4 Regler; xlr:8 Mic/Line In; jack:1 Kopfhörer; usba:1 USB', r: 'xlr:8 Line Out; rj45:4 AES50 A/B/C, StageConnect; rj45:1 Ethernet; usbc:1 USB-Audio; iec:1 Netz' } },
+  wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 4, d: 326, url: 'https://www.behringer.com/en/products/0604-AAE', io: { f: 'lcd:1 10,1″-Touchscreen; btn:1 Tasten; knob:6 Encoder/Regler; usba:1 USB; jack:1 Kopfhörer', r: 'xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Kopfhörer, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/Audio-Netzwerk; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Netz' } },
   midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL32', io: { f: 'xlr:48 32× Mic In, 16× Out; rj45:3 2× AES50, ULTRANET; xlr:1 AES/EBU', r: 'iec:1 Netz' } },
   midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL16', io: { f: 'xlr:24 16× Mic In, 8× Out; rj45:3 2× AES50, ULTRANET; jack:1 ADAT', r: 'iec:1 Netz' } },
   midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line In; xlr:2 StageConnect', r: 'dc:1 Netzteil' } },
@@ -1350,6 +1351,9 @@ function exactFace(d, id, side, X, Y) {
       case 'ledc': g += `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r || .9}" class="${e.c || 'exled-g'}"/>`; break;
       case 'lcdl': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx=".8" class="ex-lcdl"/>` + [0, 1, 2, 3].map(k => `<rect x="${f(x + 3)}" y="${f(y + 3 + k * e.h / 4.4)}" width="${f(e.w * (k % 2 ? .55 : .75))}" height="${f(e.h / 9)}" class="ex-lcdt"/>`).join(''); break;
       case 'sw': g += `<rect x="${f(x - e.w / 2)}" y="${f(y - e.h / 2)}" width="${e.w}" height="${e.h}" rx=".8" class="ex-swb"/><rect x="${f(x - e.w / 2 + 1.2)}" y="${f(y - e.h / 2 + 1.2)}" width="${f(e.w - 2.4)}" height="${f(e.h / 2 - 1.2)}" class="ex-swt"/>`; break;
+      case 'combo': { const r0 = (e.s || 12) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .66)}" class="pg-hole"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .3)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .17)}" class="pg-hole"/><rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
+      case 'ethercon': { const r0 = (e.s || 12) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .72)}" class="pg-hole"/><rect x="${f(x - r0 * .42)}" y="${f(y - r0 * .32)}" width="${f(r0 * .84)}" height="${f(r0 * .64)}" class="pg-port"/><rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
+      case 'din': g += `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(e.r * .72)}" class="pg-hole"/>` + [210, 250, 290, 330, 270].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * e.r * .45)}" cy="${f(y + Math.sin(q) * e.r * .45 + (a === 270 ? e.r * .1 : 0))}" r=".55" class="pg-metal"/>`; }).join(''); break;
       case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
       case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
       case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
@@ -1449,6 +1453,46 @@ EXACT.ulxd4d = { hw: 440, f: [
   { t: 'rect', x: 281.1, y: 2.2, w: 44.5, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 303, y: 6, v: 'output 2', s: 2.4 }, { t: 'xlr', x: 307.5, y: 25.6, s: 11 }, { t: 'rect', x: 295, y: 36, w: 3, h: 5, c: 'ex-sw' },
   { t: 'rect', x: 326.8, y: 2.2, w: 44.3, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 349, y: 6, v: 'output 1', s: 2.4 }, { t: 'xlr', x: 353.8, y: 25.6, s: 11 }, { t: 'rect', x: 341, y: 36, w: 3, h: 5, c: 'ex-sw' },
   { t: 'txt', x: 383, y: 5, v: 'A', s: 2.6 }, { t: 'bnc', x: 404.3, y: 13.8, s: 11 }, { t: 'txt', x: 392, y: 13.8, v: 'antenna in', s: 1.8, a: 'end' }, { t: 'bnc', x: 382.5, y: 30.1, s: 11 }, { t: 'txt', x: 395, y: 30.1, v: 'cascade out', s: 1.8, a: 'start' },
+] };
+// Behringer WING RACK (Herstellerfotos behringer.com): 4 HE, Front 482,6 mm, Rückseite Gehäuse 440 mm von hinten
+EXACT.wing_rack = { hw: 440, f: [
+  ...['HOME', 'EFFECTS', 'METERS', 'ROUTING', 'SETUP', 'LIBRARY', 'UTILITY'].map((v, i) => ({ t: 'btn', x: 50.2, y: [25.5, 44.8, 63.9, 83, 102.2, 121.5, 140.6][i], w: 15.5, h: 9.4, c: i ? 'exbtn-dk' : 'exbtn-gd', v })),
+  { t: 'txt', x: 181.5, y: 12.7, v: 'behringer', s: 6, c: 'exthin' },
+  { t: 'screen', x: 73.6, y: 21.6, w: 216, h: 137.7 }, { t: 'rect', x: 74.5, y: 22.5, w: 79, h: 10, c: 'ex-wmag' },
+  { t: 'btn', x: 313.7, y: 25.2, w: 15, h: 9, c: 'exbtn-dk', v: 'CLR SOLO' }, { t: 'rect', x: 306.2, y: 42.9, w: 15, h: 77, c: 'ex-mod' },
+  ...Array.from({ length: 16 }, (_, k) => ({ t: 'rect', x: 309, y: 46 + k * 4.5, w: 9.4, h: 2.4, c: k < 4 ? 'ex-segoff' : k < 9 ? 'ex-sego' : 'ex-segg' })),
+  { t: 'enc', x: 313.7, y: 136, r: 6.3, plain: 1 }, { t: 'enc', x: 313.7, y: 159.3, r: 6.3, plain: 1 },
+  { t: 'screen', x: 332.5, y: 11, w: 95.8, h: 34.3 }, { t: 'logo', x: 363, y: 59.5, v: 'WING', s: 12 }, { t: 'txt', x: 401, y: 57, v: 'RACK', s: 4, a: 'start' },
+  ...[345.5, 368.5, 391.9, 415].flatMap((x, i) => [
+    { t: 'enc', x, y: 72.3, r: 7.3, plain: 1 },
+    { t: 'btn', x, y: 94.6, w: 11, h: 11, c: i === 1 || i === 2 ? 'exbtn-a' : 'exbtn-w' },
+    { t: 'btn', x, y: 113.9, w: 11, h: 11, c: i === 3 ? 'exbtn-a' : 'exbtn-w' },
+    { t: 'btn', x, y: 136.2, w: 15, h: 11, c: i ? 'exbtn-dk' : 'exbtn-a', v: ['INPUT', 'BUSES', 'DCA', 'CUST'][i] },
+  ]),
+  { t: 'txt', x: 333, y: 94.6, v: 'MUTE', s: 3 }, { t: 'txt', x: 333, y: 113.9, v: 'SOLO', s: 3 },
+  { t: 'rect', x: 430.2, y: 65.3, w: 17, h: 14, c: 'ex-seg7' }, { t: 'txt', x: 438.7, y: 72.3, v: '8.7', s: 8, c: 'exred' },
+  { t: 'btn', x: 438.7, y: 94.6, w: 11, h: 11, c: 'exbtn-dk', v: '◀' }, { t: 'btn', x: 438.7, y: 113.9, w: 11, h: 11, c: 'exbtn-dk', v: '▶' },
+  { t: 'ledc', x: 438.7, y: 136.2, r: 7, c: 'exled-g' }, { t: 'txt', x: 438.7, y: 136.2, v: 'VIEW', s: 3, c: 'exdark' },
+  { t: 'rect', x: 338.8, y: 151.4, w: 36.7, h: 16.2, c: 'ex-mod' }, { t: 'usba', x: 348.2, y: 159.3, s: 9 },
+  { t: 'enc', x: 415, y: 159.3, r: 6.5, plain: 1 }, { t: 'txt', x: 415, y: 171, v: 'LEVEL', s: 2.6 }, { t: 'jack', x: 438.7, y: 159.3, s: 14 },
+], r: [
+  { t: 'txt', x: 8, y: 10.5, v: 'OUT', s: 2.6, a: 'start' }, ...Array.from({ length: 8 }, (_, i) => ({ t: 'xlr', x: 18.5 + i * 26.5, y: 28, s: 12.5 })),
+  ...[28, 68.4, 108.6].flatMap((y, r) => Array.from({ length: 8 }, (_, i) => ({ t: 'combo', x: 234.5 + i * 26.65, y, s: 12.5 }))),
+  { t: 'txt', x: 232, y: 10.5, v: 'IN', s: 2.6, a: 'start' },
+  ...[32.5, 85.2, 137.8, 190.4].map(x => ({ t: 'jack', x, y: 60.9, s: 13 })),
+  { t: 'jack', x: 20.7, y: 88.8, s: 11 }, { t: 'jack', x: 46.9, y: 88.8, s: 11 }, { t: 'txt', x: 33.8, y: 77, v: 'GPIO', s: 2.4 },
+  { t: 'din', x: 73.4, y: 88.8, r: 8 }, { t: 'din', x: 99.5, y: 88.8, r: 8 }, { t: 'txt', x: 86.4, y: 77, v: 'MIDI OUT / IN', s: 2.4 },
+  { t: 'txt', x: 160, y: 91, v: 'behringer', s: 5, c: 'exthin' },
+  { t: 'txt', x: 25.5, y: 109, v: 'POWER', s: 2.6 }, { t: 'sw', x: 25.5, y: 138.8, w: 10, h: 9 }, { t: 'iec', x: 25.5, y: 157.9, s: 17 },
+  { t: 'rect', x: 47, y: 130, w: 70, h: 41, c: 'ex-mod' }, { t: 'txt', x: 82, y: 134, v: 'CONTROL/AUDIO NETWORK', s: 2 },
+  { t: 'rj45', x: 59.3, y: 157.9, s: 10 }, { t: 'rj45', x: 83.6, y: 157.9, s: 10 }, { t: 'usb', x: 105.9, y: 157.9, s: 9 },
+  { t: 'rect', x: 118, y: 130, w: 88, h: 41, c: 'ex-mod' }, { t: 'txt', x: 162, y: 134, v: 'AES50 SUPERMAC', s: 2 },
+  { t: 'ethercon', x: 130.8, y: 152, s: 12.5 }, { t: 'ethercon', x: 160.8, y: 152, s: 12.5 }, { t: 'ethercon', x: 191, y: 152, s: 12.5 },
+  { t: 'xlr', x: 220.1, y: 152, s: 11 }, { t: 'txt', x: 220.1, y: 134, v: 'STAGECONNECT', s: 1.8 },
+  { t: 'rect', x: 235, y: 130, w: 56, h: 41, c: 'ex-mod' }, { t: 'txt', x: 263, y: 134, v: 'AES/EBU OUT · IN', s: 2 },
+  { t: 'xlr', x: 248.2, y: 152, s: 11 }, { t: 'xlr', x: 275.6, y: 152, s: 11 },
+  { t: 'txt', x: 362, y: 131, v: 'EXPANSION SLOT', s: 2.4 }, { t: 'rect', x: 297.3, y: 136.2, w: 129.2, h: 36.2, c: 'ex-mod' },
+  { t: 'sd', x: 337, y: 158, s: 9 }, { t: 'sd', x: 383, y: 158, s: 9 }, { t: 'txt', x: 362, y: 143, v: 'WING-LIVE · SD-KARTEN', s: 2 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
