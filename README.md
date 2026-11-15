@@ -155,6 +155,10 @@ Es lädt nur hoch, löscht auf dem Server nichts. HTML-Dateien kommen zuletzt. I
 
 Quellen-Kennzeichnung in der Stückliste: `cart` = Warenkorb, `web` = Webpreis 11/2026, `ref` = Art.-Nr. belegt, `check` = prüfen, `user` = eigene Angabe.
 
+## Neue Artikel
+
+Wie Geräte, Rackwannen, D-Einsätze und maßstäbliche Ansichten angelegt werden: [docs/neue-artikel.md](docs/neue-artikel.md).
+
 ## Lizenz
 
 MIT, siehe [LICENSE](LICENSE). Schriften (OFL 1.1) und jsPDF (MIT) behalten ihre eigenen Lizenzen.
