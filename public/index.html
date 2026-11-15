@@ -467,6 +467,8 @@ td input.shop { min-width: 110px; }
 .pg-brkt { fill: #1b1d20; }
 .pg-rcdt { fill: #2b6fd6; }
 .exlbl { fill: #e8eaed; font-family: var(--f-display); font-weight: 600; letter-spacing: .04em; dominant-baseline: central; }
+.exorange { fill: #f0a030; } .exthin { font-weight: 400; letter-spacing: .02em; } .exdark { fill: #4b5159; }
+.ex-cover { fill: #15171a; stroke: #3a3f45; stroke-width: .3; } .ex-led { fill: #f4f4f4; } .ex-screen { fill: #0d1b2a; stroke: #7d8790; stroke-width: .4; } .ex-ring { fill: none; stroke: #6fb6e8; stroke-width: .6; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -1079,6 +1081,8 @@ function glyphAt(t, x, cy, s) {   // ein Anschluss, x = linke Kante
 // Gerätekörper mit Hersteller, Modell, Display, Bedienelementen und beschrifteten Anschlussgruppen (side 'f' vorn, 'r' hinten)
 function devFace(d, x, y, w, h, side = 'f', name) {
   const silver = d.col === 'silver', cls = silver ? 'dev-silver' : 'dev-black', tc = silver ? 'on-silver' : 'on-black', f = v => v.toFixed(2);
+  const E = d.id && EXACT[d.id];
+  if (E && E[side] && E.w) { const sc = Math.min(w / E.w, h / E.h), ox = x + (w - E.w * sc) / 2, oy = y + (h - E.h * sc) / 2; return `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="1.2" class="${cls}"/><g transform="translate(${f(ox)} ${f(oy)}) scale(${sc.toFixed(4)})">${exactFace(d, d.id, side, 0, 0)}</g>`; }
   let g = `<rect x="${f(x)}" y="${f(y)}" width="${f(w)}" height="${f(h)}" rx="1.2" class="${cls}"/>`;
   g += `<line x1="${f(x + 1)}" y1="${f(y + .35)}" x2="${f(x + w - 1)}" y2="${f(y + .35)}" class="devhl"/><line x1="${f(x + 1)}" y1="${f(y + h - .3)}" x2="${f(x + w - 1)}" y2="${f(y + h - .3)}" class="devsh"/>`;
   const pad = Math.min(3, w * .03), small = h < 24 || w < 70;
@@ -1310,7 +1314,11 @@ function exactFace(d, id, side, X, Y) {
   L.forEach(e => {
     const x = X + e.x, y = Y + e.y;
     switch (e.t) {
-      case 'txt': g += `<text x="${f(x)}" y="${f(y)}" class="exlbl" style="font-size:${e.s || 3}px" text-anchor="${e.a || 'middle'}">${esc(e.v)}</text>`; break;
+      case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
+      case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
+      case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
+      case 'screen': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="1.5" class="ex-screen"/><rect x="${f(x + 3)}" y="${f(y + 4)}" width="${f(e.w * .5)}" height="2" class="pg-lcdl"/><rect x="${f(x + 3)}" y="${f(y + 8)}" width="${f(e.w * .7)}" height="1.6" class="pg-lcdl"/><circle cx="${f(x + e.w / 2)}" cy="${f(y + e.h * .7)}" r="3" class="ex-ring"/>`; break;
+      case 'txt': g += `<text x="${f(x)}" y="${f(y)}" class="exlbl ${e.c || ''}" style="font-size:${e.s || 3}px" text-anchor="${e.a || 'middle'}">${esc(e.v)}</text>`; break;
       case 'logo': g += `<text x="${f(x)}" y="${f(y)}" class="exlogo" style="font-size:${e.s}px">${esc(e.v)}</text>`; break;
       case 'lamp': g += `<circle cx="${f(x)}" cy="${f(y)}" r="4.2" class="pg-lampb"/><circle cx="${f(x)}" cy="${f(y)}" r="3" class="pg-lamp"/>`; break;
       case 'din': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="1" class="ex-din"/>`; break;
@@ -1326,6 +1334,29 @@ function exactFace(d, id, side, X, Y) {
   return g;
 }
 const isExact = (id, side) => !!(EXACT[id] && EXACT[id][side]);
+// Teranex Mini: Front aller Modelle gleich (140 × 44 mm), Rückseite je Modell
+const TM_FRONT = name => [
+  { t: 'txt', x: 5, y: 7.5, v: 'Teranex Mini', s: 3.3, a: 'start', c: 'exorange' }, { t: 'txt', x: 5, y: 14.5, v: name, s: 5.4, a: 'start' },
+  { t: 'txt', x: 135, y: 8, v: 'Blackmagicdesign', s: 3.2, a: 'end', c: 'exthin' },
+  { t: 'cover', x: 4, y: 24, w: 34, h: 13 }, { t: 'txt', x: 118, y: 37, v: '12G SDI', s: 3, c: 'exorange' }, { t: 'led', x: 133, y: 37 },
+];
+Object.keys(DEVDB).filter(k => /^tm_|^bmd_2110/.test(k)).forEach(k => {
+  EXACT[k] = Object.assign(EXACT[k] || {}, { w: 140, h: 44, hw: 140, f: TM_FRONT(DEVDB[k].n.replace(/^Teranex Mini |^Blackmagic /, '')) });
+});
+EXACT.tm_sdi_hdmi.r = [
+  { t: 'iec', x: 17.5, y: 17, s: 17 }, { t: 'rj45', x: 39, y: 29, s: 10 }, { t: 'bnc', x: 56, y: 31, s: 11 }, { t: 'bnc', x: 70.6, y: 31, s: 11 },
+  { t: 'hdmi', x: 62.4, y: 12.6, s: 11 }, { t: 'xlr', x: 92, y: 20, s: 11 }, { t: 'xlr', x: 117, y: 20, s: 11 },
+  { t: 'txt', x: 39, y: 40.5, v: 'ETHERNET', s: 1.5 }, { t: 'txt', x: 56, y: 40.5, v: 'SDI IN', s: 1.5 }, { t: 'txt', x: 71, y: 40.5, v: 'LOOP OUT', s: 1.5 },
+  { t: 'txt', x: 62.4, y: 5.5, v: 'HDMI OUT', s: 1.5 }, { t: 'txt', x: 92, y: 33, v: 'L ANALOG/AES', s: 1.5 }, { t: 'txt', x: 117, y: 33, v: 'R ANALOG/AES', s: 1.5 },
+];
+// UniFi Standard 24 PoE: Gehäuse 442 × 44 mm, auf der Frontplatte um 20,3 mm eingerückt (Rackohren)
+EXACT.usw_24_poe = { hw: 442, f: [
+  { t: 'screen', x: 24.9, y: 9, w: 23, h: 23 }, { t: 'txt', x: 36.4, y: 37.5, v: 'UniFi', s: 2.4, c: 'exdark' },
+  ...Array.from({ length: 24 }, (_, i) => { const c = Math.floor(i / 2), r = i % 2; return { t: 'rj45', x: 20.3 + 218 + c * 14.4 + (c >= 8 ? 2 : 0), y: r ? 28.5 : 13, s: 10 }; }),
+  { t: 'sfp', x: 20.3 + 412, y: 13, s: 9 }, { t: 'sfp', x: 20.3 + 412, y: 28.5, s: 9 }, { t: 'reset', x: 20.3 + 427, y: 33 },
+], r: [ { t: 'iec', x: 394, y: 24, s: 17 }, { t: 'txt', x: 350, y: 24, v: 'UniFi', s: 3, c: 'exdark' } ] };
+for (const [k, d] of Object.entries(DEVDB)) d.id = k;
+
 function title(it) {
   switch (it.kind) {
     case 'dpanel': return `Steckerfeld ${it._letter}`;
