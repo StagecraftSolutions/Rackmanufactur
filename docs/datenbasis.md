@@ -113,139 +113,169 @@ Eine Blende mit fertigem Ausschnitt für **powerCON TRUE1 In + Out plus D-Löche
 
 ## Geräte (Gerätedatenbank, Stand 11/2026)
 
-Bauform: **19″** = eigenes Rackgerät · **1/3, 1/2** = Blackmagic-Bauform für das Universal Rack Shelf · **frei** = in die Thomann-Wanne. Maße mit * am Gerät prüfen. Preise: UVP Blackmagic inkl. MwSt. (blackmagicdesign.com), sonst offen.
+Bauform: **19″** = eigenes Rackgerät · **1/3, 1/2, 2/3** = Blackmagic-Bauform für das Universal Rack Shelf · **halbe Breite** = Shure- bzw. MA-Rackkit · **frei** = in eine Rackwanne. Maße mit * am Gerät prüfen. **M** = maßstäbliche Ansicht (vorn/hinten) nach Herstellerfoto oder Datenblatt, sonst schematisch. Teranex Mini: Front aller Modelle maßstäblich.
 
 ### Blackmagic · Teranex Mini
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Teranex Mini SDI to HDMI 12G | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 2× 12G-SDI In + Loop, HDMI 2.0 Out, 4× Audio Out (2 analog, 4 Kan. AES), Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20HDMI%2012G) |
-| Teranex Mini HDMI to SDI 12G | 1/3 Rackbreite | 230 mm* | 655,00 € | Bedienfeld | HDMI 2.0 In, 2× 12G-SDI Out, 4× Audio In (2 analog, 4 Kan. AES), Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20HDMI%20to%20SDI%2012G) |
-| Teranex Mini SDI to Analog 12G | 1/3 Rackbreite | 230 mm* | 645,00 € | Bedienfeld | 6× SDI In/Loop, Analog-Video Out, 4× Audio Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20Analog%2012G) |
-| Teranex Mini Analog to SDI 12G | 1/3 Rackbreite | 230 mm* | 655,00 € | Bedienfeld | 6× Analog-Video In, SDI Out, 4× Audio In, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Analog%20to%20SDI%2012G) |
-| Teranex Mini SDI to Audio 12G | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 2× 12G-SDI In + Loop, 4× Audio Out (2 analog, 4 Kan. AES), TOSLINK Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20Audio%2012G) |
-| Teranex Mini Audio to SDI 12G | 1/3 Rackbreite | 230 mm* | 645,00 € | Bedienfeld | 2× 12G-SDI In/Out, 4× Audio In (2 analog, 4 Kan. AES), TOSLINK In, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Audio%20to%20SDI%2012G) |
-| Teranex Mini Optical to HDMI 12G | 1/3 Rackbreite | 230 mm* | 625,00 € | Bedienfeld | Glasfaser (SFP), SDI Loop, HDMI Out, 4× Audio Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Optical%20to%20HDMI%2012G) |
-| Teranex Mini HDMI to Optical 12G | 1/3 Rackbreite | 230 mm* | 609,00 € | Bedienfeld | HDMI In, Glasfaser (SFP), SDI Out, 4× Audio In, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20HDMI%20to%20Optical%2012G) |
-| Teranex Mini 12G-SDI to Quad SDI | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 6× 12G-SDI In + Loop, 4× 3G-SDI Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%2012G-SDI%20to%20Quad%20SDI) |
-| Teranex Mini Quad SDI to 12G-SDI | 1/3 Rackbreite | 230 mm* | 649,00 € | Bedienfeld | 6× 4× 3G-SDI In, 12G-SDI Out + Loop, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Quad%20SDI%20to%2012G-SDI) |
-| Teranex Mini SDI Distribution 12G | 1/3 Rackbreite | 230 mm* | 615,00 € | Bedienfeld | 9× 1× 12G-SDI In, 8× 12G-SDI Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20Distribution%2012G) |
-| Teranex Mini IP Video 12G | 1/3 Rackbreite | 230 mm* | 605,00 € | Bedienfeld | 3× SDI In, 2× SDI Out, Video über Gigabit-Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20IP%20Video%2012G) |
-| Blackmagic 2110 IP SDI to HDMI 12G | 1/3 Rackbreite | 230 mm* | 949,00 € | Kopfhörer, USB-C (Webcam) | 2× 12G-SDI In + Loop, HDMI 2.0 Out, 10G-Ethernet (ST 2110), 2× Analog-Audio Out, 12 V | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%202110%20IP%20SDI%20to%20HDMI%2012G) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Teranex Mini SDI to HDMI 12G | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 2× 12G-SDI In + Loop, HDMI 2.0 Out, 4× Audio Out (2 analog, 4 Kan. AES), Ethernet, USB, Netz | M | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20HDMI%2012G) |
+| Teranex Mini HDMI to SDI 12G | 1/3 Rackbreite | 230 mm* | 655,00 € | Bedienfeld | HDMI 2.0 In, 2× 12G-SDI Out, 4× Audio In (2 analog, 4 Kan. AES), Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20HDMI%20to%20SDI%2012G) |
+| Teranex Mini SDI to Analog 12G | 1/3 Rackbreite | 230 mm* | 645,00 € | Bedienfeld | 6× SDI In/Loop, Analog-Video Out, 4× Audio Out, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20Analog%2012G) |
+| Teranex Mini Analog to SDI 12G | 1/3 Rackbreite | 230 mm* | 655,00 € | Bedienfeld | 6× Analog-Video In, SDI Out, 4× Audio In, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Analog%20to%20SDI%2012G) |
+| Teranex Mini SDI to Audio 12G | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 2× 12G-SDI In + Loop, 4× Audio Out (2 analog, 4 Kan. AES), TOSLINK Out, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20to%20Audio%2012G) |
+| Teranex Mini Audio to SDI 12G | 1/3 Rackbreite | 230 mm* | 645,00 € | Bedienfeld | 2× 12G-SDI In/Out, 4× Audio In (2 analog, 4 Kan. AES), TOSLINK In, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Audio%20to%20SDI%2012G) |
+| Teranex Mini Optical to HDMI 12G | 1/3 Rackbreite | 230 mm* | 625,00 € | Bedienfeld | Glasfaser (SFP), SDI Loop, HDMI Out, 4× Audio Out, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Optical%20to%20HDMI%2012G) |
+| Teranex Mini HDMI to Optical 12G | 1/3 Rackbreite | 230 mm* | 609,00 € | Bedienfeld | HDMI In, Glasfaser (SFP), SDI Out, 4× Audio In, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20HDMI%20to%20Optical%2012G) |
+| Teranex Mini 12G-SDI to Quad SDI | 1/3 Rackbreite | 230 mm* | 639,00 € | Bedienfeld | 6× 12G-SDI In + Loop, 4× 3G-SDI Out, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%2012G-SDI%20to%20Quad%20SDI) |
+| Teranex Mini Quad SDI to 12G-SDI | 1/3 Rackbreite | 230 mm* | 649,00 € | Bedienfeld | 6× 4× 3G-SDI In, 12G-SDI Out + Loop, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20Quad%20SDI%20to%2012G-SDI) |
+| Teranex Mini SDI Distribution 12G | 1/3 Rackbreite | 230 mm* | 615,00 € | Bedienfeld | 9× 1× 12G-SDI In, 8× 12G-SDI Out, Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20SDI%20Distribution%2012G) |
+| Teranex Mini IP Video 12G | 1/3 Rackbreite | 230 mm* | 605,00 € | Bedienfeld | 3× SDI In, 2× SDI Out, Video über Gigabit-Ethernet, USB, Netz | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Teranex%20Mini%20IP%20Video%2012G) |
+| Blackmagic 2110 IP SDI to HDMI 12G | 1/3 Rackbreite | 230 mm* | 949,00 € | Kopfhörer, USB-C (Webcam) | 2× 12G-SDI In + Loop, HDMI 2.0 Out, 10G-Ethernet (ST 2110), 2× Analog-Audio Out, 12 V | M vorn | [Hersteller](https://www.blackmagicdesign.com/de/products/teranexmini) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%202110%20IP%20SDI%20to%20HDMI%2012G) |
 
 ### Blackmagic · HyperDeck
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| HyperDeck Studio HD Mini | 1/3 Rackbreite | 160 mm* | 615,00 € | 2,2″-LCD, 2× SD-Karten, Transport | 6× SDI In/Out, Timecode In/Out, Referenz In/Out, HDMI Out, Ethernet, USB-C, 12 V | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Mini) |
-| HyperDeck Studio HD Plus | 1/2 Rackbreite | 190 mm* | 745,00 € | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 8× SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Referenz In/Out, 2× HDMI In/Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Plus) |
-| HyperDeck Studio HD Pro | 19″ · 1 HE | 210 mm* | – | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 6× SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out, 2× Timecode In/Out, 2× HDMI In/Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Pro) |
-| HyperDeck Studio 4K Pro | 19″ · 1 HE | 210 mm* | – | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 6× 12G-SDI In, 2× Out, Monitor, Referenz In/Out, 2× Timecode In/Out, 2× HDMI 2.0 In/Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%204K%20Pro) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| HyperDeck Studio HD Mini | 1/3 Rackbreite | 160 mm* | 615,00 € | 2,2″-LCD, 2× SD-Karten, Transport | 6× SDI In/Out, Timecode In/Out, Referenz In/Out, HDMI Out, Ethernet, USB-C, 12 V | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Mini) |
+| HyperDeck Studio HD Plus | 1/2 Rackbreite | 190 mm* | 745,00 € | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 8× SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Referenz In/Out, 2× HDMI In/Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Plus) |
+| HyperDeck Studio HD Pro | 19″ · 1 HE | 210 mm* | – | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 6× SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out, 2× Timecode In/Out, 2× HDMI In/Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%20HD%20Pro) |
+| HyperDeck Studio 4K Pro | 19″ · 1 HE | 210 mm* | – | 2,2″-LCD, 2× SD-Karten, Kopfhörer, Transport | 6× 12G-SDI In, 2× Out, Monitor, Referenz In/Out, 2× Timecode In/Out, 2× HDMI 2.0 In/Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/hyperdeckstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=HyperDeck%20Studio%204K%20Pro) |
 
 ### Blackmagic · ATEM
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| ATEM Television Studio HD8 | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%20HD8) |
-| ATEM Television Studio HD8 ISO | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, 2× USB-C (Aufnahme), Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%20HD8%20ISO) |
-| ATEM Television Studio 4K8 | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× 12G-SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, 2× USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%204K8) |
-| ATEM Microphone Converter | 1/3 Rackbreite | 160 mm* | 419,00 € | LCD, Bedienfeld | 4× Mic/Line In (Kombi), 2× MADI In/Out, Monitor Out, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Microphone%20Converter) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| ATEM Television Studio HD8 | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%20HD8) |
+| ATEM Television Studio HD8 ISO | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, 2× USB-C (Aufnahme), Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%20HD8%20ISO) |
+| ATEM Television Studio 4K8 | 19″ · 1 HE | 300 mm* | – | LCD, Bedienfeld | 21× 8× 12G-SDI In, 12× SDI Out, MADI, HDMI Out, 3× 2× Analog-Audio In, Talkback, 2× Ethernet, Talkback, 2× USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Television%20Studio%204K8) |
+| ATEM Microphone Converter | 1/3 Rackbreite | 160 mm* | 419,00 € | LCD, Bedienfeld | 4× Mic/Line In (Kombi), 2× MADI In/Out, Monitor Out, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemtelevisionstudio) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%20Microphone%20Converter) |
 
 ### Blackmagic · Streaming
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Blackmagic Streaming Encoder HD | 1/3 Rackbreite | 160 mm* | 549,00 € | LCD, Bedienfeld | 3× SDI In, Loop, Monitor, Monitor Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Encoder%20HD) |
-| Blackmagic Streaming Encoder 4K | 1/3 Rackbreite | 160 mm* | 709,00 € | LCD, Bedienfeld | 3× 12G-SDI In, Loop, Monitor, Monitor Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Encoder%204K) |
-| Blackmagic Streaming Decoder 4K | 1/3 Rackbreite | 160 mm* | 709,00 € | LCD, Bedienfeld | 3× 12G-SDI Out, Referenz In/Out, HDMI 2.0 Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Decoder%204K) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Blackmagic Streaming Encoder HD | 1/3 Rackbreite | 160 mm* | 549,00 € | LCD, Bedienfeld | 3× SDI In, Loop, Monitor, Monitor Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Encoder%20HD) |
+| Blackmagic Streaming Encoder 4K | 1/3 Rackbreite | 160 mm* | 709,00 € | LCD, Bedienfeld | 3× 12G-SDI In, Loop, Monitor, Monitor Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Encoder%204K) |
+| Blackmagic Streaming Decoder 4K | 1/3 Rackbreite | 160 mm* | 709,00 € | LCD, Bedienfeld | 3× 12G-SDI Out, Referenz In/Out, HDMI 2.0 Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Streaming%20Decoder%204K) |
 
 ### Blackmagic · Monitoring
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Blackmagic Audio Monitor 12G G3 | 19″ · 1 HE | 200 mm* | – | Pegelanzeige, Kopfhörer, 2× Lautstärke, Auswahl | 2× 12G-SDI In + Loop, 4× Analog/AES In, 2× Line In, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicaudiomonitor) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Audio%20Monitor%2012G%20G3) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Blackmagic Audio Monitor 12G G3 | 19″ · 1 HE | 200 mm* | – | Pegelanzeige, Kopfhörer, 2× Lautstärke, Auswahl | 2× 12G-SDI In + Loop, 4× Analog/AES In, 2× Line In, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicaudiomonitor) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Audio%20Monitor%2012G%20G3) |
 
 ### Blackmagic · Videohub
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Blackmagic Videohub 20x20 12G | 19″ · 1 HE | 120 mm* | – | LCD, Tasten | 40× 20× SDI In, 20× SDI Out, Ethernet, USB-C, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/smartvideohub) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Videohub%2020x20%2012G) |
-| Smart Videohub CleanSwitch 12x12 6G | 19″ · 1 HE | 120 mm* | – | LCD, Tasten | 26× 12× SDI In, 12× SDI Out, Referenz In/Out, Ethernet, USB, Netz | [Hersteller](https://www.blackmagicdesign.com/de/products/smartvideohub) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Smart%20Videohub%20CleanSwitch%2012x12%206G) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Blackmagic Videohub 20x20 12G | 19″ · 1 HE | 120 mm* | – | LCD, Tasten | 40× 20× SDI In, 20× SDI Out, Ethernet, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/smartvideohub) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Blackmagic%20Videohub%2020x20%2012G) |
+| Smart Videohub CleanSwitch 12x12 6G | 19″ · 1 HE | 120 mm* | – | LCD, Tasten | 26× 12× SDI In, 12× SDI Out, Referenz In/Out, Ethernet, USB, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/smartvideohub) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Smart%20Videohub%20CleanSwitch%2012x12%206G) |
+
+### Licht · MA Lighting
+
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| grandMA3 2Port Node (4010515) | halbe Breite · MA-Rackkit | 184 mm | – | 3,9″-Farbdisplay, MENU-Drehgeber | 2× DMX (In/Out konfigurierbar), etherCON, powerCON TRUE1 | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%202Port%20Node) |
+| grandMA3 4Port Node (4010516) | halbe Breite · MA-Rackkit | 184 mm | – | 3,9″-Farbdisplay, MENU-Drehgeber | 4× DMX (In/Out konfigurierbar), etherCON, powerCON TRUE1 | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%204Port%20Node) |
+| grandMA3 4Port Node PoE | halbe Breite · MA-Rackkit | 184 mm* | – | 3,9″-Farbdisplay, MENU-Drehgeber | 4× DMX (In/Out konfigurierbar), etherCON (PoE) | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%204Port%20Node%20PoE) |
+| grandMA3 8Port Node (4010517) | 19″ · 1 HE | 189 mm | – | 3,9″-Farbdisplay, MENU-Drehgeber | 8× DMX Out (5-pol Buchse), etherCON, USB 2.0, powerCON TRUE1 | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%208Port%20Node) |
+| grandMA3 8Port Node PoE | 19″ · 1 HE | 189 mm* | – | 3,9″-Farbdisplay, MENU-Drehgeber | 8× DMX Out (5-pol Buchse), etherCON (PoE), USB 2.0 | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%208Port%20Node%20PoE) |
+| grandMA3 onPC 8Port Node 4k (4010514) | 19″ · 1 HE | 189 mm | – | 3,9″-Farbdisplay, MENU-Drehgeber | 8× DMX Out (5-pol Buchse), etherCON, USB 2.0, powerCON TRUE1 | M | [Hersteller](https://www.malighting.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=grandMA3%20onPC%208Port%20Node%204k) |
+
+### Blackmagic · ATEM Constellation
+
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| ATEM 1 M/E Constellation HD | 2/3 Rackbreite | 180 mm* | – | Bedienfeld, LCD, Regler | 18× 10× SDI In, 6× SDI Out, Multiview, Referenz, 2× Ethernet, Talkback, 2× Analog-Audio In, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%201%20M%2FE%20Constellation%20HD) |
+| ATEM 2 M/E Constellation HD | 19″ · 1 HE | 182 mm | – | Talkback-Headset, 2×10 Quelltasten, CUT/AUTO, Funktionstasten, LCD, Regler | 35× 20× SDI In, 12× SDI Out, 2× Multiview, Referenz In, 2× Ethernet (Control), Talkback, 2× Analog-Audio In, USB-C, Netz | M | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%202%20M%2FE%20Constellation%20HD) |
+| ATEM 4 M/E Constellation HD | 19″ · 2 HE | 190 mm* | – | Talkback-Headset, Bedienfeld, LCD, Regler | 68× 40× SDI In, 24× SDI Out, Multiview, Referenz, 2× Ethernet, Talkback, 2× Analog-Audio In, USB-C, 2× Netz (redundant) | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%204%20M%2FE%20Constellation%20HD) |
+| ATEM 1 M/E Constellation 4K | 2/3 Rackbreite | 180 mm* | – | Bedienfeld, LCD, Regler | 18× 12G-SDI In/Out, Multiview, Referenz, 2× Ethernet, Talkback, 2× Analog-Audio In, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%201%20M%2FE%20Constellation%204K) |
+| ATEM 2 M/E Constellation 4K | 19″ · 1 HE | 182 mm* | – | Talkback-Headset, Bedienfeld, LCD, Regler | 35× 12G-SDI In/Out, Multiview, Referenz, 2× Ethernet, Talkback, 2× Analog-Audio In, USB-C, Netz | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%202%20M%2FE%20Constellation%204K) |
+| ATEM 4 M/E Constellation 4K | 19″ · 2 HE | 200 mm* | – | Talkback-Headset, Bedienfeld, LCD, Regler | 70× 40× 12G-SDI In, 28× SDI Out, Referenz, 2× Ethernet, Talkback, USB-C, 2× Netz (redundant) | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%204%20M%2FE%20Constellation%204K) |
+| ATEM 4 M/E Constellation 4K Plus | 19″ · 4 HE | 220 mm* | – | Talkback-Headset, Bedienfeld, LCD, Regler | 134× 80× 12G-SDI In, 52× SDI Out, Referenz, 2× Ethernet, Talkback, USB-C, 2× Netz (redundant) | schem. | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=ATEM%204%20M%2FE%20Constellation%204K%20Plus) |
 
 ### Netzwerk · UniFi
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| UniFi Cloud Gateway Max | frei · 213 × 32 mm | 128 mm* | – | Status-Display, 5× 4× 2,5GbE LAN, 1× 2,5GbE WAN | Stromversorgung | [Hersteller](https://store.ui.com/eu/en/products/ucg-max) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Cloud%20Gateway%20Max) |
-| UniFi Pro Max 24 PoE | 19″ · 1 HE | 285 mm* | – | Touch-Display, 24× 16× GbE PoE+, 8× 2,5GbE PoE++, 2× 10G SFP+ | Netz | [Hersteller](https://store.ui.com/eu/en/products/usw-pro-max-24-poe) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Pro%20Max%2024%20PoE) |
-| UniFi Switch 24 PoE (USW-24-PoE) | 19″ · 1 HE | 200 mm* | – | Display, 24× GbE, davon 16× PoE+, 2× 1G SFP | Netz | [Hersteller](https://store.ui.com/eu/en/products/usw-24-poe) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Switch%2024%20PoE) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| UniFi Cloud Gateway Max | frei · 213 × 32 mm | 128 mm* | – | Status-Display, 5× 4× 2,5GbE LAN, 1× 2,5GbE WAN | Stromversorgung | schem. | [Hersteller](https://store.ui.com/eu/en/products/ucg-max) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Cloud%20Gateway%20Max) |
+| UniFi Pro Max 24 PoE | 19″ · 1 HE | 285 mm* | – | Touch-Display, 24× 16× GbE PoE+, 8× 2,5GbE PoE++, 2× 10G SFP+ | Netz | schem. | [Hersteller](https://store.ui.com/eu/en/products/usw-pro-max-24-poe) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Pro%20Max%2024%20PoE) |
+| UniFi Switch 24 PoE (USW-24-PoE) | 19″ · 1 HE | 200 mm* | – | Display, 24× GbE, davon 16× PoE+, 2× 1G SFP | Netz | M | [Hersteller](https://store.ui.com/eu/en/products/usw-24-poe) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=UniFi%20Switch%2024%20PoE) |
 
 ### Funk · Shure
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Shure ULXD4 (Einkanal, halbe Breite) | frei · 214 × 43 mm | 180 mm* | – | Display, Tasten | 2× Antenne A/B, Audio Out, Audio Out, Ethernet, 15 V | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4) |
-| Shure ULXD4D (Zweikanal) | 19″ · 1 HE | 330 mm* | – | 2× Displays, Tasten, Kopfhörer | 4× Antenne A/B In, Kaskade Out, 2× Audio Out, 2× Audio Out, 2× Dante/Ethernet, 2× Netz In/Thru | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4D) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4D) |
-| Shure ULXD4Q (Vierkanal) | 19″ · 1 HE | 330 mm* | – | 4× Displays, Tasten, Kopfhörer | 4× Antenne A/B In, Kaskade Out, 4× Audio Out, AES3 Out, 2× Dante/Ethernet, 2× Netz In/Thru | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4Q) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4Q) |
-| Shure PSM1000 P10T Sender | 19″ · 1 HE | 300 mm* | – | Display, Kopfhörer, Tasten | Antenne, 4× Audio In (Kombi XLR/Klinke), 4× Loop Out, Ethernet, Netz | [Hersteller](https://www.shure.com/de-DE/search?q=P10T) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20PSM1000%20P10T%20Sender) |
-| Shure Axient Digital AD4D | 19″ · 1 HE | 380 mm* | – | 2× Displays, Kopfhörer, Tasten | 4× Antenne A/B In, Kaskade Out, 2× Audio Out, 2× Audio Out, 4× Dante/Ethernet, 2× Netz In/Thru | [Hersteller](https://www.shure.com/de-DE/search?q=AD4D) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20Axient%20Digital%20AD4D) |
-| Shure Axient Digital AD4Q | 19″ · 1 HE | 380 mm* | – | 4× Displays, Kopfhörer, Tasten | 4× Antenne A/B In, Kaskade Out, 4× Audio Out, AES3 Out, 4× Dante/Ethernet, 2× Netz In/Thru | [Hersteller](https://www.shure.com/de-DE/search?q=AD4Q) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20Axient%20Digital%20AD4Q) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Shure ULXD4 (Einkanal, halbe Breite) | halbe Breite · Shure-Rackkit | 180 mm* | – | Display, Tasten | 2× Antenne A/B, Audio Out, Audio Out, Ethernet, 15 V | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4) |
+| Shure QLXD4 (halbe Breite) | halbe Breite · Shure-Rackkit | 180 mm* | – | Display, Tasten | 2× Antenne A/B, Audio Out, Audio Out, Ethernet, 15 V | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=QLXD4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20QLXD4) |
+| Shure SLXD4 (halbe Breite) | halbe Breite · Shure-Rackkit | 170 mm* | – | Display, Tasten | 2× Antenne A/B, Audio Out, Audio Out, 12–18 V | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=SLXD4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20SLXD4) |
+| Shure PSM900 P9T Sender (halbe Breite) | halbe Breite · Shure-Rackkit | 200 mm* | – | Display, Kopfhörer, Tasten | Antenne, 2× Audio In (Kombi XLR/Klinke), 2× Loop Out, 15 V | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=P9T) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20PSM900%20P9T%20Sender) |
+| Shure ULXD4D (Zweikanal) | 19″ · 1 HE | 330 mm* | – | 2× Displays, Tasten, Kopfhörer | 4× Antenne A/B In, Kaskade Out, 2× Audio Out, 2× Audio Out, 2× Dante/Ethernet, 2× Netz In/Thru | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4D) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4D) |
+| Shure ULXD4Q (Vierkanal) | 19″ · 1 HE | 330 mm* | – | 4× Displays, Tasten, Kopfhörer | 4× Antenne A/B In, Kaskade Out, 4× Audio Out, AES3 Out, 2× Dante/Ethernet, 2× Netz In/Thru | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=ULXD4Q) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20ULXD4Q) |
+| Shure PSM1000 P10T Sender | 19″ · 1 HE | 300 mm* | – | Display, Kopfhörer, Tasten | Antenne, 4× Audio In (Kombi XLR/Klinke), 4× Loop Out, Ethernet, Netz | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=P10T) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20PSM1000%20P10T%20Sender) |
+| Shure Axient Digital AD4D | 19″ · 1 HE | 380 mm* | – | 2× Displays, Kopfhörer, Tasten | 4× Antenne A/B In, Kaskade Out, 2× Audio Out, 2× Audio Out, 4× Dante/Ethernet, 2× Netz In/Thru | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=AD4D) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20Axient%20Digital%20AD4D) |
+| Shure Axient Digital AD4Q | 19″ · 1 HE | 380 mm* | – | 4× Displays, Kopfhörer, Tasten | 4× Antenne A/B In, Kaskade Out, 4× Audio Out, AES3 Out, 4× Dante/Ethernet, 2× Netz In/Thru | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=AD4Q) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20Axient%20Digital%20AD4Q) |
 
 ### Funk · Shure · RF-Zubehör
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Shure AD600 Spectrum Manager | 19″ · 1 HE | 320 mm* | – | Display, Tasten | 4× Antenne In/Out, 2× Ethernet, Netz | [Hersteller](https://www.shure.com/de-DE/search?q=AD600) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20AD600%20Spectrum%20Manager) |
-| Shure UA845UWB Antennenverteiler | 19″ · 1 HE | 250 mm* | – | Netzschalter | 12× Antenne A/B In, 10× Out (5 Empfänger), 2× Kaskade, 5× Strom für Empfänger, Netz | [Hersteller](https://www.shure.com/de-DE/search?q=UA845UWB) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20UA845UWB%20Antennenverteiler) |
-| Shure PA821B Antennen-Combiner (PSM) | 19″ · 1 HE | 200 mm* | – | Antenne Out (vorn) | 8× 8× Sender In, Netz | [Hersteller](https://www.shure.com/de-DE/search?q=PA821B) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20PA821B%20Antennen-Combiner) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Shure AD600 Spectrum Manager | 19″ · 1 HE | 320 mm* | – | Display, Tasten | 4× Antenne In/Out, 2× Ethernet, Netz | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=AD600) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20AD600%20Spectrum%20Manager) |
+| Shure UA845UWB Antennenverteiler | 19″ · 1 HE | 250 mm* | – | Netzschalter | 12× Antenne A/B In, 10× Out (5 Empfänger), 2× Kaskade, 5× Strom für Empfänger, Netz | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=UA845UWB) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20UA845UWB%20Antennenverteiler) |
+| Shure PA821B Antennen-Combiner (PSM) | 19″ · 1 HE | 200 mm* | – | Antenne Out (vorn) | 8× 8× Sender In, Netz | schem. | [Hersteller](https://www.shure.com/de-DE/search?q=PA821B) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Shure%20PA821B%20Antennen-Combiner) |
 
 ### Audio · Mischpult
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Behringer WING RACK | 19″ · 3 HE | 270 mm* | – | 7″-Touchscreen, 4× Regler, 8× Mic/Line In, Kopfhörer, USB | 8× Line Out, 4× AES50 A/B/C, StageConnect, Ethernet, USB-Audio, Netz | [Hersteller](https://www.behringer.com/search?q=wing%20rack) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Behringer%20WING%20RACK) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Behringer WING RACK | 19″ · 3 HE | 270 mm* | – | 7″-Touchscreen, 4× Regler, 8× Mic/Line In, Kopfhörer, USB | 8× Line Out, 4× AES50 A/B/C, StageConnect, Ethernet, USB-Audio, Netz | schem. | [Hersteller](https://www.behringer.com/search?q=wing%20rack) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Behringer%20WING%20RACK) |
 
 ### Audio · Stagebox
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Midas DL32 Stagebox | 19″ · 3 HE | 230 mm* | – | 48× 32× Mic In, 16× Out, 3× 2× AES50, ULTRANET, AES/EBU | Netz | [Hersteller](https://www.midasconsoles.com/search?q=DL32) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DL32%20Stagebox) |
-| Midas DL16 Stagebox | 19″ · 3 HE | 230 mm* | – | 24× 16× Mic In, 8× Out, 3× 2× AES50, ULTRANET, ADAT | Netz | [Hersteller](https://www.midasconsoles.com/search?q=DL16) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DL16%20Stagebox) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Midas DL32 Stagebox | 19″ · 3 HE | 230 mm* | – | 48× 32× Mic In, 16× Out, 3× 2× AES50, ULTRANET, AES/EBU | Netz | schem. | [Hersteller](https://www.midasconsoles.com/search?q=DL32) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DL32%20Stagebox) |
+| Midas DL16 Stagebox | 19″ · 3 HE | 230 mm* | – | 24× 16× Mic In, 8× Out, 3× 2× AES50, ULTRANET, ADAT | Netz | schem. | [Hersteller](https://www.midasconsoles.com/search?q=DL16) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DL16%20Stagebox) |
 
 ### Audio · StageConnect
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Midas DN4816-I (StageConnect In) | 19″ · 1 HE | 140 mm* | – | 16× 16× Line In, 2× StageConnect | Netzteil | [Hersteller](https://www.midasconsoles.com/search?q=DN4816) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4816-I) |
-| Midas DN4816-O (StageConnect Out) | 19″ · 1 HE | 140 mm* | – | 16× 16× Line Out, 2× StageConnect, ULTRANET | Netzteil | [Hersteller](https://www.midasconsoles.com/search?q=DN4816) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4816-O) |
-| Midas DN4888 (StageConnect 8×8) | 19″ · 1 HE | 169 mm* | – | 16× 8× Line In, 8× Line Out, 2× StageConnect | – | [Hersteller](https://www.midasconsoles.com/search?q=DN4888) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4888) |
-| Midas HUB4 (Personal-Monitoring) | 19″ · 1 HE | 150 mm* | – | 4× DP48 (PoE), Kopfhörer | 2× ULTRANET In/Thru, Netz | [Hersteller](https://www.midasconsoles.com/search?q=HUB4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20HUB4) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Midas DN4816-I (StageConnect In) | 19″ · 1 HE | 140 mm* | – | 16× 16× Line In, 2× StageConnect | Netzteil | schem. | [Hersteller](https://www.midasconsoles.com/search?q=DN4816) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4816-I) |
+| Midas DN4816-O (StageConnect Out) | 19″ · 1 HE | 140 mm* | – | 16× 16× Line Out, 2× StageConnect, ULTRANET | Netzteil | schem. | [Hersteller](https://www.midasconsoles.com/search?q=DN4816) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4816-O) |
+| Midas DN4888 (StageConnect 8×8) | 19″ · 1 HE | 169 mm* | – | 16× 8× Line In, 8× Line Out, 2× StageConnect | – | schem. | [Hersteller](https://www.midasconsoles.com/search?q=DN4888) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20DN4888) |
+| Midas HUB4 (Personal-Monitoring) | 19″ · 1 HE | 150 mm* | – | 4× DP48 (PoE), Kopfhörer | 2× ULTRANET In/Thru, Netz | schem. | [Hersteller](https://www.midasconsoles.com/search?q=HUB4) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Midas%20HUB4) |
 
 ### Licht · Swisson
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Swisson XND-8 Art-Net-Node | 19″ · 1 HE | 160 mm* | – | Display, 8× DMX In/Out, 2× etherCON | 2× Netz In/Thru | [Hersteller](https://www.swisson.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Swisson%20XND-8%20Art-Net-Node) |
-| Swisson XSP-5R DMX-Splitter | 19″ · 1 HE | 140 mm* | – | 7× DMX In, Thru, 5× Out | 2× Netz In/Thru | [Hersteller](https://www.swisson.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Swisson%20XSP-5R%20DMX-Splitter) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Swisson XND-8 Art-Net-Node | 19″ · 1 HE | 160 mm* | – | Display, 8× DMX In/Out, 2× etherCON | 2× Netz In/Thru | schem. | [Hersteller](https://www.swisson.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Swisson%20XND-8%20Art-Net-Node) |
+| Swisson XSP-5R DMX-Splitter | 19″ · 1 HE | 140 mm* | – | 7× DMX In, Thru, 5× Out | 2× Netz In/Thru | schem. | [Hersteller](https://www.swisson.com) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Swisson%20XSP-5R%20DMX-Splitter) |
 
 ### Video · LED
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| NovaStar MX20 LED-Controller | 19″ · 1 HE | 300 mm* | – | Display, Drehregler, USB | 4× 2× HDMI 1.3 In + Loop, 2× 3G-SDI In + Loop, 8× 6× LED-Out, 2× Steuerung, 2× 10G Glasfaser, 2× Genlock In/Loop, Netz | [Hersteller](https://www.novastar.tech) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=NovaStar%20MX20%20LED-Controller) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| NovaStar MX20 LED-Controller | 19″ · 1 HE | 300 mm* | – | Display, Drehregler, USB | 4× 2× HDMI 1.3 In + Loop, 2× 3G-SDI In + Loop, 8× 6× LED-Out, 2× Steuerung, 2× 10G Glasfaser, 2× Genlock In/Loop, Netz | schem. | [Hersteller](https://www.novastar.tech) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=NovaStar%20MX20%20LED-Controller) |
 
 ### Strom
 
-| Gerät | Bauform | Tiefe | UVP | Anschlüsse vorn | Anschlüsse hinten | Links |
-|---|---|---|---|---|---|---|
-| Eurolite SB-1100 Stromverteiler 32 A | 19″ · 3 HE | 220 mm* | – | CEE 32 A In, CEE 32 A Out (Durchgang), Sicherungen | – | [Hersteller](https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Eurolite%20SB-1100%20Stromverteiler%2032%20A) |
+| Gerät | Bauform | Tiefe | Preis | Anschlüsse vorn | Anschlüsse hinten | Ansicht | Links |
+|---|---|---|---|---|---|---|---|
+| Eurolite SB-1100 Stromverteiler 32 A | 19″ · 3 HE | 295 mm | 399,00 € | FI 40 A/30 mA 4-polig, 9× 2× LS C16 3-polig, 3× LS C16 1-polig, 2× CEE 16 A Out 5-polig (abgesichert) | 6× Schutzkontakt mit Klappdeckel (abgesichert), CEE 32 A Out (Durchgang), Zuleitung fest mit CEE 32 A Stecker | M | [Hersteller](https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html) · [Thomann](https://www.thomann.de/de/search_dir.html?sw=Eurolite%20SB-1100%20Stromverteiler%2032%20A) |
 
-### Rackwannen für Geräte
+### Rackwannen und Rackkits
 
-| Wanne | Art.-Nr. | Preis | Hinweis |
+| Wanne/Kit | Art.-Nr. | Preis | Hinweis |
 |---|---|---|---|
-| [Blackmagic Universal Rack Shelf](https://www.blackmagicdesign.com/de/products/teranexmini) | CONVNTRM/YA/RSU | 109,00 € | 1 HE, Raster in Sechsteln: drittel (2/6) und halbe (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte, Schrauben. |
-| [Thon Rack Adapter 1U 25 (Rackwanne)](https://www.thomann.de/de/thon_rackwanne_1he.htm) | Thomann 127151 | prüfen | Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bevorzugt bündig zur Vorderkante. |
+| [Rackwanne 1 HE, 375 mm tief (Adam Hall 87551)](https://www.adamhall.com) | Adam Hall 87551 | 24,00 € | Rackwanne mit Rackohren. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen). |
+| [Rackwanne 2 HE, 375 mm tief (Adam Hall 87552)](https://www.adamhall.com) | Adam Hall 87552 | 29,50 € | Rackwanne mit Rackohren, 2 HE. Geräte frei anordnen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen). |
+| [Blackmagic Universal Rack Shelf](https://www.blackmagicdesign.com/de/products/teranexmini) | CONVNTRM/YA/RSU | 109,00 € | Rackwanne mit festen Verschraubungspunkten für Blackmagic-Geräte: Raster in Sechsteln, 1/3 (2/6) und 1/2 (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte. |
+| [Thon Rack Adapter 1U 25 (Rackwanne)](https://www.thomann.de/de/thon_rackwanne_1he.htm) | Thomann 127151 | prüfen | Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. |
+| [MA Rackmontage-Kit für zwei Nodes (130283)](https://www.malighting.com) | MA 130283 | prüfen | Zwei grandMA3 Nodes halber Breite (2Port/4Port) nebeneinander im 19″-Rack. Für einen einzelnen Node: Rackkit mit Blindblech (130281). |
+| [Shure Rackmontage-Kit für zwei Geräte halber Breite](https://www.shure.com/de-DE) | im Lieferumfang der Geräte | prüfen | Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen. |
 
 ## Zusätzliche D-Einsätze (Stand 11)
 

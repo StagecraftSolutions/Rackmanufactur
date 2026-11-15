@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-15 – Stand 14 · Maßstäbliche Geräte
+
+- Maßstäbliche Ansichten nach Herstellerzeichnung/-foto: **Teranex Mini** (Front aller Modelle, Rückseite SDI to HDMI), **UniFi USW-24-PoE** (vorn/hinten), **ATEM 2 M/E Constellation HD** (vorn/hinten), **grandMA3 2Port/4Port/8Port Node** (vorn).
+- Neu im Katalog: **grandMA3 Nodes** (2Port, 4Port, 4Port PoE, 8Port, 8Port PoE, onPC 8Port Node 4k) und **ATEM Constellation** (1/2/4 M/E HD, 1/2/4 M/E 4K, 4 M/E 4K Plus).
+- **MA-Rackkit** (130283) für zwei Nodes halber Breite; Shure- und MA-Geräte werden nicht gemischt.
+- BMD-Raster kennt 2/3 Rackbreite (ATEM 1 M/E Constellation).
+- Inspektor nennt, welche Seite maßstäblich ist.
+
 ## 2026-11-15 – Stand 13 · Gerätedarstellung
 
 - Rackwannen ohne perspektivische Linien; leere Bereiche schwarz.

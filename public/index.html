@@ -469,6 +469,10 @@ td input.shop { min-width: 110px; }
 .exlbl { fill: #e8eaed; font-family: var(--f-display); font-weight: 600; letter-spacing: .04em; dominant-baseline: central; }
 .exorange { fill: #f0a030; } .exthin { font-weight: 400; letter-spacing: .02em; } .exdark { fill: #4b5159; }
 .ex-cover { fill: #15171a; stroke: #3a3f45; stroke-width: .3; } .ex-led { fill: #f4f4f4; } .ex-screen { fill: #0d1b2a; stroke: #7d8790; stroke-width: .4; } .ex-ring { fill: none; stroke: #6fb6e8; stroke-width: .6; }
+.exbtn-dk { fill: #3a3f45; stroke: #22262a; stroke-width: .3; } .exbtn-w { fill: #e9ecef; } .exbtn-g { fill: #4ade80; } .exbtn-r { fill: #ef4444; } .exbtn-a { fill: #fbbf24; }
+.exbtnt { fill: #2a2e33; font-family: var(--f-display); font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+.exma { fill: #f4f4f4; } .exmat { fill: #15171a; font-family: var(--f-display); font-weight: 700; text-anchor: middle; dominant-baseline: central; } .exmal { stroke: #15171a; stroke-width: .5; }
+.exmabar { fill: #3a4048; } .exmagreen { fill: #22c55e; } .exmayel { fill: #eab308; } .exencring { fill: none; stroke: #22c55e; stroke-width: .9; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -935,6 +939,21 @@ const DEVDB = {
   bm_audiomon: { n: 'Blackmagic Audio Monitor 12G G3', mk: 'Blackmagic Design', g: 'Blackmagic · Monitoring', fit: 'rack', he: 1, d: 200, chk: 1, url: BMD + 'blackmagicaudiomonitor', io: { f: 'lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz' } },
   bm_vh_20: { n: 'Blackmagic Videohub 20x20 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   bm_cleanswitch: { n: 'Smart Videohub CleanSwitch 12x12 6G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  // MA Lighting · grandMA3 Nodes (Datenblätter MA Lighting, 3/2024)
+  ma3_2port: { n: 'grandMA3 2Port Node', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'half', kitType: 'ma', frac: 1 / 2, w: 207, h: 43, d: 184, art: '4010515', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:2 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1' } },
+  ma3_4port: { n: 'grandMA3 4Port Node', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'half', kitType: 'ma', frac: 1 / 2, w: 207, h: 43, d: 184, art: '4010516', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:4 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1' } },
+  ma3_4port_poe: { n: 'grandMA3 4Port Node PoE', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'half', kitType: 'ma', frac: 1 / 2, w: 207, h: 43, d: 184, chk: 1, url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:4 DMX (In/Out konfigurierbar); rj45:1 etherCON (PoE)' } },
+  ma3_8port: { n: 'grandMA3 8Port Node', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'rack', he: 1, d: 189, art: '4010517', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1' } },
+  ma3_8port_poe: { n: 'grandMA3 8Port Node PoE', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'rack', he: 1, d: 189, chk: 1, url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON (PoE); usba:1 USB 2.0' } },
+  ma3_onpc_8port_4k: { n: 'grandMA3 onPC 8Port Node 4k', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'rack', he: 1, d: 189, art: '4010514', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1' } },
+  // Blackmagic · ATEM Constellation (blackmagicdesign.com, Bauform laut techn. Daten)
+  atemc_1me_hd: { n: 'ATEM 1 M/E Constellation HD', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'bmd', frac: 2 / 3, d: 180, chk: 1, url: BMD + 'atemconstellation', io: { f: 'btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:18 10× SDI In, 6× SDI Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz' } },
+  atemc_2me_hd: { n: 'ATEM 2 M/E Constellation HD', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 1, d: 182, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 2×10 Quelltasten, CUT/AUTO, Funktionstasten; lcd:1 LCD; knob:1 Regler', r: 'bnc:35 20× SDI In, 12× SDI Out, 2× Multiview, Referenz In; rj45:2 Ethernet (Control), Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz' } },
+  atemc_4me_hd: { n: 'ATEM 4 M/E Constellation HD', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 2, d: 190, chk: 1, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:68 40× SDI In, 24× SDI Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:2 Netz (redundant)' } },
+  atemc_1me_4k: { n: 'ATEM 1 M/E Constellation 4K', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'bmd', frac: 2 / 3, d: 180, chk: 1, url: BMD + 'atemconstellation', io: { f: 'btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:18 12G-SDI In/Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz' } },
+  atemc_2me_4k: { n: 'ATEM 2 M/E Constellation 4K', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 1, d: 182, chk: 1, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:35 12G-SDI In/Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz' } },
+  atemc_4me_4k: { n: 'ATEM 4 M/E Constellation 4K', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 2, d: 200, chk: 1, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:70 40× 12G-SDI In, 28× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)' } },
+  atemc_4me_4kplus: { n: 'ATEM 4 M/E Constellation 4K Plus', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 4, d: 220, chk: 1, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:134 80× 12G-SDI In, 52× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)' } },
   // Ubiquiti UniFi
   ucg_max: { n: 'UniFi Cloud Gateway Max', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'free', w: 213, h: 32, d: 128, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/ucg-max', io: { f: 'lcd:1 Status-Display; rj45:5 4× 2,5GbE LAN, 1× 2,5GbE WAN', r: 'usbc:1 Stromversorgung' } },
   usw_pro_max_24_poe: { n: 'UniFi Pro Max 24 PoE', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 285, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-pro-max-24-poe', io: { f: 'lcd:1 Touch-Display; rj45:24 16× GbE PoE+, 8× 2,5GbE PoE++; sfp:2 10G SFP+', r: 'iec:1 Netz' } },
@@ -969,7 +988,7 @@ const DEVDB = {
 const DEV_GROUPS = [...new Set(Object.values(DEVDB).map(d => d.g))];
 const thomannQ = d => 'https://www.thomann.de/de/search_dir.html?sw=' + encodeURIComponent(d.n.replace(/\s*\(.*\)/, ''));
 const devOf = id => DEVDB[id] || null;
-const fitTxt = d => d.fit === 'rack' ? `19″ · ${fmtHE(d.he)}` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : '1/2'} Rackbreite · BMD-Raster` : d.fit === 'half' ? 'halbe Rackbreite · Shure-Rackkit' : `${d.w} × ${d.h} mm · in Rackwanne`;
+const fitTxt = d => d.fit === 'rack' ? `19″ · ${fmtHE(d.he)}` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : d.frac < .6 ? '1/2' : '2/3'} Rackbreite · BMD-Raster` : d.fit === 'half' ? `halbe Rackbreite · ${kitOf(d) === 'ma' ? 'MA' : 'Shure'}-Rackkit` : `${d.w} × ${d.h} mm · in Rackwanne`;
 const devW = d => d.w || Math.round((d.frac || 1 / 3) * 432);   // Breite für freie Wannen
 const devH = d => d.h || 41;
 // „typ:anzahl Text; …“ → [{t, n, txt}]
@@ -986,7 +1005,9 @@ const SHELVES = {
     info: 'Rackwanne mit festen Verschraubungspunkten für Blackmagic-Geräte: Raster in Sechsteln, 1/3 (2/6) und 1/2 (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte.' },
   thon_1u: { n: 'Thon Rack Adapter 1U 25 (Rackwanne)', short: 'Thon Rackwanne 1 HE', mk: 'Thomann', art: 'Thomann 127151', price: null, src: 'check', q: 'thomann.de · Preis prüfen', shop: 'Thomann', he: 1, mode: 'free', innerW: 435, depth: 255, acc: ['free', 'bmd', 'half'], url: 'https://www.thomann.de/de/thon_rackwanne_1he.htm',
     info: 'Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante.' },
-  shure_kit: { n: 'Shure Rackmontage-Kit für zwei Geräte halber Breite', short: 'Shure-Rackkit', mk: 'Shure', art: 'im Lieferumfang der Geräte', price: null, src: 'ref', q: 'liegt Shure-Empfängern/-Sendern halber Breite bei', he: 1, mode: 'grid', cells: 2, depth: 0, acc: ['half'], kit: true, url: 'https://www.shure.com/de-DE',
+  ma_kit: { n: 'MA Rackmontage-Kit für zwei Nodes (130283)', short: 'MA-Rackkit', mk: 'MA Lighting', art: 'MA 130283', price: null, src: 'check', q: 'Einzel-Node: Kit mit Blindblech 130281', shop: 'MA Lighting', he: 1, mode: 'grid', cells: 2, depth: 0, acc: ['half'], kit: true, kitType: 'ma', url: 'https://www.malighting.com',
+    info: 'Zwei grandMA3 Nodes halber Breite (2Port/4Port) nebeneinander im 19″-Rack. Für einen einzelnen Node: Rackkit mit Blindblech (130281).' },
+  shure_kit: { kitType: 'shure', n: 'Shure Rackmontage-Kit für zwei Geräte halber Breite', short: 'Shure-Rackkit', mk: 'Shure', art: 'im Lieferumfang der Geräte', price: null, src: 'ref', q: 'liegt Shure-Empfängern/-Sendern halber Breite bei', he: 1, mode: 'grid', cells: 2, depth: 0, acc: ['half'], kit: true, url: 'https://www.shure.com/de-DE',
     info: 'Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen.' },
 };
 const shelfOf = it => SHELVES[it.shelf] || SHELVES.ah_1u;
@@ -994,7 +1015,8 @@ const cellsOf = (d, Sh) => Math.max(1, Math.round((d.frac || 1 / 3) * Sh.cells))
 const devCells = d => cellsOf(d, SHELVES.bmd_urs);
 const shelfW = it => shelfOf(it).mode === 'grid' ? shelfOf(it).cells : shelfOf(it).innerW;
 const shelfUsed = it => (it.devs || []).reduce((s, x) => s + (shelfOf(it).mode === 'grid' ? cellsOf(devOf(x.dev), shelfOf(it)) : devW(devOf(x.dev))), 0);
-const shelfAccepts = (it, d) => !!d && shelfOf(it).acc.includes(d.fit);
+const kitOf = d => d.kitType || (d.fit === 'half' ? 'shure' : null);
+const shelfAccepts = (it, d) => { const S = shelfOf(it); return !!d && S.acc.includes(d.fit) && (!S.kitType || kitOf(d) === S.kitType); };
 function shelfFits(it, dev, x, skip = -1) {
   const S = shelfOf(it), d = devOf(dev); if (!d || !shelfAccepts(it, d)) return false;
   const wOf = q => S.mode === 'grid' ? cellsOf(q, S) : devW(q), w = wOf(d);
@@ -1314,6 +1336,12 @@ function exactFace(d, id, side, X, Y) {
   L.forEach(e => {
     const x = X + e.x, y = Y + e.y;
     switch (e.t) {
+      case 'btn': g += `<rect x="${f(x - e.w / 2)}" y="${f(y - e.h / 2)}" width="${e.w}" height="${e.h}" rx="1.2" class="${e.c || 'exbtn-dk'}"/>` + (e.v ? `<text x="${f(x)}" y="${f(y)}" class="exbtnt" style="font-size:${Math.min(3.2, e.w / 3.2).toFixed(2)}px">${esc(e.v)}</text>` : ''); break;
+      case 'malogo': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" class="exma"/><text x="${f(x + e.w * .27)}" y="${f(y + e.h * .58)}" class="exmat" style="font-size:${f(e.h * .8)}px">M</text><text x="${f(x + e.w * .75)}" y="${f(y + e.h * .58)}" class="exmat" style="font-size:${f(e.h * .8)}px">A</text><line x1="${f(x + e.w / 2)}" y1="${f(y)}" x2="${f(x + e.w / 2)}" y2="${f(y + e.h)}" class="exmal"/>`; break;
+      case 'madisp': { let s2 = `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx=".8" class="ex-screen"/><rect x="${f(x + 1.5)}" y="${f(y + 1.5)}" width="${f(e.w - 3)}" height="3" class="exmabar"/><rect x="${f(x + 3)}" y="${f(y + 7)}" width="${f(e.w * .3)}" height="1.6" class="pg-lcdl"/><rect x="${f(x + e.w * .55)}" y="${f(y + 7)}" width="${f(e.w * .25)}" height="1.6" class="exmagreen"/>`;
+        const n = 8; for (let k = 0; k < n; k++) s2 += `<rect x="${f(x + 2 + k * (e.w - 4) / n)}" y="${f(y + e.h - 8)}" width="${f((e.w - 4) / n - .6)}" height="4" class="${k === 2 || k === 3 ? 'exmayel' : 'exmagreen'}"/>`;
+        g += s2; break; }
+      case 'enc': g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(e.r + .8)}" class="${e.plain ? 'pg-knob' : 'exencring'}"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(e.r)}" class="pg-knob"/><line x1="${f(x)}" y1="${f(y)}" x2="${f(x + e.r * .6)}" y2="${f(y - e.r * .6)}" class="pg-knobl"/>`; break;
       case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
       case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
       case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
@@ -1355,6 +1383,40 @@ EXACT.usw_24_poe = { hw: 442, f: [
   ...Array.from({ length: 24 }, (_, i) => { const c = Math.floor(i / 2), r = i % 2; return { t: 'rj45', x: 20.3 + 218 + c * 14.4 + (c >= 8 ? 2 : 0), y: r ? 28.5 : 13, s: 10 }; }),
   { t: 'sfp', x: 20.3 + 412, y: 13, s: 9 }, { t: 'sfp', x: 20.3 + 412, y: 28.5, s: 9 }, { t: 'reset', x: 20.3 + 427, y: 33 },
 ], r: [ { t: 'iec', x: 394, y: 24, s: 17 }, { t: 'txt', x: 350, y: 24, v: 'UniFi', s: 3, c: 'exdark' } ] };
+
+// grandMA3 Nodes: Front halbe Breite 207 × 43 mm, 8Port auf der 19″-Frontplatte
+const MA_HALF = name => [
+  { t: 'malogo', x: 4, y: 4, w: 26, h: 14 }, { t: 'txt', x: 4, y: 23.5, v: 'grandMA3', s: 3, a: 'start' }, { t: 'txt', x: 4, y: 27.5, v: name, s: 3, a: 'start' },
+  { t: 'madisp', x: 53, y: 10, w: 78, h: 23 }, { t: 'txt', x: 160, y: 19, v: 'MENU', s: 2.4 }, { t: 'enc', x: 160, y: 28, r: 4.6 },
+];
+EXACT.ma3_2port = { w: 207, h: 43, f: MA_HALF('2Port Node') };
+EXACT.ma3_4port = { w: 207, h: 43, f: MA_HALF('4Port Node') };
+EXACT.ma3_4port_poe = { w: 207, h: 43, f: MA_HALF('4Port Node PoE') };
+const MA_FULL = name => [
+  { t: 'malogo', x: 25, y: 4, w: 27, h: 14 }, { t: 'txt', x: 25, y: 23.5, v: 'grandMA3', s: 3, a: 'start' }, { t: 'txt', x: 25, y: 27.5, v: name, s: 3, a: 'start' },
+  { t: 'madisp', x: 298, y: 10, w: 82, h: 23 }, { t: 'txt', x: 412, y: 18, v: 'MENU', s: 2.4 }, { t: 'enc', x: 412, y: 28, r: 4.6 },
+];
+EXACT.ma3_8port = { f: MA_FULL('8Port Node') };
+EXACT.ma3_8port_poe = { f: MA_FULL('8Port Node PoE') };
+EXACT.ma3_onpc_8port_4k = { f: MA_FULL('onPC 8Port Node 4k') };
+// ATEM 2 M/E Constellation HD (Maßzeichnung Blackmagic: 482 × 44,2 × 181,8 mm)
+EXACT.atemc_2me_hd = { hw: 482.6, f: [
+  { t: 'xlr', x: 48, y: 15.6, s: 11 },
+  ...[73.5, 86.3].flatMap(x => [11, 24].map(y => ({ t: 'btn', x, y, w: 10, h: 8, c: 'exbtn-dk' }))), { t: 'btn', x: 73.5, y: 36, w: 10, h: 6, c: 'exbtn-dk' }, { t: 'btn', x: 86.3, y: 36, w: 10, h: 6, c: 'exbtn-dk' },
+  ...Array.from({ length: 20 }, (_, i) => ({ t: 'btn', x: 112 + (i % 10) * 15.3, y: i < 10 ? 15 : 32, w: 13, h: 13, c: i === 0 ? 'exbtn-g' : i === 13 ? 'exbtn-r' : 'exbtn-w', v: String(i + 1) })),
+  { t: 'btn', x: 277, y: 15, w: 14, h: 13, c: 'exbtn-w', v: 'CUT' }, { t: 'btn', x: 277, y: 32, w: 14, h: 13, c: 'exbtn-a', v: 'AUTO' },
+  ...[302, 316, 330, 343].flatMap(x => [11, 24, 37].map(y => ({ t: 'btn', x, y, w: 11, h: 9, c: 'exbtn-dk' }))),
+  { t: 'screen', x: 360, y: 6.5, w: 44, h: 34 }, { t: 'enc', x: 422, y: 22, r: 8.3, plain: 1 },
+  ...[11, 24, 37].map(y => ({ t: 'btn', x: 442, y, w: 10, h: 9, c: 'exbtn-dk' })),
+  { t: 'txt', x: 404, y: 3.4, v: 'Blackmagicdesign', s: 1.8, a: 'end', c: 'exthin' },
+], r: [
+  { t: 'iec', x: 52, y: 21, s: 17 }, { t: 'rj45', x: 82, y: 10, s: 10 }, { t: 'rj45', x: 101, y: 10, s: 10 }, { t: 'usbc', x: 82, y: 31, s: 9 }, { t: 'bnc', x: 101, y: 27, s: 11 },
+  ...Array.from({ length: 20 }, (_, i) => ({ t: 'bnc', x: 122 + (i % 10) * 18, y: i < 10 ? 8.5 : 27.3, s: 11 })),
+  ...Array.from({ length: 12 }, (_, i) => ({ t: 'bnc', x: 303.5 + (i % 6) * 18.3, y: i < 6 ? 8.5 : 27.3, s: 11 })),
+  { t: 'bnc', x: 414, y: 8.5, s: 11 }, { t: 'bnc', x: 414, y: 27.3, s: 11 }, { t: 'jack', x: 441, y: 8.5, s: 16 }, { t: 'jack', x: 441, y: 27.3, s: 16 },
+  { t: 'txt', x: 82, y: 3, v: 'CONTROL', s: 1.6 }, { t: 'txt', x: 101, y: 3, v: 'TALKBACK', s: 1.6 }, { t: 'txt', x: 82, y: 38, v: 'USB-C', s: 1.6 }, { t: 'txt', x: 101, y: 38, v: 'REF IN', s: 1.6 },
+  { t: 'txt', x: 203, y: 38.5, v: 'SDI INPUTS', s: 1.8 }, { t: 'txt', x: 349, y: 38.5, v: 'SDI OUTPUTS', s: 1.8 }, { t: 'txt', x: 414, y: 38.5, v: 'MULTIVIEW', s: 1.6 }, { t: 'txt', x: 441, y: 38.5, v: 'ANALOG AUDIO IN', s: 1.5 },
+] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
 function title(it) {
@@ -1631,7 +1693,7 @@ function faceSVG(it, xL, W, live = false) {
       const drag = (i, d, body) => `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${body}</g>`;
       if (S.kit) {   // Shure: zwei halbe Geräte, Seitenteile als Rackohren
         g += panelBase(xL, y, EAR + 5, h) + panelBase(xL + W19 - EAR - 5, y, EAR + 5, h);
-        if (it.antFront) [xL + (EAR + 5) / 2, xL + W19 - (EAR + 5) / 2].forEach(cx => { g += `<circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="3.6" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="1.3" class="pg-hole"/>`; });
+        if (it.antFront && it.shelf === 'shure_kit') [xL + (EAR + 5) / 2, xL + W19 - (EAR + 5) / 2].forEach(cx => { g += `<circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="3.6" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(y + h / 2)}" r="1.3" class="pg-hole"/>`; });
         const cw = iw / 2;
         g += `<rect x="${f(x0 + cw - .6)}" y="${f(y + .6)}" width="1.2" height="${f(h - 1.2)}" class="pnl"/>`;
         const occ = [false, false];
@@ -1887,7 +1949,8 @@ function bom() {
         break;
       case 'tray': add('tray' + it.he, ART['tray' + it.he], 1); break;
       case 'shelf': { const Sh = shelfOf(it); if (!Sh.kit) { if (Sh.bom) add(Sh.bom, ART[Sh.bom], 1); else add('shelf_' + it.shelf, { n: Sh.n, art: Sh.art, price: Sh.price, src: Sh.src, q: Sh.q, shop: Sh.shop }, 1); }
-        if (Sh.kit && it.antFront) add('shure_antfront', { n: 'Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)', art: '', src: 'check', q: 'Art.-Nr. je Gerätefamilie prüfen' }, 1);
+        if (Sh.kit && !Sh.price && Sh.kitType === 'ma') add('shelf_ma_kit', { n: Sh.n, art: Sh.art, price: null, src: 'check', q: Sh.q, shop: Sh.shop }, 1);
+        if (Sh.kit && it.antFront && it.shelf === 'shure_kit') add('shure_antfront', { n: 'Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)', art: '', src: 'check', q: 'Art.-Nr. je Gerätefamilie prüfen' }, 1);
         it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + it.id + '_' + o.x, { n: `Gerät: ${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); }); break; }
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
@@ -2049,7 +2112,7 @@ function renderInsp() {
     case 'shelf': {
       const Sh = shelfOf(it), grid = Sh.mode === 'grid';
       h += `<p class="hint">${esc(Sh.art)} · ${Sh.price != null ? EUR.format(Sh.price) : 'Preis offen'} · ${esc(Sh.info)} <a href="${Sh.url}" target="_blank" rel="noopener">Produktseite</a></p>`;
-      if (Sh.kit) h += `<label class="check"><input type="checkbox" data-f="antFront" ${it.antFront ? 'checked' : ''}> Antennen nach vorn (BNC an den Seitenteilen)</label>`;
+      if (it.shelf === 'shure_kit') h += `<label class="check"><input type="checkbox" data-f="antFront" ${it.antFront ? 'checked' : ''}> Antennen nach vorn (BNC an den Seitenteilen)</label>`;
       h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Belegt: ${grid ? `${shelfUsed(it)} von ${Sh.cells} ${Sh.cells === 2 ? 'Hälften' : 'Sechsteln'}` : `${Math.round(shelfUsed(it))} von ${Sh.innerW} mm`}</span>${grid ? '' : '<button type="button" class="btn sm" data-shpack>Links bündig anordnen</button>'}</div>`;
       h += '<ul class="shlist">' + it.devs.map((o, i) => { const d = devOf(o.dev);
         const pos = grid ? `<select data-shx="${i}" aria-label="Position">${[...Array(Sh.cells).keys()].filter(x => x === o.x || shelfFits(it, o.dev, x, i)).map(x => `<option value="${x}" ${x === o.x ? 'selected' : ''}>${Sh.cells === 2 ? (x ? 'rechts' : 'links') : 'ab ' + (x + 1) + '/6'}</option>`).join('')}</select>` : `<input type="number" data-shx="${i}" min="0" max="${Sh.innerW - devW(d)}" step="1" value="${Math.round(o.x)}" aria-label="Abstand links in mm">`;
@@ -2171,7 +2234,7 @@ function notesData() {
       out.push({ drill: drill || bd.length > 0, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + (bd.length ? `Blindplatten mittig bohren – ${bd.join(', ')}. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
-    if (it.kind === 'shelf' && shelfOf(it).kit) { out.push({ h: `Shure-Rackkit · ${where}`, t: `${it.devs.map(o => `${devOf(o.dev).n} ${o.x ? 'rechts' : 'links'}`).join(', ') || 'leer'}: mit Verbindungsblech mittig verschrauben, Seitenteile als Rackohren.${it.antFront ? ' Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.' : ''}${it.devs.length < 2 ? ' Freie Hälfte mit Blindblech schließen.' : ''}` }); }
+    if (it.kind === 'shelf' && shelfOf(it).kit) { out.push({ h: `${shelfOf(it).short} · ${where}`, t: `${it.devs.map(o => `${devOf(o.dev).n} ${o.x ? 'rechts' : 'links'}`).join(', ') || 'leer'}: mit Verbindungsblech mittig verschrauben, Seitenteile als Rackohren.${it.antFront ? ' Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.' : ''}${it.devs.length < 2 ? ' Freie Hälfte mit Blindblech schließen.' : ''}` }); }
     else if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
     if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
@@ -2210,7 +2273,7 @@ function renderSteps() {
   document.querySelectorAll('.step').forEach(el => { el.hidden = +el.dataset.step !== state.step; });
   document.querySelectorAll('.steps [data-step]').forEach(b => { if (+b.dataset.step === state.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
 }
-const devInfo = d => `<div class="devinfo"><p class="eyebrow">${Object.keys(DEVDB).some(k => DEVDB[k] === d && EXACT[k]) ? 'Darstellung maßstäblich nach Herstellerfoto/Datenblatt' : 'Darstellung schematisch – Lage der Anschlüsse nicht maßstäblich'}${d.note ? ' · ' + esc(d.note) : ''}</p><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
+const devInfo = d => `<div class="devinfo"><p class="eyebrow">${EXACT[d.id] ? `Maßstäblich nach Herstellerfoto/Datenblatt: ${EXACT[d.id].f ? 'vorn' : ''}${EXACT[d.id].f && EXACT[d.id].r ? ' und ' : ''}${EXACT[d.id].r ? 'hinten' : ''}${EXACT[d.id].f && EXACT[d.id].r ? '' : ' (andere Seite schematisch)'}` : 'Darstellung schematisch – Lage der Anschlüsse nicht maßstäblich'}${d.note ? ' · ' + esc(d.note) : ''}</p><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
 function devRows() {
   const r = [];
   [...sideItems('front'), ...sideItems('rear')].forEach(it => {
@@ -2316,7 +2379,7 @@ function renderDlg() {
     h += `<input id="devSearch" type="search" placeholder="Gerät suchen, z. B. Teranex, ULXD, UniFi …" aria-label="Gerät suchen">`;
     const SECT = [
       ['rack', '19″-Rackgeräte · eigene Rackohren'],
-      ['half', 'Halbe Rackbreite · Shure-Rackkit (liegt bei): zwei Geräte mittig nebeneinander'],
+      ['half', 'Halbe Rackbreite · Shure-Rackkit (liegt bei) bzw. MA-Rackkit: zwei Geräte nebeneinander'],
       ['bmd', 'Blackmagic 1/3 und 1/2 Rackbreite · Universal Rack Shelf'],
       ['free', 'Nicht 19″ · in eine Rackwanne'],
     ];
@@ -2375,7 +2438,7 @@ function insertDev(id) {
   const fixed = dlg.shelf && state.items.find(i => i.id === dlg.shelf.id && i.kind === 'shelf');
   if (fixed && shelfAccepts(fixed, d)) { const x = shelfFits(fixed, id, dlg.shelf.x) ? dlg.shelf.x : shelfFree(fixed, id); if (x != null) { fixed.devs.push({ dev: id, x }); sel = fixed.id; dlg.shelf = null; closeAdd(); state.step = 2; render(); toast(`${d.n} → ${shelfOf(fixed).short} ${heRange(fixed)}`); return; } }
   const ok = i => i.kind === 'shelf' && shelfAccepts(i, d) && shelfFree(i, id) != null;
-  const pref = d.fit === 'bmd' ? 'bmd_urs' : d.fit === 'half' ? 'shure_kit' : null;
+  const pref = d.fit === 'bmd' ? 'bmd_urs' : d.fit === 'half' ? (kitOf(d) === 'ma' ? 'ma_kit' : 'shure_kit') : null;
   const target = state.items.find(i => i.id === sel && ok(i)) || state.items.find(i => ok(i) && i.side === dlg.side && Math.abs(i.pos - dlg.pos) < 1e-6) || (pref && state.items.find(i => ok(i) && i.shelf === pref && i.side === dlg.side));
   if (target) { target.devs.push({ dev: id, x: shelfFree(target, id) }); sel = target.id; closeAdd(); state.step = 2; render(); toast(`${d.n} → ${shelfOf(target).short} ${heRange(target)}`); return; }
   insertItem('shelf', { shelf: pref || (devH(d) > HE - 4 ? 'ah_2u' : 'ah_1u'), devs: [{ dev: id, x: 0 }] });
