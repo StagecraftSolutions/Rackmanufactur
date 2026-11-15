@@ -221,6 +221,8 @@ svg text { font-family: var(--f-mono); }
 .trayline { fill: none; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
 .trayfloor { fill: var(--hw-tr1); fill-opacity: .1; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
 .backing { fill: var(--hw-well); }
+.traylinex { fill: none; stroke: var(--hw-ink-dim); stroke-width: .4; stroke-dasharray: 2 2; opacity: .55; }
+.traytxtx { fill: var(--hw-ink-dim); font-family: var(--f-mono); font-size: 3.4px; letter-spacing: .3px; }
 .veil { fill: var(--hw-well); opacity: .6; }
 .traytxt { fill: var(--hw-tr1); font-size: 3.6px; }
 .gapbox { fill: none; stroke: var(--hw-ink-dim); stroke-width: .5; stroke-dasharray: 2 2; }
@@ -1718,10 +1720,10 @@ function faceSVG(it, xL, W, live = false) {
         // Wanne von vorn gesehen: Boden als Trapez, Rückwand kleiner und etwas höher (Blick leicht von oben)
         const th = it.tray.he * HE - 3, x0 = xL + EAR + 3, x1 = xL + W19 - EAR - 3, yb = y + h - 1.5, yt = yb - th;
         const ins = 26, ybk = yb - th * .34, ytk = yt + th * .14, f = v => v.toFixed(2);
-        g += `<path d="M${f(x0)} ${f(yb)} L${f(x0 + ins)} ${f(ybk)} L${f(x1 - ins)} ${f(ybk)} L${f(x1)} ${f(yb)} Z" class="trayfloor"/>`;
-        g += `<rect x="${f(x0 + ins)}" y="${f(ytk)}" width="${f(x1 - x0 - ins * 2)}" height="${f(ybk - ytk)}" class="trayline"/>`;
-        g += `<path d="M${f(x0)} ${f(yb)} V${f(yt)} L${f(x0 + ins)} ${f(ytk)} M${f(x1)} ${f(yb)} V${f(yt)} L${f(x1 - ins)} ${f(ytk)}" class="trayline"/>`;
-        g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="traytxt" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
+        g += `<path d="M${f(x0)} ${f(yb)} L${f(x0 + ins)} ${f(ybk)} L${f(x1 - ins)} ${f(ybk)} L${f(x1)} ${f(yb)} Z" class="${live ? 'trayfloor' : 'traylinex'}"/>`;
+        g += `<rect x="${f(x0 + ins)}" y="${f(ytk)}" width="${f(x1 - x0 - ins * 2)}" height="${f(ybk - ytk)}" class="${live ? 'trayline' : 'traylinex'}"/>`;
+        g += `<path d="M${f(x0)} ${f(yb)} V${f(yt)} L${f(x0 + ins)} ${f(ytk)} M${f(x1)} ${f(yb)} V${f(yt)} L${f(x1 - ins)} ${f(ytk)}" class="${live ? 'trayline' : 'traylinex'}"/>`;
+        g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="${live ? 'traytxt' : 'traytxtx'}" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
       }
       break;
     }
