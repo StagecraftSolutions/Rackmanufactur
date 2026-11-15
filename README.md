@@ -40,19 +40,23 @@ Cases: **ProCase Pro Rackmodule** und **ProCase QSD-Racks** (procaseshop.de) sow
   - **PDF-Export** in Originalgröße auf A4 quer, mit Schnittmarken. Streifen breiter als die Seite werden an einer Teilungslinie in zwei Teile geteilt. Alle Beschriftungen eines Racks lassen sich auf einmal exportieren (Fertigung → „Beschriftungen als PDF“).
 - **Stückliste** mit Artikelnummern, Lieferant, Preisen und Quelle. Preise, Art.-Nr. und Lieferant lassen sich überschreiben.
 - **Bestelllisten je Lieferant** (ProCase, Thomann, weitere Händler, „Offen“, „Vorhanden“) zum Kopieren.
-- **Fertigungshinweise** pro Steckerfeld, Rackwanne, Beschriftung und hinten verschraubtem Gerät.
+- **Steckerfeld bestücken:** Typ per Klick aus der Palette, per Auswahlliste oder per Drag & Drop auf ein Loch in der Ansicht. Einbau je Loch von hinten oder von vorn.
+- **Fertigungshinweise** pro Steckerfeld (Bohrungen, Einbaurichtung), Rackwanne, Beschriftung und hinten verschraubtem Gerät.
+- **Export:** Projekt als PDF (Ansichten, Stückliste, Bestellung, Fertigung), Vorder-/Rückansicht als PNG, Projektdatei (.json) speichern und laden.
 - **Speichern:** im Browser (`localStorage`, Schlüssel `rackwerk-v1`), als Projektdatei (.json) und als JSON-Text. Ältere Stände (v1–v4) werden beim Laden migriert.
 
 ## Feste Regeln
 
 | Regel | Umsetzung |
 |---|---|
-| powerCON In/Out immer ganz links | Loch 1 = TRUE1 In (Seetronic SAC3MPX TR1), Loch 2 = TRUE1 Out; bei 2 HE in der oberen Reihe |
-| Loch 2 für TRUE1 Out | Wahlweise **SAC3FPX-LY TR1 + aufbohren** (orange Bohrmarkierung) oder **Seetronic SAC3FPX20 in D-Norm ohne Bohren** |
+| powerCON In/Out | Standard bei **hinten** montierten Steckerfeldern: Loch 1 = TRUE1 In (Seetronic SAC3MPX TR1), Loch 2 = TRUE1 Out; vorne montierte starten mit Blindplatten. Alle Löcher frei änderbar |
+| TRUE1 Out | Wahlweise **SAC3FPX-LY TR1 + aufbohren** (orange Bohrmarkierung) oder **Seetronic SAC3FPX20 in D-Norm ohne Bohren** |
 | Rackwannen | Als eigenes Modul oder hinter Gitter-/Rackblenden ab 1 HE |
 | Hinten montierte Module | Tiefe zählt von der Rückschiene nach vorn; Kollision, wenn sie in derselben HE auf ein vorderes Modul treffen |
 | Geräte als Platzhalter | Name mittig, Höhe in HE darunter, Tiefe für Kollisionsprüfung; optional zusätzlich hinten verschraubt |
 | Schrauben D-Einsätze | 2× Thon M3×12 pro Einsatz, Pack à 48 |
+| Einbau D-Einsätze | Je Loch von hinten (Standard, Flansch hinter der Blende) oder von vorn |
+| Lochbeschriftung | Abgeschaltet (`HOLE_LABELS = false`), weil sie gelasert werden müsste. Beschriftung über die Beschriftungsblende |
 | Rackschrauben | 4 je Modul, 2 bei 0,5 HE. RSS: ProCase-Sätze (4 liegen bei) · QSD-Stahlschiene: ProCase 119261 (24 liegen bei) · Thon-Aluschiene: M6 + Gleitmuttern · sonst M6 + Käfigmuttern |
 | Lieferant | Aus Art.-Nr. und Preisquelle abgeleitet; Warenkorb-Preise = Thomann (Millenium/Thon sind Thomann-Marken). Überschreibbar |
 
@@ -69,7 +73,8 @@ Siehe [docs/datenbasis.md](docs/datenbasis.md): alle Artikel mit Nummer, Preis, 
 - **Pro Rackmodul 715 mm:** Nutztiefe 637 mm ist abgeleitet, nicht vom Hersteller.
 - **Ohne Preis:** ProCase-Preise inkl. QSD (nur mit Händler-Login), Adam-Hall-Preise für 872213/872225 (nur mit Login), NC5MD-L-1, NBB-75DFIB, NL4MP, 87402, 87223 VR, 5924 BLP und Schaumstoffeinlagen 1/3/4 HE.
 - **SAC3FPX20 im Adam-Hall-D-Loch:** Laut Kundenbewertungen passt die Buchse knapp. Vor der Serie an einer Blende testen.
-- **PDF im Artifact:** Der Download nutzt die `downloads`-Freigabe von claude.ai, standalone geht er direkt über jsPDF. In claude.ai noch nicht von Hand getestet.
+- **Downloads im Artifact:** PDF, PNG und Projektdatei nutzen die `downloads`-Freigabe von claude.ai, standalone einen normalen Download. In claude.ai noch nicht von Hand getestet.
+- **Schriften im PNG/PDF:** Die Ansichten werden mit Systemschriften gerendert (Webfonts lassen sich nicht in das Bild einbetten).
 
 ## Code-Aufbau (`index.html`)
 
@@ -87,7 +92,9 @@ Siehe [docs/datenbasis.md](docs/datenbasis.md): alle Artikel mit Nummer, Preis, 
 | `span()` / `collisions()` | Tiefenbereich je Modul und Kollisionsprüfung vorn/hinten |
 | `rackSVG(L, 'front'/'rear')`, `sideSVG` | Ansichten als SVG in mm (1 HE = 44,45; 19″ = 482,6) |
 | `faceSVG` / `backSVG` / `behindSVG` | Modul von vorn, von hinten (gespiegelt), als Umriss der anderen Seite |
-| `exportLabels()` | PDF der Beschriftungsstreifen (jsPDF 2.5.1 von cdnjs, lädt bei Bedarf) |
+| `exportLabels()` / `exportProjectPdf()` | PDF der Beschriftungsstreifen bzw. des Projekts (jsPDF 2.5.1 von cdnjs, lädt bei Bedarf) |
+| `svgToPng()` / `exportPng()` | Ansicht mit eingebetteten Stilen als PNG; auch für die Bilder im Projekt-PDF |
+| `glyph(t, x, y, mount)` / `rearGlyph()` | Einsatz von vorn bzw. hinten gesehen, je nach Einbaurichtung (`mounts[]`: `r`/`f`) |
 | `bom()` / `shopOf()` / `normalize()` | Stückliste, Lieferant ableiten, Migration gespeicherter Stände nach v5 |
 
 Quellen-Kennzeichnung in der Stückliste: `cart` = Warenkorb, `web` = Webpreis 11/2026, `ref` = Art.-Nr. belegt, `check` = prüfen, `user` = eigene Angabe.

@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-15 – Stand 7
+
+- „Projektdatei laden“ in Stufe 1 (neben Beispiel und Neues Projekt sowie bei der Projektdatei).
+- Alle Löcher eines Steckerfelds frei belegbar, auch Loch 1 und 2; powerCON TRUE1 In/Out/D-Norm stehen in der Palette. Standard: hinten montierte Steckerfelder bekommen Loch 1/2 = TRUE1 In/Out, vorne montierte starten mit Blindplatten. Knopf „Loch 1/2 = TRUE1 In/Out“.
+- Lochbeschriftung abgeschaltet (müsste gelasert werden); Löcher sitzen mittig in der HE. Schalter `HOLE_LABELS` im Code.
+- Einbau der D-Einsätze je Loch **von hinten** (Standard) oder **von vorn**. Von hinten eingebaut zeigt die Vorderansicht nur Lochrand und Schrauben, die Rückansicht den Flansch; von vorn umgekehrt. Fertigungshinweis nennt die Einbaurichtung.
+- Steckertypen per **Drag & Drop** aus der Palette rechts auf ein Loch in der Ansicht oder auf eine Zeile der Lochliste ziehen.
+- **Projekt als PDF** (jsPDF): Deckblatt mit Vorder- und Rückansicht, Hinweise, Stückliste, Bestellung nach Lieferant, Fertigung, Seitenzahlen. Ersetzt „Drucken“.
+- **PNG-Export** der Vorder- und Rückansicht (Stufe 3) und der aktuellen Ansicht (Stufe 2).
+
 ## 2026-11-15 – Stand 6
 
 - Konfigurator in drei Stufen: **1 Projekt & Case**, **2 Konfigurator**, **3 Bestellen & Fertigen**.

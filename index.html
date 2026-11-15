@@ -337,6 +337,9 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 .toast.show { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
 [hidden] { display: none !important; }
+.pal[draggable="true"] { cursor: grab; }
+[data-slot].dropon > rect, [data-slot].dropon > circle:first-of-type { stroke: var(--accent); stroke-width: 2px; }
+[data-slotrow].dropon { border-color: var(--accent); background: var(--accent-soft); }
 
 /* Stufen */
 .steps { display: flex; gap: 4px; max-width: 1600px; margin: 0 auto 16px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow-x: auto; }
@@ -466,7 +469,7 @@ td input.shop { min-width: 110px; }
   <div class="s1">
     <div class="col">
       <section class="card">
-        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm danger" id="btnReset">Neues Projekt</button></div></header>
+        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" data-loadfile>Projektdatei laden</button><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm danger" id="btnReset">Neues Projekt</button></div></header>
         <div class="body">
           <div class="projfields">
             <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. FOH-Rack Stadthalle" data-proj="name"></div>
@@ -492,7 +495,9 @@ td input.shop { min-width: 110px; }
       <section class="card">
         <header><h2>Projektdatei</h2></header>
         <div class="body">
-          <div class="actions"><button type="button" class="btn sm" id="jsonSave">Als Datei speichern</button></div>
+          <div class="actions"><button type="button" class="btn sm" id="jsonSave">Projektdatei speichern</button><button type="button" class="btn sm" data-loadfile>Projektdatei laden</button></div>
+          <input type="file" id="fileIn" accept=".json,application/json" hidden>
+          <p class="hint">Die Projektdatei (.json) enthält Case, alle Module, Preise und Notizen und lässt sich hier wieder laden.</p>
           <details>
             <summary>Konfiguration als JSON (sichern / einspielen)</summary>
             <div class="body" style="padding-inline:0">
@@ -554,6 +559,7 @@ td input.shop { min-width: 110px; }
           <span class="legend"><span class="sw" style="background:var(--hw-drill)"></span>Loch aufbohren</span>
           <span class="legend"><span class="sw" style="background:var(--hw-rail)"></span>Rackschiene</span>
           <span id="stageHint">Klick auf ein Modul oder Loch wählt es aus.</span>
+          <button type="button" class="btn sm" data-png="view" style="margin-left:auto">Ansicht als PNG</button>
         </div>
       </section>
     </div>
@@ -573,7 +579,7 @@ td input.shop { min-width: 110px; }
   <div class="s3">
     <div class="col">
       <section class="card">
-        <header><h2>Übersicht</h2><div class="actions"><button type="button" class="btn sm" id="btnPrint">Drucken / PDF</button><button type="button" class="btn sm" id="jsonSave3">Projektdatei speichern</button></div></header>
+        <header><h2>Übersicht</h2><div class="actions"><button type="button" class="btn sm primary" id="btnPdf">Projekt als PDF</button><button type="button" class="btn sm" data-png="front">PNG vorn</button><button type="button" class="btn sm" data-png="rear">PNG hinten</button><button type="button" class="btn sm" id="jsonSave3">Projektdatei speichern</button></div></header>
         <div class="body" id="overview"></div>
       </section>
       <section class="card">
@@ -652,7 +658,8 @@ const CON = {
   nl4:      { s: 'NL4',       n: 'speakON 4-pol',                              art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
   open:     { s: 'offen',     n: 'Loch offen (ohne Einsatz)',                  art: '', price: null, src: 'user', g: 'open', nobom: true },
 };
-const PICK = ['xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'bnc', 'nl4', 'blank', 'open'];
+const PICK = ['pc_in', 'pc_out_d', 'pc_out', 'xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'bnc', 'nl4', 'blank', 'open'];
+const HOLE_LABELS = false;   // Lochbeschriftung (müsste gelasert werden) – vorerst abgeschaltet
 
 // Steckerfelder (Adam Hall 19" Parts Rack Panels, adamhall.com, 11/2026)
 const PANELS = {
@@ -816,8 +823,10 @@ function makeItem(kind, o = {}) {
     it.variant = o.variant || 'd12tb';
     const P = PANELS[it.variant], n = P.cols * P.rows;
     it.he = P.he;
-    it.slots = ['pc_in', o.outD ? 'pc_out_d' : 'pc_out', ...Array(n - 2).fill('blank')];
-    it.labels = ['Power In', 'Power Out', ...Array(n - 2).fill('')];
+    // Standard: hinten montiert → Loch 1/2 powerCON TRUE1 In/Out, vorne alles Blindplatte (frei änderbar)
+    it.slots = o.side === 'rear' ? ['pc_in', o.outD ? 'pc_out_d' : 'pc_out', ...Array(n - 2).fill('blank')] : Array(n).fill('blank');
+    it.labels = Array(n).fill('');
+    it.mounts = Array(n).fill('r');   // Einsätze von hinten (r) oder vorn (f) eingebaut
   }
   if (kind === 'vent' || kind === 'blank') it.tray = null;
   if (kind === 'tray') { it.he = o.he ?? 1; it.depth = 375; }
@@ -839,14 +848,12 @@ function makeCase(type = 'pro560', he = 6) {
 }
 function example() {
   const p = makeItem('dpanel', { pos: 0.5 });
-  p.slots = ['pc_in', 'pc_out', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi'];
-  p.labels = ['Power In', 'Power Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
+  p.slots = ['xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'blank'];
   const lb = makeItem('label', { pos: 0, div: 12, lines: 2 });
-  lb.cells = p.labels.map((t, i) => [t, ['230 V', '230 V', 'XLR', 'XLR', 'XLR', 'XLR', 'XLR', 'XLR', '5-pol', '5-pol', 'Cat', 'HDMI'][i]]);
+  lb.cells = [['Mic 1', 'XLR'], ['Mic 2', 'XLR'], ['Mic 3', 'XLR'], ['Mic 4', 'XLR'], ['Out L', 'XLR'], ['Out R', 'XLR'], ['DMX In', '5-pol'], ['DMX Out', '5-pol'], ['Netz', 'Cat'], ['Video', 'HDMI'], ['USB', ''], ['', '']];
   const v = makeItem('vent', { he: 2, pos: 4 }); v.tray = { he: 1, depth: 375 };
   const rp = makeItem('dpanel', { pos: 0, side: 'rear', variant: 'd12tb', outD: true });
   rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
-  rp.labels = ['Netz In', 'Netz Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
   return {
     v: 5, step: 2,
     project: { name: 'Beispiel · FOH-Rack', client: '', note: '' },
@@ -899,7 +906,8 @@ function normalize(s) {
       it.he = P.he;
       it.slots = (it.slots || []).slice(0, n); while (it.slots.length < n) it.slots.push('blank');
       it.labels = (it.labels || []).slice(0, n); while (it.labels.length < n) it.labels.push('');
-      it.slots[0] = 'pc_in'; if (it.slots[1] !== 'pc_out_d') it.slots[1] = 'pc_out';
+      it.slots = it.slots.map(s => CON[s] ? s : 'blank');
+      it.mounts = (it.mounts || []).slice(0, n); while (it.mounts.length < n) it.mounts.push('r');
     }
     if (it.kind === 'label' && !Array.isArray(it.cells)) {
       const t = it.text || '';
@@ -1020,12 +1028,19 @@ function firstFree(side, he) {
 function compact(side) { let p = 0; sideItems(side).forEach(it => { it.pos = p; p += it.he; }); }
 
 /* ---------- Stecker-Glyphen (mm, Mittelpunkt cx/cy) ---------- */
-function glyph(t, cx, cy) {
+// mount: 'r' = von hinten eingebaut (Flansch hinter der Blende, vorn nur Lochrand + Schrauben) · 'f' = von vorn (Flansch sichtbar)
+function glyph(t, cx, cy, mount = 'f') {
   const c = CON[t] || CON.blank, g = c.g;
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
-  let s = `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="${g === 'blank' ? 'blankp' : 'flange'}"/>`
-        + `<circle cx="${cx + 9.5}" cy="${cy - 12}" r="1.3" class="screw"/><circle cx="${cx - 9.5}" cy="${cy + 12}" r="1.3" class="screw"/>`;
-  if (g === 'blank') return s;
+  const screws = `<circle cx="${cx + 9.5}" cy="${cy - 12}" r="1.3" class="screw"/><circle cx="${cx - 9.5}" cy="${cy + 12}" r="1.3" class="screw"/>`;
+  let s;
+  if (mount === 'r') {
+    s = `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>` + screws;
+    if (g === 'blank') return s + `<circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`;
+  } else {
+    s = `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="${g === 'blank' ? 'blankp' : 'flange'}"/>` + screws;
+    if (g === 'blank') return s;
+  }
   const pins = (n, r, cls, rad) => {
     const ang = n === 3 ? [210, 330, 90] : [150, 210, 270, 330, 30];
     return ang.map(a => { const q = a * Math.PI / 180; return `<circle cx="${(cx + Math.cos(q) * rad).toFixed(2)}" cy="${(cy + Math.sin(q) * rad).toFixed(2)}" r="${r}" class="${cls}"/>`; }).join('');
@@ -1054,19 +1069,20 @@ function glyph(t, cx, cy) {
   return s;
 }
 function miniGlyph(t) { return `<svg viewBox="-14 -16 28 32" aria-hidden="true">${glyph(t, 0, 0)}</svg>`; }
-function rearGlyph(t, cx, cy, n) {
+// Rückseite eines Einsatzes: von hinten eingebaut ist der Flansch hinten sichtbar
+function rearGlyph(t, cx, cy, n, mount = 'r') {
   const c = CON[t] || CON.blank, g = c.g;
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
-  if (g === 'blank') return `<rect x="${cx - 11}" y="${cy - 13}" width="22" height="26" rx="2" class="blankp"/>`;
+  if (g === 'blank') return mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`;
   const tr = g === 'pcin' || g === 'pcout';
-  return `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>`
+  return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`)
     + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
     + `<text x="${cx}" y="${cy}" class="cnum${tr ? ' on-tr' : ''}">${n}</text>`;
 }
 // Lochmittelpunkte eines Steckerfelds (relativ zum Panel, x ab linker Panelkante)
 function holes(it) {
   const P = PANELS[it.variant], pitch = DSPAN / P.cols, out = [];
-  for (let r = 0; r < P.rows; r++) for (let c = 0; c < P.cols; c++) out.push({ i: r * P.cols + c, x: EAR + 7 + pitch * (c + .5), y: 18.6 + r * HE, r });
+  for (let r = 0; r < P.rows; r++) for (let c = 0; c < P.cols; c++) out.push({ i: r * P.cols + c, x: EAR + 7 + pitch * (c + .5), y: (HOLE_LABELS ? 18.6 : HE / 2) + r * HE, r });
   return out;
 }
 
@@ -1113,12 +1129,15 @@ function faceSVG(it, xL, W) {
       const P = PANELS[it.variant];
       holes(it).forEach(({ i, x, y: hy, r }) => {
         const t = it.slots[i], cx = +(xL + x).toFixed(2), cy = y + hy;
-        g += `<g data-slot="${i}">${glyph(t, cx, cy)}`;
+        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${glyph(t, cx, cy, it.mounts[i])}`;
         if (t === 'pc_out') g += `<circle cx="${cx}" cy="${cy}" r="14.6" class="drill"/>`;
-        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
-        const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
-        const max = P.cols > 12 ? 8 : 11;
-        g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text></g>`;
+        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - (HE - 1.4) / 2}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
+        if (HOLE_LABELS) {
+          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+          const max = P.cols > 12 ? 8 : 11;
+          g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text>`;
+        }
+        g += '</g>';
       });
       break;
     }
@@ -1208,11 +1227,14 @@ function backSVG(it, xL, W) {
       const P = PANELS[it.variant];
       holes(it).forEach(({ i, x, y: hy, r }) => {
         const t = it.slots[i], cx = mx(xL + x), cy = y + hy;
-        g += `<g data-slot="${i}">${rearGlyph(t, cx, cy, i + 1)}`;
-        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
-        const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
-        const max = P.cols > 12 ? 8 : 11;
-        g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text></g>`;
+        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${rearGlyph(t, cx, cy, i + 1, it.mounts[i])}`;
+        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - (HE - 1.4) / 2}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
+        if (HOLE_LABELS) {
+          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+          const max = P.cols > 12 ? 8 : 11;
+          g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text>`;
+        }
+        g += '</g>';
       });
       break;
     }
@@ -1509,16 +1531,17 @@ function renderInsp() {
     case 'dpanel': {
       const P = PANELS[it.variant], n = P.cols * P.rows;
       h += `<div class="field"><label for="f_variant">Blende</label><select id="f_variant" data-f="variant">${Object.entries(PANELS).map(([k, v]) => `<option value="${k}" ${k === it.variant ? 'selected' : ''}>${esc(v.short + ' · ' + v.art)}</option>`).join('')}</select></div>`;
-      h += `<div class="field"><label for="f_out">powerCON Out (Loch 2)</label><select id="f_out" data-f="out"><option value="drill" ${it.slots[1] === 'pc_out' ? 'selected' : ''}>SAC3FPX-LY TR1 · Loch aufbohren</option><option value="d" ${it.slots[1] === 'pc_out_d' ? 'selected' : ''}>SAC3FPX20 · D-Norm, ohne Bohren</option></select></div>`;
-      h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null && selSlot >= 2 ? 'Loch ' + (selSlot + 1) : 'nächstes Loch'}</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" data-assign="${t}" title="${esc(CON[t].n + (CON[t].art ? ' · ' + CON[t].art : ''))}">${miniGlyph(t)}<span>${esc(CON[t].s)}</span></button>`).join('')}</div></div>`;
+      h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null ? 'Loch ' + (selSlot + 1) : 'nächstes freie Loch'} · antippen oder auf ein Loch in der Ansicht ziehen</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" draggable="true" data-assign="${t}" title="${esc(CON[t].n + (CON[t].art ? ' · ' + CON[t].art : ''))}">${miniGlyph(t)}<span>${esc(t === 'pc_out' ? 'OUT bohren' : t === 'pc_out_d' ? 'OUT D-Norm' : CON[t].s)}</span></button>`).join('')}</div></div>`;
+      const nf = it.mounts.filter(m => m === 'f').length;
+      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Einbau: ${nf === 0 ? 'alle von hinten' : nf === n ? 'alle von vorn' : `${n - nf} hinten, ${nf} vorn`}</span><button type="button" class="btn sm" data-act="mountall-r">Alle von hinten</button><button type="button" class="btn sm" data-act="mountall-f">Alle von vorn</button></div>`;
       h += `<div class="slots">`;
       for (let i = 0; i < n; i++) {
         const t = it.slots[i], on = selSlot === i ? ' on' : '';
         if (P.rows > 1 && i % P.cols === 0) h += `<span class="eyebrow">Reihe ${i / P.cols + 1}</span>`;
-        if (i < 2) h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><span class="fixed">${esc(CON[t].s)} <span class="badge y">fest</span>${t === 'pc_out' ? '<span class="badge o">aufbohren</span>' : i === 1 ? '<span class="badge">D-Norm</span>' : ''}</span><input type="text" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
-        else h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select><input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
+        h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select>`
+          + (HOLE_LABELS ? `<input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}">` : `<select data-mount="${i}" aria-label="Einbau Loch ${i + 1}" ${t === 'open' ? 'disabled' : ''}><option value="r" ${it.mounts[i] !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${it.mounts[i] === 'f' ? 'selected' : ''}>von vorn</option></select>`) + `</div>`;
       }
-      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Loch 3–${n} auf Blindplatte</button></div>`;
+      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Alle auf Blindplatte</button><button type="button" class="btn sm" data-act="pcdefault">Loch 1/2 = TRUE1 In/Out</button></div>`;
       break;
     }
     case 'vent': case 'blank': {
@@ -1640,9 +1663,11 @@ function notesData() {
   all.forEach(it => {
     const where = `${heRange(it)} · ${sideTxt(it)}`;
     if (it.kind === 'dpanel') {
-      const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
-      const drill = it.slots[1] === 'pc_out';
-      out.push({ drill, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? 'Loch 2 für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ' : 'Loch 2: TRUE1-Out in D-Norm (SAC3FPX20), keine Bohrung nötig. ') + 'Loch 1 TRUE1 In (SAC3MPX TR1). Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
+      const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${t !== 'open' && it.mounts[i] === 'f' ? ' (vorn)' : ''}${HOLE_LABELS && it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
+      const drills = it.slots.map((t, i) => t === 'pc_out' ? i + 1 : 0).filter(Boolean), drill = drills.length > 0;
+      const fr = it.slots.map((t, i) => t !== 'open' && it.mounts[i] === 'f' ? i + 1 : 0).filter(Boolean);
+      const mountTxt = !fr.length ? 'Alle Einsätze von hinten einbauen (Flansch hinter der Blende), M3-Schrauben von vorn.' : fr.length === it.slots.filter(t => t !== 'open').length ? 'Alle Einsätze von vorn einbauen.' : `Einsätze von hinten einbauen, außer Loch ${fr.join(', ')} von vorn.`;
+      out.push({ drill, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
@@ -1740,7 +1765,7 @@ function renderDlg() {
   const price = a => a && a.price != null ? EUR.format(a.price) : 'Preis offen';
   let h = '';
   if (dlg.tab === 'module') {
-    h += `<div class="cgroup"><h3>Steckerfelder · Adam Hall · Loch 1/2 = powerCON TRUE1</h3><div class="opts">${Object.entries(PANELS).map(([k, P]) => `
+    h += `<div class="cgroup"><h3>Steckerfelder · Adam Hall · hinten montiert: Loch 1/2 = powerCON TRUE1 In/Out (änderbar)</h3><div class="opts">${Object.entries(PANELS).map(([k, P]) => `
       <div class="opt"><span class="on">${esc(P.short)}</span><span class="oa">${esc(P.art)} · ${price(P)}</span><div class="chips">${chip('dpanel', P.he, 'Einsetzen · ' + fmtHE(P.he), `data-variant="${k}"`)}</div></div>`).join('')}</div></div>`;
     h += `<div class="cgroup"><h3>Blenden</h3><div class="opts">
       <div class="opt"><span class="on">Beschriftungsblende</span><span class="oa">${esc(ART.label.art)} · ${price(ART.label)} · Teilungen, PDF</span><div class="chips">${chip('label', 0.5)}</div></div>
@@ -1915,12 +1940,198 @@ async function saveFile(filename, blob, what) {
   toast(`${what} erstellt`);
 }
 
+/* ---------- Bild-Export (PNG) ---------- */
+// SVG mit eingebetteten Stilen (CSS-Klassen und Variablen aufgelöst) als PNG rendern
+const STYLE_PROPS = ['fill', 'fill-opacity', 'stroke', 'stroke-width', 'stroke-dasharray', 'stroke-linecap', 'opacity', 'font-family', 'font-size', 'font-weight', 'letter-spacing', 'text-anchor', 'dominant-baseline', 'filter', 'display'];
+function viewSVG(mode) {
+  const L = layout(), keepSel = sel, keepSlot = selSlot;
+  sel = null; selSlot = null;
+  const svg = mode === 'side' ? sideSVG(L) : rackSVG(L, mode, { sfx: 'x', still: true });
+  sel = keepSel; selSlot = keepSlot;
+  return svg;
+}
+function svgToPng(svgText, scale = 4) {
+  return new Promise((res, rej) => {
+    const host = document.createElement('div');
+    host.style.cssText = 'position:fixed;left:-10000px;top:0;width:1200px;pointer-events:none';
+    host.innerHTML = svgText;
+    document.body.appendChild(host);
+    const src = host.querySelector('svg');
+    src.querySelectorAll('.free, #snap, title').forEach(e => e.remove());
+    const clone = src.cloneNode(true);
+    const a = [src, ...src.querySelectorAll('*')], b = [clone, ...clone.querySelectorAll('*')];
+    a.forEach((el, i) => {
+      const cs = getComputedStyle(el), st = b[i].style;
+      STYLE_PROPS.forEach(p => { const v = cs.getPropertyValue(p); if (v && v !== 'normal' && !(p === 'filter' && v === 'none')) st.setProperty(p, v); });
+      b[i].removeAttribute('class');
+    });
+    const vb = src.viewBox.baseVal, W = Math.round(vb.width * scale), H = Math.round(vb.height * scale);
+    clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    clone.setAttribute('width', W); clone.setAttribute('height', H);
+    clone.style.removeProperty('display');
+    host.remove();
+    const img = new Image();
+    img.onload = () => {
+      const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+      const ctx = cv.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
+      cv.toBlob(bl => bl ? res({ blob: bl, jpg: () => cv.toDataURL('image/jpeg', 0.88), w: W, h: H }) : rej(new Error('PNG fehlgeschlagen')), 'image/png');
+    };
+    img.onerror = () => rej(new Error('SVG konnte nicht gerendert werden'));
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));
+  });
+}
+const VIEW_NAME = { front: 'vorderansicht', rear: 'rueckansicht', side: 'seitenansicht' };
+async function exportPng(mode) {
+  try { const r = await svgToPng(viewSVG(mode)); await saveFile(`${slug()}-${VIEW_NAME[mode]}.png`, r.blob, 'PNG'); }
+  catch (e) { toast('PNG konnte nicht erstellt werden'); }
+}
+
+/* ---------- Projekt als PDF ---------- */
+// Standardschriften von jsPDF kennen nur Latin-1/WinAnsi
+const pdfTxt = s => String(s ?? '').replace(/″/g, '"').replace(/[„“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/→/g, '->').replace(/[–—]/g, '-').replace(/[^\x00-\xff€]/g, '?');
+async function exportProjectPdf() {
+  let lib;
+  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek nicht erreichbar. Bitte Verbindung prüfen.'); }
+  toast('PDF wird erstellt …');
+  let front, rear;
+  try { front = await svgToPng(viewSVG('front'), 3); rear = state.case.rear || state.items.some(i => i.side === 'rear') ? await svgToPng(viewSVG('rear'), 3) : null; }
+  catch (e) { return toast('Ansichten konnten nicht gerendert werden'); }
+  const L = layout(), p = state.project, c = state.case, ct = CASES[c.type], rows = bom();
+  const doc = new lib.jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const PW = 210, PH = 297, M = 14, CWID = PW - 2 * M;
+  let y = M;
+  const T = (s, x, yy, o) => doc.text(pdfTxt(s), x, yy, o);
+  const need = h => { if (y + h > PH - M - 6) { doc.addPage(); y = M; } };
+  const h2 = s => { need(12); y += 4; doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(0); T(s, M, y); y += 2; doc.setDrawColor(180); doc.setLineWidth(.2); doc.line(M, y, PW - M, y); y += 5; };
+  const para = (s, size = 9, style = 'normal', indent = 0) => {
+    doc.setFont('helvetica', style); doc.setFontSize(size);
+    doc.splitTextToSize(pdfTxt(s), CWID - indent).forEach(line => { need(size * .45); T(line, M + indent, y); y += size * .42; });
+  };
+  // Kopf
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); T(p.name || 'Rackwerk-Projekt', M, y + 4); y += 10;
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
+  T([p.client, `Stand ${new Date().toLocaleDateString('de-DE')}`, 'Rackwerk Konfigurator'].filter(Boolean).join(' · '), M, y); y += 7;
+  doc.setTextColor(0);
+  const facts = [['Case', `${ct.n} · ${c.he} HE · Nutztiefe ${c.depth} mm${ct.he.includes(c.he) && ct.art(c.he) ? ' · ' + ct.art(c.he) : ''}`], ['Rackschiene hinten', c.rear ? `bei ${c.railRear} mm hinter der Frontschiene` : 'keine'], ['Belegung', `vorn ${fmtN(L.front)} HE · hinten ${fmtN(L.rear)} HE`]];
+  if (p.note) facts.push(['Notiz', p.note]);
+  facts.forEach(([k, v]) => { doc.setFont('helvetica', 'bold'); doc.setFontSize(9); T(k, M, y); doc.setFont('helvetica', 'normal'); const ls = doc.splitTextToSize(pdfTxt(v), CWID - 38); ls.forEach((l, i) => T(l, M + 38, y + i * 4)); y += Math.max(1, ls.length) * 4 + 1; });
+  y += 3;
+  // Ansichten
+  const imgs = [[front, 'Vorderansicht'], [rear, 'Rückansicht (seitenverkehrt)']].filter(x => x[0]);
+  const colW = imgs.length > 1 ? (CWID - 6) / 2 : Math.min(CWID, 120);
+  let ih = Math.max(...imgs.map(([im]) => colW * im.h / im.w));
+  const maxH = PH - y - M - 12; let w = colW;
+  if (ih > maxH) { w = colW * maxH / ih; ih = maxH; }
+  imgs.forEach(([im, cap], k) => {
+    const x = M + k * (colW + 6), hh = w * im.h / im.w;
+    doc.addImage(im.jpg(), 'JPEG', x, y, w, hh);
+    doc.setFontSize(8); doc.setTextColor(90); T(cap, x, y + hh + 4); doc.setTextColor(0);
+  });
+  y += ih + 9;
+  const warns = warnings(L);
+  if (warns.length) { h2('Hinweise'); warns.forEach(wn => para('- ' + wn.t, 8.5)); }
+  // Stückliste
+  doc.addPage(); y = M;
+  h2('Stückliste');
+  const cols = [[12, 'Menge', 'r'], [74, 'Artikel'], [42, 'Art.-Nr.'], [24, 'Lieferant'], [15, 'Einzel', 'r'], [15, 'Summe', 'r']];
+  const head = () => { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); let x = M; cols.forEach(([cw, n, al]) => { T(n, al === 'r' ? x + cw - 1 : x, y, al === 'r' ? { align: 'right' } : undefined); x += cw; }); y += 2; doc.setDrawColor(150); doc.line(M, y, PW - M, y); y += 4; };
+  head();
+  let sum = 0, missing = 0;
+  rows.forEach(r => {
+    const tot = r.price != null && !r.own ? r.price * r.qty : null;
+    if (!r.own) { if (tot != null) sum += tot; else missing++; }
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8);
+    const cells = [`${r.qty}×`, r.n, r.art || '-', r.shop, r.own || r.price == null ? '-' : r.price.toFixed(2).replace('.', ','), tot != null ? tot.toFixed(2).replace('.', ',') : '-'];
+    const wrapped = cells.map((s, i) => doc.splitTextToSize(pdfTxt(s), cols[i][0] - 2));
+    const hgt = Math.max(...wrapped.map(l => l.length)) * 3.4;
+    if (y + hgt > PH - M - 6) { doc.addPage(); y = M; head(); doc.setFont('helvetica', 'normal'); doc.setFontSize(8); }
+    let x = M;
+    wrapped.forEach((ls, i) => { ls.forEach((l, k) => T(l, cols[i][2] === 'r' ? x + cols[i][0] - 1 : x, y + k * 3.4, cols[i][2] === 'r' ? { align: 'right' } : undefined)); x += cols[i][0]; });
+    y += hgt; doc.setDrawColor(225); doc.line(M, y - 2, PW - M, y - 2); y += 1.2;
+  });
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(9); need(8);
+  T(`${missing ? `Summe bekannter Preise (${missing} ohne Preis)` : 'Gesamtsumme'}: ${EUR.format(sum)}`, PW - M, y + 2, { align: 'right' }); y += 8;
+  // Bestellung
+  h2('Bestellung nach Lieferant');
+  orderGroups(rows).forEach(([shop, list]) => {
+    const own = shop === 'Vorhanden', s = list.reduce((a, r) => a + (r.price != null ? r.price * r.qty : 0), 0);
+    need(10); doc.setFont('helvetica', 'bold'); doc.setFontSize(10); T(shop + (own ? ' · nicht bestellen' : ''), M, y);
+    if (!own) T(EUR.format(s), PW - M, y, { align: 'right' }); y += 5;
+    list.forEach(r => para(own ? `${r.qty}× ${r.n}` : `${r.qty}× ${r.art || '(Art.-Nr. offen)'} – ${r.n}`, 8.5, 'normal', 3));
+    y += 2;
+  });
+  // Fertigung
+  const notes = notesData();
+  if (notes.length) {
+    h2('Fertigung');
+    notes.forEach(n => { need(12); para(n.h, 9.5, 'bold'); para(n.t, 8.5); if (n.map) { doc.setTextColor(90); para(n.map, 7.5); doc.setTextColor(0); } y += 2.5; });
+  }
+  // Seitenzahlen
+  const np = doc.getNumberOfPages();
+  for (let i = 1; i <= np; i++) { doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(120); T(`${p.name || 'Rackwerk'} · Seite ${i}/${np}`, PW - M, PH - 8, { align: 'right' }); }
+  await saveFile(`${slug()}.pdf`, doc.output('blob'), 'PDF');
+}
+
+/* ---------- Drag & Drop: Steckertyp auf ein Loch ziehen ---------- */
+let dragCon = null;
+document.addEventListener('dragstart', e => {
+  const b = e.target.closest && e.target.closest('[data-assign]');
+  if (!b) return;
+  dragCon = b.dataset.assign;
+  e.dataTransfer.effectAllowed = 'copy';
+  try { e.dataTransfer.setData('text/plain', dragCon); } catch (x) {}
+});
+document.addEventListener('dragend', () => { dragCon = null; document.querySelectorAll('.dropon').forEach(x => x.classList.remove('dropon')); });
+function dropTarget(e) {
+  const slotEl = e.target.closest && e.target.closest('[data-slot], [data-slotrow]');
+  if (!slotEl) return null;
+  const inStage = slotEl.closest('#stage');
+  const id = inStage ? slotEl.closest('[data-id]')?.dataset.id : sel;
+  const it = state.items.find(i => i.id === id);
+  if (!it || it.kind !== 'dpanel') return null;
+  return { it, i: +(slotEl.dataset.slot ?? slotEl.dataset.slotrow), el: slotEl };
+}
+document.addEventListener('dragover', e => {
+  if (!dragCon) return;
+  const d = dropTarget(e);
+  document.querySelectorAll('.dropon').forEach(x => { if (!d || x !== d.el) x.classList.remove('dropon'); });
+  if (!d) return;
+  e.preventDefault(); e.dataTransfer.dropEffect = 'copy';
+  d.el.classList.add('dropon');
+});
+document.addEventListener('drop', e => {
+  if (!dragCon) return;
+  const d = dropTarget(e);
+  if (!d) return;
+  e.preventDefault();
+  d.it.slots[d.i] = dragCon; sel = d.it.id; selSlot = d.i; dragCon = null;
+  render(); toast(`Loch ${d.i + 1}: ${CON[d.it.slots[d.i]].n}`);
+});
+
+/* ---------- Projektdatei laden ---------- */
+function loadProjectFile(file) {
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const s = normalize(JSON.parse(r.result));
+      if (!s.items || !s.case) throw 0;
+      state = s; sel = state.items[0]?.id ?? null; selSlot = null; view = 'front'; state.step = 1;
+      render(); toast(`Projekt „${state.project.name || file.name}“ geladen`);
+    } catch (e) { toast('Datei ist keine gültige Rackwerk-Projektdatei'); }
+  };
+  r.onerror = () => toast('Datei konnte nicht gelesen werden');
+  r.readAsText(file);
+}
+
 /* ---------- Ereignisse ---------- */
 document.addEventListener('click', e => {
   const t = e.target;
   if (t.closest('#addDlg') && dlgClick(t)) return;
   if (t.id === 'addDlg') { closeAdd(); return; }   // Klick auf den Hintergrund
   const op = t.closest('[data-open]'); if (op) { openAdd(op.dataset.open); return; }
+  if (t.closest('[data-loadfile]')) { $('#fileIn').click(); return; }
+  const png = t.closest('[data-png]'); if (png) { exportPng(png.dataset.png === 'view' ? view : png.dataset.png); return; }
   const fr = t.closest('[data-free]'); if (fr) { openAdd(null, view, +fr.dataset.free); return; }
   const go = t.closest('[data-goto], .steps [data-step]');
   if (go) { state.step = +(go.dataset.goto || go.dataset.step); render(); window.scrollTo({ top: 0 }); return; }
@@ -1933,8 +2144,8 @@ document.addEventListener('click', e => {
   if (assign) {
     const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'dpanel') return;
     const n = it.slots.length;
-    let i = selSlot != null && selSlot >= 2 ? selSlot : it.slots.findIndex((s, k) => k >= 2 && s === 'blank');
-    if (i < 2) i = 2;
+    let i = selSlot != null ? selSlot : it.slots.findIndex(s => s === 'blank');
+    if (i < 0) i = 0;
     it.slots[i] = assign.dataset.assign;
     selSlot = Math.min(n - 1, i + 1);
     renderInsp(); renderSoft(); return;
@@ -1954,7 +2165,9 @@ document.addEventListener('click', e => {
     }
     if (a === 'dup') { const c = JSON.parse(JSON.stringify(stripped().items[i])); c.id = uid(); c.pos = firstFree(c.side, c.he); state.items.push(c); sel = c.id; }
     if (a === 'del') { state.items.splice(i, 1); sel = null; selSlot = null; }
-    if (a === 'clearslots') for (let k = 2; k < it.slots.length; k++) it.slots[k] = 'blank';
+    if (a === 'clearslots') it.slots = it.slots.map(() => 'blank');
+    if (a === 'pcdefault') { it.slots[0] = 'pc_in'; if (it.slots[1] !== 'pc_out_d') it.slots[1] = 'pc_out'; }
+    if (a === 'mountall-r' || a === 'mountall-f') it.mounts = it.mounts.map(() => a.slice(-1));
     if (a === 'lblpitch') it.pitch = defPitch(it.div);
     if (a === 'lblfrom') {
       // nächstgelegenes Steckerfeld derselben Seite (zuerst darunter, sonst darüber)
@@ -1967,7 +2180,7 @@ document.addEventListener('click', e => {
       it.div = P.cols; it.pitch = defPitch(P.cols); it.offset = 0; fixCells(it);
       for (let c = 0; c < P.cols; c++) {
         const k = rowIdx * P.cols + c, t = p.slots[k];
-        it.cells[c][0] = p.labels[k] || (t !== 'blank' && t !== 'open' ? CON[t].s : '');
+        it.cells[c][0] = (HOLE_LABELS && p.labels[k]) || (t !== 'blank' && t !== 'open' ? CON[t].s : '');
       }
       toast(`Raster und Texte von Steckerfeld ${p._letter} übernommen`);
     }
@@ -2003,6 +2216,7 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
+  if (t.dataset.mount != null && it) { it.mounts[+t.dataset.mount] = t.value; selSlot = +t.dataset.mount; renderInsp(); renderSoft(); return; }
   if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
   if (t.dataset.f && it) {
     const f = t.dataset.f;
@@ -2013,12 +2227,12 @@ document.addEventListener('change', e => {
     else if (f === 'foam') it.foam = t.checked;
     else if (f === 'color') it.color = t.value;
     else if (f === 'rearFix') it.rearFix = t.checked;
-    else if (f === 'out') it.slots[1] = t.value === 'd' ? 'pc_out_d' : 'pc_out';
     else if (f === 'variant') {
       const P = PANELS[t.value], n = P.cols * P.rows;
       it.variant = t.value; it.he = P.he;
       it.slots = it.slots.slice(0, n); while (it.slots.length < n) it.slots.push('blank');
       it.labels = it.labels.slice(0, n); while (it.labels.length < n) it.labels.push('');
+      it.mounts = it.mounts.slice(0, n); while (it.mounts.length < n) it.mounts.push('r');
       selSlot = null; place(it, it.pos);
     }
     else if (f === 'div' || f === 'lines') {
@@ -2108,7 +2322,8 @@ reset.onclick = () => {
 const saveJson = () => saveFile(`${slug()}.json`, new Blob([JSON.stringify(stripped(), null, 1)], { type: 'application/json' }), 'Projektdatei');
 $('#jsonSave').onclick = saveJson;
 $('#jsonSave3').onclick = saveJson;
-$('#btnPrint').onclick = () => window.print();
+$('#btnPdf').onclick = () => exportProjectPdf();
+$('#fileIn').onchange = e => { loadProjectFile(e.target.files[0]); e.target.value = ''; };
 
 render();
 })();
