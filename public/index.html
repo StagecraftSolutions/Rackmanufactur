@@ -478,7 +478,7 @@ td input.shop { min-width: 110px; }
 .exma { fill: #f4f4f4; } .exmat { fill: #15171a; font-family: var(--f-display); font-weight: 700; text-anchor: middle; dominant-baseline: central; } .exmal { stroke: #15171a; stroke-width: .5; }
 .exmabar { fill: #3a4048; } .exmagreen { fill: #22c55e; } .exmayel { fill: #eab308; } .exencring { fill: none; stroke: #22c55e; stroke-width: .9; }
 .ex-mod { fill: #23262a; stroke: #5d646c; stroke-width: .35; } .ex-vline { stroke: #4b5159; stroke-width: .35; } .ex-tag { fill: none; stroke: #6b737c; stroke-width: .3; } .ex-ir { fill: #3a1418; } .ex-sw { fill: #c9ced4; }
-.exled-g { fill: #22c55e; } .exled-o { fill: #f97316; } .exled-b { fill: #60a5fa; } .exled-off { fill: #3a3f45; } .ex-lcdl { fill: #d7dbd2; stroke: #6b737c; stroke-width: .3; } .ex-lcdt { fill: #2a2e33; opacity: .75; } .ex-swb { fill: #15171a; stroke: #6b737c; stroke-width: .3; } .ex-swt { fill: #3a3f45; }
+.exled-g { fill: #22c55e; } .exled-o { fill: #f97316; } .exled-b { fill: #60a5fa; } .exled-y { fill: #eab308; } .exled-off { fill: #3a3f45; } .ex-lcdl { fill: #d7dbd2; stroke: #6b737c; stroke-width: .3; } .ex-lcdt { fill: #2a2e33; opacity: .75; } .ex-swb { fill: #15171a; stroke: #6b737c; stroke-width: .3; } .ex-swt { fill: #3a3f45; }
 .exbtn-gd { fill: #1b2b20; stroke: #22c55e; stroke-width: .7; } .ex-wmag { fill: #d946ef; } .ex-segoff { fill: #2a2e33; } .ex-sego { fill: #f97316; } .ex-segg { fill: #22c55e; } .ex-seg7 { fill: #0d0e10; stroke: #3a3f45; stroke-width: .3; } .exred { fill: #ef4444; }
 .ex-tft { fill: #050607; stroke: #3a3f45; stroke-width: .4; } .ex-ring2 { fill: #22262a; stroke: #3a3f45; stroke-width: .5; } .ex-grillw { fill: #0d0e10; stroke: #2a2e33; stroke-width: .6; } .ex-slot { fill: #1b1d20; } .ex-badge { fill: #d9dde2; stroke: #8d959e; stroke-width: .3; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
@@ -975,7 +975,7 @@ const DEVDB = {
   ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:4 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; jack:1 AES3 Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
   psm1000_p10t: { n: 'Shure PSM1000 P10T Sender', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P10T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz' } },
   ad4d: { n: 'Shure Axient Digital AD4D', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4D', io: { f: 'lcd:2 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
-  ad4q: { n: 'Shure Axient Digital AD4Q', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4Q', io: { f: 'lcd:4 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; xlr:1 AES3 Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ad4q: { n: 'Shure Axient Digital AD4Q', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4Q', io: { f: 'lcd:1 LCD; jack:1 Kopfhörer; btn:1 4 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung', r: 'iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D (Quadversity/Kaskade); xlr:4 Audio Out (AES3 1&2, 3&4); jack:4 Audio Out' } },
   ad600: { n: 'Shure AD600 Spectrum Manager', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 320, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD600', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:4 Antenne In/Out; rj45:2 Ethernet; iec:1 Netz' } },
   ua845uwb: { n: 'Shure UA845UWB Antennenverteiler', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 250, chk: 1, url: 'https://www.shure.com/de-DE/search?q=UA845UWB', io: { f: 'btn:1 Netzschalter', r: 'bnc:12 Antenne A/B In, 10× Out (5 Empfänger); bnc:2 Kaskade; dc:5 Strom für Empfänger; iec:1 Netz' } },
   pa821b: { n: 'Shure PA821B Antennen-Combiner (PSM)', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=PA821B', io: { f: 'bnc:1 Antenne Out (vorn)', r: 'bnc:8 8× Sender In; iec:1 Netz' } },
@@ -1525,6 +1525,34 @@ EXACT.novastar_mx20 = { hw: 482.6, f: [
   ...[230, 254.3, 278.9, 303.5, 327.8, 352.1].map(x => ({ t: 'ethercon', x, y: 22, s: 13 })),
   { t: 'rect', x: 367.2, y: 11, w: 14, h: 22, c: 'ex-mod' }, { t: 'txt', x: 374.2, y: 8, v: 'OPT 1', s: 1.6 }, { t: 'txt', x: 374.2, y: 37, v: 'OPT 2', s: 1.6 },
   { t: 'sw', x: 412.3, y: 10.4, w: 8, h: 7 }, { t: 'iec', x: 423.8, y: 32.4, s: 17 }, { t: 'ledc', x: 444.4, y: 34, r: 3, c: 'pg-metal' },
+] };
+// Shure Axient Digital AD4Q (Herstellerfotos shure.com): Front 482,6 mm, Rückseite Gehäuse 440 mm von hinten
+const AD_RX = (ox, n) => [
+  { t: 'txt', x: ox + 105.8, y: 2.7, v: 'RX ' + n, s: 2.4 }, { t: 'txt', x: ox + 121.5, y: 2.7, v: 'RF', s: 2.2 }, { t: 'txt', x: ox + 132, y: 2.7, v: 'AUDIO', s: 2.2 },
+  { t: 'btn', x: ox + 105.8, y: 15, w: 11, h: 9, c: 'exbtn-dk', v: String(n) }, { t: 'btn', x: ox + 105.8, y: 32, w: 9, h: 4.5, c: 'exbtn-dk', v: 'SYNC' },
+  { t: 'ledc', x: ox + 117.6, y: 9, r: .8, c: 'exled-b' }, { t: 'ledc', x: ox + 125.3, y: 9, r: .8, c: 'exled-b' },
+  ...[0, 1, 2, 3, 4, 5].flatMap(k => [{ t: 'ledc', x: ox + 117.6, y: 20 + k * 2.9, r: .7, c: 'exled-o' }, { t: 'ledc', x: ox + 125.3, y: 20 + k * 2.9, r: .7, c: 'exled-o' }, { t: 'ledc', x: ox + 132.8, y: 20 + k * 2.9, r: .7, c: k < 3 ? 'exled-y' : 'exled-g' }]),
+];
+EXACT.ad4q = { hw: 440, f: [
+  { t: 'logo', x: 41.5, y: 4, v: 'SHURE', s: 3.6 }, { t: 'txt', x: 42, y: 10.1, v: 'AD4Q', s: 4.4, a: 'start' }, { t: 'txt', x: 42, y: 14.4, v: 'B 606-810 MHz', s: 1.8, a: 'start' },
+  { t: 'txt', x: 42, y: 31, v: 'AXIENT DIGITAL', s: 2.2, a: 'start' }, { t: 'txt', x: 42, y: 34, v: 'Wireless Receiver', s: 1.8, a: 'start' },
+  { t: 'enc', x: 71.5, y: 14.4, r: 5.6, plain: 1 }, { t: 'jack', x: 73, y: 28.8, s: 14 }, { t: 'txt', x: 73, y: 2.7, v: 'PHONES', s: 2 },
+  { t: 'rect', x: 84.5, y: 8.8, w: 6.7, h: 8.8, c: 'ex-ir' }, { t: 'txt', x: 87.9, y: 2.7, v: 'IR', s: 2.2 }, { t: 'ledc', x: 87.9, y: 22.1, r: .7, c: 'exled-off' }, { t: 'btn', x: 87.9, y: 31, w: 7, h: 8, c: 'exbtn-w' },
+  ...[95.3, 138.9, 182.7, 226.5, 270.5].map(x => ({ t: 'vline', x, y: 6, h: 33 })),
+  ...[1, 2, 3, 4].flatMap(n => AD_RX((n - 1) * 43.9, n)),
+  { t: 'screen', x: 277.2, y: 8.8, w: 79.4, h: 28.5 },
+  { t: 'txt', x: 367.9, y: 2.7, v: 'FUNCTION', s: 2.2 }, ...[10.7, 18.1, 25.6, 33.1].map(y => ({ t: 'btn', x: 367.9, y, w: 8.5, h: 4, c: 'exbtn-dk' })),
+  { t: 'btn', x: 385.3, y: 12, w: 9, h: 5, c: 'exbtn-dk', v: 'ENTER' }, { t: 'btn', x: 385.3, y: 31.7, w: 9, h: 5, c: 'exbtn-dk', v: 'EXIT' },
+  { t: 'txt', x: 406.6, y: 2.7, v: 'CONTROL', s: 2.2 }, { t: 'txt', x: 389, y: 22, v: 'PUSH', s: 2.2 }, { t: 'enc', x: 406.6, y: 21.9, r: 12, plain: 1 },
+  { t: 'txt', x: 432.7, y: 2.7, v: 'POWER', s: 2.2 }, { t: 'sw', x: 432.7, y: 22, w: 8, h: 17 },
+], r: [
+  { t: 'txt', x: 50, y: 6, v: 'AC Power', s: 2 }, { t: 'iec', x: 37.4, y: 24.1, s: 17 }, { t: 'iec', x: 79.5, y: 24.1, s: 17 },
+  { t: 'rect', x: 106, y: 6, w: 36, h: 36, c: 'ex-mod' }, ...[[116, 16.2], [131.8, 16.2], [116, 32.2], [131.8, 32.2]].map(([x, y]) => ({ t: 'rj45', x, y, s: 10 })),
+  { t: 'txt', x: 116, y: 4, v: 'ctrl 1', s: 1.8 }, { t: 'txt', x: 131.8, y: 4, v: 'Dante 1', s: 1.8 }, { t: 'txt', x: 116, y: 42, v: 'ctrl 2', s: 1.8 }, { t: 'txt', x: 131.8, y: 42, v: 'Dante 2', s: 1.8 },
+  { t: 'bnc', x: 156.1, y: 9.7, s: 11 }, { t: 'bnc', x: 156.1, y: 30.7, s: 11 }, { t: 'txt', x: 156.1, y: 41, v: 'word clock', s: 1.8 },
+  ...[191.3, 238.7, 286.1, 333.5].flatMap((x, i) => [{ t: 'xlr', x, y: 18.9, s: 11 }, { t: 'jack', x: x + 20.7, y: 32.2, s: 13 }, { t: 'txt', x, y: 41, v: 'output ' + (4 - i), s: 2.4 }]),
+  { t: 'bnc', x: 377.8, y: 12.3, s: 11 }, { t: 'bnc', x: 411.3, y: 12.3, s: 11 }, { t: 'bnc', x: 377.8, y: 31.4, s: 11 }, { t: 'bnc', x: 411.3, y: 31.4, s: 11 },
+  { t: 'txt', x: 386, y: 6, v: 'B', s: 2.6 }, { t: 'txt', x: 420, y: 6, v: 'A', s: 2.6 }, { t: 'txt', x: 386, y: 26, v: 'D', s: 2.6 }, { t: 'txt', x: 420, y: 26, v: 'C', s: 2.6 }, { t: 'txt', x: 394.5, y: 41, v: 'quadversity', s: 1.8 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
