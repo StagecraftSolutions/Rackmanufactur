@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-15 – Stand 8 · Online stellen
+
+- Seite liegt jetzt in `public/`; nur dieser Ordner wird hochgeladen.
+- Schriften (Barlow Condensed, IBM Plex) und jsPDF lokal eingebunden – keine Verbindung zu Google Fonts oder cdnjs mehr.
+- **Impressum** (TD Media / Bachmann, Schmidt & Seerig GbR) und **Datenschutzerklärung** (Hoster STRATO), Fuß mit Hinweisen und Links in der App. Offene Platzhalter `⟦…⟧` blockieren den Upload.
+- `.htaccess` mit Sicherheits-Headern und Content-Security-Policy.
+- `scripts/deploy-setup.sh`: SFTP-Zugang im Terminal abfragen, nach `.env` schreiben, Host-Schlüssel prüfen, optional Upload bei `git push`.
+- `scripts/deploy.sh`: prüft Platzhalter und externe Quellen, lädt `public/` per SFTP hoch (Passwort oder SSH-Schlüssel).
+
 ## 2026-11-15 – Stand 7
 
 - „Projektdatei laden“ in Stufe 1 (neben Beispiel und Neues Projekt sowie bei der Projektdatei).

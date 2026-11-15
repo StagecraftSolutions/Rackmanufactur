@@ -1,0 +1,8 @@
+# Zugangsdaten und Host-Schlüssel für den Upload – niemals einchecken
+.env
+.env.*
+!.env.example
+.deploy/
+
+.DS_Store
+._*

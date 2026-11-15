@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rackwerk Konfigurator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314181d'/%3E%3Cpath d='M8 27 18 5h6L14 27z' fill='%23f2c200'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
 /* Layout: Werkbank mit drei Spalten – Bibliothek | Rack-Ansicht | Inspektor – darunter Stückliste und Fertigungshinweise */
 :root {
@@ -442,6 +442,15 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 .shopgrp li .a { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); display: block; }
 .shopgrp li .p { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
 td input.shop { min-width: 110px; }
+/* Fuß mit Rechtlichem */
+.site-foot {
+  max-width: 1600px; margin: 32px auto 0; padding-top: 14px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: baseline; font-size: 12.5px; color: var(--muted);
+}
+.site-foot p { margin: 0; flex: 1 1 420px; }
+.site-foot nav { display: flex; gap: 16px; }
+.site-foot a { color: var(--fg); text-underline-offset: 3px; }
+.site-foot a:hover { color: var(--accent); }
 @media print {
   body { background: #fff; padding: 0; }
   .steps, .stepnav, .summary, .btn, .no-print, details, .toast { display: none !important; }
@@ -605,6 +614,11 @@ td input.shop { min-width: 110px; }
   </div>
   <div class="stepnav"><button type="button" class="btn lg" data-goto="2">← Konfigurator</button><span></span></div>
 </div>
+
+<footer class="site-foot no-print">
+  <p>Planungshilfe ohne Gewähr. Preise und Artikelnummern sind recherchierte Händlerangaben (Stand 11/2026), unverbindlich und kein Angebot. Marken- und Produktnamen gehören ihren Inhabern; keine Verbindung zu den Herstellern oder Händlern. Elektrische Arbeiten nur durch eine Elektrofachkraft.</p>
+  <nav aria-label="Rechtliches"><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
+</footer>
 
 <!-- Popup: Element hinzufügen -->
 <dialog class="add" id="addDlg" aria-labelledby="addTitle">
@@ -1861,7 +1875,7 @@ function loadJsPDF() {
   if (window.jspdf) return Promise.resolve(window.jspdf);
   return jspdfP = jspdfP || new Promise((res, rej) => {
     const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.src = 'assets/vendor/jspdf-2.5.1.umd.min.js';
     s.onload = () => window.jspdf ? res(window.jspdf) : rej(new Error('jsPDF fehlt'));
     s.onerror = () => { jspdfP = null; rej(new Error('jsPDF konnte nicht geladen werden')); };
     document.head.appendChild(s);
@@ -1870,7 +1884,7 @@ function loadJsPDF() {
 async function exportLabels(list) {
   if (!list.length) return toast('Keine Beschriftungsblende im Rack');
   let lib;
-  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek nicht erreichbar. Bitte Verbindung prüfen.'); }
+  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek konnte nicht geladen werden.'); }
   layout();
   const doc = new lib.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const PW = 297, PH = 210, M = 10, maxW = PW - 2 * M;
@@ -1991,7 +2005,7 @@ async function exportPng(mode) {
 const pdfTxt = s => String(s ?? '').replace(/″/g, '"').replace(/[„“”]/g, '"').replace(/[‘’]/g, "'").replace(/…/g, '...').replace(/→/g, '->').replace(/[–—]/g, '-').replace(/[^\x00-\xff€]/g, '?');
 async function exportProjectPdf() {
   let lib;
-  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek nicht erreichbar. Bitte Verbindung prüfen.'); }
+  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek konnte nicht geladen werden.'); }
   toast('PDF wird erstellt …');
   let front, rear;
   try { front = await svgToPng(viewSVG('front'), 3); rear = state.case.rear || state.items.some(i => i.side === 'rear') ? await svgToPng(viewSVG('rear'), 3) : null; }

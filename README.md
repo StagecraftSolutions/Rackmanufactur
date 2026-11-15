@@ -1,6 +1,6 @@
 # Rackwerk
 
-Web-Konfigurator für 19″-Rackmodule mit Steckerfeldern. Eine einzelne HTML-Datei (`index.html`), ohne Build und ohne Server: im Browser öffnen, fertig.
+Web-Konfigurator für 19″-Rackmodule mit Steckerfeldern. Die Seite liegt in `public/` (eine HTML-Datei plus lokale Schriften und jsPDF), ohne Build: `public/index.html` im Browser öffnen oder den Ordner auf einen Webserver laden.
 
 Cases: **ProCase Pro Rackmodule** und **ProCase QSD-Racks** (procaseshop.de) sowie **Thon**-Racks von Thomann. Steckerfelder, Blenden, Rackwannen und Schubladen kommen von Adam Hall, die D-Einsätze von Seetronic und Neutrik.
 
@@ -76,7 +76,53 @@ Siehe [docs/datenbasis.md](docs/datenbasis.md): alle Artikel mit Nummer, Preis, 
 - **Downloads im Artifact:** PDF, PNG und Projektdatei nutzen die `downloads`-Freigabe von claude.ai, standalone einen normalen Download. In claude.ai noch nicht von Hand getestet.
 - **Schriften im PNG/PDF:** Die Ansichten werden mit Systemschriften gerendert (Webfonts lassen sich nicht in das Bild einbetten).
 
-## Code-Aufbau (`index.html`)
+## Online stellen
+
+### Ordner
+
+| Pfad | Inhalt |
+|---|---|
+| `public/` | wird hochgeladen: `index.html`, `impressum.html`, `datenschutz.html`, `.htaccess`, `assets/` |
+| `public/assets/fonts/` | Barlow Condensed, IBM Plex Sans/Mono als WOFF2 (OFL 1.1), `fonts.css` |
+| `public/assets/vendor/` | jsPDF 2.5.1 (MIT), Hash wie cdnjs-SRI |
+| `scripts/` | `deploy-setup.sh`, `deploy.sh` |
+| `.env`, `.deploy/` | Zugangsdaten und Host-Schlüssel, nur lokal (in `.gitignore`) |
+
+### Einrichten (einmal)
+
+```bash
+scripts/deploy-setup.sh
+```
+
+Fragt Server, Port, Benutzer, Zielordner, Seitenadresse und Anmeldung (Passwort oder SSH-Schlüssel) im Terminal ab und schreibt sie nach `.env` (Rechte 600). Holt den Host-Schlüssel des Servers, zeigt den Fingerprint zum Abgleich mit dem Hoster und speichert ihn in `.deploy/known_hosts`. Testet die Verbindung. Auf Wunsch richtet es einen `pre-push`-Hook ein, der bei `git push` auf `main` automatisch hochlädt.
+
+Passwort-Anmeldung nutzt `sshpass` (sonst `expect`); das Passwort geht über eine Umgebungsvariable, nicht über die Kommandozeile.
+
+### Hochladen
+
+```bash
+scripts/deploy.sh            # prüfen, nachfragen, hochladen
+scripts/deploy.sh --dry-run  # nur zeigen, was passieren würde
+scripts/deploy.sh --check    # Verbindung testen
+scripts/deploy.sh --yes      # ohne Nachfrage
+```
+
+Vor jedem Upload prüft das Skript:
+- Impressum und Datenschutz vorhanden, keine offenen Platzhalter `⟦…⟧`
+- keine externen Quellen (Google Fonts, CDNs, Tracking) in HTML/CSS
+
+Es lädt nur hoch, löscht auf dem Server nichts. HTML-Dateien kommen zuletzt. Ist `SITE_URL` gesetzt, prüft es danach, ob Startseite, Impressum, Datenschutz und jsPDF mit 200 antworten.
+
+### Rechtliches (Stand 11/2026)
+
+- **Impressum** nach § 5 DDG, von jeder Seite mit einem Klick erreichbar (Fuß der App).
+- **Datenschutzerklärung** nach Art. 13 DSGVO: Server-Logfiles beim Hoster, `localStorage` (§ 25 Abs. 2 Nr. 2 TDDDG, keine Einwilligung nötig), lokale Dateiverarbeitung.
+- **Kein Cookie-Banner nötig:** keine Cookies, kein Tracking, keine Dienste Dritter. Schriften und jsPDF liegen auf dem eigenen Server (kein Google Fonts, kein CDN). Wer später Analyse, Karten, Videos o. Ä. einbaut, braucht Einwilligung und eine angepasste Datenschutzerklärung.
+- **Anbieter/Hoster:** Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz; gehostet bei STRATO. AVV (Art. 28 DSGVO) im STRATO-Kundenlogin abschließen, SSL aktivieren. SFTP bei STRATO: Host `ssh.strato.de`, Port 22.
+- **Hinweise** im Fuß und im Impressum: Planungshilfe ohne Gewähr, Preise unverbindlich, kein Verkauf, Marken, Elektrofachkraft.
+- **`.htaccess`** (Apache): Sicherheits-Header inkl. Content-Security-Policy (nur eigene Quellen). HTTPS-Umleitung ist vorbereitet, aber auskommentiert.
+
+## Code-Aufbau (`public/index.html`)
 
 | Bereich | Inhalt |
 |---|---|
@@ -92,7 +138,7 @@ Siehe [docs/datenbasis.md](docs/datenbasis.md): alle Artikel mit Nummer, Preis, 
 | `span()` / `collisions()` | Tiefenbereich je Modul und Kollisionsprüfung vorn/hinten |
 | `rackSVG(L, 'front'/'rear')`, `sideSVG` | Ansichten als SVG in mm (1 HE = 44,45; 19″ = 482,6) |
 | `faceSVG` / `backSVG` / `behindSVG` | Modul von vorn, von hinten (gespiegelt), als Umriss der anderen Seite |
-| `exportLabels()` / `exportProjectPdf()` | PDF der Beschriftungsstreifen bzw. des Projekts (jsPDF 2.5.1 von cdnjs, lädt bei Bedarf) |
+| `exportLabels()` / `exportProjectPdf()` | PDF der Beschriftungsstreifen bzw. des Projekts (jsPDF 2.5.1 lokal in `assets/vendor/`, lädt bei Bedarf) |
 | `svgToPng()` / `exportPng()` | Ansicht mit eingebetteten Stilen als PNG; auch für die Bilder im Projekt-PDF |
 | `glyph(t, x, y, mount)` / `rearGlyph()` | Einsatz von vorn bzw. hinten gesehen, je nach Einbaurichtung (`mounts[]`: `r`/`f`) |
 | `bom()` / `shopOf()` / `normalize()` | Stückliste, Lieferant ableiten, Migration gespeicherter Stände nach v5 |
