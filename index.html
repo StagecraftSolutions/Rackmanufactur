@@ -336,96 +336,289 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 .toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: var(--surface); padding: 8px 14px; border-radius: 6px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 20; }
 .toast.show { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+[hidden] { display: none !important; }
+
+/* Stufen */
+.steps { display: flex; gap: 4px; max-width: 1600px; margin: 0 auto 16px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow-x: auto; }
+.steps button { flex: 1 1 0; display: flex; align-items: center; gap: 10px; padding: 8px 12px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; text-align: left; min-width: 150px; }
+.steps button:hover { background: var(--surface-2); }
+.steps button[aria-current="step"] { background: var(--fg); color: var(--surface); }
+.steps .num { font-family: var(--f-display); font-weight: 700; font-size: 22px; line-height: 1; width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid currentColor; flex: none; font-size: 15px; }
+.steps .lbl { display: flex; flex-direction: column; line-height: 1.15; }
+.steps .lbl b { font-family: var(--f-display); font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: .03em; }
+.steps .lbl small { font-size: 11.5px; opacity: .75; }
+.projname { font-family: var(--f-display); font-size: 20px; font-weight: 600; color: var(--muted); }
+.stepnav { display: flex; justify-content: space-between; gap: 8px; max-width: 1600px; margin: 16px auto 0; }
+.btn.lg { padding: 9px 16px; font-size: 14px; }
+
+/* Stufe 1 */
+.s1 { display: grid; gap: 16px; max-width: 1600px; margin: 0 auto; grid-template-columns: minmax(0, 1fr) 400px; align-items: start; }
+@media (max-width: 1000px) { .s1 { grid-template-columns: minmax(0, 1fr); } }
+.projfields { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 10px; }
+@media (max-width: 600px) { .projfields { grid-template-columns: minmax(0, 1fr); } }
+.projfields .full { grid-column: 1 / -1; }
+.projfields textarea { min-height: 60px; font-family: var(--f-body); font-size: 13.5px; }
+input.bigname { font-family: var(--f-display); font-size: 22px; font-weight: 600; padding: 6px 10px; }
+.cgroup { display: flex; flex-direction: column; gap: 8px; }
+.cgroup h3 { margin: 4px 0 0; font-family: var(--f-mono); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.cgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.ccard { display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); cursor: pointer; }
+.ccard:hover { border-color: var(--accent); }
+.ccard[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.ccard .cn { font-family: var(--f-display); font-weight: 600; font-size: 17px; line-height: 1.1; }
+.ccard .cf { display: flex; flex-wrap: wrap; gap: 4px; }
+.ccard .cd { font-size: 12px; color: var(--muted); }
+.ccard .cp { font-family: var(--f-mono); font-size: 12px; margin-top: auto; }
+.ctag { font-family: var(--f-mono); font-size: 10.5px; padding: 1px 6px; border-radius: 4px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.ctag.ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.ctag.no { background: var(--surface); color: var(--muted); }
+.mini { background: var(--stage); border-radius: 6px; padding: 10px; }
+.mini svg { display: block; width: 100%; height: auto; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px 10px; font-size: 12.5px; margin: 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; }
+
+/* Stufe 2: Liste im Rack */
+.inrack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.inrack li button { width: 100%; display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 5px 8px; border: 1px solid transparent; border-radius: 6px; background: transparent; cursor: pointer; text-align: left; }
+.inrack li button:hover { background: var(--surface-2); }
+.inrack li button.on { border-color: var(--accent); background: var(--accent-soft); }
+.inrack .pos { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
+.inrack .nm { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px; }
+.addgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.free .freehit { fill: transparent; }
+.free { cursor: copy; }
+.free .plus { opacity: 0; transition: opacity .12s; }
+.free:hover .freehit { fill: rgba(121, 164, 255, .16); stroke: var(--accent); stroke-width: .6; stroke-dasharray: 2 2; }
+.free:hover .plus { opacity: 1; }
+.plus circle { fill: var(--accent); }
+.plus path { stroke: #fff; stroke-width: 1.4; stroke-linecap: round; }
+@media (hover: none) { .free .plus { opacity: .55; } }
+@media (prefers-reduced-motion: reduce) { .free .plus { transition: none; } }
+
+/* Popup */
+dialog.add { width: min(860px, calc(100vw - 32px)); max-height: calc(100vh - 48px); padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--fg); box-shadow: 0 20px 60px rgba(0, 0, 0, .3); }
+dialog.add::backdrop { background: rgba(10, 12, 15, .5); }
+dialog.add[open] { display: flex; flex-direction: column; }
+.dlg-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+.dlg-head h2 { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: 20px; text-transform: uppercase; letter-spacing: .03em; }
+.dlg-head .target { display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 13px; }
+.dlg-head .target input { width: 72px; padding: 4px 6px; }
+.dlg-close { border: 0; background: transparent; font-size: 22px; line-height: 1; cursor: pointer; color: var(--muted); padding: 2px 6px; }
+.dlg-tabs { display: flex; gap: 2px; padding: 8px 16px 0; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.dlg-tabs button { border: 0; background: transparent; padding: 8px 14px; cursor: pointer; font-size: 14px; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+.dlg-tabs button[aria-selected="true"] { border-bottom-color: var(--accent); color: var(--accent); font-weight: 500; }
+.dlg-body { padding: 14px 16px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+.opt { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+.opt .on { font-weight: 600; font-size: 14px; }
+.opt .oa { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
+.opt .chips { margin-top: auto; }
+.opt button.whole { all: unset; }
+button.opt { text-align: left; cursor: pointer; font: inherit; color: inherit; }
+button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
+.chip.tight { border-style: dashed; }
+.dlg-foot { font-size: 12px; color: var(--muted); }
+.tpl { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px dashed var(--line); font-size: 13px; }
+.tpl small { color: var(--muted); font-family: var(--f-mono); font-size: 11.5px; display: block; }
+
+/* Stufe 3 */
+.s3 { max-width: 1600px; margin: 0 auto; display: grid; gap: 16px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 1100px) { .s3 { grid-template-columns: minmax(0, 1fr); } }
+.views2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 700px) { .views2 { grid-template-columns: minmax(0, 1fr); } }
+.views2 figure { margin: 0; }
+.views2 figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.shopgrp { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.shopgrp > header { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+.shopgrp > header b { font-family: var(--f-display); font-size: 16px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; }
+.shopgrp > header .sum { margin-left: auto; font-family: var(--f-mono); font-size: 12.5px; }
+.shopgrp ul { list-style: none; margin: 0; padding: 6px 12px 8px; display: flex; flex-direction: column; gap: 3px; font-size: 13px; }
+.shopgrp li { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 8px; }
+.shopgrp li .q { font-family: var(--f-mono); color: var(--muted); }
+.shopgrp li .a { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); display: block; }
+.shopgrp li .p { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
+td input.shop { min-width: 110px; }
+@media print {
+  body { background: #fff; padding: 0; }
+  .steps, .stepnav, .summary, .btn, .no-print, details, .toast { display: none !important; }
+  .s3 { grid-template-columns: minmax(0, 1fr); }
+  .card { break-inside: avoid; border-color: #bbb; }
+  td input { border: 0; background: transparent; padding: 0; }
+}
 </style>
+</head>
+<body>
 
 <header class="top">
-  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rackwerk</h1><span class="tag">19″ Case- &amp; Steckerfeld-Konfigurator</span></div>
+  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rackwerk</h1><span class="projname" id="projTitle"></span></div>
   <div class="summary" id="summary"></div>
 </header>
 
-<main class="grid">
-  <!-- Links: Case + Bibliothek + Zubehör -->
-  <div class="col">
-    <section class="card">
-      <header><h2>Case</h2><span class="eyebrow" id="caseHeTag"></span></header>
-      <div class="body" id="caseForm"></div>
-    </section>
-    <section class="card">
-      <header><h2>Module</h2><span class="eyebrow">hinzufügen</span></header>
-      <div class="body">
-        <p class="hint">Neue Module landen auf dem ersten freien Platz der gezeigten Seite (Rückansicht = hinten). In der Ansicht per Ziehen verschieben.</p>
-        <div class="lib" id="lib"></div>
-      </div>
-    </section>
-    <section class="card">
-      <header><h2>Zubehör</h2><span class="eyebrow">lose Teile</span></header>
-      <div class="body" id="acc"></div>
-    </section>
-  </div>
+<nav class="steps" aria-label="Arbeitsschritte">
+  <button type="button" data-step="1"><span class="num">1</span><span class="lbl"><b>Projekt &amp; Case</b><small>Name, Rackcase wählen</small></span></button>
+  <button type="button" data-step="2"><span class="num">2</span><span class="lbl"><b>Konfigurator</b><small>Module, Zubehör, Geräte platzieren</small></span></button>
+  <button type="button" data-step="3"><span class="num">3</span><span class="lbl"><b>Bestellen &amp; Fertigen</b><small>Stückliste, Lieferanten, Arbeitsschritte</small></span></button>
+</nav>
 
-  <!-- Mitte: Ansicht -->
-  <div class="col">
-    <section class="card stage-card">
-      <header>
-        <h2>Live-Ansicht</h2>
-        <div class="tabs" role="group" aria-label="Ansicht">
-          <button type="button" id="tabFront" aria-pressed="true">Vorderansicht</button>
-          <button type="button" id="tabSide" aria-pressed="false">Seitenansicht</button>
-          <button type="button" id="tabRear" aria-pressed="false">Rückansicht</button>
-        </div>
-      </header>
-      <div class="stage" id="stage"></div>
-      <div class="warns" id="warns"></div>
-      <div class="stage-foot">
-        <span class="legend"><span class="sw" style="background:var(--hw-tr1)"></span>powerCON TRUE1 / Rackwanne</span>
-        <span class="legend"><span class="sw" style="background:var(--hw-drill)"></span>Loch aufbohren</span>
-        <span class="legend"><span class="sw" style="background:var(--hw-rail)"></span>Rackschiene</span>
-        <span id="stageHint">Klick auf ein Modul oder Loch wählt es aus.</span>
-      </div>
-    </section>
-  </div>
-
-  <!-- Rechts: Inspektor + Belegung -->
-  <div class="col col-right">
-    <section class="card">
-      <header><h2>Auswahl</h2><span class="eyebrow" id="inspTag"></span></header>
-      <div class="body" id="insp"></div>
-    </section>
-  </div>
-</main>
-
-<section class="wide">
-  <section class="card">
-    <header><h2>Stückliste</h2><button type="button" class="btn sm" id="copyBom">Als Tabelle kopieren</button></header>
-    <div class="tablewrap"><table id="bom"></table></div>
-    <div class="body"><p class="hint">„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche, Händler steht unter dem Artikel; vor der Bestellung prüfen. Leere Preise und Art.-Nr. kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.</p></div>
-  </section>
-  <div class="col">
-    <section class="card">
-      <header><h2>Fertigung</h2><div class="actions"><button type="button" class="btn sm" id="labelPdfAll">Beschriftungen als PDF</button><button type="button" class="btn sm" id="copyNotes">Kopieren</button></div></header>
-      <div class="body"><ul class="notes" id="notes"></ul></div>
-    </section>
-    <section class="card">
-      <header><h2>Projekt</h2></header>
-      <div class="body">
-        <div class="actions">
-          <button type="button" class="btn" id="btnExample">Beispiel laden</button>
-          <button type="button" class="btn danger" id="btnReset">Leeres Case</button>
-        </div>
-        <details>
-          <summary>Konfiguration als JSON (sichern / einspielen)</summary>
-          <div class="body" style="padding-inline:0">
-            <textarea id="json" spellcheck="false" aria-label="Konfiguration als JSON"></textarea>
-            <div class="actions">
-              <button type="button" class="btn sm" id="jsonCopy">Kopieren</button>
-              <button type="button" class="btn sm" id="jsonLoad">Einspielen</button>
-            </div>
+<!-- Stufe 1: Projekt & Case -->
+<div class="step" data-step="1">
+  <div class="s1">
+    <div class="col">
+      <section class="card">
+        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm danger" id="btnReset">Neues Projekt</button></div></header>
+        <div class="body">
+          <div class="projfields">
+            <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. FOH-Rack Stadthalle" data-proj="name"></div>
+            <div class="field"><label for="pClient">Kunde / Veranstaltung</label><input id="pClient" type="text" placeholder="optional" data-proj="client"></div>
+            <div class="field full"><label for="pNote">Notiz</label><textarea id="pNote" placeholder="z. B. Inventarnummer, Einsatzort, Termin" data-proj="note"></textarea></div>
           </div>
-        </details>
-      </div>
-    </section>
+        </div>
+      </section>
+      <section class="card">
+        <header><h2>Rackcase wählen</h2><div class="seg" role="group" aria-label="Filter" id="caseFilter"></div></header>
+        <div class="body" id="casePicker"></div>
+      </section>
+    </div>
+    <div class="col">
+      <section class="card">
+        <header><h2>Case</h2><span class="eyebrow" id="caseHeTag"></span></header>
+        <div class="body" id="caseForm"></div>
+      </section>
+      <section class="card">
+        <header><h2>Vorschau</h2><span class="eyebrow">Vorderansicht</span></header>
+        <div class="body"><div class="mini" id="casePreview"></div></div>
+      </section>
+      <section class="card">
+        <header><h2>Projektdatei</h2></header>
+        <div class="body">
+          <div class="actions"><button type="button" class="btn sm" id="jsonSave">Als Datei speichern</button></div>
+          <details>
+            <summary>Konfiguration als JSON (sichern / einspielen)</summary>
+            <div class="body" style="padding-inline:0">
+              <textarea id="json" spellcheck="false" aria-label="Konfiguration als JSON"></textarea>
+              <div class="actions">
+                <button type="button" class="btn sm" id="jsonCopy">Kopieren</button>
+                <button type="button" class="btn sm" id="jsonLoad">Einspielen</button>
+              </div>
+            </div>
+          </details>
+        </div>
+      </section>
+    </div>
   </div>
-</section>
+  <div class="stepnav"><span></span><button type="button" class="btn primary lg" data-goto="2">Weiter zum Konfigurator →</button></div>
+</div>
+
+<!-- Stufe 2: Konfigurator -->
+<div class="step" data-step="2">
+  <main class="grid">
+    <div class="col">
+      <section class="card">
+        <header><h2>Hinzufügen</h2></header>
+        <div class="body">
+          <button type="button" class="btn primary lg" data-open="module">+ Element hinzufügen</button>
+          <div class="addgrid">
+            <button type="button" class="btn" data-open="module">Module</button>
+            <button type="button" class="btn" data-open="zubehoer">Zubehör</button>
+            <button type="button" class="btn" data-open="geraete">Geräte</button>
+            <button type="button" class="btn" data-open="eigene">Eigene Elemente</button>
+          </div>
+          <p class="hint">Oder in der Vorder- bzw. Rückansicht mit der Maus über eine freie Stelle fahren und auf <b>+</b> klicken. Module per Ziehen verschieben.</p>
+        </div>
+      </section>
+      <section class="card">
+        <header><h2>Im Rack</h2><span class="eyebrow" id="inrackTag"></span></header>
+        <div class="body"><ul class="inrack" id="inrack"></ul></div>
+      </section>
+      <section class="card">
+        <header><h2>Case</h2><button type="button" class="btn sm" data-goto="1">ändern</button></header>
+        <div class="body" id="caseMini"></div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="card stage-card">
+        <header>
+          <h2>Live-Ansicht</h2>
+          <div class="tabs" role="group" aria-label="Ansicht">
+            <button type="button" id="tabFront" aria-pressed="true">Vorderansicht</button>
+            <button type="button" id="tabSide" aria-pressed="false">Seitenansicht</button>
+            <button type="button" id="tabRear" aria-pressed="false">Rückansicht</button>
+          </div>
+        </header>
+        <div class="stage" id="stage"></div>
+        <div class="warns" id="warns"></div>
+        <div class="stage-foot">
+          <span class="legend"><span class="sw" style="background:var(--hw-tr1)"></span>powerCON TRUE1 / Rackwanne</span>
+          <span class="legend"><span class="sw" style="background:var(--hw-drill)"></span>Loch aufbohren</span>
+          <span class="legend"><span class="sw" style="background:var(--hw-rail)"></span>Rackschiene</span>
+          <span id="stageHint">Klick auf ein Modul oder Loch wählt es aus.</span>
+        </div>
+      </section>
+    </div>
+
+    <div class="col col-right">
+      <section class="card">
+        <header><h2>Auswahl</h2><span class="eyebrow" id="inspTag"></span></header>
+        <div class="body" id="insp"></div>
+      </section>
+    </div>
+  </main>
+  <div class="stepnav"><button type="button" class="btn lg" data-goto="1">← Projekt &amp; Case</button><button type="button" class="btn primary lg" data-goto="3">Weiter: Bestellen &amp; Fertigen →</button></div>
+</div>
+
+<!-- Stufe 3: Bestellen & Fertigen -->
+<div class="step" data-step="3">
+  <div class="s3">
+    <div class="col">
+      <section class="card">
+        <header><h2>Übersicht</h2><div class="actions"><button type="button" class="btn sm" id="btnPrint">Drucken / PDF</button><button type="button" class="btn sm" id="jsonSave3">Projektdatei speichern</button></div></header>
+        <div class="body" id="overview"></div>
+      </section>
+      <section class="card">
+        <header><h2>Stückliste</h2><button type="button" class="btn sm" id="copyBom">Als Tabelle kopieren</button></header>
+        <div class="tablewrap"><table id="bom"></table></div>
+        <div class="body"><p class="hint">„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche; vor der Bestellung prüfen. Art.-Nr., Lieferant und leere Preise kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.</p></div>
+      </section>
+    </div>
+    <div class="col">
+      <section class="card">
+        <header><h2>Bestellen</h2><span class="eyebrow">nach Lieferant</span></header>
+        <div class="body" id="orders"></div>
+      </section>
+      <section class="card">
+        <header><h2>Fertigung</h2><div class="actions"><button type="button" class="btn sm" id="labelPdfAll">Beschriftungen als PDF</button><button type="button" class="btn sm" id="copyNotes">Kopieren</button></div></header>
+        <div class="body"><ul class="notes" id="notes"></ul></div>
+      </section>
+      <section class="card no-print">
+        <header><h2>Lose Teile</h2><span class="eyebrow">Schrauben, Zubehör</span></header>
+        <div class="body" data-accbox></div>
+      </section>
+    </div>
+  </div>
+  <div class="stepnav"><button type="button" class="btn lg" data-goto="2">← Konfigurator</button><span></span></div>
+</div>
+
+<!-- Popup: Element hinzufügen -->
+<dialog class="add" id="addDlg" aria-labelledby="addTitle">
+  <div class="dlg-head">
+    <h2 id="addTitle">Hinzufügen</h2>
+    <div class="target">
+      <span class="seg" role="group" aria-label="Montageseite"><button type="button" data-tside="front">Vorderseite</button><button type="button" data-tside="rear">Rückseite</button></span>
+      <label for="tPos">ab HE</label><input id="tPos" type="number" min="1" step="0.5">
+      <span class="eyebrow" id="tGap"></span>
+    </div>
+    <button type="button" class="dlg-close" data-close aria-label="Schließen">×</button>
+  </div>
+  <div class="dlg-tabs" role="tablist">
+    <button type="button" role="tab" data-tab="module">Module</button>
+    <button type="button" role="tab" data-tab="zubehoer">Zubehör</button>
+    <button type="button" role="tab" data-tab="geraete">Geräte</button>
+    <button type="button" role="tab" data-tab="eigene">Eigene Elemente</button>
+  </div>
+  <div class="dlg-body" id="dlgBody"></div>
+</dialog>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -495,36 +688,124 @@ const ART = {
 };
 const artKey = (kind, he) => kind + String(he).replace('.', '_');
 
-// Cases: procaseshop.de › 19 Zoll Racks › Rackmodule › Pro Rackmodule (Stand 11/2026, Preise nur mit Händler-Login)
+// Cases (Stand 11/2026)
+// ProCase: procaseshop.de, Preise nur mit Händler-Login · Thon: thomann.de, Webpreise inkl. MwSt.
+// rear: 'opt' = hintere Schiene als Option · 'std' = serienmäßig · 'none' = keine
+// rail: 'rss' = ProCase stufenlose RSS-Schiene · 'steel' = Stahlschiene mit Käfigmuttern (Lochraster) · 'alu' = stufenlose Aluschiene (Thon) · 'hole' = unbekannt / Lochraster
+const thon = (name, map) => ({
+  he: Object.keys(map).map(Number).sort((a, b) => a - b),
+  art: he => map[he] ? `${name(he)} · Thomann ${map[he][0]}` : '',
+  price: he => map[he] ? map[he][1] : null,
+  src: 'web', maker: 'Thon', shop: 'Thomann',
+});
+const pro = (pre, list) => ({ he: list, art: he => 'ProCase ' + pre + String(he).padStart(2, '0'), price: () => null, src: 'ref', maker: 'ProCase', shop: 'ProCase' });
 const CASES = {
   pro560: {
-    n: 'ProCase Pro Rackmodul · 560 mm', short: 'Pro Rackmodul 560', sys: 560, use: 482, rss: true, lids: true,
-    he: [...range(1, 18), 20, 25], art: he => 'ProCase 1355' + String(he).padStart(2, '0'),
-    info: 'Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex, strukturlackiert · inkl. 4 Geräteschrauben-Sätze.',
+    ...pro('1355', [...range(1, 18), 20, 25]), group: 'ProCase · Rackmodule',
+    n: 'ProCase Pro Rackmodul · 560 mm', short: 'Pro Rackmodul 560', sys: 560, use: 482, fix: true, rear: 'opt', rail: 'rss', incl: 4, lids: true,
+    info: 'Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex · inkl. 4 Geräteschrauben-Sätze.',
     outer: he => `525 × ${Math.round(he * HE + 33)} × 560 mm`,
   },
   pro715: {
-    n: 'ProCase Pro Rackmodul · 715 mm', short: 'Pro Rackmodul 715', sys: 715, use: 637, useEst: true, rss: true, lids: false,
-    he: [1, 2, 3, 4, 5, 8], art: he => 'ProCase 13555' + he,
-    info: 'Innenrack, Systemtiefe 715 mm · stufenlose RSS-Rackschiene vorne · hinten je 2 Kabeldurchführungen oben und unten · inkl. 4 Geräteschrauben-Sätze. Nutztiefe vom Hersteller nicht angegeben, 637 mm abgeleitet (482 mm + 155 mm Mehrtiefe) – bitte messen.',
+    ...pro('1355', [1, 2, 3, 4, 5, 8]), art: he => 'ProCase 13555' + he, group: 'ProCase · Rackmodule',
+    n: 'ProCase Pro Rackmodul · 715 mm', short: 'Pro Rackmodul 715', sys: 715, use: 637, est: true, rear: 'opt', rail: 'rss', incl: 4,
+    info: 'Innenrack, Systemtiefe 715 mm · stufenlose RSS-Rackschiene vorne · hinten je 2 Kabeldurchführungen · inkl. 4 Geräteschrauben-Sätze. Nutztiefe nicht angegeben, 637 mm abgeleitet – bitte messen.',
     outer: he => `525 × ${Math.round(he * HE + 33)} × 715 mm`,
   },
+  qsd600: {
+    ...pro('1096', [6, 8, 10, 12, 14, 16, 18, 20]), group: 'ProCase · QSD Racks',
+    n: 'ProCase QSD-Rack 2.0 · 600 mm', short: 'QSD-Rack 600', sys: 600, use: 548, fix: true, rear: 'std', rail: 'steel', railMin: 373, railMax: 490, incl: 24, shock: true,
+    info: 'Quick-Slide-Door: Deckel vorn und hinten schieben sich seitlich ins Case. Gummigelagerter Innenkäfig, Stahl-Rackschienen für Käfigmuttern vorn und hinten verstellbar (Schiene–Schiene 373–490 mm, Frontschiene bis Deckel hinten max. 548 mm). 200 kg, Rollen, LKW-Maß 60 × 60 cm, inkl. 24 Geräteschrauben.',
+    outer: he => `600 × ca. ${Math.round(he * HE + 260)} × 600 mm (mit Rollen)`,
+  },
+  qsd800: {
+    ...pro('1098', [6, 8, 10, 12, 14, 16, 18, 20, 22, 26, 28]), group: 'ProCase · QSD Racks',
+    n: 'ProCase QSD-Rack 2.0 · 800 mm', short: 'QSD-Rack 800', sys: 800, use: 748, fix: true, rear: 'std', rail: 'steel', railMin: 573, railMax: 690, incl: 24, shock: true,
+    info: 'Wie QSD 600, aber tiefer: Schiene–Schiene 573–690 mm, Frontschiene bis Deckel hinten max. 748 mm. LKW-Maß 60 × 80 cm. 26 und 28 HE als „slam door“-Version. Inkl. 24 Geräteschrauben.',
+    outer: he => `600 × ca. ${Math.round(he * HE + 260)} × 800 mm (mit Rollen)`,
+  },
+  thL45rr: {
+    ...thon(he => `Thon Rack ${he}U Live 45 BK RR`, { 2: [466792, 215], 3: [466793, 215], 4: [466794, 222], 5: [466795, 222], 6: [466796, 235], 8: [466797, 245] }), group: 'Thomann · Thon mit Schiene hinten',
+    n: 'Thon Rack Live 45 BK RR', short: 'Thon Live 45 RR', use: 450, fix: true, rear: 'std', rail: 'alu', railMin: 450, railMax: 450,
+    info: '7 mm Multiplex, schwarz. Stufenlose Rackschienen vorn und hinten, 45 cm zwischen den Schienen, 2 Deckel. Für Endstufen mit hoher Einbautiefe.',
+    outer: he => `555 × ca. ${Math.round(he * HE + 55)} × 635 mm`,
+  },
+  thL63rr: {
+    ...thon(he => `Thon Rack ${he}U Live 63 RR${he >= 8 ? ' Wheels' : ''}`, { 2: [651706, 205], 3: [651828, 209], 4: [651829, 222], 5: [651834, 229], 6: [651852, 235], 8: [651853, 333], 10: [651855, 345], 12: [651858, 355], 15: [651881, 395], 18: [651883, 415], 20: [651885, 419] }), group: 'Thomann · Thon mit Schiene hinten',
+    n: 'Thon Rack Live 63 RR', short: 'Thon Live 63 RR', use: 600, fix: true, rear: 'std', rail: 'alu', railMin: 150, railMax: 600,
+    info: '7 mm Multiplex. Einbautiefe 600 mm, stufenlos verstellbare Rackschienen vorn und hinten mit Gummikeder, 2 Deckel. Ab 8 HE mit Rollen. Verstellbereich der hinteren Schiene nicht angegeben.',
+    outer: he => `555 × ca. ${Math.round(he * HE + 55)} × 782 mm`,
+  },
+  thP48rr: {
+    ...thon(he => `Thon Rack ${he}U Profi 48 RR`, { 5: [408520, 235], 8: [408523, 269] }), group: 'Thomann · Thon mit Schiene hinten',
+    n: 'Thon Rack Profi 48 RR', short: 'Thon Profi 48 RR', use: he => he >= 8 ? 450 : 420, fix: true, rear: 'std', rail: 'alu', railMin: 420, railMax: 450,
+    info: '9 mm Multiplex. Stufenlose Rackschienen vorn und hinten, 42 cm (5 HE) bzw. 45 cm (8 HE) von Schiene zu Schiene.',
+    outer: he => `553 × ca. ${Math.round(he * HE + 60)} × 645 mm`,
+  },
+  thSD600: {
+    ...thon(he => `Thon SD ${he}U System Rack 600`, { 6: [513390, 585], 8: [513391, 625], 10: [513392, 645], 12: [513393, 665], 14: [551139, 739], 16: [535730, 779] }), group: 'Thomann · Thon mit Schiene hinten',
+    n: 'Thon SD System Rack 600', short: 'Thon SD 600', use: 500, fix: true, rear: 'std', rail: 'hole', railMin: 400, railMax: 500, shock: true,
+    info: '9 mm Multiplex, Shockmount-Innenrack. Versetzbare Rackschienen vorn und hinten, variable Einbautiefe 40–50 cm. Außen ca. 615 × 605 mm.',
+    outer: he => `ca. 615 × ${Math.round(he * HE + 260)} × 605 mm`,
+  },
+  thEco: {
+    ...thon(he => `Thon Rack ${he}U Eco II 35`, { 2: [103456, 79], 3: [142732, 85], 4: [103470, 89], 5: [107156, 95], 6: [103471, 98] }), group: 'Thomann · Thon nur vorne',
+    n: 'Thon Rack Eco II 35', short: 'Thon Eco II 35', use: 330, fix: true, rear: 'none', rail: 'alu',
+    info: '7 mm Doppelsteg-Kunststoff, stufenlose Rackschiene vorn, 2 Deckel mit Schnappschlössern. Keine hintere Rackschiene.',
+    outer: he => `535 × ca. ${Math.round(he * HE + 60)} × 460 mm`,
+  },
+  thL40: {
+    ...thon(he => `Thon Rack ${he}U Live 40`, { 2: [218179, 155], 3: [218177, 159], 4: [103469, 165], 5: [142729, 175], 8: [126863, 185], 10: [103462, 189], 15: [128775, 235] }), group: 'Thomann · Thon nur vorne',
+    n: 'Thon Rack Live 40', short: 'Thon Live 40', use: 370, fix: true, rear: 'none', rail: 'alu',
+    info: '7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten. Keine hintere Rackschiene.',
+    outer: he => `550 × ca. ${Math.round(he * HE + 55)} × 545 mm`,
+  },
+  thL50: {
+    ...thon(he => `Thon Rack ${he}U Live 50${he >= 10 ? ' Wheels' : ''}`, { 2: [237558, 175], 3: [237562, 179], 4: [237564, 185], 5: [237567, 189], 6: [237568, 195], 8: [237569, 205], 10: [185963, 325], 12: [187891, 365] }), group: 'Thomann · Thon nur vorne',
+    n: 'Thon Rack Live 50', short: 'Thon Live 50', use: 470, fix: true, rear: 'none', rail: 'alu',
+    info: '7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten, ab 10 HE mit Rollen. Keine hintere Rackschiene.',
+    outer: he => `550 × ca. ${Math.round(he * HE + 55)} × 634 mm`,
+  },
   custom: {
-    n: 'Anderes Case (eigene Angabe)', short: 'Case', sys: null, use: null, rss: false, lids: false,
-    he: [...range(1, 20), 24, 25], art: () => '',
+    group: 'Eigenes', n: 'Anderes Case (eigene Angabe)', short: 'Case', maker: '', shop: '', rear: 'opt', rail: 'hole',
+    he: [...range(1, 20), 22, 24, 25, 26, 28], art: () => '', price: () => null, src: 'user',
     info: 'Eigene Bauform. Einbautiefe von Frontschiene bis Rückwand eintragen.',
   },
 };
+const useOf = (ct, he) => typeof ct.use === 'function' ? ct.use(he) : ct.use;
+const stufenlos = ct => ct.rail === 'rss' || ct.rail === 'alu';
 const RAIL_REAR = { n: '2. Rackschienenpaar hinten', art: 'ProCase 11910', price: null, src: 'ref', q: 'procaseshop.de · Option am Rackmodul' };
 const DEPTH = { dpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392 };
+// auto: zu welchen Schienen der Schraubenvorschlag passt
 const ACC_DEFAULT = [
   { id: 'rss',   n: 'Geräteschrauben-Satz für RSS-Schiene, 20 Stk.',      art: 'ProCase 119212', price: null, src: 'ref', q: 'procaseshop.de · auch 4er (11920) und 100er (11924)', pack: 20, qty: 0, auto: 'rss' },
-  { id: 'm6',    n: 'Rackschrauben-Set M6, 8 Stk. (Blister)',            art: 'Adam Hall 5924 BLP', price: null, src: 'ref', q: 'kein Preis gefunden', pack: 8, qty: 0, auto: 'hole' },
+  { id: 'steel', n: 'Geräteschrauben-Satz für Stahl-Rackschiene, 20 Stk.', art: 'ProCase 119261', price: null, src: 'ref', q: 'procaseshop.de · auch 4er (11925) und 100er (11929)', pack: 20, qty: 0, auto: 'steel' },
+  { id: 'm6',    n: 'Rackschrauben-Set M6, 8 Stk. (Blister)',            art: 'Adam Hall 5924 BLP', price: null, src: 'ref', q: 'kein Preis gefunden', pack: 8, qty: 0, auto: 'hole alu' },
   { id: 'cage',  n: 'Käfigmuttern M6, 20 Stk. (für 2-mm-Stahlschienen)', art: 'Adam Hall 5653', price: 5.50, src: 'web', q: 'Thomann · für 3,5-mm-Alu-Schienen: 5650', pack: 20, qty: 0, auto: 'hole' },
+  { id: 'slide', n: 'Gleitmuttern M6 für stufenlose Aluschiene',          art: '', price: null, src: 'check', q: 'passend zur Thon-Schiene prüfen', pack: 10, qty: 0, auto: 'alu' },
   { id: 'lace',  n: 'Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite',   art: '', price: null, src: 'check', qty: 0 },
   { id: 'cable', n: 'Kabelbinder für Zugentlastung (Pack)',               art: '', price: null, src: 'check', qty: 0 },
 ];
-const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'brush'];
+// Geräte-Platzhalter: typische Höhen und Tiefen, bitte am Gerät prüfen
+const DEVICES = [
+  { name: 'Funkempfänger', he: 1, depth: 220 },
+  { name: 'Funkempfänger 2-fach', he: 1, depth: 300 },
+  { name: 'Antennen-Splitter', he: 1, depth: 200 },
+  { name: 'Netzwerk-Switch', he: 1, depth: 250 },
+  { name: 'Stromverteiler', he: 1, depth: 180 },
+  { name: 'Power-Conditioner', he: 1, depth: 250 },
+  { name: 'DMX-Splitter', he: 1, depth: 150 },
+  { name: 'Lichtpult-Node', he: 1, depth: 200 },
+  { name: 'Audio-Interface', he: 1, depth: 200 },
+  { name: 'Stagebox / I/O', he: 2, depth: 300 },
+  { name: 'Endstufe', he: 2, depth: 420 },
+  { name: 'Digitalmixer-Rack', he: 3, depth: 300 },
+  { name: 'Medienserver / PC', he: 2, depth: 450 },
+  { name: 'Video-Kreuzschiene', he: 1, depth: 160 },
+  { name: 'Rackleuchte', he: 1, depth: 40 },
+];
+const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'custom', 'brush'];
+const isDev = it => it.kind === 'device' || it.kind === 'custom';
 
 /* ---------- Zustand ---------- */
 const STRIP = { w: 440, h: 15 };   // Beschriftungsstreifen 872205 LBL – Startwerte, bitte nachmessen
@@ -545,14 +826,16 @@ function makeItem(kind, o = {}) {
     it.stripW = STRIP.w; it.stripH = STRIP.h; it.cells = Array.from({ length: it.div }, () => Array(it.lines).fill(''));
   }
   if (kind === 'drawer') { it.he = o.he ?? 2; it.foam = false; }
-  if (kind === 'device') { it.name = o.name ?? 'Gerät'; it.depth = o.depth ?? 250; it.color = 'black'; it.rearFix = !!o.rearFix; }
+  if (kind === 'device' || kind === 'custom') { it.name = o.name ?? (kind === 'custom' ? 'Eigenes Element' : 'Gerät'); it.depth = o.depth ?? 250; it.color = o.color || 'black'; it.rearFix = !!o.rearFix; }
+  if (kind === 'custom') { it.art = o.art || ''; it.price = o.price ?? null; it.shop = o.shop || ''; }
   if (kind === 'brush') it.he = 1;
   return it;
 }
+function railDefault(ct, depth) { return ct.railMax != null ? Math.min(ct.railMax, depth) : depth - 25; }
 function makeCase(type = 'pro560', he = 6) {
   const t = CASES[type];
-  const depth = t.use ?? 450;
-  return { type, he, depth, rear: true, railRear: depth - 25, lidF: false, lidR: false, name: '' };
+  const depth = useOf(t, he) ?? 450;
+  return { type, he, depth, rear: t.rear !== 'none', railRear: railDefault(t, depth), lidF: false, lidR: false, name: '' };
 }
 function example() {
   const p = makeItem('dpanel', { pos: 0.5 });
@@ -565,7 +848,8 @@ function example() {
   rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
   rp.labels = ['Netz In', 'Netz Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
   return {
-    v: 4,
+    v: 5, step: 2,
+    project: { name: 'Beispiel · FOH-Rack', client: '', note: '' },
     case: makeCase('pro560', 8),
     items: [
       lb, p, makeItem('vent', { he: 0.5, pos: 1.5 }),
@@ -579,7 +863,7 @@ function example() {
   };
 }
 function empty() {
-  return { v: 4, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
+  return { v: 5, step: 1, project: { name: '', client: '', note: '' }, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
 }
 const KEY = 'rackwerk-v1';
 function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.case) return normalize(s); } catch (e) {} return null; }
@@ -594,6 +878,10 @@ function normalize(s) {
   if (c.rear == null) c.rear = true;
   if (c.railRear == null) c.railRear = (+c.depth || 450) - 25;
   c.lidF = !!c.lidF; c.lidR = !!c.lidR;
+  if (CASES[c.type].rear === 'none') c.rear = false;
+  if (CASES[c.type].rear === 'std') c.rear = true;
+  s.project = s.project || { name: c.name || '', client: '', note: '' };
+  s.step = [1, 2, 3].includes(s.step) ? s.step : 2;
   // v1–v3: lückenlose Liste mit „gap“-Elementen → feste Positionen, alles vorne
   if ((s.v || 1) < 4) {
     let pos = 0;
@@ -619,8 +907,9 @@ function normalize(s) {
       delete it.text;
     }
     if (it.kind === 'label') fixCells(it);
+    if (it.kind === 'custom') { it.art = it.art || ''; it.price = it.price ?? null; it.shop = it.shop || ''; }
   });
-  s.v = 4;
+  s.v = 5;
   return s;
 }
 function fixCells(it) {
@@ -660,11 +949,12 @@ function title(it) {
     case 'brush': return 'Bürstenblende';
     case 'drawer': return `Schublade ${fmtHE(it.he)}`;
     case 'device': return it.name || 'Gerät';
+    case 'custom': return it.name || 'Eigenes Element';
   }
   return it.kind;
 }
 function itemDepth(it) {
-  if (it.kind === 'device' || it.kind === 'tray') return +it.depth || 0;
+  if (isDev(it) || it.kind === 'tray') return +it.depth || 0;
   if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) return +it.tray.depth || 0;
   return DEPTH[it.kind] ?? 0;
 }
@@ -672,7 +962,7 @@ function itemDepth(it) {
 function span(it) {
   const d = itemDepth(it), c = state.case;
   if (it.side === 'rear') return [c.railRear - d, c.railRear];
-  if (it.kind === 'device' && it.rearFix && c.rear) return [0, Math.max(d, c.railRear)];
+  if (isDev(it) && it.rearFix && c.rear) return [0, Math.max(d, c.railRear)];
   return [0, d];
 }
 function collisions() {
@@ -692,18 +982,19 @@ function warnings(L) {
     const s = sideItems(side);
     for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) if (ovl(s[i], s[j])) w.push({ err: true, t: `„${title(s[i])}“ und „${title(s[j])}“ überlappen ${side === 'rear' ? 'hinten' : 'vorn'}.` });
   });
-  if (!ct.rss) {
+  if (!stufenlos(ct)) {
     const off = state.items.find(it => it.pos % 1 !== 0 && it.he >= 1);
     if (off) w.push({ t: `„${title(off)}“ sitzt um 0,5 HE versetzt zum Lochraster.` });
   }
-  if (!ct.he.includes(he)) w.push({ t: `${ct.short} gibt es bei procaseshop nicht in ${he} HE.` });
+  if (!ct.he.includes(he)) w.push({ t: `${ct.short} gibt es ${ct.shop ? 'bei ' + ct.shop + ' ' : ''}nicht in ${he} HE.` });
+  if (c.rear && ct.railMin != null && (c.railRear < ct.railMin || c.railRear > ct.railMax)) w.push({ t: `Die hintere Schiene lässt sich bei ${ct.short} nur zwischen ${ct.railMin} und ${ct.railMax} mm einstellen (eingetragen: ${c.railRear} mm).` });
   if (c.rear && c.railRear > c.depth) w.push({ err: true, t: `Die hintere Rackschiene (${c.railRear} mm) liegt hinter der Rückwand (${c.depth} mm).` });
   state.items.forEach(it => {
     const d = itemDepth(it);
     if (it.side === 'front' && d > c.depth) w.push({ err: true, t: `„${title(it)}“ ist ${d} mm tief, das Case bietet ${c.depth} mm Einbautiefe.` });
     if (it.side === 'rear' && !c.rear) w.push({ err: true, t: `„${title(it)}“ ist hinten montiert, das Case hat aber keine hintere Rackschiene.` });
     if (it.side === 'rear' && c.rear && d > c.railRear) w.push({ err: true, t: `„${title(it)}“ (hinten, ${d} mm) ragt über die Frontschiene hinaus.` });
-    if (it.kind === 'device' && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
+    if (isDev(it) && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
     if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + 0.5) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
   });
   collisions().forEach(k => w.push({ err: true, t: `Kollision ${heRange({ pos: k.top, he: k.bot - k.top })}: „${title(k.a)}“ (vorn, bis ${Math.round(k.to)} mm) trifft „${title(k.b)}“ (hinten, ab ${Math.round(k.from)} mm) – ${Math.round(k.to - k.from)} mm Überdeckung.` }));
@@ -782,7 +1073,7 @@ function holes(it) {
 /* ---------- SVG-Bausteine ---------- */
 function railsSVG(xL, he) {
   let s = '';
-  const rss = CASES[state.case.type].rss;
+  const rss = stufenlos(CASES[state.case.type]);
   [xL, xL + W19 - EAR].forEach(x => {
     s += `<rect x="${x}" y="${CW}" width="${EAR}" height="${he * HE}" class="rail"/>`;
     if (rss) s += `<rect x="${x + EAR / 2 - 2}" y="${CW + 2}" width="4" height="${he * HE - 4}" rx="2" class="railhole"/>`;
@@ -796,15 +1087,16 @@ function panelBase(x, y, w, h, cls = 'pnl') {
   ys.forEach(yy => { s += `<rect x="${x + 4.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/><rect x="${x + w - 11.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/>`; });
   return s;
 }
-const DEFS = `<defs>
-    <pattern id="vent" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
-    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--hw-well)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--hw-free)" stroke-width="1.2"/></pattern>
+let PID = "";
+const DEFS = () => `<defs>
+    <pattern id="vent${PID}" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
+    <pattern id="hatch${PID}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--hw-well)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--hw-free)" stroke-width="1.2"/></pattern>
   </defs>`;
 function caseFrame(W, he, rowsH) {
   const caseH = he * HE + CW * 2;
   let s = `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
   [[0, 0], [W - 16, 0], [0, caseH - 16], [W - 16, caseH - 16]].forEach(([x, y]) => { s += `<rect x="${x}" y="${y}" width="16" height="16" rx="4" class="corner"/>`; });
-  s += `<rect x="${CW}" y="${CW}" width="${W19}" height="${he * HE}" fill="url(#hatch)"/>`;
+  s += `<rect x="${CW}" y="${CW}" width="${W19}" height="${he * HE}" fill="url(#hatch${PID})"/>`;
   return s;
 }
 // Labelstreifen-Geometrie: Zellmittelpunkte relativ zur Streifenmitte
@@ -832,7 +1124,7 @@ function faceSVG(it, xL, W) {
     }
     case 'vent': case 'blank': {
       g += panelBase(xL, y, W19, h);
-      if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>`;
+      if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent${PID})"/>`;
       else g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">RACKBLENDE ${fmtHE(it.he).toUpperCase()}</text>`;
       if (it.tray) {
         const th = it.tray.he * HE - 3;
@@ -881,7 +1173,7 @@ function faceSVG(it, xL, W) {
       g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
       break;
     }
-    case 'device': {
+    case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
       g += panelBase(xL, y, W19, h, cls);
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
@@ -925,7 +1217,7 @@ function backSVG(it, xL, W) {
       break;
     }
     case 'vent': case 'blank': {
-      g += `<g class="ghost">${it.kind === 'vent' ? `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>` : `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/>`}</g>`;
+      g += `<g class="ghost">${it.kind === 'vent' ? `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent${PID})"/>` : `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/>`}</g>`;
       g += `<text x="${xL + EAR + 6}" y="${y + Math.min(6, h / 2)}" class="rearinfo" dominant-baseline="central">${(it.kind === 'vent' ? 'GITTERBLENDE ' : 'RACKBLENDE ') + fmtHE(it.he).toUpperCase()} · VORN</text>`;
       if (it.tray) {
         const th = it.tray.he * HE - 3, ty = y + h - th - 1.5;
@@ -943,7 +1235,7 @@ function backSVG(it, xL, W) {
       g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" rx="1" class="side-drawer"/>`;
       g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-ink)">SCHUBLADE ${fmtHE(it.he).toUpperCase()} · RÜCKWAND</text>` + infoTxt;
       break;
-    case 'device': {
+    case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
       if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls);
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
@@ -972,11 +1264,12 @@ function behindSVG(it, xL, label) {
 }
 
 /* ---------- Ansichten ---------- */
-function rackSVG(L, mode) {   // mode: 'front' | 'rear'
+function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: eigene Pattern-IDs · opt.still: ohne + und Ziehen
   const c = state.case, he = c.he, rows = Math.max(he, L.maxEnd);
   const W = W19 + CW * 2, H = rows * HE + CW * 2, xL = CW;
-  const own = mode, other = mode === 'front' ? 'rear' : 'front';
-  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${mode === 'front' ? 'Vorderansicht' : 'Rückansicht, seitenverkehrt'}">${DEFS}`;
+  const own = mode;
+  PID = mode + (opt.sfx || '');
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${mode === 'front' ? 'Vorderansicht' : 'Rückansicht, seitenverkehrt'}">${DEFS()}`;
   s += caseFrame(W, he);
   if (mode === 'front' || c.rear) s += railsSVG(xL, he);
   else [xL, xL + W19 - EAR].forEach(x => { s += `<rect x="${x + .5}" y="${CW + .5}" width="${EAR - 1}" height="${he * HE - 1}" class="gapbox"/>`; });
@@ -986,14 +1279,23 @@ function rackSVG(L, mode) {   // mode: 'front' | 'rear'
   if (mode === 'front') sideItems('rear').forEach(it => { s += `<g class="item" data-id="${it.id}">${behindSVG(it, xL, 'HINTEN: ')}</g>`; });
   else sideItems('front').forEach(it => { s += `<g class="item" data-id="${it.id}">${backSVG(it, xL, W)}</g>`; });
   // eigene Seite
-  sideItems(own).forEach(it => { s += `<g class="item dr" data-id="${it.id}">${faceSVG(it, xL, W)}</g>`; });
-  if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt">${mode === 'front' ? 'VORN NOCH LEER' : 'HINTEN NOCH NICHTS MONTIERT · MODULE MIT „HINTEN“ ZUWEISEN'}</text>`;
+  sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W)}</g>`; });
+  if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
+  // freie Plätze: + bei Hover
+  if (!opt.still && (mode === 'front' || c.rear)) {
+    const mine = sideItems(own);
+    for (let p = 0; p + 0.5 <= he + 1e-6; p += 0.5) {
+      if (mine.some(o => ovl({ pos: p, he: 0.5 }, o))) continue;
+      const y = CW + p * HE, cy = y + HE / 4;
+      s += `<g class="free" data-free="${p}"><rect x="${xL}" y="${y}" width="${W19}" height="${HE / 2}" class="freehit"/><g class="plus" pointer-events="none"><circle cx="${W / 2}" cy="${cy}" r="7"/><path d="M${W / 2 - 3.5} ${cy}h7M${W / 2} ${cy - 3.5}v7"/></g><title>Hier einsetzen: ${mode === 'front' ? 'vorn' : 'hinten'}, HE ${fmtN(p + 1)}</title></g>`;
+    }
+  }
   if (L.maxEnd > he) {
     const y = CW + he * HE;
     s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.maxEnd - he) * HE}" class="over" pointer-events="none"/>`;
     s += `<text x="${W / 2}" y="${y - 3}" class="overtxt">▼ PASST NICHT INS CASE</text>`;
   }
-  s += `<rect id="snap" x="${xL}" y="0" width="${W19}" height="0" class="snap" style="display:none"/>`;
+  if (!opt.still) s += `<rect id="snap" x="${xL}" y="0" width="${W19}" height="0" class="snap" style="display:none"/>`;
   return s + '</svg>';
 }
 function sideSVG(L) {
@@ -1009,7 +1311,7 @@ function sideSVG(L) {
   state.items.forEach(it => {
     const y = CW + it.pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it), [a, b] = span(it), rear = it.side === 'rear';
     let g = `<g class="item dr" data-id="${it.id}">`;
-    const cls = rear ? 'side-rear' : it.kind === 'device' ? 'side-dev' : it.kind === 'drawer' ? 'side-drawer' : 'side-body';
+    const cls = rear ? 'side-rear' : isDev(it) ? 'side-dev' : it.kind === 'drawer' ? 'side-drawer' : 'side-body';
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
       const th = it.tray.he * HE - 2, ty = y + h - th;
       const fx = rear ? X0 + b : X0, dir = rear ? -1 : 1;
@@ -1056,12 +1358,15 @@ function bom() {
     if (!qty) return;
     const r = rows.get(key);
     if (r) { r.qty += qty; return; }
-    rows.set(key, { key, n: base.n, art: base.art || '', price: base.price ?? null, src: base.src || 'check', qty, note: [note, base.q && (base.src === 'web' ? 'Webpreis: ' + base.q : base.q)].filter(Boolean).join(' · ') });
+    rows.set(key, { key, n: base.n, art: base.art || '', price: base.price ?? null, src: base.src || 'check', qty, own: !!base.own, shop: base.shop || '', q: base.q || '', note: [note, base.q && (base.src === 'web' ? 'Webpreis: ' + base.q : base.q)].filter(Boolean).join(' · ') });
   };
   const c = state.case, ct = CASES[c.type], he2 = String(c.he).padStart(2, '0');
   if (c.type === 'custom') add('case', { n: `Case · ${c.he} HE · ${c.depth} mm Einbautiefe`, art: c.name || '', src: 'user' }, 1);
-  else add('case', { n: `19″ Pro Rackmodul ${c.he} HE · Systemtiefe ${ct.sys} mm · Nutztiefe ${ct.useEst ? 'ca. ' : ''}${ct.use} mm`, art: ct.art(c.he), src: 'ref', q: 'procaseshop.de · Preis nur mit Händler-Login' + (c.name ? ' · ' + c.name : '') }, 1);
-  if (c.rear) add('rail_rear', c.type === 'custom' ? { ...RAIL_REAR, art: '', src: 'check', q: '' } : RAIL_REAR, 1);
+  else {
+    const ok = ct.he.includes(c.he), price = ok ? ct.price(c.he) : null;
+    add('case', { n: `${ct.n.split(' · ')[0]} · ${c.he} HE · Nutztiefe ${ct.est ? 'ca. ' : ''}${c.depth} mm`, art: ok ? ct.art(c.he) : '', price, src: !ok ? 'check' : price != null ? 'web' : ct.src, q: ct.shop === 'ProCase' ? 'procaseshop.de · Preis nur mit Händler-Login' : ct.shop === 'Thomann' ? 'Thomann' : '' }, 1);
+  }
+  if (c.rear && ct.rear === 'opt') add('rail_rear', c.type === 'custom' ? { ...RAIL_REAR, art: '', src: 'check', q: '' } : RAIL_REAR, 1);
   if (ct.lids && c.lidF) add('lidF', { n: `Deckel vorne für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}D`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de' : 'Art.-Nr. nach Muster 135502D abgeleitet' }, 1);
   if (ct.lids && c.lidR) add('lidR', { n: `Deckel hinten für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}DH`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de · montiert: 135502DHM' : 'Art.-Nr. nach Muster 135502DH abgeleitet' }, 1);
   let m3 = 0;
@@ -1079,7 +1384,8 @@ function bom() {
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
       case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
-      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: '', src: 'user' }, 1); break;
+      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); break;
+      case 'custom': add('cus_' + (it.art ? it.art + '|' + it.name : it.id), { n: `${it.name || 'Eigenes Element'} (${fmtHE(it.he)})`, art: it.art, price: it.price, src: it.price != null ? 'user' : 'check', shop: it.shop }, 1); break;
     }
   });
   if (m3) add('m3', ART.m3, Math.ceil(m3 / (state.pack || 48)), `${m3} Schrauben nötig · Pack à ${state.pack} Stk.`);
@@ -1089,54 +1395,96 @@ function bom() {
     const price = o.price != null && o.price !== '' ? +o.price : r.price;
     const art = o.art != null ? o.art : r.art;
     const src = (o.price != null && o.price !== '') ? (+o.price === r.price ? r.src : 'user') : r.src;
-    return { ...r, price, art, src };
+    const shop = o.shop != null && o.shop !== '' ? o.shop : shopOf({ ...r, art });
+    return { ...r, price, art, src, shop };
   });
+}
+// Lieferant aus Art.-Nr. und Quelle ableiten (in der Stückliste überschreibbar)
+const SHOPS = [[/Thomann|Geizhals/, 'Thomann'], [/Music Store/, 'Music Store'], [/Rockshop/, 'Rockshop'], [/aweo/, 'aweo'], [/envirel/, 'envirel'], [/eBay/, 'eBay'], [/procaseshop/, 'ProCase'], [/Huss/, 'Huss']];
+function shopOf(r) {
+  if (r.own) return 'Vorhanden';
+  if (r.shop) return r.shop;
+  if (/^ProCase/.test(r.art)) return 'ProCase';
+  if (/^Thon|Thomann \d/.test(r.art)) return 'Thomann';
+  if (r.src === 'cart') return 'Thomann';
+  for (const [re, n] of SHOPS) if (re.test(r.q || '')) return n;
+  return 'Offen';
 }
 const SRC_TXT = { cart: 'Warenkorb', web: 'Webpreis 11/2026', ref: 'Art.-Nr. belegt', check: 'prüfen', user: 'eigene Angabe' };
 
 /* ---------- Render ---------- */
+const heSpan = list => list.length > 1 ? `${list[0]}–${list[list.length - 1]} HE` : `${list[0]} HE`;
+const REAR_TXT = { opt: 'Schiene hinten optional', std: 'Schiene hinten', none: 'nur vorne' };
+let caseFilter = 'all';
+function renderPicker() {
+  const F = [['all', 'Alle'], ['ProCase', 'ProCase'], ['Thon', 'Thomann'], ['rear', 'mit Schiene hinten']];
+  $('#caseFilter').innerHTML = F.map(([k, n]) => `<button type="button" data-cfilter="${k}" aria-pressed="${caseFilter === k}">${n}</button>`).join('');
+  const groups = {};
+  Object.entries(CASES).forEach(([k, ct]) => {
+    if (caseFilter === 'rear' && ct.rear === 'none') return;
+    if ((caseFilter === 'ProCase' || caseFilter === 'Thon') && ct.maker !== caseFilter) return;
+    (groups[ct.group] = groups[ct.group] || []).push([k, ct]);
+  });
+  $('#casePicker').innerHTML = Object.entries(groups).map(([g, list]) => `<div class="cgroup"><h3>${esc(g)}</h3><div class="cgrid">${list.map(([k, ct]) => {
+    const prices = ct.he.map(h => ct.price(h)).filter(p => p != null);
+    const u = typeof ct.use === 'function' ? `${useOf(ct, ct.he[0])}–${useOf(ct, ct.he[ct.he.length - 1])}` : ct.use;
+    return `<button type="button" class="ccard" data-ctype="${k}" aria-pressed="${state.case.type === k}">
+      <span class="eyebrow">${esc(ct.maker || 'eigene Angabe')}${ct.shop ? ' · ' + esc(ct.shop === 'ProCase' ? 'procaseshop.de' : ct.shop) : ''}</span>
+      <span class="cn">${esc(ct.n.replace(/^(ProCase|Thon) /, ''))}</span>
+      <span class="cf">${k !== 'custom' ? `<span class="ctag">${heSpan(ct.he)}</span><span class="ctag">${u} mm</span>` : ''}<span class="ctag ${ct.rear === 'none' ? 'no' : 'ok'}">${REAR_TXT[ct.rear]}</span>${ct.shock ? '<span class="ctag">Shockmount</span>' : ''}</span>
+      <span class="cp">${k === 'custom' ? 'Maße selbst eintragen' : prices.length ? `ab ${EUR.format(Math.min(...prices))}` : 'Preis mit Händler-Login'}</span>
+    </button>`;
+  }).join('')}</div></div>`).join('') || '<p class="hint">Keine Cases für diesen Filter.</p>';
+}
 function renderCase() {
-  const c = state.case, ct = CASES[c.type], pro = c.type !== 'custom';
+  const c = state.case, ct = CASES[c.type], own = c.type === 'custom';
   const heList = ct.he.includes(c.he) ? ct.he : [...ct.he, c.he].sort((a, b) => a - b);
-  const heOpts = heList.map(h => `<option value="${h}" ${h === c.he ? 'selected' : ''}>${h} HE${ct.he.includes(h) ? '' : ' (nicht lieferbar)'}</option>`).join('');
+  const heOpts = heList.map(h => `<option value="${h}" ${h === c.he ? 'selected' : ''}>${h} HE${ct.he.includes(h) ? (ct.price(h) != null ? ' · ' + EUR.format(ct.price(h)) : '') : ' (nicht lieferbar)'}</option>`).join('');
+  const rearLock = ct.rear !== 'opt';
+  const railFix = ct.railMin != null && ct.railMin === ct.railMax;
   $('#caseForm').innerHTML = `
-    <div class="field"><label for="caseType">Bauform</label><select id="caseType" data-case="type">${Object.entries(CASES).map(([k, v]) => `<option value="${k}" ${k === c.type ? 'selected' : ''}>${v.n}</option>`).join('')}</select></div>
+    <div class="insp-title"><span class="big">${esc(ct.n)}</span></div>
     <div class="row">
       <div class="field"><label for="caseHe">Höhe</label><select id="caseHe" data-case="he">${heOpts}</select></div>
-      <div class="field"><label for="caseDepth">${pro ? 'Nutztiefe' : 'Einbautiefe'} (mm)</label><input id="caseDepth" type="number" min="100" max="1000" step="1" value="${c.depth}" data-case="depth" ${pro && !ct.useEst ? 'readonly' : ''}></div>
+      <div class="field"><label for="caseDepth">${own ? 'Einbautiefe' : 'Nutztiefe'} (mm)</label><input id="caseDepth" type="number" min="100" max="1000" step="1" value="${c.depth}" data-case="depth" ${ct.fix ? 'readonly' : ''}></div>
     </div>
-    <label class="check"><input type="checkbox" data-case="rear" ${c.rear ? 'checked' : ''}> Rackschienen hinten${pro ? ' (ProCase 11910)' : ''}</label>
-    ${c.rear ? `<div class="field"><label for="caseRail">Hintere Schiene ab Frontschiene (mm)</label><input id="caseRail" type="number" min="50" max="1000" step="1" value="${c.railRear}" data-case="railRear"></div>` : ''}
+    <label class="check"><input type="checkbox" data-case="rear" ${c.rear ? 'checked' : ''} ${rearLock ? 'disabled' : ''}> Rackschienen hinten${ct.rear === 'opt' && !own ? ' (ProCase 11910, Option)' : ct.rear === 'std' ? ' (serienmäßig)' : ct.rear === 'none' ? ' (bei diesem Case nicht möglich)' : ''}</label>
+    ${c.rear ? `<div class="field"><label for="caseRail">Hintere Schiene ab Frontschiene (mm)${ct.railMin != null && !railFix ? ` · einstellbar ${ct.railMin}–${ct.railMax}` : ''}</label><input id="caseRail" type="number" min="${ct.railMin ?? 50}" max="${ct.railMax ?? 1000}" step="1" value="${c.railRear}" data-case="railRear" ${railFix ? 'readonly' : ''}></div>` : ''}
     ${ct.lids ? `<div class="row"><label class="check"><input type="checkbox" data-case="lidF" ${c.lidF ? 'checked' : ''}> Deckel vorne</label><label class="check"><input type="checkbox" data-case="lidR" ${c.lidR ? 'checked' : ''}> Deckel hinten</label></div>` : ''}
-    <p class="hint">${esc(ct.info)}${ct.outer ? ` Außenmaß ca. ${ct.outer(c.he)} (B × H × T).` : ''}${c.rear ? ' Die Lage der hinteren Schiene ist ein Startwert, bitte am Case messen.' : ''}</p>
-    <div class="field"><label for="caseName">${pro ? 'Notiz' : 'Case-Artikel / Notiz'}</label><input id="caseName" type="text" placeholder="${pro ? 'z. B. Projekt oder Inventarnummer' : 'z. B. Hersteller und Art.-Nr.'}" value="${esc(c.name)}" data-case="name"></div>`;
+    <p class="hint">${esc(ct.info)}${ct.outer ? ` Außenmaß ca. ${ct.outer(c.he)} (B × H × T).` : ''}${c.rear && ct.rear === 'opt' ? ' Die Lage der hinteren Schiene ist ein Startwert, bitte am Case messen.' : ''}</p>
+    ${!own && ct.he.includes(c.he) ? `<dl class="facts"><dt>Art.-Nr.</dt><dd>${esc(ct.art(c.he))}</dd><dt>Preis</dt><dd>${ct.price(c.he) != null ? EUR.format(ct.price(c.he)) + ' (Thomann, 11/2026)' : 'nur mit Händler-Login'}</dd></dl>` : ''}
+    <div class="field"><label for="caseName">${own ? 'Case-Artikel / Notiz' : 'Notiz zum Case'}</label><input id="caseName" type="text" placeholder="${own ? 'z. B. Hersteller und Art.-Nr.' : 'z. B. Inventarnummer'}" value="${esc(c.name)}" data-case="name"></div>`;
+  $('#caseHeTag').textContent = `${c.he} HE · ${c.depth} mm`;
 }
-function renderLib() {
-  const heChips = (kind, list) => list.map(h => `<button type="button" class="chip" data-add="${kind}" data-he="${h}">${String(h).replace('.', ',')}</button>`).join('');
-  const pChips = Object.entries(PANELS).map(([k, P]) => `<button type="button" class="chip" data-add="dpanel" data-variant="${k}" title="${esc(P.n + ' · ' + P.art)}">${P.he} HE · ${P.cols * P.rows} D${k.endsWith('tb') ? '+Z' : ''}</button>`).join('');
-  $('#lib').innerHTML = `
-    <div class="lib-row wide"><span class="t">Steckerfeld</span><div class="chips">${pChips}</div><span class="a">Adam Hall 872215 / 872213 / 872225 / 872214 · +Z = Zugentlastung · Loch 1/2 = powerCON TRUE1</span></div>
-    <div class="lib-row"><span class="t">Beschriftungsblende</span><div class="chips"><button type="button" class="chip" data-add="label" data-he="0.5">0,5</button></div><span class="a">Adam Hall 872205 LBL · Teilungen, mehrzeilig, PDF</span></div>
-    <div class="lib-row"><span class="t">Gitterblende</span><div class="chips">${heChips('vent', [0.5, 1, 2, 3, 4])}</div><span class="a">Rackwanne dahinter möglich (ab 1 HE)</span></div>
-    <div class="lib-row"><span class="t">Rackblende</span><div class="chips">${heChips('blank', [1, 2, 3, 4])}</div><span class="a">Rackwanne dahinter möglich</span></div>
-    <div class="lib-row"><span class="t">Rackwanne</span><div class="chips">${heChips('tray', [1, 2])}</div><span class="a">Adam Hall 87551 / 87552 · 375 mm · eigenes Modul</span></div>
-    <div class="lib-row"><span class="t">Schublade</span><div class="chips">${heChips('drawer', [1, 2, 3, 4])}</div><span class="a">Adam Hall 87401 E / 87402 / 87403 / 87404 · 392 mm</span></div>
-    <div class="lib-row"><span class="t">Gerät (Platzhalter)</span><div class="chips">${heChips('device', [1, 2, 3, 4])}</div><span class="a">Name mittig, Höhe in HE, Tiefe für Kollisionsprüfung</span></div>
-    <div class="lib-row"><span class="t">Bürstenblende</span><div class="chips"><button type="button" class="chip" data-add="brush" data-he="1">1</button></div><span class="a">Kabeldurchführung</span></div>`;
+function renderCaseMini() {
+  const c = state.case, ct = CASES[c.type];
+  $('#caseMini').innerHTML = `<dl class="facts"><dt>Case</dt><dd>${esc(ct.n)}</dd><dt>Höhe</dt><dd>${c.he} HE</dd><dt>Tiefe</dt><dd>${c.depth} mm</dd><dt>Hinten</dt><dd>${c.rear ? `Schiene bei ${c.railRear} mm` : 'keine Schiene'}</dd></dl>`;
+}
+function renderProject() {
+  const p = state.project;
+  ['name', 'client', 'note'].forEach(k => { const el = document.querySelector(`[data-proj="${k}"]`); if (el && document.activeElement !== el) el.value = p[k] || ''; });
+  $('#projTitle').textContent = p.name ? '· ' + p.name : '';
+  document.title = p.name ? `${p.name} · Rackwerk` : 'Rackwerk Konfigurator';
+}
+function renderInrack() {
+  const all = [...sideItems('front'), ...sideItems('rear')];
+  $('#inrackTag').textContent = `${all.length} Element${all.length === 1 ? '' : 'e'}`;
+  $('#inrack').innerHTML = all.length ? all.map(it => `<li><button type="button" class="${it.id === sel ? 'on' : ''}" data-selid="${it.id}"><span class="pos">${heRange(it)}</span><span class="nm">${esc(title(it))}</span><span class="badge">${sideTxt(it)}</span></button></li>`).join('') : '<li class="hint">Noch leer.</li>';
 }
 function suggestScrews() {
-  const n = state.items.reduce((n, it) => n + (it.he < 1 ? 2 : 4) + (it.kind === 'device' && it.rearFix && state.case.rear && it.side === 'front' ? 4 : 0), 0);
-  return CASES[state.case.type].rss ? Math.max(0, n - 4) : n;
+  const n = state.items.reduce((n, it) => n + (it.he < 1 ? 2 : 4) + (isDev(it) && it.rearFix && state.case.rear && it.side === 'front' ? 4 : 0), 0);
+  return Math.max(0, n - (CASES[state.case.type].incl || 0));
 }
-function accFits(a) { return !a.auto || (a.auto === 'rss') === !!CASES[state.case.type].rss; }
+function accFits(a) { return !a.auto || a.auto.split(' ').includes(CASES[state.case.type].rail); }
 function renderAcc() {
-  const sug = suggestScrews();
-  $('#acc').innerHTML = state.acc.map(a => `
+  const sug = suggestScrews(), ct = CASES[state.case.type];
+  const html = state.acc.map(a => `
     <div class="acc-row">
-      <div class="nm">${esc(a.n)}${a.art ? `<small>${esc(a.art)}</small>` : ''}${a.auto ? (accFits(a) ? `<small>Bedarf ${sug} Stk.${a.auto === 'rss' ? ' (4 liegen bei)' : ''} → ${Math.ceil(sug / (a.pack || 1))} Pack <button type="button" class="btn sm" data-accsug="${a.id}" style="margin-left:4px">übernehmen</button></small>` : `<small>${a.auto === 'rss' ? 'nur für ProCase-RSS-Schienen' : 'bei RSS-Schiene nicht nötig'}</small>`) : ''}</div>
+      <div class="nm">${esc(a.n)}${a.art ? `<small>${esc(a.art)}</small>` : ''}${a.auto ? (accFits(a) ? `<small>Bedarf ${sug} Stk.${ct.incl ? ` (${ct.incl} liegen dem Case bei)` : ''} → ${Math.ceil(sug / (a.pack || 1))} Pack <button type="button" class="btn sm" data-accsug="${a.id}" style="margin-left:4px">übernehmen</button></small>` : `<small>passt nicht zur Schiene dieses Cases</small>`) : ''}</div>
       <input type="number" min="0" step="1" value="${a.qty}" data-acc="${a.id}" aria-label="Menge ${esc(a.n)}">
     </div>`).join('') + `
-    <div class="row"><div class="field"><label for="accNew">Eigene Position</label><input id="accNew" type="text" placeholder="z. B. Rackleuchte"></div><button type="button" class="btn" id="accAdd">Hinzufügen</button></div>`;
+    <div class="row"><div class="field"><label>Eigene lose Position</label><input type="text" class="accNew" placeholder="z. B. Rackleuchte, Kabel" aria-label="Eigene lose Position"></div><button type="button" class="btn" data-accadd>Hinzufügen</button></div>`;
+  document.querySelectorAll('[data-accbox]').forEach(b => { if (!b.contains(document.activeElement) || document.activeElement.tagName !== 'INPUT') b.innerHTML = html; });
 }
 function renderInsp() {
   const it = state.items.find(i => i.id === sel);
@@ -1189,13 +1537,15 @@ function renderInsp() {
       h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
       h += `<p class="hint">${esc(ART['drawer' + it.he].art)} · 392 mm Außentiefe, 25 kg Traglast.${it.he === 2 ? ' Schaumstoffeinlage: 87402 MI.' : ''}</p>`;
       break;
-    case 'device':
+    case 'device': case 'custom':
       h += `<div class="field"><label for="f_name">Bezeichnung</label><input id="f_name" type="text" value="${esc(it.name)}" data-f="name"></div>
         <div class="row">
           <div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12], it.he)}</div>
           <div class="field"><label for="f_depth">Tiefe (mm)</label><input id="f_depth" type="number" min="0" max="1000" step="5" value="${it.depth}" data-f="depth"></div>
         </div>
         <div class="field"><label for="f_color">Front</label><select id="f_color" data-f="color"><option value="black" ${it.color !== 'silver' ? 'selected' : ''}>schwarz</option><option value="silver" ${it.color === 'silver' ? 'selected' : ''}>silber</option></select></div>`;
+      if (it.kind === 'custom') h += `<div class="row"><div class="field"><label for="f_art">Art.-Nr.</label><input id="f_art" type="text" value="${esc(it.art)}" data-f="art"></div><div class="field"><label for="f_price">Preis €</label><input id="f_price" type="text" inputmode="decimal" value="${it.price != null ? String(it.price).replace('.', ',') : ''}" data-f="price"></div></div><div class="field"><label for="f_shop">Lieferant</label><input id="f_shop" type="text" value="${esc(it.shop)}" data-f="shop" placeholder="z. B. Thomann"></div><p class="hint">Eigenes Element: erscheint mit Art.-Nr. und Preis in der Stückliste.</p>`;
+      else h += `<p class="hint">Gerät als Platzhalter: steht nicht in der Bestellung, Tiefe zählt für die Kollisionsprüfung.</p>`;
       if (it.side === 'front') h += `<label class="check"><input type="checkbox" data-f="rearFix" ${it.rearFix ? 'checked' : ''} ${state.case.rear ? '' : 'disabled'}> Zusätzlich hinten an der Rückschiene verschrauben</label>`;
       break;
     case 'label': {
@@ -1228,20 +1578,61 @@ function renderBom() {
   let sum = 0, missing = 0;
   const body = rows.map(r => {
     const tot = r.price != null ? r.price * r.qty : null;
-    if (tot != null) sum += tot; else missing++;
+    if (r.own) {} else if (tot != null) sum += tot; else missing++;
     return `<tr>
       <td class="num">${r.qty}×</td>
       <td>${esc(r.n)}${r.note ? `<span class="sub">${esc(r.note)}</span>` : ''}</td>
-      <td><input class="art" type="text" value="${esc(r.art)}" placeholder="Art.-Nr. eintragen" data-art="${r.key}" aria-label="Artikelnummer ${esc(r.n)}"></td>
+      <td><input class="art" type="text" value="${esc(r.art)}" placeholder="${r.own ? '—' : 'Art.-Nr. eintragen'}" data-art="${r.key}" aria-label="Artikelnummer ${esc(r.n)}"></td>
+      <td><input class="shop" type="text" list="shopList" value="${esc(r.shop)}" data-shop="${r.key}" aria-label="Lieferant ${esc(r.n)}"></td>
       <td><span class="st ${r.src}">${SRC_TXT[r.src]}</span></td>
-      <td class="num"><input class="price" type="text" inputmode="decimal" value="${r.price != null ? r.price.toFixed(2).replace('.', ',') : ''}" placeholder="—" data-price="${r.key}" aria-label="Einzelpreis ${esc(r.n)}"></td>
-      <td class="num">${tot != null ? EUR.format(tot) : '—'}</td>
+      <td class="num">${r.own ? '—' : `<input class="price" type="text" inputmode="decimal" value="${r.price != null ? r.price.toFixed(2).replace('.', ',') : ''}" placeholder="—" data-price="${r.key}" aria-label="Einzelpreis ${esc(r.n)}">`}</td>
+      <td class="num">${tot != null && !r.own ? EUR.format(tot) : '—'}</td>
     </tr>`;
   }).join('');
-  $('#bom').innerHTML = `<thead><tr><th class="num">Menge</th><th>Artikel</th><th>Art.-Nr.</th><th>Quelle</th><th class="num">Einzel €</th><th class="num">Summe</th></tr></thead>
+  const shops = [...new Set(['ProCase', 'Thomann', 'Music Store', 'Rockshop', 'aweo', 'envirel', 'eBay', 'Vorhanden', ...rows.map(r => r.shop)])];
+  $('#bom').innerHTML = `<thead><tr><th class="num">Menge</th><th>Artikel</th><th>Art.-Nr.</th><th>Lieferant</th><th>Quelle</th><th class="num">Einzel €</th><th class="num">Summe</th></tr></thead>
     <tbody>${body}</tbody>
-    <tfoot><tr><td></td><td colspan="3">${missing ? `Summe bekannter Preise · ${missing} Position${missing > 1 ? 'en' : ''} ohne Preis` : 'Gesamtsumme'}</td><td></td><td class="num">${EUR.format(sum)}</td></tr></tfoot>`;
+    <tfoot><tr><td></td><td colspan="4">${missing ? `Summe bekannter Preise · ${missing} Position${missing > 1 ? 'en' : ''} ohne Preis` : 'Gesamtsumme'}</td><td></td><td class="num">${EUR.format(sum)}</td></tr></tfoot>
+    <datalist id="shopList">${shops.map(s => `<option value="${esc(s)}">`).join('')}</datalist>`;
   return { sum, missing, rows };
+}
+function orderGroups(rows) {
+  const g = new Map();
+  rows.forEach(r => { if (!g.has(r.shop)) g.set(r.shop, []); g.get(r.shop).push(r); });
+  const order = ['ProCase', 'Thomann'];
+  return [...g.entries()].sort((a, b) => {
+    const ia = a[0] === 'Vorhanden' ? 99 : a[0] === 'Offen' ? 98 : order.includes(a[0]) ? order.indexOf(a[0]) : 50;
+    const ib = b[0] === 'Vorhanden' ? 99 : b[0] === 'Offen' ? 98 : order.includes(b[0]) ? order.indexOf(b[0]) : 50;
+    return ia - ib || a[0].localeCompare(b[0]);
+  });
+}
+function orderText(shop, list) {
+  const sum = list.reduce((s, r) => s + (r.price != null ? r.price * r.qty : 0), 0);
+  return `Bestellung ${shop}${state.project.name ? ' · ' + state.project.name : ''}\n` + list.map(r => `${r.qty}× ${r.art || '(Art.-Nr. offen)'} – ${r.n}${r.price != null ? ' – ' + EUR.format(r.price * r.qty) : ''}`).join('\n') + (sum ? `\nSumme bekannter Preise: ${EUR.format(sum)}` : '');
+}
+function renderOrders(rows) {
+  $('#orders').innerHTML = orderGroups(rows).map(([shop, list]) => {
+    const own = shop === 'Vorhanden';
+    const sum = list.reduce((s, r) => s + (r.price != null ? r.price * r.qty : 0), 0), open = list.filter(r => r.price == null).length;
+    return `<div class="shopgrp"><header><b>${esc(shop)}</b><span class="badge">${list.length} Pos.</span><span class="sum">${own ? 'nicht bestellen' : EUR.format(sum) + (open ? ` + ${open} offen` : '')}</span>${own ? '' : `<button type="button" class="btn sm" data-copyshop="${esc(shop)}">Kopieren</button>`}</header>
+      <ul>${list.map(r => `<li><span class="q">${r.qty}×</span><span>${esc(r.n)}<span class="a">${esc(r.art || 'Art.-Nr. offen')}</span></span><span class="p">${!own && r.price != null ? EUR.format(r.price * r.qty) : '—'}</span></li>`).join('')}</ul></div>`;
+  }).join('') + `<p class="hint">Lieferanten sind aus Art.-Nr. und Preisquelle abgeleitet und lassen sich in der Stückliste ändern. „Offen“ = noch kein Lieferant bekannt. Geräte-Platzhalter stehen unter „Vorhanden“.</p>`;
+}
+function renderOverview(L) {
+  const p = state.project, c = state.case, ct = CASES[c.type], coll = collisions().length;
+  $('#overview').innerHTML = `
+    <dl class="facts">
+      <dt>Projekt</dt><dd><b>${esc(p.name || 'ohne Namen')}</b></dd>
+      ${p.client ? `<dt>Kunde</dt><dd>${esc(p.client)}</dd>` : ''}
+      <dt>Case</dt><dd>${esc(ct.n)} · ${c.he} HE · ${c.depth} mm${c.rear ? ` · Schiene hinten bei ${c.railRear} mm` : ''}</dd>
+      <dt>Belegung</dt><dd>vorn ${fmtN(L.front)} HE · hinten ${fmtN(L.rear)} HE${coll ? ` · <span style="color:var(--danger)">${coll} Kollision${coll > 1 ? 'en' : ''}</span>` : ''}</dd>
+      ${p.note ? `<dt>Notiz</dt><dd>${esc(p.note)}</dd>` : ''}
+      <dt>Stand</dt><dd>${new Date().toLocaleDateString('de-DE')}</dd>
+    </dl>
+    <div class="views2">
+      <figure><div class="mini">${rackSVG(L, 'front', { sfx: 'o', still: true })}</div><figcaption>Vorderansicht</figcaption></figure>
+      <figure><div class="mini">${rackSVG(L, 'rear', { sfx: 'o', still: true })}</div><figcaption>Rückansicht (seitenverkehrt)</figcaption></figure>
+    </div>`;
 }
 function notesData() {
   const out = [];
@@ -1255,7 +1646,7 @@ function notesData() {
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
-    if (it.kind === 'device' && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
+    if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
     if (it.kind === 'label' && it.cells.some(r => r.some(Boolean))) out.push({ h: `Beschriftung · ${where}`, t: `${it.div} Teilungen à ${fmtN(it.pitch)} mm, ${it.lines} Zeile${it.lines > 1 ? 'n' : ''}. Streifen ${it.stripW} × ${it.stripH} mm als PDF drucken (100 %), schneiden, einschieben.`, map: it.cells.map((r, i) => `${i + 1} ${r.filter(Boolean).join(' / ') || '–'}`).join(' · ') });
   });
   return out;
@@ -1279,35 +1670,152 @@ function renderStage(L) {
 }
 function renderSummary(L, B) {
   const he = state.case.he, over = L.maxEnd > he, coll = collisions().length;
-  $('#caseHeTag').textContent = `${he} HE · ${state.case.depth} mm`;
   $('#summary').innerHTML = `
+    <span class="pill">${esc(CASES[state.case.type].short)} <b>${he} HE</b></span>
     <span class="pill ${over ? 'bad' : ''}">Vorn <b>${fmtN(L.front)} / ${he} HE</b></span>
     <span class="pill">Hinten <b>${fmtN(L.rear)} HE</b></span>
     ${coll ? `<span class="pill bad">Kollisionen <b>${coll}</b></span>` : ''}
     <span class="pill">Summe <b>${EUR.format(B.sum)}</b>${B.missing ? `<span style="color:var(--muted);font-size:12px">+ ${B.missing} offen</span>` : ''}</span>`;
 }
 function renderWarns(L) { $('#warns').innerHTML = warnings(L).map(w => `<div class="warn ${w.err ? 'err' : ''}">${esc(w.t)}</div>`).join(''); }
+function renderSteps() {
+  document.querySelectorAll('.step').forEach(el => { el.hidden = +el.dataset.step !== state.step; });
+  document.querySelectorAll('.steps [data-step]').forEach(b => { if (+b.dataset.step === state.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+}
 function renderSoft() {
   const L = layout();
-  renderStage(L); renderWarns(L); renderNotes();
+  renderProject();
+  if (state.step === 1) { $('#casePreview').innerHTML = rackSVG(L, 'front', { sfx: 'p', still: true }); }
+  if (state.step === 2) { renderStage(L); renderWarns(L); renderInrack(); renderCaseMini(); }
+  renderNotes();
   const B = renderBom(); renderSummary(L, B);
+  if (state.step === 3) { renderOrders(B.rows); renderOverview(L); }
   const it = state.items.find(i => i.id === sel);
   $('#inspTag').textContent = it ? `${heRange(it)} · ${sideTxt(it)}` : '';
   if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
   save();
 }
-function render() { layout(); renderCase(); renderInsp(); renderAcc(); renderSoft(); }
+function render() { layout(); renderSteps(); renderPicker(); renderCase(); renderInsp(); renderAcc(); renderSoft(); }
 function stripped() { return JSON.parse(JSON.stringify(state, (k, v) => k.startsWith('_') ? undefined : v)); }
 
 /* ---------- Aktionen ---------- */
-function addItem(kind, he, variant) {
-  const side = view === 'rear' ? 'rear' : 'front';
-  const it = makeItem(kind, { he: +he, variant, side });
-  if (kind === 'device') it.name = `Gerät ${fmtHE(+he)}`;
-  it.pos = firstFree(side, it.he);
+function setCaseType(type) {
+  const c = state.case, ct = CASES[type];
+  c.type = type;
+  if (!ct.he.includes(c.he)) c.he = ct.he.find(h => h >= c.he) ?? ct.he[ct.he.length - 1];
+  const u = useOf(ct, c.he); if (u) c.depth = u;
+  if (ct.rear === 'none') c.rear = false; else if (ct.rear === 'std') c.rear = true;
+  c.railRear = railDefault(ct, c.depth);
+  if (!ct.lids) { c.lidF = false; c.lidR = false; }
+}
+/* ---------- Popup: Element hinzufügen ---------- */
+const dlg = { tab: 'module', side: 'front', pos: 0 };
+const TPLKEY = 'rackwerk-tpl';
+function tpls() { try { return JSON.parse(localStorage.getItem(TPLKEY)) || []; } catch (e) { return []; } }
+function setTpls(l) { try { localStorage.setItem(TPLKEY, JSON.stringify(l)); } catch (e) {} }
+function gapAt(side, pos) {
+  const s = sideItems(side);
+  if (s.some(o => ovl({ pos, he: 0.5 }, o))) return 0;
+  const next = s.filter(o => o.pos >= pos).reduce((m, o) => Math.min(m, o.pos), Infinity);
+  return Math.max(0, Math.min(next, state.case.he) - pos);
+}
+function openAdd(tab, side, pos) {
+  if (tab) dlg.tab = tab;
+  dlg.side = side || (view === 'rear' ? 'rear' : 'front');
+  if (dlg.side === 'rear' && !state.case.rear) dlg.side = 'front';
+  dlg.pos = pos ?? firstFree(dlg.side, 1);
+  renderDlg();
+  const d = $('#addDlg');
+  if (!d.open) { if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', ''); }
+}
+function closeAdd() { const d = $('#addDlg'); if (d.open) { if (typeof d.close === 'function') d.close(); else d.removeAttribute('open'); } }
+const HE_DEV = [0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12];
+function renderDlg() {
+  const gap = gapAt(dlg.side, dlg.pos);
+  document.querySelectorAll('[data-tside]').forEach(b => { b.setAttribute('aria-pressed', b.dataset.tside === dlg.side); b.disabled = b.dataset.tside === 'rear' && !state.case.rear; });
+  $('#tPos').value = dlg.pos + 1;
+  $('#tGap').textContent = gap ? `${fmtN(gap)} HE frei` : 'belegt · schiebt nach unten';
+  document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === dlg.tab));
+  const chip = (kind, he, label, extra = '') => `<button type="button" class="chip${he > gap ? ' tight' : ''}" data-ins="${kind}" data-he="${he}" ${extra} title="${he > gap ? 'Größer als die Lücke: folgende Module rutschen nach unten' : 'Einsetzen'}">${label ?? String(he).replace('.', ',') + ' HE'}</button>`;
+  const price = a => a && a.price != null ? EUR.format(a.price) : 'Preis offen';
+  let h = '';
+  if (dlg.tab === 'module') {
+    h += `<div class="cgroup"><h3>Steckerfelder · Adam Hall · Loch 1/2 = powerCON TRUE1</h3><div class="opts">${Object.entries(PANELS).map(([k, P]) => `
+      <div class="opt"><span class="on">${esc(P.short)}</span><span class="oa">${esc(P.art)} · ${price(P)}</span><div class="chips">${chip('dpanel', P.he, 'Einsetzen · ' + fmtHE(P.he), `data-variant="${k}"`)}</div></div>`).join('')}</div></div>`;
+    h += `<div class="cgroup"><h3>Blenden</h3><div class="opts">
+      <div class="opt"><span class="on">Beschriftungsblende</span><span class="oa">${esc(ART.label.art)} · ${price(ART.label)} · Teilungen, PDF</span><div class="chips">${chip('label', 0.5)}</div></div>
+      <div class="opt"><span class="on">Gitterblende</span><span class="oa">Adam Hall 872205 VR / 8722x VR · Rackwanne dahinter möglich</span><div class="chips">${[0.5, 1, 2, 3, 4].map(x => chip('vent', x)).join('')}</div></div>
+      <div class="opt"><span class="on">Rackblende</span><span class="oa">Adam Hall 8722x STL · Stahl</span><div class="chips">${[1, 2, 3, 4].map(x => chip('blank', x)).join('')}</div></div>
+      <div class="opt"><span class="on">Bürstenblende</span><span class="oa">${esc(ART.brush.art)} · ${price(ART.brush)} · Kabeldurchführung</span><div class="chips">${chip('brush', 1)}</div></div>
+    </div></div>`;
+  }
+  if (dlg.tab === 'zubehoer') {
+    h += `<div class="cgroup"><h3>Im Rack · Adam Hall</h3><div class="opts">
+      <div class="opt"><span class="on">Rackwanne</span><span class="oa">87551 / 87552 · 375 mm · ${price(ART.tray1)} / ${price(ART.tray2)}</span><div class="chips">${[1, 2].map(x => chip('tray', x)).join('')}</div></div>
+      <div class="opt"><span class="on">Schublade</span><span class="oa">87401 E / 87402 / 87403 / 87404 · 392 mm</span><div class="chips">${[1, 2, 3, 4].map(x => chip('drawer', x)).join('')}</div></div>
+    </div></div>
+    <div class="cgroup"><h3>Lose Teile · ohne Platz im Rack</h3><div data-accbox class="body" style="padding:0"></div></div>`;
+  }
+  if (dlg.tab === 'geraete') {
+    h += `<div class="cgroup"><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
+      <button type="button" class="opt" data-insdev="${i}"><span class="on">${esc(d.name)}</span><span class="oa">${fmtHE(d.he)} · ${d.depth} mm tief</span></button>`).join('')}</div></div>
+    <div class="cgroup"><h3>Eigenes Gerät</h3><div class="row">
+      <div class="field" style="flex:2 1 180px"><label for="dName">Bezeichnung</label><input id="dName" type="text" placeholder="z. B. Shure ULXD4Q"></div>
+      <div class="field"><label for="dHe">Höhe</label><select id="dHe">${HE_DEV.map(x => `<option value="${x}" ${x === 1 ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div>
+      <div class="field"><label for="dDepth">Tiefe (mm)</label><input id="dDepth" type="number" min="0" max="1000" step="5" value="250"></div>
+      <button type="button" class="btn primary" data-insdevown>Einsetzen</button>
+    </div></div>
+    <p class="dlg-foot">Geräte sind Platzhalter: Sie stehen nicht in der Bestellung, ihre Tiefe zählt aber für die Kollisionsprüfung.</p>`;
+  }
+  if (dlg.tab === 'eigene') {
+    const list = tpls();
+    h += `<div class="cgroup"><h3>Neues eigenes Element · kommt mit Art.-Nr. und Preis in die Stückliste</h3>
+      <div class="row">
+        <div class="field" style="flex:2 1 200px"><label for="cName">Bezeichnung</label><input id="cName" type="text" placeholder="z. B. Steckdosenleiste 19″ 8-fach"></div>
+        <div class="field"><label for="cHe">Höhe</label><select id="cHe">${HE_DEV.map(x => `<option value="${x}" ${x === 1 ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div>
+        <div class="field"><label for="cDepth">Tiefe (mm)</label><input id="cDepth" type="number" min="0" max="1000" step="5" value="50"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label for="cArt">Art.-Nr.</label><input id="cArt" type="text" placeholder="optional"></div>
+        <div class="field"><label for="cPrice">Preis €</label><input id="cPrice" type="text" inputmode="decimal" placeholder="optional"></div>
+        <div class="field"><label for="cShop">Lieferant</label><input id="cShop" type="text" list="shopList" placeholder="z. B. Thomann"></div>
+        <div class="field"><label for="cColor">Front</label><select id="cColor"><option value="black">schwarz</option><option value="silver">silber</option></select></div>
+      </div>
+      <div class="row" style="align-items:center"><label class="check"><input type="checkbox" id="cKeep" checked> In „Meine Elemente“ merken</label><button type="button" class="btn primary" data-inscustom>Einsetzen</button></div>
+    </div>
+    <div class="cgroup"><h3>Meine Elemente · in diesem Browser gespeichert</h3>${list.length ? list.map(x => `
+      <div class="tpl"><span>${esc(x.name)}<small>${fmtHE(x.he)} · ${x.depth} mm${x.art ? ' · ' + esc(x.art) : ''}${x.price != null ? ' · ' + EUR.format(x.price) : ''}</small></span><button type="button" class="btn sm primary" data-tpl="${x.id}">Einsetzen</button><button type="button" class="btn sm danger" data-tpldel="${x.id}" aria-label="${esc(x.name)} löschen">×</button></div>`).join('') : '<p class="hint">Noch keine eigenen Elemente gespeichert.</p>'}</div>`;
+  }
+  $('#dlgBody').innerHTML = h;
+  if (dlg.tab === 'zubehoer') renderAcc();
+}
+function insertItem(kind, o = {}) {
+  const it = makeItem(kind, { ...o, side: dlg.side });
+  if (kind === 'device' && !o.name) it.name = `Gerät ${fmtHE(it.he)}`;
   state.items.push(it);
+  place(it, dlg.pos);
   sel = it.id; selSlot = kind === 'dpanel' ? 2 : null;
+  if (view !== 'side') view = it.side;
+  closeAdd();
+  state.step = 2;
   render();
+  toast(`${title(it)} → ${heRange(it)} · ${sideTxt(it)}`);
+}
+function dlgClick(t) {
+  if (t.closest('[data-close]')) { closeAdd(); return true; }
+  const tab = t.closest('[data-tab]'); if (tab) { dlg.tab = tab.dataset.tab; renderDlg(); return true; }
+  const ts = t.closest('[data-tside]'); if (ts) { dlg.side = ts.dataset.tside; dlg.pos = gapAt(dlg.side, dlg.pos) ? dlg.pos : firstFree(dlg.side, 1); renderDlg(); return true; }
+  const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant }); return true; }
+  const dv = t.closest('[data-insdev]'); if (dv) { const d = DEVICES[+dv.dataset.insdev]; insertItem('device', { ...d }); return true; }
+  if (t.closest('[data-insdevown]')) { insertItem('device', { name: $('#dName').value.trim() || undefined, he: +$('#dHe').value, depth: parseNum($('#dDepth').value) ?? 250 }); return true; }
+  if (t.closest('[data-inscustom]')) {
+    const o = { name: $('#cName').value.trim() || 'Eigenes Element', he: +$('#cHe').value, depth: parseNum($('#cDepth').value) ?? 0, art: $('#cArt').value.trim(), price: parsePrice($('#cPrice').value), shop: $('#cShop').value.trim(), color: $('#cColor').value };
+    if ($('#cKeep').checked) { const l = tpls(); l.push({ id: uid(), ...o }); setTpls(l); }
+    insertItem('custom', o); return true;
+  }
+  const tp = t.closest('[data-tpl]'); if (tp) { const x = tpls().find(y => y.id === tp.dataset.tpl); if (x) { const { id, ...o } = x; insertItem('custom', o); } return true; }
+  const td = t.closest('[data-tpldel]'); if (td) { setTpls(tpls().filter(y => y.id !== td.dataset.tpldel)); renderDlg(); toast('Aus „Meine Elemente“ entfernt'); return true; }
+  return false;
 }
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2200); }
 async function copy(text, fallbackEl) {
@@ -1343,7 +1851,7 @@ async function exportLabels(list) {
   const PW = 297, PH = 210, M = 10, maxW = PW - 2 * M;
   let y = M + 6, first = true;
   doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
-  doc.text('Rackwerk · Beschriftungsstreifen Adam Hall 872205 LBL', M, M);
+  doc.text(`${state.project.name ? state.project.name + ' · ' : ''}Beschriftungsstreifen Adam Hall 872205 LBL`, M, M);
   doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
   doc.text('In 100 % / Originalgröße drucken, nicht „an Seite anpassen“. Schnittlinien = Außenkante des Streifens. Geteilte Streifen an der Teilungslinie stoßen.', M, M + 4.5);
   y = M + 12;
@@ -1391,23 +1899,36 @@ async function exportLabels(list) {
       y = y0 + SH + 9;
     }
   });
-  const blob = doc.output('blob');
-  const filename = `beschriftung-${new Date().toISOString().slice(0, 10)}.pdf`;
+  await saveFile(`${slug()}-beschriftung.pdf`, doc.output('blob'), 'PDF');
+}
+const slug = () => (state.project.name || 'rackwerk').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rackwerk';
+async function saveFile(filename, blob, what) {
   let dl = null;
   try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
   if (dl) {
-    try { await dl.save({ filename, data: blob }); toast('PDF gespeichert'); }
+    try { await dl.save({ filename, data: blob }); toast(`${what} gespeichert`); }
     catch (e) { if (e && e.code === 'declined') toast('Speichern abgebrochen'); else toast('Download hier nicht möglich'); }
-  } else {
-    doc.save(filename); toast('PDF erstellt');
+    return;
   }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  toast(`${what} erstellt`);
 }
 
 /* ---------- Ereignisse ---------- */
 document.addEventListener('click', e => {
   const t = e.target;
-  const add = t.closest('[data-add]');
-  if (add) return addItem(add.dataset.add, add.dataset.he || 1, add.dataset.variant);
+  if (t.closest('#addDlg') && dlgClick(t)) return;
+  if (t.id === 'addDlg') { closeAdd(); return; }   // Klick auf den Hintergrund
+  const op = t.closest('[data-open]'); if (op) { openAdd(op.dataset.open); return; }
+  const fr = t.closest('[data-free]'); if (fr) { openAdd(null, view, +fr.dataset.free); return; }
+  const go = t.closest('[data-goto], .steps [data-step]');
+  if (go) { state.step = +(go.dataset.goto || go.dataset.step); render(); window.scrollTo({ top: 0 }); return; }
+  const cf = t.closest('[data-cfilter]'); if (cf) { caseFilter = cf.dataset.cfilter; renderPicker(); return; }
+  const cty = t.closest('[data-ctype]'); if (cty) { setCaseType(cty.dataset.ctype); render(); return; }
+  const si = t.closest('[data-selid]'); if (si) { const it = state.items.find(i => i.id === si.dataset.selid); if (it) { sel = it.id; selSlot = null; if (view !== 'side') view = it.side; render(); } return; }
+  const cs = t.closest('[data-copyshop]'); if (cs) { const g = orderGroups(bom()).find(([s]) => s === cs.dataset.copyshop); if (g) copy(orderText(g[0], g[1])); return; }
+  if (t.closest('[data-accadd]')) { const inp = t.closest('.row').querySelector('.accNew'); const v = inp.value.trim(); if (!v) return; state.acc.push({ id: uid(), n: v, art: '', qty: 1 }); renderAcc(); renderSoft(); toast('Position hinzugefügt'); return; }
   const assign = t.closest('[data-assign]');
   if (assign) {
     const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'dpanel') return;
@@ -1455,25 +1976,30 @@ document.addEventListener('click', e => {
   }
   const sug = t.closest('[data-accsug]');
   if (sug) { const a = state.acc.find(x => x.id === sug.dataset.accsug); a.qty = Math.ceil(suggestScrews() / (a.pack || 1)); renderAcc(); renderSoft(); return; }
-  if (t.id === 'accAdd') { const v = $('#accNew').value.trim(); if (!v) return; state.acc.push({ id: uid(), n: v, art: '', qty: 1 }); renderAcc(); renderSoft(); toast('Position hinzugefügt'); return; }
 });
 
 document.addEventListener('input', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
   if (t.dataset.label != null && it) { it.labels[+t.dataset.label] = t.value; renderSoft(); return; }
   if (t.dataset.cell != null && it) { const [i, k] = t.dataset.cell.split(':').map(Number); it.cells[i][k] = t.value; renderSoft(); return; }
-  if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH'].includes(t.dataset.f)) {
+  if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH', 'art', 'price', 'shop'].includes(t.dataset.f)) {
     const f = t.dataset.f, v = parseNum(t.value);
-    if (f === 'name') it.name = t.value;
+    if (f === 'name' || f === 'art' || f === 'shop') it[f] = t.value;
+    else if (f === 'price') it.price = parsePrice(t.value);
     else if (f === 'traydepth') it.tray.depth = v ?? 0;
     else if (v != null) it[f] = v;
     renderSoft(); $('.insp-title .big') && ($('.insp-title .big').textContent = title(it));
     return;
   }
+  if (t.dataset.proj) { state.project[t.dataset.proj] = t.value; renderProject(); save(); return; }
   if (t.dataset.case === 'name') { state.case.name = t.value; renderSoft(); return; }
   if (t.dataset.case === 'depth') { state.case.depth = parseNum(t.value) ?? 0; renderSoft(); return; }
   if (t.dataset.case === 'railRear') { state.case.railRear = parseNum(t.value) ?? 0; renderSoft(); return; }
-  if (t.dataset.acc) { const a = state.acc.find(x => x.id === t.dataset.acc); a.qty = Math.max(0, parseInt(t.value, 10) || 0); const L = layout(); const B = renderBom(); renderSummary(L, B); save(); return; }
+  if (t.dataset.acc) {
+    const a = state.acc.find(x => x.id === t.dataset.acc); a.qty = Math.max(0, parseInt(t.value, 10) || 0);
+    document.querySelectorAll(`[data-acc="${a.id}"]`).forEach(el => { if (el !== t) el.value = a.qty; });
+    const L = layout(); const B = renderBom(); renderSummary(L, B); if (state.step === 3) renderOrders(B.rows); save(); return;
+  }
 });
 document.addEventListener('change', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
@@ -1502,18 +2028,16 @@ document.addEventListener('change', e => {
     else return;
     render(); return;
   }
-  if (t.dataset.case === 'he') { state.case.he = +t.value; render(); return; }
-  if (t.dataset.case === 'type') {
-    const c = state.case, ct = CASES[t.value];
-    c.type = t.value;
-    if (!ct.he.includes(c.he)) c.he = ct.he.find(h => h >= c.he) ?? ct.he[ct.he.length - 1];
-    if (ct.use) { c.depth = ct.use; c.railRear = Math.min(c.railRear, ct.use - 25); }
-    if (!ct.lids) { c.lidF = false; c.lidR = false; }
+  if (t.id === 'tPos') { const v = parseNum(t.value); if (v != null) { dlg.pos = Math.max(0, Math.round((v - 1) * 2) / 2); renderDlg(); } return; }
+  if (t.dataset.case === 'he') {
+    const c = state.case, ct = CASES[c.type]; c.he = +t.value;
+    if (typeof ct.use === 'function') { c.depth = useOf(ct, c.he); c.railRear = railDefault(ct, c.depth); }
     render(); return;
   }
   if (['rear', 'lidF', 'lidR'].includes(t.dataset.case)) { state.case[t.dataset.case] = t.checked; render(); return; }
   if (t.dataset.price) { const o = state.ov[t.dataset.price] = state.ov[t.dataset.price] || {}; o.price = parsePrice(t.value); renderSoft(); return; }
   if (t.dataset.art) { const o = state.ov[t.dataset.art] = state.ov[t.dataset.art] || {}; o.art = t.value; renderSoft(); return; }
+  if (t.dataset.shop) { const o = state.ov[t.dataset.shop] = state.ov[t.dataset.shop] || {}; o.shop = t.value.trim(); renderSoft(); return; }
 });
 
 /* ---------- Ziehen in der Ansicht ---------- */
@@ -1574,17 +2098,20 @@ $('#jsonLoad').onclick = () => {
   try { const s = normalize(JSON.parse($('#json').value)); if (!s.items || !s.case) throw 0; state = s; sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Konfiguration übernommen'); }
   catch (e) { toast('JSON ist ungültig. Bitte den kompletten Text einfügen.'); }
 };
-$('#btnExample').onclick = () => { const ov = state.ov; state = example(); state.ov = ov; sel = state.items[0].id; selSlot = null; render(); toast('Beispiel geladen'); };
+$('#btnExample').onclick = () => { const ov = state.ov; state = example(); state.ov = ov; state.step = 1; sel = state.items[0].id; selSlot = null; render(); toast('Beispiel geladen'); };
 const reset = $('#btnReset');
 reset.onclick = () => {
-  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; view = 'front'; render(); delete reset.dataset.arm; reset.textContent = 'Leeres Case'; toast('Neues Case angelegt'); return; }
-  reset.dataset.arm = '1'; reset.textContent = 'Wirklich leeren?';
-  setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Leeres Case'; }, 3000);
+  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; view = 'front'; render(); delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; toast('Neues Projekt angelegt'); $('#pName').focus(); return; }
+  reset.dataset.arm = '1'; reset.textContent = 'Wirklich alles leeren?';
+  setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; }, 3000);
 };
+const saveJson = () => saveFile(`${slug()}.json`, new Blob([JSON.stringify(stripped(), null, 1)], { type: 'application/json' }), 'Projektdatei');
+$('#jsonSave').onclick = saveJson;
+$('#jsonSave3').onclick = saveJson;
+$('#btnPrint').onclick = () => window.print();
 
-renderLib();
 render();
 })();
 </script>
-
+</body>
 </html>

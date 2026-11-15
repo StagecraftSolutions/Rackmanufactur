@@ -1,5 +1,18 @@
 # Changelog
 
+## 2026-11-15 – Stand 6
+
+- Konfigurator in drei Stufen: **1 Projekt & Case**, **2 Konfigurator**, **3 Bestellen & Fertigen**.
+- Projektname, Kunde und Notiz; Projektname erscheint im Kopf, in Dateinamen und im Beschriftungs-PDF.
+- Case-Auswahl als Karten mit Filter (ProCase, Thomann, mit Schiene hinten). Neu: **ProCase QSD-Rack 2.0** (600 und 800 mm) und **Thon**-Serien von Thomann (Live 45 BK RR, Live 63 RR, Profi 48 RR, SD System Rack 600, Eco II 35, Live 40, Live 50) mit Art.-Nr. und Webpreis je Höhe.
+- Hinzufügen über ein **Popup** mit den Reitern Module, Zubehör, Geräte und Eigene Elemente. In Vorder- und Rückansicht erscheint beim Überfahren freier Plätze ein **+**, das das Popup genau an dieser Stelle öffnet.
+- Geräte-Vorlagen mit typischen Maßen; eigene Geräte als Platzhalter.
+- **Eigene Elemente** mit Art.-Nr., Preis und Lieferant; sie kommen in die Stückliste und lassen sich als „Meine Elemente“ im Browser merken.
+- Liste „Im Rack“ zum schnellen Auswählen.
+- Stufe 3: Übersicht mit Vorder- und Rückansicht (druckbar), Stückliste mit Spalte **Lieferant**, **Bestelllisten je Lieferant** zum Kopieren, Fertigung, lose Teile.
+- Schraubenvorschlag passend zur Schiene (RSS, Stahl/Käfigmutter, stufenlose Aluschiene); QSD bringt 24 Geräteschrauben mit.
+- Projektdatei als JSON speichern. Gespeicherte Stände v1–v4 werden übernommen.
+
 ## 2026-11-15 – Stand 5
 
 - Live-Ansicht mit Umschalter Vorderansicht / Seitenansicht / Rückansicht.
