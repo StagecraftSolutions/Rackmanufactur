@@ -482,6 +482,7 @@ td input.shop { min-width: 110px; }
 .exbtn-gd { fill: #1b2b20; stroke: #22c55e; stroke-width: .7; } .ex-wmag { fill: #d946ef; } .ex-segoff { fill: #2a2e33; } .ex-sego { fill: #f97316; } .ex-segg { fill: #22c55e; } .ex-seg7 { fill: #0d0e10; stroke: #3a3f45; stroke-width: .3; } .exred { fill: #ef4444; }
 .ex-tft { fill: #050607; stroke: #3a3f45; stroke-width: .4; } .ex-ring2 { fill: #22262a; stroke: #3a3f45; stroke-width: .5; } .ex-grillw { fill: #0d0e10; stroke: #2a2e33; stroke-width: .6; } .ex-slot { fill: #1b1d20; } .ex-badge { fill: #d9dde2; stroke: #8d959e; stroke-width: .3; }
 .ex-fan { fill: #15171a; stroke: #3a3f45; stroke-width: .4; }
+.exbtn-cr { fill: #f6ead0; } .exbtn-bl { fill: #1e4fa0; } .ex-slotw { fill: #e9ecef; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -933,9 +934,9 @@ const DEVDB = {
   tm_ip_video: { n: 'Teranex Mini IP Video 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 605, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:3 SDI In, 2× SDI Out; rj45:1 Video über Gigabit-Ethernet; usb:1 USB; iec:1 Netz' } },
   bmd_2110_sdi_hdmi: { n: 'Blackmagic 2110 IP SDI to HDMI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 949, url: BMD + 'teranexmini', io: { f: 'jack:1 Kopfhörer; usbc:1 USB-C (Webcam)', r: 'bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; rj45:1 10G-Ethernet (ST 2110); xlr:2 Analog-Audio Out; dc:1 12 V' } },
   // Blackmagic · HyperDeck Studio
-  hd_mini: { n: 'HyperDeck Studio HD Mini', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 615, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; btn:1 Transport', r: 'bnc:6 SDI In/Out, Timecode In/Out, Referenz In/Out; hdmi:1 HDMI Out; rj45:1 Ethernet; usbc:1 USB-C; dc:1 12 V' } },
+  hd_mini: { n: 'HyperDeck Studio HD Mini', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'bmd', frac: 1 / 3, d: 177, price: 615, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; btn:1 Transport', r: 'bnc:6 SDI In/Out, Timecode In/Out, Referenz In/Out; hdmi:1 HDMI Out; rj45:1 Ethernet; usbc:1 USB-C; dc:1 12 V' } },
   hd_plus: { n: 'HyperDeck Studio HD Plus', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'bmd', frac: 1 / 2, d: 190, chk: 1, price: 745, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:8 SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Referenz In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
-  hd_pro: { n: 'HyperDeck Studio HD Pro', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'rack', he: 1, d: 210, chk: 1, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:6 SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  hd_pro: { n: 'HyperDeck Studio HD Pro', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'rack', he: 1, d: 236, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:6 SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   hd_4kpro: { n: 'HyperDeck Studio 4K Pro', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'rack', he: 1, d: 210, chk: 1, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:6 12G-SDI In, 2× Out, Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI 2.0 In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   // Blackmagic · ATEM, Streaming, Audio
   atem_hd8: { n: 'ATEM Television Studio HD8', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'rack', he: 1, d: 300, chk: 1, url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:1 Netz' } },
@@ -1369,6 +1370,7 @@ function exactFace(d, id, side, X, Y) {
       case 'din': g += `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(e.r * .72)}" class="pg-hole"/>` + [210, 250, 290, 330, 270].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * e.r * .45)}" cy="${f(y + Math.sin(q) * e.r * .45 + (a === 270 ? e.r * .1 : 0))}" r=".55" class="pg-metal"/>`; }).join(''); break;
       case 'xlrf': { const r0 = (e.s || 11) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .72)}" class="pg-hole"/>` + [210, 330, 90].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * r0 * .38)}" cy="${f(y + Math.sin(q) * r0 * .38)}" r="${f(r0 * .1)}" class="pg-ring"/>`; }).join('') + `<rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
       case 'fan': { let s2 = `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="ex-fan"/>`; for (let yy = -e.r + 2; yy < e.r - 1; yy += 2.6) for (let xx = -e.r + 2; xx < e.r - 1; xx += 2.6) if (xx * xx + yy * yy < (e.r - 2) * (e.r - 2)) s2 += `<circle cx="${f(x + xx)}" cy="${f(y + yy)}" r=".8" class="pg-hole"/>`; g += s2; break; }
+      case 'db9': g += `<circle cx="${f(x - 9.5)}" cy="${f(y)}" r="1.6" class="pg-metal"/><circle cx="${f(x + 9.5)}" cy="${f(y)}" r="1.6" class="pg-metal"/><polygon points="${f(x - 7)},${f(y - 3.4)} ${f(x + 7)},${f(y - 3.4)} ${f(x + 5.8)},${f(y + 3.4)} ${f(x - 5.8)},${f(y + 3.4)}" class="pg-ring"/><polygon points="${f(x - 5.8)},${f(y - 2.4)} ${f(x + 5.8)},${f(y - 2.4)} ${f(x + 4.8)},${f(y + 2.4)} ${f(x - 4.8)},${f(y + 2.4)}" class="pg-hole"/>`; break;
       case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
       case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
       case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
@@ -1599,6 +1601,61 @@ EXACT.midas_dl16 = { hw: 482.6, f: [
   { t: 'txt', x: 170.6, y: 50, v: 'ADAT OUT', s: 2.4 }, { t: 'opt', x: 161.2, y: 74.5, s: 7 }, { t: 'opt', x: 180, y: 74.5, s: 7 }, { t: 'ledc', x: 148.5, y: 75.6, r: .9, c: 'exled-o' },
   { t: 'rect', x: 190.9, y: 46.5, w: 52.7, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 217.2, y: 50, v: 'MIDI IN · OUT', s: 2.4 }, { t: 'din', x: 204.2, y: 67.9, r: 8 }, { t: 'din', x: 230.3, y: 67.9, r: 8 },
   { t: 'logo', x: 320, y: 60, v: 'MIDAS', s: 14 }, { t: 'logo', x: 345, y: 80, v: 'DL16', s: 6 },
+] };
+// Blackmagic HyperDeck Studio (Maßzeichnungen blackmagicdesign.com)
+const HD_TRANSPORT = (xs, ys, w) => [['SKIP', 'exbtn-w', '◀'], ['REC', 'exbtn-r', '●'], ['SKIP', 'exbtn-w', '▶'], ['INPUT', 'exbtn-w', ''], ['REW', 'exbtn-w', '◀◀'], ['PLAY', 'exbtn-cr', '▶'], ['F FWD', 'exbtn-w', '▶▶'], ['STOP', 'exbtn-bl', '■']]
+  .flatMap(([l, c, v], i) => [{ t: 'btn', x: xs[i % 4], y: ys[i < 4 ? 0 : 1], w, h: w, c, v }, { t: 'txt', x: xs[i % 4], y: ys[i < 4 ? 0 : 1] + w / 2 + 2.2, v: l, s: 1.7 }]);
+const HD_PRO_FRONT = [
+  { t: 'btn', x: 36.1, y: 9.1, w: 6.5, h: 6, c: 'exbtn-dk' }, { t: 'btn', x: 36.1, y: 19, w: 6.5, h: 6, c: 'exbtn-dk', v: 'REM' }, { t: 'jack', x: 36.1, y: 32.8, s: 13 },
+  { t: 'rect', x: 49.2, y: 8, w: 89.3, h: 28.5, c: 'ex-mod' }, { t: 'rect', x: 55.4, y: 19, w: 71.4, h: 6.5, c: 'ex-slotw' },
+  { t: 'rect', x: 146.5, y: 8, w: 87.5, h: 28.5, c: 'ex-mod' }, { t: 'rect', x: 165, y: 19, w: 50, h: 3, c: 'ex-slot' },
+  { t: 'rect', x: 238.3, y: 11, w: 2.4, h: 24.7, c: 'ex-slot' },
+  ...HD_TRANSPORT([252.6, 270.8, 288.7, 306.9], [13.5, 30.6], 11),
+  ...['SEARCH', 'MENU', 'SET'].map((v, i) => ({ t: 'btn', x: 325.1, y: [10.9, 22.2, 33.2][i], w: 10, h: 7, c: 'exbtn-dk', v })),
+  { t: 'screen', x: 341.2, y: 4.4, w: 46.6, h: 35.3 },
+  ...['STL', 'JOG', 'SCR'].map((v, i) => ({ t: 'btn', x: 397, y: [10.9, 22.2, 33.2][i], w: 7, h: 7, c: 'exbtn-dk', v })),
+  { t: 'enc', x: 423.5, y: 22.2, r: 15, plain: 1 }, { t: 'txt', x: 448, y: 22.2, v: '⁘', s: 4, c: 'exorange' },
+];
+EXACT.hd_pro = { hw: 482.6, f: HD_PRO_FRONT, r: [
+  { t: 'iec', x: 45.6, y: 22.6, s: 17 }, { t: 'xlr', x: 74.7, y: 23.7, s: 12 }, { t: 'txt', x: 74.7, y: 39.5, v: '10–14V 5A', s: 1.6 },
+  { t: 'db9', x: 97.7, y: 12 }, { t: 'txt', x: 97.7, y: 19.5, v: 'REMOTE IN', s: 1.6 }, { t: 'db9', x: 137, y: 12 }, { t: 'txt', x: 137, y: 19.5, v: 'REMOTE OUT', s: 1.6 },
+  { t: 'rj45', x: 97.7, y: 31, s: 10 }, { t: 'usbc', x: 118.8, y: 27.3, s: 9 }, { t: 'bnc', x: 137, y: 28.1, s: 11 },
+  { t: 'bnc', x: 165.1, y: 11.7, s: 11 }, { t: 'bnc', x: 165.1, y: 28.1, s: 11 }, { t: 'xlrf', x: 188.8, y: 23.7, s: 12 }, { t: 'xlr', x: 218, y: 23.7, s: 12 },
+  { t: 'hdmi', x: 246.8, y: 14.6, s: 11 }, { t: 'hdmi', x: 246.8, y: 32.4, s: 11 },
+  { t: 'bnc', x: 271.6, y: 11.3, s: 11 }, { t: 'bnc', x: 289.8, y: 11.3, s: 11 }, { t: 'bnc', x: 271.6, y: 28.1, s: 11 }, { t: 'bnc', x: 289.8, y: 28.1, s: 11 },
+  { t: 'txt', x: 165.1, y: 39.5, v: 'REF IN', s: 1.6 }, { t: 'txt', x: 203, y: 39.5, v: 'TIMECODE IN · OUT', s: 1.6 }, { t: 'txt', x: 246.8, y: 39.5, v: 'HDMI IN', s: 1.6 }, { t: 'txt', x: 280.7, y: 39.5, v: 'SDI IN · LOOP OUT', s: 1.6 },
+] };
+EXACT.hd_4kpro = { hw: 482.6, f: HD_PRO_FRONT, r: [
+  { t: 'iec', x: 44, y: 21.4, s: 17 }, { t: 'iec', x: 70.8, y: 21.4, s: 17 }, { t: 'xlr', x: 99.7, y: 21.4, s: 12 },
+  { t: 'db9', x: 127.6, y: 11.5 }, { t: 'db9', x: 162.4, y: 11.5 }, { t: 'rj45', x: 127.6, y: 30.5, s: 10 }, { t: 'usbc', x: 144.7, y: 30.5, s: 9 }, { t: 'bnc', x: 162.4, y: 30.5, s: 11 },
+  { t: 'bnc', x: 191.9, y: 11.5, s: 11 }, { t: 'bnc', x: 191.9, y: 30.5, s: 11 }, { t: 'xlrf', x: 219.2, y: 21.4, s: 12 }, { t: 'xlr', x: 243.9, y: 21.4, s: 12 },
+  { t: 'hdmi', x: 270.7, y: 13, s: 11 }, { t: 'hdmi', x: 270.7, y: 30.5, s: 11 },
+  { t: 'bnc', x: 297.5, y: 11.5, s: 11 }, { t: 'bnc', x: 316.2, y: 11.5, s: 11 }, { t: 'bnc', x: 297.5, y: 30.5, s: 11 }, { t: 'bnc', x: 316.2, y: 30.5, s: 11 },
+  { t: 'txt', x: 127.6, y: 39.5, v: '10G ETHERNET', s: 1.6 }, { t: 'txt', x: 231.5, y: 39.5, v: 'TIMECODE IN · OUT', s: 1.6 }, { t: 'txt', x: 306.8, y: 39.5, v: '12G-SDI IN · LOOP OUT', s: 1.6 },
+] };
+EXACT.hd_plus = { w: 210, h: 44.2, f: [
+  { t: 'btn', x: 11.5, y: 8.4, w: 6.5, h: 6, c: 'exbtn-dk' }, { t: 'btn', x: 11.5, y: 18.1, w: 6.5, h: 6, c: 'exbtn-dk', v: 'REM' }, { t: 'jack', x: 11.5, y: 30.9, s: 13 },
+  { t: 'ledc', x: 24.4, y: 5.2, r: .8, c: 'exred' }, { t: 'ledc', x: 34.4, y: 5.2, r: .8, c: 'exled-off' }, { t: 'rect', x: 22.4, y: 9.5, w: 4, h: 25, c: 'ex-slot' }, { t: 'rect', x: 32.4, y: 9.5, w: 4, h: 25, c: 'ex-slot' },
+  ...HD_TRANSPORT([47.2, 64.9, 83.1, 101.2], [13, 31], 11),
+  ...['SEARCH', 'MENU', 'SET'].map((v, i) => ({ t: 'btn', x: 119.4, y: [10.9, 21.8, 32.9][i], w: 12, h: 7, c: 'exbtn-dk', v })),
+  { t: 'screen', x: 135.6, y: 4.2, w: 46.2, h: 35 }, { t: 'txt', x: 202, y: 7, v: 'Blackmagicdesign', s: 2.2, a: 'end', c: 'exthin' }, { t: 'enc', x: 196.2, y: 21.6, r: 8.8, plain: 1 },
+], r: [
+  { t: 'iec', x: 16.6, y: 20.4, s: 17 }, { t: 'xlr', x: 40.1, y: 22, s: 12 }, { t: 'txt', x: 40.1, y: 36.5, v: '10–14V 5A', s: 1.6 },
+  { t: 'db9', x: 67.6, y: 11 }, { t: 'db9', x: 102.2, y: 11 }, { t: 'rj45', x: 66.9, y: 28.7, s: 10 }, { t: 'usbc', x: 85.2, y: 32.9, s: 9 }, { t: 'bnc', x: 102.2, y: 27.7, s: 11 },
+  { t: 'bnc', x: 127, y: 9.9, s: 11 }, { t: 'bnc', x: 127, y: 27.7, s: 11 }, { t: 'bnc', x: 144.2, y: 9.9, s: 11 }, { t: 'bnc', x: 144.2, y: 27.7, s: 11 },
+  { t: 'hdmi', x: 162.9, y: 13.4, s: 11 }, { t: 'hdmi', x: 162.9, y: 30.6, s: 11 },
+  { t: 'bnc', x: 181.8, y: 9.9, s: 11 }, { t: 'bnc', x: 199.2, y: 9.9, s: 11 }, { t: 'bnc', x: 181.8, y: 27.7, s: 11 }, { t: 'bnc', x: 199.2, y: 27.7, s: 11 },
+  { t: 'txt', x: 135.6, y: 37.5, v: 'REF · TIMECODE IN', s: 1.5 }, { t: 'txt', x: 190.5, y: 37.5, v: 'SDI IN · LOOP OUT', s: 1.5 },
+] };
+EXACT.hd_mini = { w: 140, h: 44.2, f: [
+  { t: 'ledc', x: 8.2, y: 5.3, r: .8, c: 'exred' }, { t: 'ledc', x: 17.6, y: 5.3, r: .8, c: 'exled-off' }, { t: 'rect', x: 6.4, y: 10.3, w: 3.6, h: 24.3, c: 'ex-slot' }, { t: 'rect', x: 15.2, y: 10.3, w: 3.6, h: 24.3, c: 'ex-slot' },
+  ...[['▶', '■'], ['●', 'SEARCH'], ['◀', '▶'], ['MENU', 'SET']].flatMap((row, r) => row.map((v, c) => ({ t: 'btn', x: [34.3, 49.2][c], y: [8.2, 17.3, 26.4, 35.4][r], w: 13, h: 7, c: 'exbtn-dk', v }))),
+  { t: 'screen', x: 65.9, y: 3.8, w: 47.5, h: 35.2 }, { t: 'txt', x: 137.7, y: 7.6, v: 'Blackmagicdesign', s: 1.8, a: 'end', c: 'exthin' }, { t: 'enc', x: 125.4, y: 21.1, r: 8.8, plain: 1 },
+], r: [
+  { t: 'iec', x: 15.2, y: 18.5, s: 17 }, { t: 'db9', x: 45.4, y: 10.3 }, { t: 'dc', x: 35.1, y: 28.7, s: 10 }, { t: 'rj45', x: 51.3, y: 28.7, s: 10 },
+  { t: 'bnc', x: 70.3, y: 9.7, s: 11 }, { t: 'bnc', x: 70.3, y: 27.8, s: 11 }, { t: 'bnc', x: 88.5, y: 9.7, s: 11 }, { t: 'bnc', x: 88.5, y: 27.8, s: 11 },
+  { t: 'hdmi', x: 107.5, y: 13.2, s: 11 }, { t: 'usbc', x: 107.5, y: 32.2, s: 9 }, { t: 'bnc', x: 126.5, y: 9.7, s: 11 }, { t: 'bnc', x: 126.5, y: 27.8, s: 11 },
+  { t: 'txt', x: 79.4, y: 38, v: 'REF · TIMECODE', s: 1.5 }, { t: 'txt', x: 126.5, y: 38, v: 'SDI IN', s: 1.5 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
