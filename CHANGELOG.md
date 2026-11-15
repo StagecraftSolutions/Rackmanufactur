@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-16 – Stand 15
+
+- **Blende vor Rackwanne:** Gitter- und Rackblenden dürfen auf derselben HE wie eine Rackwanne liegen (einzige erlaubte Überlappung). Die Blende liegt davor, Geräte in der Wanne bleiben sichtbar, auswählbar und verschiebbar; die Blende wird an den Rackohren angefasst. Die frühere Option „Rackwanne dahinter verschrauben“ entfällt; gespeicherte Projekte werden automatisch umgewandelt.
+- Export: keine gelbe Hervorhebung mehr an Gitterblenden.
+- Maßstäblich: Shure ULXD4D (vorn/hinten), Behringer WING RACK (vorn/hinten, 4 HE, 326 mm).
+- Guideline für neue Artikel: `docs/neue-artikel.md`.
+
 ## 2026-11-15 – Stand 14 · Maßstäbliche Geräte
 
 - Maßstäbliche Ansichten nach Herstellerzeichnung/-foto: **Teranex Mini** (Front aller Modelle, Rückseite SDI to HDMI), **UniFi USW-24-PoE** (vorn/hinten), **ATEM 2 M/E Constellation HD** (vorn/hinten), **grandMA3 2Port/4Port/8Port Node** (vorn).

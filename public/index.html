@@ -221,6 +221,7 @@ svg text { font-family: var(--f-mono); }
 .trayline { fill: none; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
 .trayfloor { fill: var(--hw-tr1); fill-opacity: .1; stroke: var(--hw-tr1); stroke-width: .6; stroke-dasharray: 2.5 1.6; opacity: .85; }
 .backing { fill: var(--hw-well); }
+.earhit { fill: transparent; cursor: grab; }
 .traylinex { fill: none; stroke: var(--hw-ink-dim); stroke-width: .4; stroke-dasharray: 2 2; opacity: .55; }
 .traytxtx { fill: var(--hw-ink-dim); font-family: var(--f-mono); font-size: 3.4px; letter-spacing: .3px; }
 .veil { fill: var(--hw-well); opacity: .6; }
@@ -1209,7 +1210,8 @@ function example() {
   p.slots = ['xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'blank'];
   const lb = makeItem('label', { pos: 0, div: 12, lines: 2 });
   lb.cells = [['Mic 1', 'XLR'], ['Mic 2', 'XLR'], ['Mic 3', 'XLR'], ['Mic 4', 'XLR'], ['Out L', 'XLR'], ['Out R', 'XLR'], ['DMX In', '5-pol'], ['DMX Out', '5-pol'], ['Netz', 'Cat'], ['Video', 'HDMI'], ['USB', ''], ['', '']];
-  const v = makeItem('vent', { he: 1, pos: 4 }); v.tray = { he: 1, depth: 375 };
+  const v = makeItem('vent', { he: 1, pos: 4 });
+  const vt = makeItem('shelf', { shelf: 'ah_1u', pos: 4, devs: [{ dev: 'ucg_max', x: 110 }] });
   const rp = makeItem('dpanel', { pos: 7, side: 'rear', variant: 'd12tb', outD: true });
   rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
   return {
@@ -1220,7 +1222,7 @@ function example() {
       lb, p, makeItem('vent', { he: 0.5, pos: 1.5 }),
       makeItem('device', { dev: 'ulxd4d', pos: 2 }),
       makeItem('device', { dev: 'usw_24_poe', pos: 3 }),
-      v, makeItem('shelf', { shelf: 'bmd_urs', pos: 5, devs: [{ dev: 'tm_sdi_hdmi', x: 0 }, { dev: 'tm_hdmi_sdi', x: 2 }, { dev: 'tm_sdi_dist', x: 4 }] }),
+      vt, v, makeItem('shelf', { shelf: 'bmd_urs', pos: 5, devs: [{ dev: 'tm_sdi_hdmi', x: 0 }, { dev: 'tm_hdmi_sdi', x: 2 }, { dev: 'tm_sdi_dist', x: 4 }] }),
       makeItem('drawer', { he: 1, pos: 6 }),
       rp,
     ],
@@ -1255,6 +1257,7 @@ function normalize(s) {
     s.items = s.items.filter(it => it.kind !== 'gap');
   }
   s.items = s.items.filter(it => KINDS.includes(it.kind));
+  const extra = [];
   s.items.forEach(it => {
     it.id = it.id || uid();
     it.side = it.side === 'rear' ? 'rear' : 'front';
@@ -1275,10 +1278,12 @@ function normalize(s) {
     }
     if (it.kind === 'label') fixCells(it);
     if (it.kind === 'custom') { it.art = it.art || ''; it.price = it.price ?? null; it.shop = it.shop || ''; }
+    if (isCover(it) && it.tray) { const th = it.tray.he >= 2 && it.he >= 2 ? 2 : 1; extra.push(makeItem('shelf', { shelf: th === 2 ? 'ah_2u' : 'ah_1u', pos: it.pos + it.he - th, side: it.side })); it.tray = null; }
     if (it.kind === 'tray') { it.kind = 'shelf'; it.shelf = it.he >= 2 ? 'ah_2u' : 'ah_1u'; it.he = SHELVES[it.shelf].he; it.devs = []; delete it.depth; }
     if (it.kind === 'shelf') { it.shelf = SHELVES[it.shelf] ? it.shelf : 'ah_1u'; it.devs = (it.devs || []).filter(x => DEVDB[x.dev]); it.antFront = !!it.antFront; }
     if (it.kind === 'device' && it.dev && !DEVDB[it.dev]) delete it.dev;
   });
+  s.items.push(...extra);
   s.v = 5;
   return s;
 }
@@ -1296,6 +1301,10 @@ let view = 'front';
 
 /* ---------- Ableitungen ---------- */
 const ovl = (a, b) => a.pos < b.pos + b.he - 1e-6 && b.pos < a.pos + a.he - 1e-6;
+function isCover(it) { return it.kind === 'vent' || it.kind === 'blank'; }
+const canStack = (a, b) => (isCover(a) && b.kind === 'shelf') || (isCover(b) && a.kind === 'shelf');   // Blende darf vor einer Rackwanne liegen
+const clash = (a, b) => ovl(a, b) && !canStack(a, b);
+const coversShelf = it => isCover(it) && sideItems(it.side).some(o => o.kind === 'shelf' && ovl(it, o));
 const sideItems = side => state.items.filter(i => i.side === side).sort((a, b) => a.pos - b.pos);
 function layout() {
   let letter = 0;
@@ -1541,7 +1550,7 @@ function warnings(L) {
   if (L.maxEnd > he) w.push({ err: true, t: `Die Belegung reicht bis ${fmtHE(L.maxEnd)}, das Case hat ${fmtHE(he)}. Case vergrößern oder Module verschieben.` });
   ['front', 'rear'].forEach(side => {
     const s = sideItems(side);
-    for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) if (ovl(s[i], s[j])) w.push({ err: true, t: `„${title(s[i])}“ und „${title(s[j])}“ überlappen ${side === 'rear' ? 'hinten' : 'vorn'}.` });
+    for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) if (clash(s[i], s[j])) w.push({ err: true, t: `„${title(s[i])}“ und „${title(s[j])}“ überlappen ${side === 'rear' ? 'hinten' : 'vorn'}.` });
   });
   if (!stufenlos(ct)) {
     const off = state.items.find(it => it.pos % 1 !== 0 && it.he >= 1);
@@ -1570,7 +1579,7 @@ function place(it, pos) {
   const placed = [it];
   sideItems(it.side).filter(o => o !== it).forEach(o => {
     let moved = true;
-    while (moved) { moved = false; for (const p of placed) if (ovl(o, p)) { o.pos = p.pos + p.he; moved = true; } }
+    while (moved) { moved = false; for (const p of placed) if (clash(o, p)) { o.pos = p.pos + p.he; moved = true; } }
     placed.push(o);
   });
 }
@@ -1924,8 +1933,15 @@ function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: ei
   s += '</g>';
   sel = keepSel;
   // eigene Seite – deckende Fläche dahinter, damit in den Fugen nichts von der anderen Seite durchscheint
-  sideItems(own).forEach(it => { s += `<rect x="${xL}" y="${CW + it.pos * HE}" width="${W19}" height="${it.he * HE}" class="backing" pointer-events="none"/>`; });
-  sideItems(own).forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W, !opt.still)}</g>`; });
+  sideItems(own).filter(it => !coversShelf(it)).forEach(it => { s += `<rect x="${xL}" y="${CW + it.pos * HE}" width="${W19}" height="${it.he * HE}" class="backing" pointer-events="none"/>`; });
+  const ownList = sideItems(own), stacked = ownList.filter(coversShelf);
+  [...ownList.filter(i => i.kind === 'shelf'), ...ownList.filter(i => i.kind !== 'shelf' && !stacked.includes(i))].forEach(it => { s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}">${faceSVG(it, xL, W, !opt.still)}</g>`; });
+  stacked.forEach(it => {
+    const y = CW + it.pos * HE, h = it.he * HE, op = opt.still ? (it.kind === 'vent' ? .72 : 1) : .5;
+    s += `<g class="item${opt.still ? '' : ' dr'}" data-id="${it.id}"><g pointer-events="none" opacity="${op}">${faceSVG(it, xL, W, false)}</g>`
+      + (opt.still ? '' : `<rect x="${xL}" y="${y}" width="${EAR + 4}" height="${h}" class="earhit"><title>${esc(title(it))} – an den Rackohren ziehen</title></rect><rect x="${xL + W19 - EAR - 4}" y="${y}" width="${EAR + 4}" height="${h}" class="earhit"/>`)
+      + '</g>';
+  });
   if (!sideItems(own).length && !sideItems(own === 'front' ? 'rear' : 'front').length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt" pointer-events="none">${mode === 'front' ? 'VORN NOCH LEER' : (c.rear ? 'HINTEN NOCH NICHTS MONTIERT' : 'KEINE HINTERE RACKSCHIENE')}</text>`;
   // freie Plätze: + bei Hover
   if (!opt.still && (mode === 'front' || c.rear)) {
@@ -2173,11 +2189,8 @@ function renderInsp() {
       break;
     }
     case 'vent': case 'blank': {
-      const trayOpts = [1, 2].filter(x => x <= it.he);
       h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel(it.kind === 'vent' ? [0.5, 1, 2, 3, 4] : [1, 2, 3, 4], it.he)}</div></div>`;
-      if (it.he >= 1) h += `<label class="check"><input type="checkbox" id="f_tray" data-f="tray" ${it.tray ? 'checked' : ''}> Rackwanne dahinter verschrauben</label>`;
-      else h += `<p class="hint">Adam Hall 872205 VR · 0,5 HE. Für eine Rackwanne braucht die Blende mindestens 1 HE.</p>`;
-      if (it.tray) h += `<div class="row"><div class="field"><label for="f_trayhe">Wannenhöhe</label><select id="f_trayhe" data-f="trayhe">${trayOpts.map(x => `<option value="${x}" ${x === it.tray.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div><div class="field"><label for="f_traydepth">Tiefe (mm)</label><input id="f_traydepth" type="number" min="50" max="900" step="10" value="${it.tray.depth}" data-f="traydepth"></div></div>`;
+      h += `<p class="hint">${coversShelf(it) ? 'Liegt vor einer Rackwanne: Geräte darin bleiben in der Ansicht auswählbar und verschiebbar; die Blende an den Rackohren anfassen.' : 'Kann über eine Rackwanne gelegt werden (gleiche HE) – die Wanne mit Geräten liegt dann dahinter.'}</p>`;
       break;
     }
     case 'tray':
@@ -2429,7 +2442,7 @@ function renderDlg() {
       <div class="opt"><span class="on">${esc(P.short)}</span><span class="oa">${esc(P.art)} · ${price(P)}</span><div class="chips">${chip('dpanel', P.he, 'Einsetzen · ' + fmtHE(P.he), `data-variant="${k}"`)}</div></div>`).join('')}</div></div>`;
     h += `<div class="cgroup"><h3>Blenden</h3><div class="opts">
       <div class="opt"><span class="on">Beschriftungsblende</span><span class="oa">${esc(ART.label.art)} · ${price(ART.label)} · Teilungen, PDF</span><div class="chips">${chip('label', 0.5)}</div></div>
-      <div class="opt"><span class="on">Gitterblende</span><span class="oa">Adam Hall 872205 VR / 8722x VR · Rackwanne dahinter möglich</span><div class="chips">${[0.5, 1, 2, 3, 4].map(x => chip('vent', x)).join('')}</div></div>
+      <div class="opt"><span class="on">Gitterblende</span><span class="oa">Adam Hall 872205 VR / 8722x VR · darf vor einer Rackwanne liegen</span><div class="chips">${[0.5, 1, 2, 3, 4].map(x => chip('vent', x)).join('')}</div></div>
       <div class="opt"><span class="on">Rackblende</span><span class="oa">Adam Hall 8722x STL · Stahl</span><div class="chips">${[1, 2, 3, 4].map(x => chip('blank', x)).join('')}</div></div>
     </div></div>`;
     h += `<div class="cgroup"><h3>Rackwannen · Geräte lassen sich in jede Wanne setzen</h3><div class="opts">

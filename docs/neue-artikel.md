@@ -91,6 +91,8 @@ meine_wanne: { n: 'Name', short: 'Kurzname', mk: 'Hersteller', art: 'Art.-Nr.', 
 - Ist die Wanne derselbe Artikel wie eine Wanne hinter einer Gitterblende: `bom: 'tray1'`, dann wird die Stückliste zusammengefasst.
 - Im Popup „Module → Rackwannen“ einen Chip mit `data-shelf="meine_wanne"` ergänzen.
 
+**Blende vor Wanne:** Gitter- und Rackblenden (`vent`, `blank`) dürfen dieselbe HE belegen wie eine Rackwanne (`canStack`). Andere Überlappungen sind Fehler.
+
 ## 4. D-Einsatz (`CON` und `PICK`)
 
 ```js
