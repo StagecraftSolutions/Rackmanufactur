@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-15 – Stand 11
+
+- Neue Stecker: powerCON In blau / Out weiß (D-Format), opticalCON DUO, SDI (BNC 75 Ω isoliert), Cinch/RCA (D-Format), Klinke 6,3 mm TRS/TS (D-Format).
+- Einsätze in **gebohrter Blindplatte**: Cinch (Ø 8 mm), Klinke (Ø 9,5 mm), SMA-Antenne (Ø 6,5 mm); Blindplatte kommt in die Stückliste, Bohrmaß in die Fertigung.
+- Geräte in BMD- und Thomann-Wanne per **Ziehen nach links/rechts** verschieben (BMD im Sechstel-Raster, Thomann millimeterweise bis ans Nachbargerät).
+- Popup-Überschrift nur noch „Steckerfelder“.
+
 ## 2026-11-15 – Stand 10 · Rack Manufaktur
 
 - Projekt heißt jetzt **Rack Manufaktur** (Titel, Kopf, PDF, Dateinamen, rechtliche Seiten).

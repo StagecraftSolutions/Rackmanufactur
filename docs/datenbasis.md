@@ -246,3 +246,17 @@ Bauform: **19″** = eigenes Rackgerät · **1/3, 1/2** = Blackmagic-Bauform fü
 |---|---|---|---|
 | [Blackmagic Universal Rack Shelf](https://www.blackmagicdesign.com/de/products/teranexmini) | CONVNTRM/YA/RSU | 109,00 € | 1 HE, Raster in Sechsteln: drittel (2/6) und halbe (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte, Schrauben. |
 | [Thon Rack Adapter 1U 25 (Rackwanne)](https://www.thomann.de/de/thon_rackwanne_1he.htm) | Thomann 127151 | prüfen | Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bevorzugt bündig zur Vorderkante. |
+
+## Zusätzliche D-Einsätze (Stand 11)
+
+| Einsatz | Art.-Nr. | Hinweis |
+|---|---|---|
+| powerCON In blau | Seetronic SAC3MPA (Alt. Neutrik NAC3MPA-1-WOT) | D-Format und Preis prüfen |
+| powerCON Out weiß | Seetronic SAC3MPB (Alt. Neutrik NAC3MPB-1-WOT) | D-Format und Preis prüfen |
+| opticalCON DUO | Neutrik NO2-4FDW-A | Preis und Ausschnitt prüfen |
+| SDI BNC 75 Ω isoliert | Neutrik NBB-75DFIB | 12G-Eignung prüfen |
+| Cinch/RCA | Neutrik NF2D-B-0 (Farbcode -0 … -9) | Preis prüfen |
+| Klinke 6,3 mm TRS/TS | Neutrik NJ3FP6C-BAG | Preis prüfen |
+| Cinch in Blindplatte | Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm | + Blindplatte D |
+| Klinke in Blindplatte | z. B. Neutrik NMJ6HCD2, Bohrung Ø 9,5 mm | + Blindplatte D |
+| SMA-Antenne in Blindplatte | SMA-Schottverbinder Buchse/Buchse, Bohrung Ø 6,5 mm | + Blindplatte D |

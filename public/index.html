@@ -447,6 +447,8 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 td input.shop { min-width: 110px; }
 
 /* Geräte aus der Datenbank */
+.pcblue { fill: #1f5fbf; } .pcwhite { fill: #e9ecef; } .gold { fill: #d4a634; } .ocfib { fill: #6fd1ff; } .rcaring { fill: #c8102e; }
+[data-shdev] { cursor: ew-resize; }
 .devmk { font-family: var(--f-display); font-weight: 600; letter-spacing: .02em; }
 .pg-metal { fill: #c9ced4; stroke: #6b737c; stroke-width: .2; }
 .pg-hole { fill: #050607; }
@@ -706,9 +708,18 @@ const CON = {
   usb:      { s: 'USB',       n: 'USB-Durchführung',                           art: 'Neutrik NAUSB-W-B',  price: 6.90, src: 'web', q: 'Thomann', g: 'usb' },
   bnc:      { s: 'BNC',       n: 'BNC-Durchführung',                           art: 'Neutrik NBB-75DFIB', price: null, src: 'check', g: 'bnc' },
   nl4:      { s: 'NL4',       n: 'speakON 4-pol',                              art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
+  pca_in:   { s: 'PCON IN',   n: 'powerCON In blau (D-Format)',               art: 'Seetronic SAC3MPA', price: null, src: 'check', q: 'D-Format prüfen · Alternative Neutrik NAC3MPA-1-WOT', g: 'pca' },
+  pcb_out:  { s: 'PCON OUT',  n: 'powerCON Out weiß (D-Format)',              art: 'Seetronic SAC3MPB', price: null, src: 'check', q: 'D-Format prüfen · Alternative Neutrik NAC3MPB-1-WOT', g: 'pcb' },
+  ocon:     { s: 'OPTICALCON', n: 'opticalCON DUO Einbaubuchse',              art: 'Neutrik NO2-4FDW-A', price: null, src: 'check', q: 'Preis und D-Ausschnitt prüfen', g: 'ocon' },
+  sdi:      { s: 'SDI',       n: 'SDI-Durchführung BNC 75 Ω, isoliert',        art: 'Neutrik NBB-75DFIB', price: null, src: 'check', q: '12G-Eignung prüfen', g: 'bnc' },
+  rca:      { s: 'RCA',       n: 'Cinch/RCA-Durchführung (D-Format)',         art: 'Neutrik NF2D-B-0', price: null, src: 'check', q: 'Farbcode wählbar (-0 … -9)', g: 'rca' },
+  rca_drill:{ s: 'RCA*',      n: 'Cinch-Einbaubuchse in gebohrter Blindplatte', art: 'Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'rca', drill: 8 },
+  jack:     { s: 'KLINKE',    n: 'Klinke 6,3 mm TRS/TS (D-Format)',           art: 'Neutrik NJ3FP6C-BAG', price: null, src: 'check', q: 'D-Format, stereo; mono-Stecker passen', g: 'jack' },
+  jack_drill:{ s: 'KLINKE*',  n: 'Klinkenbuchse 6,3 mm in gebohrter Blindplatte', art: 'Klinkeneinbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm (z. B. Neutrik NMJ6HCD2)', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'jack', drill: 9.5 },
+  sma_drill:{ s: 'SMA',       n: 'SMA-Antennendurchführung in gebohrter Blindplatte', art: 'SMA-Schottverbinder Buchse/Buchse, Bohrung Ø 6,5 mm', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'sma', drill: 6.5 },
   open:     { s: 'offen',     n: 'Loch offen (ohne Einsatz)',                  art: '', price: null, src: 'user', g: 'open', nobom: true },
 };
-const PICK = ['pc_in', 'pc_out_d', 'pc_out', 'xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'bnc', 'nl4', 'blank', 'open'];
+const PICK = ['pc_in', 'pc_out_d', 'pc_out', 'pca_in', 'pcb_out', 'xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'ocon', 'hdmi', 'usb', 'sdi', 'bnc', 'rca', 'rca_drill', 'jack', 'jack_drill', 'sma_drill', 'nl4', 'blank', 'open'];
 const HOLE_LABELS = false;   // Lochbeschriftung (müsste gelasert werden) – vorerst abgeschaltet
 
 // Steckerfelder (Adam Hall 19" Parts Rack Panels, adamhall.com, 11/2026)
@@ -1244,7 +1255,9 @@ function glyph(t, cx, cy, mount = 'f') {
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
   const screws = `<circle cx="${cx + 9.5}" cy="${cy - 12}" r="1.3" class="screw"/><circle cx="${cx - 9.5}" cy="${cy + 12}" r="1.3" class="screw"/>`;
   let s;
-  if (mount === 'r') {
+  if (c.drill) {   // Einsatz in gebohrter Blindplatte
+    s = mount === 'r' ? `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>${screws}<circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>` : `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>${screws}`;
+  } else if (mount === 'r') {
     s = `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>` + screws;
     if (g === 'blank') return s + `<circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`;
   } else {
@@ -1275,6 +1288,18 @@ function glyph(t, cx, cy, mount = 'f') {
       s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="5.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".9" class="pin"/>`; break;
     case 'nl4':
       s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3.2" class="face"/><rect x="${cx - 1.2}" y="${cy - 8}" width="2.4" height="3" class="face"/>`; break;
+    case 'pca': case 'pcb':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="${g === 'pca' ? 'pcblue' : 'pcwhite'}"/><circle cx="${cx}" cy="${cy}" r="8.2" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3" class="face"/>${blades(5.4)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`; break;
+    case 'ocon':
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 4.6}" y="${cy - 3}" width="9.2" height="6" rx="1.2" class="face"/><circle cx="${cx - 2}" cy="${cy}" r="1.1" class="ocfib"/><circle cx="${cx + 2}" cy="${cy}" r="1.1" class="ocfib"/><rect x="${cx - 1.4}" y="${cy - 10.6}" width="2.8" height="2" class="face"/>`; break;
+    case 'rca':
+      s += c.drill ? `<circle cx="${cx}" cy="${cy}" r="5.2" class="pin"/><circle cx="${cx}" cy="${cy}" r="3.4" class="rcaring"/><circle cx="${cx}" cy="${cy}" r="1.1" class="facedk"/>`
+                   : `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r="4.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="3" class="rcaring"/><circle cx="${cx}" cy="${cy}" r="1" class="facedk"/>`; break;
+    case 'jack':
+      s += c.drill ? `<circle cx="${cx}" cy="${cy}" r="6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4.2" class="face"/><circle cx="${cx}" cy="${cy}" r="3.1" class="facedk"/>`
+                   : `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r="4.4" class="face"/><circle cx="${cx}" cy="${cy}" r="3.1" class="facedk"/>`; break;
+    case 'sma':
+      s += `<polygon points="${[0, 60, 120, 180, 240, 300].map(a => { const q = a * Math.PI / 180; return `${(cx + Math.cos(q) * 4.2).toFixed(2)},${(cy + Math.sin(q) * 4.2).toFixed(2)}`; }).join(' ')}" class="gold"/><circle cx="${cx}" cy="${cy}" r="2.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".7" class="gold"/>`; break;
   }
   return s;
 }
@@ -1285,6 +1310,8 @@ function rearGlyph(t, cx, cy, n, mount = 'r') {
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
   if (g === 'blank') return mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`;
   const tr = g === 'pcin' || g === 'pcout';
+  if (c.drill) return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`)
+    + `<circle cx="${cx}" cy="${cy}" r="6.5" class="cbody"/><text x="${cx}" y="${cy}" class="cnum" style="font-size:6px">${n}</text>`;
   return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`)
     + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
     + `<text x="${cx}" y="${cy}" class="cnum${tr ? ' on-tr' : ''}">${n}</text>`;
@@ -1412,11 +1439,11 @@ function faceSVG(it, xL, W) {
       g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" class="well" style="fill:#08090a"/>`;
       if (S.mode === 'grid') {
         const cw = iw / 6, occ = Array(6).fill(false);
-        it.devs.forEach(o => { const d = devOf(o.dev), n = devCells(d); for (let k = o.x; k < o.x + n; k++) occ[k] = true; g += devFace(d, x0 + o.x * cw + .4, y + 1.2, n * cw - .8, h - 2.4, 'f'); });
+        it.devs.forEach((o, i) => { const d = devOf(o.dev), n = devCells(d); for (let k = o.x; k < o.x + n; k++) occ[k] = true; g += `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${devFace(d, x0 + o.x * cw + .4, y + 1.2, n * cw - .8, h - 2.4, 'f')}</g>`; });
         occ.forEach((v, k) => { if (!v) g += `<rect x="${f(x0 + k * cw + .4)}" y="${f(y + 1.2)}" width="${f(cw - .8)}" height="${f(h - 2.4)}" rx=".8" class="pnl"/>`; });
       } else {
         const sc = iw / S.innerW;
-        it.devs.forEach(o => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += devFace(d, x0 + o.x * sc, yb - dh, d.w * sc, dh, 'f'); });
+        it.devs.forEach((o, i) => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += `<g data-shdev="${i}"><title>${esc(d.n)} – nach links/rechts ziehen</title>${devFace(d, x0 + o.x * sc, yb - dh, d.w * sc, dh, 'f')}</g>`; });
         g += `<rect x="${x0}" y="${f(yb)}" width="${iw}" height="2.2" class="pnl"/>`;
         if (!it.devs.length) g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-tr1)">${esc(S.short.toUpperCase())} · GERÄTE FREI ANORDNEN</text>`;
       }
@@ -1643,7 +1670,7 @@ function bom() {
     switch (it.kind) {
       case 'dpanel':
         add('p_' + it.variant, PANELS[it.variant], 1);
-        it.slots.forEach(t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q }, 1); m3 += 2; });
+        it.slots.forEach(t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q }, 1); if (cn.drill) add('c_blank', { n: CON.blank.n, art: CON.blank.art, price: CON.blank.price, src: CON.blank.src }, 1); m3 += 2; });
         break;
       case 'vent': case 'blank':
         add(artKey(it.kind, it.he), ART[artKey(it.kind, it.he)] || { n: `${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)}`, src: 'check' }, 1);
@@ -1930,7 +1957,8 @@ function notesData() {
       const drills = it.slots.map((t, i) => t === 'pc_out' ? i + 1 : 0).filter(Boolean), drill = drills.length > 0;
       const fr = it.slots.map((t, i) => t !== 'open' && it.mounts[i] === 'f' ? i + 1 : 0).filter(Boolean);
       const mountTxt = !fr.length ? 'Alle Einsätze von hinten einbauen (Flansch hinter der Blende), M3-Schrauben von vorn.' : fr.length === it.slots.filter(t => t !== 'open').length ? 'Alle Einsätze von vorn einbauen.' : `Einsätze von hinten einbauen, außer Loch ${fr.join(', ')} von vorn.`;
-      out.push({ drill, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
+      const bd = it.slots.map((t, i) => CON[t] && CON[t].drill ? `Loch ${i + 1}: Ø ${String(CON[t].drill).replace('.', ',')} mm (${CON[t].s.replace('*', '')})` : '').filter(Boolean);
+      out.push({ drill: drill || bd.length > 0, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + (bd.length ? `Blindplatten mittig bohren – ${bd.join(', ')}. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
     if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
@@ -2043,7 +2071,7 @@ function renderDlg() {
   const price = a => a && a.price != null ? EUR.format(a.price) : 'Preis offen';
   let h = '';
   if (dlg.tab === 'module') {
-    h += `<div class="cgroup"><h3>Steckerfelder · Adam Hall · hinten montiert: Loch 1/2 = powerCON TRUE1 In/Out (änderbar)</h3><div class="opts">${Object.entries(PANELS).map(([k, P]) => `
+    h += `<div class="cgroup"><h3>Steckerfelder</h3><div class="opts">${Object.entries(PANELS).map(([k, P]) => `
       <div class="opt"><span class="on">${esc(P.short)}</span><span class="oa">${esc(P.art)} · ${price(P)}</span><div class="chips">${chip('dpanel', P.he, 'Einsetzen · ' + fmtHE(P.he), `data-variant="${k}"`)}</div></div>`).join('')}</div></div>`;
     h += `<div class="cgroup"><h3>Blenden</h3><div class="opts">
       <div class="opt"><span class="on">Beschriftungsblende</span><span class="oa">${esc(ART.label.art)} · ${price(ART.label)} · Teilungen, PDF</span><div class="chips">${chip('label', 0.5)}</div></div>
@@ -2578,6 +2606,20 @@ document.addEventListener('input', e => {
 /* ---------- Ziehen in der Ansicht ---------- */
 const stage = $('#stage');
 let drag = null;
+function svgX(svg, e) { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()).x; }
+function shelfDragMove(e) {
+  const hd = drag.h, dx = svgX(drag.svg, e) - hd.x0;
+  if (!drag.moved && Math.abs(dx) < 2) return;
+  drag.moved = true; e.preventDefault();
+  const it = drag.it, Sh = shelfOf(it), iw = W19 - EAR * 2 - 6, o = it.devs[hd.i], d = devOf(o.dev);
+  const unit = Sh.mode === 'grid' ? iw / 6 : iw / Sh.innerW;
+  let want = Math.round(hd.ox + dx / unit);
+  want = Math.max(0, Math.min((Sh.mode === 'grid' ? 6 - devCells(d) : Sh.innerW - d.w), want));
+  // nächste freie Position in Zugrichtung suchen (Thomann: bis an das Nachbargerät heran)
+  if (shelfFits(it, o.dev, want, hd.i)) hd.nx = want;
+  else { const dir = want > hd.nx ? -1 : 1; for (let k = 1, v = want + dir; k <= (Sh.mode === 'grid' ? 6 : Sh.innerW); k++, v += dir) { if (v === hd.nx) break; if (shelfFits(it, o.dev, v, hd.i)) { hd.nx = v; break; } } }
+  hd.el.setAttribute('transform', `translate(${((hd.nx - hd.ox) * unit).toFixed(2)} 0)`);
+}
 function svgY(svg, e) { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()).y; }
 function draggable(it, g) { return g.classList.contains('dr') && it; }
 stage.addEventListener('pointerdown', e => {
@@ -2587,10 +2629,13 @@ stage.addEventListener('pointerdown', e => {
   const it = state.items.find(i => i.id === g.dataset.id); if (!it) return;
   const slot = e.target.closest('[data-slot]');
   drag = { it, g, svg, y0: svgY(svg, e), moved: false, slot: slot ? +slot.dataset.slot : null, can: !!draggable(it, g), id: e.pointerId, pos: it.pos };
+  const sd = e.target.closest('[data-shdev]');
+  if (sd && it.kind === 'shelf' && drag.can) { const i = +sd.dataset.shdev; drag.h = { i, el: sd, x0: svgX(svg, e), ox: it.devs[i].x, nx: it.devs[i].x }; }
   if (drag.can) { try { svg.setPointerCapture(e.pointerId); } catch (x) {} }
 });
 stage.addEventListener('pointermove', e => {
   if (!drag || !drag.can || e.pointerId !== drag.id) return;
+  if (drag.h) { shelfDragMove(e); return; }
   const dy = svgY(drag.svg, e) - drag.y0;
   if (!drag.moved && Math.abs(dy) < 3) return;
   drag.moved = true;
@@ -2605,6 +2650,7 @@ stage.addEventListener('pointermove', e => {
 function endDrag(e) {
   if (!drag || (e && e.pointerId !== drag.id)) return;
   const d = drag; drag = null;
+  if (d.h && d.moved) { const o = d.it.devs[d.h.i]; o.x = d.h.nx; sel = d.it.id; selSlot = null; render(); toast(`${devOf(o.dev).n} → ${shelfOf(d.it).mode === 'grid' ? 'ab ' + (o.x + 1) + '/6' : Math.round(o.x) + ' mm von links'}`); return; }
   if (d.moved) { place(d.it, d.pos); sel = d.it.id; selSlot = null; render(); toast(`${title(d.it)} → ${heRange(d.it)}`); return; }
   sel = d.it.id; selSlot = d.slot;
   render();
