@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rackwerk – SFTP-Zugang einrichten.
+# Rack Manufaktur – SFTP-Zugang einrichten.
 # Fragt Server, Pfad und Zugangsdaten im Terminal ab und schreibt sie in .env (nur für dich lesbar, nicht im Git).
 # Prüft den Host-Schlüssel des Servers und testet die Verbindung.
 set -euo pipefail
@@ -21,7 +21,7 @@ q() { # Wert für .env in einfache Anführungszeichen setzen
   local s="${1//\'/\'\\\'\'}"; printf "'%s'" "$s"
 }
 
-say "Rackwerk · SFTP-Zugang einrichten"
+say "Rack Manufaktur · SFTP-Zugang einrichten"
 say "Die Angaben landen in $ENV_FILE (Rechte 600, steht in .gitignore)."
 say ""
 
@@ -82,7 +82,7 @@ cp "$tmp_kh" "$KH_FILE"; chmod 600 "$KH_FILE"
 # .env schreiben
 umask 077
 {
-  echo "# Rackwerk – SFTP-Zugang. Nicht einchecken, nicht weitergeben."
+  echo "# Rack Manufaktur – SFTP-Zugang. Nicht einchecken, nicht weitergeben."
   echo "# Erstellt mit scripts/deploy-setup.sh am $(date '+%Y-%m-%d %H:%M')"
   echo "SFTP_HOST=$(q "$SFTP_HOST")"
   echo "SFTP_PORT=$(q "$SFTP_PORT")"
@@ -112,20 +112,20 @@ if [[ -d "$ROOT/.git" ]]; then
   if yes_no "Bei jedem 'git push' auf main automatisch hochladen?"; then
     cat >"$HOOK" <<'HOOK'
 #!/usr/bin/env bash
-# Rackwerk: lädt public/ per SFTP hoch, wenn main gepusht wird (eingerichtet von scripts/deploy-setup.sh).
+# Rack Manufaktur: lädt public/ per SFTP hoch, wenn main gepusht wird (eingerichtet von scripts/deploy-setup.sh).
 # Ein fehlgeschlagener Upload hält den Push nicht auf.
 ROOT="$(git rev-parse --show-toplevel)"
 while read -r local_ref local_sha remote_ref remote_sha; do
   if [[ "$remote_ref" == "refs/heads/main" && "$local_sha" != 0000000000000000000000000000000000000000 ]]; then
-    echo "Rackwerk: lade public/ auf den Server …"
-    "$ROOT/scripts/deploy.sh" --yes || echo "Rackwerk: Upload fehlgeschlagen – später mit scripts/deploy.sh wiederholen." >&2
+    echo "Rack Manufaktur: lade public/ auf den Server …"
+    "$ROOT/scripts/deploy.sh" --yes || echo "Rack Manufaktur: Upload fehlgeschlagen – später mit scripts/deploy.sh wiederholen." >&2
   fi
 done
 exit 0
 HOOK
     chmod +x "$HOOK"
     say "Eingerichtet: .git/hooks/pre-push"
-  elif [[ -f "$HOOK" ]] && grep -q 'Rackwerk: lädt public/' "$HOOK"; then
+  elif [[ -f "$HOOK" ]] && grep -q 'Rack Manufaktur: lädt public/' "$HOOK"; then
     rm -f "$HOOK"; say "Automatischen Upload entfernt."
   fi
 fi

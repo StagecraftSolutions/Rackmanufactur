@@ -1,4 +1,4 @@
-# Rackwerk
+# Rack Manufaktur
 
 Web-Konfigurator für 19″-Rackmodule mit Steckerfeldern. Die Seite liegt in `public/` (eine HTML-Datei plus lokale Schriften und jsPDF), ohne Build: `public/index.html` im Browser öffnen oder den Ordner auf einen Webserver laden.
 
@@ -44,6 +44,16 @@ Cases: **ProCase Pro Rackmodule** und **ProCase QSD-Racks** (procaseshop.de) sow
 - **Fertigungshinweise** pro Steckerfeld (Bohrungen, Einbaurichtung), Rackwanne, Beschriftung und hinten verschraubtem Gerät.
 - **Export:** Projekt als PDF (Ansichten, Stückliste, Bestellung, Fertigung), Vorder-/Rückansicht als PNG, Projektdatei (.json) speichern und laden.
 - **Speichern:** im Browser (`localStorage`, Schlüssel `rackwerk-v1`), als Projektdatei (.json) und als JSON-Text. Ältere Stände (v1–v4) werden beim Laden migriert.
+
+## Geräte und Rackwannen
+
+- **Gerätedatenbank** (`DEVDB` in `public/index.html`, Tabelle in [docs/datenbasis.md](docs/datenbasis.md)): 50 Geräte mit Bauform, Tiefe, Anschlüssen vorn/hinten und Links zu Hersteller und Thomann. Darunter Blackmagic (Teranex Mini, HyperDeck, ATEM, Streaming, Videohub, Audio Monitor), UniFi (Cloud Gateway Max, Pro Max 24 PoE, USW-24-PoE), Shure (ULX-D, PSM1000, Axient Digital, RF-Zubehör), Behringer WING RACK, Midas DL32/DL16 und StageConnect, Swisson, NovaStar MX20, Eurolite SB-1100.
+- **Vorschau:** Geräte werden mit ihren Anschlüssen gezeichnet, vorn in der Vorderansicht, hinten in der Rückansicht.
+- **Blackmagic Universal Rack Shelf:** 1 HE, Raster in Sechsteln. Geräte mit 1/3 (2/6) und 1/2 (3/6) Rackbreite, z. B. drei Teranex Mini nebeneinander. Freie Felder bekommen Blindplatten.
+- **Thon Rackwanne 1 HE (Thomann 127151):** ca. 435 mm innen. Geräte frei anordnen (Abstand von links in mm), bündig zur Vorderkante, Befestigung mit Kabelbinder oder Schrauben. Warnung, wenn die Geräte zu breit oder zu hoch sind.
+- **Popup → Geräte:** Suche nach Name oder Kürzel. Rackgeräte kommen direkt ins Rack, BMD- und kleine Geräte in eine ausgewählte passende Wanne oder in eine neue.
+- **Stufe 3 → Geräte & Anschlüsse:** Liste aller Geräte mit Ein- und Ausgängen und Links.
+- Angaben mit „Maße prüfen“ sind recherchiert bzw. geschätzt und vor der Fertigung am Gerät zu kontrollieren.
 
 ## Feste Regeln
 

@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-15 – Stand 10 · Rack Manufaktur
+
+- Projekt heißt jetzt **Rack Manufaktur** (Titel, Kopf, PDF, Dateinamen, rechtliche Seiten).
+- **Gerätedatenbank** mit 50 Geräten: Bauform, Tiefe, Anschlüsse vorn/hinten, Links zu Hersteller und Thomann; Gerätefronten und -rückseiten mit Anschlüssen gezeichnet.
+- Neues Modul **Rackwanne mit Geräten**: Blackmagic Universal Rack Shelf (Raster 1/3 + 1/2, z. B. 3 × Teranex Mini) und Thon Rackwanne 1 HE (frei, bündig zur Vorderkante).
+- Popup „Geräte“ mit Suche; Stufe 3 mit Liste **Geräte & Anschlüsse**; Stückliste, Fertigung und Warnungen kennen die Wannen.
+- Beispiel nutzt ULXD4D, USW-24-PoE und eine BMD-Wanne mit drei Teranex Mini.
+- MIT-Lizenz.
+
 ## 2026-11-15 – Stand 9
 
 - Beispiel passt ins Case: vorn 7 HE, hinten 1 HE (Steckerfeld B in HE 8), Name „Beispiel · Anschlussrack“ ohne Ortsbezug; Platzhalter „z. B. Anschlussrack 8 HE“.

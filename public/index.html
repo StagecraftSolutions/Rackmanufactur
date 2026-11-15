@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rackwerk Konfigurator</title>
+<title>Rack Manufaktur Konfigurator</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314181d'/%3E%3Cpath d='M8 27 18 5h6L14 27z' fill='%23f2c200'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
@@ -445,6 +445,35 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 .shopgrp li .a { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); display: block; }
 .shopgrp li .p { font-family: var(--f-mono); font-size: 12.5px; white-space: nowrap; }
 td input.shop { min-width: 110px; }
+
+/* Geräte aus der Datenbank */
+.devmk { font-family: var(--f-display); font-weight: 600; letter-spacing: .02em; }
+.pg-metal { fill: #c9ced4; stroke: #6b737c; stroke-width: .2; }
+.pg-hole { fill: #050607; }
+.pg-ring { fill: #3a3f45; stroke: #8d959e; stroke-width: .3; }
+.pg-pcon { fill: #1f5fbf; stroke: #9bb8e6; stroke-width: .3; }
+.pg-knob { fill: #15171a; stroke: #6b737c; stroke-width: .4; }
+.pg-cee { fill: #c8102e; stroke: #f0a0a0; stroke-width: .4; }
+.pg-lcd { fill: #0f2a3d; stroke: #3d6f91; stroke-width: .3; }
+.pg-btn { fill: #4b5159; }
+.pg-iec { fill: #111316; stroke: #8d959e; stroke-width: .3; }
+.pg-port { fill: #0a0b0d; stroke: #8d959e; stroke-width: .25; }
+.pg-slot { fill: #0a0b0d; stroke: #6b737c; stroke-width: .2; }
+.pg-more { fill: var(--hw-ink-dim); font-size: 3px; font-family: var(--f-mono); }
+.devwrap { overflow-x: auto; }
+.devtab { width: 100%; border-collapse: collapse; font-size: 12.5px; min-width: 560px; }
+.devtab th, .devtab td { text-align: left; vertical-align: top; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.devtab th { font-family: var(--f-mono); font-size: 11px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.devtab small { display: block; color: var(--muted); font-size: 11.5px; }
+.devtab a, .devinfo a, .hint a { color: var(--accent); }
+.shlist { list-style: none; margin: 0 0 10px; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.shlist li { display: flex; gap: 8px; align-items: center; }
+.shlist .nm { flex: 1 1 auto; min-width: 0; }
+.shlist small { display: block; color: var(--muted); font-size: 11.5px; }
+.shlist input, .shlist select { width: 96px; flex: 0 0 auto; }
+.devinfo { font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
+.devinfo p { margin: 0 0 4px; }
+#devSearch { width: 100%; margin-bottom: 10px; }
 /* Fuß mit Rechtlichem */
 .site-foot {
   max-width: 1600px; margin: 32px auto 0; padding-top: 14px; border-top: 1px solid var(--line);
@@ -466,7 +495,7 @@ td input.shop { min-width: 110px; }
 <body>
 
 <header class="top">
-  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rackwerk</h1><span class="projname" id="projTitle"></span></div>
+  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rack Manufaktur</h1><span class="projname" id="projTitle"></span></div>
   <div class="summary" id="summary"></div>
 </header>
 
@@ -601,6 +630,10 @@ td input.shop { min-width: 110px; }
       </section>
     </div>
     <div class="col">
+      <section class="card">
+        <header><h2>Geräte &amp; Anschlüsse</h2><span class="eyebrow">Ein- und Ausgänge, Links</span></header>
+        <div class="body devwrap" id="devlist"></div>
+      </section>
       <section class="card">
         <header><h2>Bestellen</h2><span class="eyebrow">nach Lieferant</span></header>
         <div class="body" id="orders"></div>
@@ -828,8 +861,160 @@ const DEVICES = [
   { name: 'Video-Kreuzschiene', he: 1, depth: 160 },
   { name: 'Rackleuchte', he: 1, depth: 40 },
 ];
-const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'custom', 'brush'];
+const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'custom', 'brush', 'shelf'];
 const isDev = it => it.kind === 'device' || it.kind === 'custom';
+
+/* ---------- Gerätedatenbank ----------
+   fit: 'rack' = 19″-Gerät mit eigenen Rackohren · 'bmd' = Blackmagic-Bauform (Bruchteil der Rackbreite, frac) für die BMD-Wanne · 'free' = beliebige Größe für die Thomann-Wanne
+   io.f / io.r: Anschlüsse vorn / hinten als „typ:anzahl Text; …“ – typ bestimmt das Symbol in der Ansicht
+   w/h/d in mm (h/w nur bei 'free' nötig) · price = UVP bzw. Webpreis in € inkl. MwSt. · chk = Maße/Anschlüsse am Gerät prüfen */
+const BMD = 'https://www.blackmagicdesign.com/de/products/';
+const DEVDB = {
+  // Blackmagic Design · Teranex Mini (1 HE, 1/3 Rackbreite) – UVP laut blackmagicdesign.com 11/2026
+  tm_sdi_hdmi: { n: 'Teranex Mini SDI to HDMI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 639, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; xlr:4 Audio Out (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_hdmi_sdi: { n: 'Teranex Mini HDMI to SDI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 655, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'hdmi:1 HDMI 2.0 In; bnc:2 12G-SDI Out; xlr:4 Audio In (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_sdi_analog: { n: 'Teranex Mini SDI to Analog 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 645, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:6 SDI In/Loop, Analog-Video Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_analog_sdi: { n: 'Teranex Mini Analog to SDI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 655, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:6 Analog-Video In, SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_sdi_audio: { n: 'Teranex Mini SDI to Audio 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 639, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Audio Out (2 analog, 4 Kan. AES); opt:1 TOSLINK Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_audio_sdi: { n: 'Teranex Mini Audio to SDI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 645, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:2 12G-SDI In/Out; xlr:4 Audio In (2 analog, 4 Kan. AES); opt:1 TOSLINK In; usb:1 USB; iec:1 Netz' } },
+  tm_opt_hdmi: { n: 'Teranex Mini Optical to HDMI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 625, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'sfp:1 Glasfaser (SFP); bnc:1 SDI Loop; hdmi:1 HDMI Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_hdmi_opt: { n: 'Teranex Mini HDMI to Optical 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 609, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'hdmi:1 HDMI In; sfp:1 Glasfaser (SFP); bnc:1 SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_sdi_quad: { n: 'Teranex Mini 12G-SDI to Quad SDI', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 639, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:6 12G-SDI In + Loop, 4× 3G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_quad_sdi: { n: 'Teranex Mini Quad SDI to 12G-SDI', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 649, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:6 4× 3G-SDI In, 12G-SDI Out + Loop; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_sdi_dist: { n: 'Teranex Mini SDI Distribution 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 615, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:9 1× 12G-SDI In, 8× 12G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  tm_ip_video: { n: 'Teranex Mini IP Video 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 605, url: BMD + 'teranexmini', io: { f: 'btn:1 Bedienfeld', r: 'bnc:3 SDI In, 2× SDI Out; rj45:1 Video über Gigabit-Ethernet; usb:1 USB; iec:1 Netz' } },
+  bmd_2110_sdi_hdmi: { n: 'Blackmagic 2110 IP SDI to HDMI 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Teranex Mini', fit: 'bmd', frac: 1 / 3, d: 230, chk: 1, price: 949, url: BMD + 'teranexmini', io: { f: 'jack:1 Kopfhörer; usbc:1 USB-C (Webcam)', r: 'bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; rj45:1 10G-Ethernet (ST 2110); xlr:2 Analog-Audio Out; dc:1 12 V' } },
+  // Blackmagic · HyperDeck Studio
+  hd_mini: { n: 'HyperDeck Studio HD Mini', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 615, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; btn:1 Transport', r: 'bnc:6 SDI In/Out, Timecode In/Out, Referenz In/Out; hdmi:1 HDMI Out; rj45:1 Ethernet; usbc:1 USB-C; dc:1 12 V' } },
+  hd_plus: { n: 'HyperDeck Studio HD Plus', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'bmd', frac: 1 / 2, d: 190, chk: 1, price: 745, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:8 SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Referenz In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  hd_pro: { n: 'HyperDeck Studio HD Pro', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'rack', he: 1, d: 210, chk: 1, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:6 SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  hd_4kpro: { n: 'HyperDeck Studio 4K Pro', mk: 'Blackmagic Design', g: 'Blackmagic · HyperDeck', fit: 'rack', he: 1, d: 210, chk: 1, url: BMD + 'hyperdeckstudio', io: { f: 'lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport', r: 'bnc:6 12G-SDI In, 2× Out, Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI 2.0 In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  // Blackmagic · ATEM, Streaming, Audio
+  atem_hd8: { n: 'ATEM Television Studio HD8', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'rack', he: 1, d: 300, chk: 1, url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:1 Netz' } },
+  atem_hd8iso: { n: 'ATEM Television Studio HD8 ISO', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'rack', he: 1, d: 300, chk: 1, url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C (Aufnahme); iec:1 Netz' } },
+  atem_4k8: { n: 'ATEM Television Studio 4K8', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'rack', he: 1, d: 300, chk: 1, url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× 12G-SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C; iec:1 Netz' } },
+  atem_mic: { n: 'ATEM Microphone Converter', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 419, url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'xlr:4 Mic/Line In (Kombi); bnc:2 MADI In/Out; hdmi:1 Monitor Out; usbc:1 USB-C; iec:1 Netz' } },
+  bm_stream_hd: { n: 'Blackmagic Streaming Encoder HD', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 549, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_stream_4k: { n: 'Blackmagic Streaming Encoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_decoder_4k: { n: 'Blackmagic Streaming Decoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI Out, Referenz In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_audiomon: { n: 'Blackmagic Audio Monitor 12G G3', mk: 'Blackmagic Design', g: 'Blackmagic · Monitoring', fit: 'rack', he: 1, d: 200, chk: 1, url: BMD + 'blackmagicaudiomonitor', io: { f: 'lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz' } },
+  bm_vh_20: { n: 'Blackmagic Videohub 20x20 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_cleanswitch: { n: 'Smart Videohub CleanSwitch 12x12 6G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  // Ubiquiti UniFi
+  ucg_max: { n: 'UniFi Cloud Gateway Max', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'free', w: 213, h: 32, d: 128, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/ucg-max', io: { f: 'lcd:1 Status-Display; rj45:5 4× 2,5GbE LAN, 1× 2,5GbE WAN', r: 'usbc:1 Stromversorgung' } },
+  usw_pro_max_24_poe: { n: 'UniFi Pro Max 24 PoE', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 285, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-pro-max-24-poe', io: { f: 'lcd:1 Touch-Display; rj45:24 16× GbE PoE+, 8× 2,5GbE PoE++; sfp:2 10G SFP+', r: 'iec:1 Netz' } },
+  usw_24_poe: { n: 'UniFi Switch 24 PoE (USW-24-PoE)', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 200, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-24-poe', io: { f: 'lcd:1 Display; rj45:24 GbE, davon 16× PoE+; sfp:2 1G SFP', r: 'iec:1 Netz' } },
+  // Shure
+  ulxd4: { n: 'Shure ULXD4 (Einkanal, halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'free', w: 214, h: 43, d: 180, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V' } },
+  ulxd4d: { n: 'Shure ULXD4D (Zweikanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4D', io: { f: 'lcd:2 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:4 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; jack:1 AES3 Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  psm1000_p10t: { n: 'Shure PSM1000 P10T Sender', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P10T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz' } },
+  ad4d: { n: 'Shure Axient Digital AD4D', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4D', io: { f: 'lcd:2 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ad4q: { n: 'Shure Axient Digital AD4Q', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4Q', io: { f: 'lcd:4 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; xlr:1 AES3 Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ad600: { n: 'Shure AD600 Spectrum Manager', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 320, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD600', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:4 Antenne In/Out; rj45:2 Ethernet; iec:1 Netz' } },
+  ua845uwb: { n: 'Shure UA845UWB Antennenverteiler', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 250, chk: 1, url: 'https://www.shure.com/de-DE/search?q=UA845UWB', io: { f: 'btn:1 Netzschalter', r: 'bnc:12 Antenne A/B In, 10× Out (5 Empfänger); bnc:2 Kaskade; dc:5 Strom für Empfänger; iec:1 Netz' } },
+  pa821b: { n: 'Shure PA821B Antennen-Combiner (PSM)', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=PA821B', io: { f: 'bnc:1 Antenne Out (vorn)', r: 'bnc:8 8× Sender In; iec:1 Netz' } },
+  // Mischpulte, Stageboxen
+  wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 3, d: 270, chk: 1, url: 'https://www.behringer.com/search?q=wing%20rack', io: { f: 'lcd:1 7″-Touchscreen; knob:4 Regler; xlr:8 Mic/Line In; jack:1 Kopfhörer; usba:1 USB', r: 'xlr:8 Line Out; rj45:4 AES50 A/B/C, StageConnect; rj45:1 Ethernet; usbc:1 USB-Audio; iec:1 Netz' } },
+  midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL32', io: { f: 'xlr:48 32× Mic In, 16× Out; rj45:3 2× AES50, ULTRANET; xlr:1 AES/EBU', r: 'iec:1 Netz' } },
+  midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL16', io: { f: 'xlr:24 16× Mic In, 8× Out; rj45:3 2× AES50, ULTRANET; jack:1 ADAT', r: 'iec:1 Netz' } },
+  midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line In; xlr:2 StageConnect', r: 'dc:1 Netzteil' } },
+  midas_dn4816o: { n: 'Midas DN4816-O (StageConnect Out)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line Out; xlr:2 StageConnect; rj45:1 ULTRANET', r: 'dc:1 Netzteil' } },
+  midas_dn4888: { n: 'Midas DN4888 (StageConnect 8×8)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 169, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4888', io: { f: 'xlr:16 8× Line In, 8× Line Out; xlr:2 StageConnect', r: '' } },
+  midas_hub4: { n: 'Midas HUB4 (Personal-Monitoring)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 150, chk: 1, url: 'https://www.midasconsoles.com/search?q=HUB4', io: { f: 'rj45:4 DP48 (PoE); jack:1 Kopfhörer', r: 'rj45:2 ULTRANET In/Thru; iec:1 Netz' } },
+  // Licht, Video, Strom
+  swisson_xnd8: { n: 'Swisson XND-8 Art-Net-Node', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 160, chk: 1, url: 'https://www.swisson.com', io: { f: 'lcd:1 Display; xlr5:8 DMX In/Out; rj45:2 etherCON', r: 'powercon:2 Netz In/Thru' } },
+  swisson_xsp5r: { n: 'Swisson XSP-5R DMX-Splitter', mk: 'Swisson', g: 'Licht · Swisson', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.swisson.com', io: { f: 'xlr5:7 DMX In, Thru, 5× Out', r: 'powercon:2 Netz In/Thru' } },
+  novastar_mx20: { n: 'NovaStar MX20 LED-Controller', mk: 'NovaStar', g: 'Video · LED', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.novastar.tech', io: { f: 'lcd:1 Display; knob:1 Drehregler; usba:1 USB', r: 'hdmi:4 2× HDMI 1.3 In + Loop; bnc:2 3G-SDI In + Loop; rj45:8 6× LED-Out, 2× Steuerung; sfp:2 10G Glasfaser; bnc:2 Genlock In/Loop; iec:1 Netz' } },
+  eurolite_sb1100: { n: 'Eurolite SB-1100 Stromverteiler 32 A', mk: 'Eurolite', g: 'Strom', fit: 'rack', he: 3, d: 220, chk: 1, url: 'https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html', io: { f: 'cee:1 CEE 32 A In; cee:1 CEE 32 A Out (Durchgang); btn:1 Sicherungen', r: '' } },
+};
+const DEV_GROUPS = [...new Set(Object.values(DEVDB).map(d => d.g))];
+const thomannQ = d => 'https://www.thomann.de/de/search_dir.html?sw=' + encodeURIComponent(d.n.replace(/\s*\(.*\)/, ''));
+const devOf = id => DEVDB[id] || null;
+const fitTxt = d => d.fit === 'rack' ? `19″ · ${fmtHE(d.he)}` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : '1/2'} Rackbreite · BMD-Wanne` : `${d.w} × ${d.h} mm · Thomann-Wanne`;
+// „typ:anzahl Text; …“ → [{t, n, txt}]
+const parseIO = s => (s || '').split(';').map(x => x.trim()).filter(Boolean).map(x => { const m = x.match(/^(\w+):(\d+)\s*(.*)$/); return m ? { t: m[1], n: +m[2], txt: m[3] } : { t: 'txt', n: 0, txt: x }; });
+const ioTxt = s => parseIO(s).map(p => p.n > 1 ? `${p.n}× ${p.txt || p.t}` : (p.txt || p.t)).join(', ') || '–';
+
+/* ---------- Rackwannen für Geräte ---------- */
+const SHELVES = {
+  bmd_urs: { n: 'Blackmagic Universal Rack Shelf', short: 'BMD Universal Rack Shelf', mk: 'Blackmagic Design', art: 'CONVNTRM/YA/RSU', price: 109, src: 'web', q: 'UVP blackmagicdesign.com 11/2026', shop: 'Blackmagic Design', he: 1, mode: 'grid', cells: 6, depth: 260, url: BMD + 'teranexmini',
+    info: '1 HE, Raster in Sechsteln: drittel (2/6) und halbe (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte, Schrauben.' },
+  thon_1u: { n: 'Thon Rack Adapter 1U 25 (Rackwanne)', short: 'Thon Rackwanne 1 HE', mk: 'Thomann', art: 'Thomann 127151', price: null, src: 'check', q: 'thomann.de · Preis prüfen', shop: 'Thomann', he: 1, mode: 'free', innerW: 435, depth: 255, url: 'https://www.thomann.de/de/thon_rackwanne_1he.htm',
+    info: 'Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bevorzugt bündig zur Vorderkante.' },
+};
+const shelfOf = it => SHELVES[it.shelf] || SHELVES.thon_1u;
+const devCells = d => Math.round((d.frac || 1 / 3) * 6);
+const shelfW = it => shelfOf(it).mode === 'grid' ? 6 : shelfOf(it).innerW;
+const shelfUsed = it => (it.devs || []).reduce((s, x) => s + (shelfOf(it).mode === 'grid' ? devCells(devOf(x.dev)) : devOf(x.dev).w), 0);
+function shelfFits(it, dev, x, skip = -1) {
+  const S = shelfOf(it), d = devOf(dev); if (!d) return false;
+  if (S.mode === 'grid' ? d.fit !== 'bmd' : d.fit !== 'free') return false;
+  const w = S.mode === 'grid' ? devCells(d) : d.w;
+  if (x < 0 || x + w > shelfW(it) + 1e-6) return false;
+  return (it.devs || []).every((o, i) => { if (i === skip) return true; const ow = S.mode === 'grid' ? devCells(devOf(o.dev)) : devOf(o.dev).w; return x + w <= o.x + 1e-6 || o.x + ow <= x + 1e-6; });
+}
+function shelfFree(it, dev) {   // erste freie Position von links
+  const S = shelfOf(it), step = S.mode === 'grid' ? 1 : 1;
+  const xs = S.mode === 'grid' ? [0, 1, 2, 3, 4, 5] : [0, ...(it.devs || []).map(o => o.x + devOf(o.dev).w + 2)].sort((a, b) => a - b);
+  for (const x of xs) if (shelfFits(it, dev, x)) return x;
+  if (S.mode === 'free') for (let x = 0; x <= S.innerW; x += step) if (shelfFits(it, dev, x)) return x;
+  return null;
+}
+function shelfPack(it) {   // Thomann-Wanne: alle Geräte von links bündig, 2 mm Abstand
+  let x = 0; (it.devs || []).sort((a, b) => a.x - b.x).forEach(o => { o.x = x; x += devOf(o.dev).w + 2; });
+}
+const shelfDepth = it => Math.max(shelfOf(it).depth, ...(it.devs || []).map(o => devOf(o.dev)?.d || 0));
+
+/* ---------- Gerätefront / -rückseite zeichnen ---------- */
+function ioGlyphs(spec, x0, y0, w, h, cap = 40) {
+  const parts = parseIO(spec).filter(p => p.t !== 'txt');
+  const s = Math.max(2.2, Math.min(h * .3, 7));
+  const size = { rj45: [1.25, 1], sfp: [1.6, .7], bnc: [1, 1], xlr: [1.9, 1.9], xlr5: [1.9, 1.9], hdmi: [1.4, .55], usb: [1, .45], usba: [1, .45], usbc: [.9, .35], iec: [1.4, 1.05], lcd: [5, 2.2], jack: [.8, .8], dc: [.7, .7], opt: [.8, .8], sd: [2.2, .35], btn: [3, .9], knob: [1.3, 1.3], powercon: [1.9, 1.9], cee: [4.2, 4.2], ant: [.8, .8] };
+  const list = [];
+  parts.forEach(p => { const n = p.t === 'lcd' || p.t === 'btn' ? Math.min(p.n, 4) : p.n; for (let i = 0; i < n; i++) list.push(p.t); });
+  let shown = list.slice(0, cap), more = list.length - shown.length;
+  // Zeilen bilden
+  const gap = s * .35, rows = [[]]; let rw = 0;
+  const maxRows = Math.max(1, Math.floor((h - 2) / (s * 1.25)));
+  shown.forEach(t => { const [gw] = size[t] || [1, 1]; const ww = gw * s; if (rw + ww > w && rows[rows.length - 1].length) { if (rows.length >= maxRows) { more++; return; } rows.push([]); rw = 0; } rows[rows.length - 1].push(t); rw += ww + gap; });
+  let g = '';
+  const rowH = rows.map(r => Math.max(...r.map(t => (size[t] || [1, 1])[1] * s), s * .5));
+  const totH = rowH.reduce((a, b) => a + b, 0) + (rows.length - 1) * gap;
+  let y = y0 + (h - totH) / 2;
+  rows.forEach((r, ri) => {
+    let x = x0;
+    r.forEach(t => {
+      const [gw, gh] = size[t] || [1, 1], ww = gw * s, hh = gh * s, cx = x + ww / 2, cy = y + rowH[ri] / 2, f = v => v.toFixed(2);
+      switch (t) {
+        case 'bnc': case 'jack': case 'dc': case 'ant': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-metal"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 5)}" class="pg-hole"/>`; break;
+        case 'xlr': case 'xlr5': case 'powercon': case 'knob': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="${t === 'powercon' ? 'pg-pcon' : t === 'knob' ? 'pg-knob' : 'pg-ring'}"/>${t === 'knob' ? '' : `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3.2)}" class="pg-hole"/>`}`; break;
+        case 'cee': g += `<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 2)}" class="pg-cee"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(ww / 3)}" class="pg-hole"/>`; break;
+        case 'lcd': g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".5" class="pg-lcd"/>`; break;
+        case 'btn': for (let k = 0; k < 3; k++) g += `<rect x="${f(x + k * ww / 3)}" y="${f(cy - hh / 2)}" width="${f(ww / 3 - .5)}" height="${f(hh)}" rx=".4" class="pg-btn"/>`; break;
+        case 'iec': g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx=".6" class="pg-iec"/>`; break;
+        default: g += `<rect x="${f(x)}" y="${f(cy - hh / 2)}" width="${f(ww)}" height="${f(hh)}" rx="${t === 'usbc' ? f(hh / 2) : '.3'}" class="pg-${t === 'rj45' || t === 'sfp' ? 'port' : 'slot'}"/>`;
+      }
+      x += ww + gap;
+    });
+    y += rowH[ri] + gap;
+  });
+  if (more > 0) g += `<text x="${(x0 + w).toFixed(2)}" y="${(y0 + h - 1).toFixed(2)}" class="pg-more" text-anchor="end">+${more}</text>`;
+  return g;
+}
+// Gerätekörper mit Name und Anschlüssen (side 'f' vorn, 'r' hinten)
+function devFace(d, x, y, w, h, side = 'f', name) {
+  const silver = d.col === 'silver', cls = silver ? 'dev-silver' : 'dev-black', tc = silver ? 'on-silver' : 'on-black';
+  let g = `<rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${w.toFixed(2)}" height="${h.toFixed(2)}" rx="1" class="${cls}"/>`;
+  const fs = Math.max(2.4, Math.min(h * .2, w / 18, 5.5));
+  const label = name || d.n;
+  const maxCh = Math.floor((w - 4) / (fs * .5));
+  g += `<text x="${(x + 2.5).toFixed(2)}" y="${(y + fs + 1.2).toFixed(2)}" class="devmk ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(label.length > maxCh ? label.slice(0, maxCh - 1) + '…' : label)}</text>`;
+  const spec = side === 'f' ? d.io.f : d.io.r;
+  if (spec) g += ioGlyphs(spec, x + 2.5, y + fs + 2.2, w - 5, h - fs - 3.4);
+  return g;
+}
+
 
 /* ---------- Zustand ---------- */
 const STRIP = { w: 440, h: 15 };   // Beschriftungsstreifen 872205 LBL – Startwerte, bitte nachmessen
@@ -855,6 +1040,8 @@ function makeItem(kind, o = {}) {
   if (kind === 'device' || kind === 'custom') { it.name = o.name ?? (kind === 'custom' ? 'Eigenes Element' : 'Gerät'); it.depth = o.depth ?? 250; it.color = o.color || 'black'; it.rearFix = !!o.rearFix; }
   if (kind === 'custom') { it.art = o.art || ''; it.price = o.price ?? null; it.shop = o.shop || ''; }
   if (kind === 'brush') it.he = 1;
+  if (kind === 'device' && o.dev && DEVDB[o.dev]) { const d = DEVDB[o.dev]; it.dev = o.dev; it.name = o.name ?? d.n; it.he = d.he; it.depth = d.d; it.color = d.col || 'black'; }
+  if (kind === 'shelf') { it.shelf = SHELVES[o.shelf] ? o.shelf : 'thon_1u'; it.he = o.he ?? SHELVES[it.shelf].he; it.devs = (o.devs || []).map(x => ({ ...x })); }
   return it;
 }
 function railDefault(ct, depth) { return ct.railMax != null ? Math.min(ct.railMax, depth) : depth - 25; }
@@ -877,9 +1064,10 @@ function example() {
     case: makeCase('pro560', 8),
     items: [
       lb, p, makeItem('vent', { he: 0.5, pos: 1.5 }),
-      makeItem('device', { name: 'Funkempfänger', he: 1, depth: 220, pos: 2 }),
-      makeItem('device', { name: 'Netzwerk-Switch', he: 1, depth: 280, pos: 3 }),
-      v, makeItem('drawer', { he: 2, pos: 5 }),
+      makeItem('device', { dev: 'ulxd4d', pos: 2 }),
+      makeItem('device', { dev: 'usw_24_poe', pos: 3 }),
+      v, makeItem('shelf', { shelf: 'bmd_urs', pos: 5, devs: [{ dev: 'tm_sdi_hdmi', x: 0 }, { dev: 'tm_hdmi_sdi', x: 2 }, { dev: 'tm_sdi_dist', x: 4 }] }),
+      makeItem('drawer', { he: 1, pos: 6 }),
       rp,
     ],
     acc: ACC_DEFAULT.map(a => ({ ...a })),
@@ -933,6 +1121,8 @@ function normalize(s) {
     }
     if (it.kind === 'label') fixCells(it);
     if (it.kind === 'custom') { it.art = it.art || ''; it.price = it.price ?? null; it.shop = it.shop || ''; }
+    if (it.kind === 'shelf') { it.shelf = SHELVES[it.shelf] ? it.shelf : 'thon_1u'; it.devs = (it.devs || []).filter(x => DEVDB[x.dev]); }
+    if (it.kind === 'device' && it.dev && !DEVDB[it.dev]) delete it.dev;
   });
   s.v = 5;
   return s;
@@ -975,10 +1165,12 @@ function title(it) {
     case 'drawer': return `Schublade ${fmtHE(it.he)}`;
     case 'device': return it.name || 'Gerät';
     case 'custom': return it.name || 'Eigenes Element';
+    case 'shelf': return shelfOf(it).short + (it.devs && it.devs.length ? ` · ${it.devs.length} Gerät${it.devs.length > 1 ? 'e' : ''}` : '');
   }
   return it.kind;
 }
 function itemDepth(it) {
+  if (it.kind === 'shelf') return shelfDepth(it);
   if (isDev(it) || it.kind === 'tray') return +it.depth || 0;
   if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) return +it.tray.depth || 0;
   return DEPTH[it.kind] ?? 0;
@@ -1020,6 +1212,7 @@ function warnings(L) {
     if (it.side === 'rear' && !c.rear) w.push({ err: true, t: `„${title(it)}“ ist hinten montiert, das Case hat aber keine hintere Rackschiene.` });
     if (it.side === 'rear' && c.rear && d > c.railRear) w.push({ err: true, t: `„${title(it)}“ (hinten, ${d} mm) ragt über die Frontschiene hinaus.` });
     if (isDev(it) && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
+    if (it.kind === 'shelf') { const Sh = shelfOf(it); if (Sh.mode === 'free' && shelfUsed(it) > Sh.innerW) w.push({ err: true, t: `${Sh.short} ${heRange(it)}: Geräte zusammen ${Math.round(shelfUsed(it))} mm breit, die Wanne hat innen ${Sh.innerW} mm.` }); it.devs.forEach(o => { const d = devOf(o.dev); if (Sh.mode === 'free' && d.h > it.he * HE - 4) w.push({ t: `${d.n} ist ${d.h} mm hoch und ragt aus der Wanne (${fmtHE(it.he)}).` }); }); }
     if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + 0.5) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
   });
   collisions().forEach(k => w.push({ err: true, t: `Kollision ${heRange({ pos: k.top, he: k.bot - k.top })}: „${title(k.a)}“ (vorn, bis ${Math.round(k.to)} mm) trifft „${title(k.b)}“ (hinten, ab ${Math.round(k.from)} mm) – ${Math.round(k.to - k.from)} mm Überdeckung.` }));
@@ -1213,9 +1406,26 @@ function faceSVG(it, xL, W) {
       g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
       break;
     }
+    case 'shelf': {
+      const S = shelfOf(it), x0 = xL + EAR + 3, iw = inner - 6, yb = y + h - 2.2, f = v => v.toFixed(2);
+      g += panelBase(xL, y, EAR + 5, h) + panelBase(xL + W19 - EAR - 5, y, EAR + 5, h);
+      g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" class="well" style="fill:#08090a"/>`;
+      if (S.mode === 'grid') {
+        const cw = iw / 6, occ = Array(6).fill(false);
+        it.devs.forEach(o => { const d = devOf(o.dev), n = devCells(d); for (let k = o.x; k < o.x + n; k++) occ[k] = true; g += devFace(d, x0 + o.x * cw + .4, y + 1.2, n * cw - .8, h - 2.4, 'f'); });
+        occ.forEach((v, k) => { if (!v) g += `<rect x="${f(x0 + k * cw + .4)}" y="${f(y + 1.2)}" width="${f(cw - .8)}" height="${f(h - 2.4)}" rx=".8" class="pnl"/>`; });
+      } else {
+        const sc = iw / S.innerW;
+        it.devs.forEach(o => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += devFace(d, x0 + o.x * sc, yb - dh, d.w * sc, dh, 'f'); });
+        g += `<rect x="${x0}" y="${f(yb)}" width="${iw}" height="2.2" class="pnl"/>`;
+        if (!it.devs.length) g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-tr1)">${esc(S.short.toUpperCase())} · GERÄTE FREI ANORDNEN</text>`;
+      }
+      break;
+    }
     case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
       g += panelBase(xL, y, W19, h, cls);
+      if (it.dev && devOf(it.dev)) { g += devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'f', it.name); break; }
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
       const name = it.name || 'Gerät';
       let fs = Math.min(h * .34, 13);
@@ -1280,6 +1490,7 @@ function backSVG(it, xL, W) {
       break;
     case 'device': case 'custom': {
       const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
+      if (it.dev && devOf(it.dev)) { if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls); g += devFace(devOf(it.dev), xL + EAR + 2, y + 1.5, inner - 4, h - 3, 'r', (it.name || devOf(it.dev).n) + ' · Rückseite'); break; }
       if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls);
       g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
       const name = (it.name || 'Gerät') + ' · Rückseite';
@@ -1289,6 +1500,13 @@ function backSVG(it, xL, W) {
       if (est > inner - 30) fs = fs * (inner - 30) / est;
       g += `<text x="${W / 2}" y="${y + h / 2 - (it.he <= .5 ? 0 : fs * .25)}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
       if (h > 12) g += `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo ${tc}" text-anchor="end">${info}${it.rearFix && state.case.rear ? ' · HINTEN VERSCHRAUBT' : ''}</text>`;
+      break;
+    }
+    case 'shelf': {
+      const S = shelfOf(it), x0 = xL + EAR + 3, iw = inner - 6;
+      g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" rx="1" class="trayback"/>`;
+      if (S.mode === 'grid') { const cw = iw / 6; it.devs.forEach(o => { const d = devOf(o.dev), n = devCells(d); g += devFace(d, mx(x0 + (o.x + n) * cw) + .4, y + 1.2, n * cw - .8, h - 2.4, 'r'); }); }
+      else { const sc = iw / S.innerW, yb = y + h - 2.2; it.devs.forEach(o => { const d = devOf(o.dev), dh = Math.min(d.h, h - 4); g += devFace(d, mx(x0 + (o.x + d.w) * sc), yb - dh, d.w * sc, dh, 'r'); }); }
       break;
     }
     case 'label': case 'brush':
@@ -1432,6 +1650,8 @@ function bom() {
         if (it.tray) add('tray' + it.tray.he, ART['tray' + it.tray.he], 1);
         break;
       case 'tray': add('tray' + it.he, ART['tray' + it.he], 1); break;
+      case 'shelf': { const Sh = shelfOf(it); add('shelf_' + it.shelf, { n: Sh.n, art: Sh.art, price: Sh.price, src: Sh.src, q: Sh.q, shop: Sh.shop }, 1);
+        it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + it.id + '_' + o.x, { n: `Gerät: ${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); }); break; }
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
       case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
@@ -1515,7 +1735,7 @@ function renderProject() {
   const p = state.project;
   ['name', 'client', 'note'].forEach(k => { const el = document.querySelector(`[data-proj="${k}"]`); if (el && document.activeElement !== el) el.value = p[k] || ''; });
   $('#projTitle').textContent = p.name ? '· ' + p.name : '';
-  document.title = p.name ? `${p.name} · Rackwerk` : 'Rackwerk Konfigurator';
+  document.title = p.name ? `${p.name} · Rack Manufaktur` : 'Rack Manufaktur Konfigurator';
 }
 function renderInrack() {
   const all = [...sideItems('front'), ...sideItems('rear')];
@@ -1589,7 +1809,21 @@ function renderInsp() {
       h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
       h += `<p class="hint">${esc(ART['drawer' + it.he].art)} · 392 mm Außentiefe, 25 kg Traglast.${it.he === 2 ? ' Schaumstoffeinlage: 87402 MI.' : ''}</p>`;
       break;
+    case 'shelf': {
+      const Sh = shelfOf(it), grid = Sh.mode === 'grid';
+      h += `<p class="hint">${esc(Sh.art)} · ${Sh.price != null ? EUR.format(Sh.price) : 'Preis offen'} · ${esc(Sh.info)} <a href="${Sh.url}" target="_blank" rel="noopener">Produktseite</a></p>`;
+      if (!grid) h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3], it.he)}</div></div>`;
+      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Belegt: ${grid ? `${shelfUsed(it)} von 6 Sechsteln` : `${Math.round(shelfUsed(it))} von ${Sh.innerW} mm`}</span>${grid ? '' : '<button type="button" class="btn sm" data-shpack>Links bündig anordnen</button>'}</div>`;
+      h += '<ul class="shlist">' + it.devs.map((o, i) => { const d = devOf(o.dev);
+        const pos = grid ? `<select data-shx="${i}" aria-label="Position">${[0, 1, 2, 3, 4, 5].filter(x => x === o.x || shelfFits(it, o.dev, x, i)).map(x => `<option value="${x}" ${x === o.x ? 'selected' : ''}>ab ${x + 1}/6</option>`).join('')}</select>` : `<input type="number" data-shx="${i}" min="0" max="${Sh.innerW - d.w}" step="1" value="${Math.round(o.x)}" aria-label="Abstand links in mm">`;
+        return `<li><span class="nm">${esc(d.n)}<small>${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}</small></span>${pos}<button type="button" class="btn sm danger" data-shdel="${i}" aria-label="${esc(d.n)} entfernen">×</button></li>`; }).join('') + '</ul>';
+      const cand = Object.entries(DEVDB).filter(([, d]) => d.fit === (grid ? 'bmd' : 'free'));
+      h += `<div class="row" style="align-items:flex-end"><div class="field" style="flex:2 1 200px"><label for="f_shadd">Gerät hinzufügen</label><select id="f_shadd">${cand.map(([k, d]) => `<option value="${k}" ${shelfFree(it, k) == null ? 'disabled' : ''}>${esc(d.n)} · ${esc(fitTxt(d))}</option>`).join('')}</select></div><button type="button" class="btn primary" data-shadd>Hinzufügen</button></div>`;
+      if (!grid) h += `<p class="hint">Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.</p>`;
+      break;
+    }
     case 'device': case 'custom':
+      if (it.dev && devOf(it.dev)) h += devInfo(devOf(it.dev));
       h += `<div class="field"><label for="f_name">Bezeichnung</label><input id="f_name" type="text" value="${esc(it.name)}" data-f="name"></div>
         <div class="row">
           <div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12], it.he)}</div>
@@ -1699,6 +1933,7 @@ function notesData() {
       out.push({ drill, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
+    if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
     if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
     if (it.kind === 'label' && it.cells.some(r => r.some(Boolean))) out.push({ h: `Beschriftung · ${where}`, t: `${it.div} Teilungen à ${fmtN(it.pitch)} mm, ${it.lines} Zeile${it.lines > 1 ? 'n' : ''}. Streifen ${it.stripW} × ${it.stripH} mm als PDF drucken (100 %), schneiden, einschieben.`, map: it.cells.map((r, i) => `${i + 1} ${r.filter(Boolean).join(' / ') || '–'}`).join(' · ') });
@@ -1736,6 +1971,20 @@ function renderSteps() {
   document.querySelectorAll('.step').forEach(el => { el.hidden = +el.dataset.step !== state.step; });
   document.querySelectorAll('.steps [data-step]').forEach(b => { if (+b.dataset.step === state.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
 }
+const devInfo = d => `<div class="devinfo"><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
+function devRows() {
+  const r = [];
+  [...sideItems('front'), ...sideItems('rear')].forEach(it => {
+    if (it.kind === 'device' && it.dev && devOf(it.dev)) r.push({ d: devOf(it.dev), name: it.name, where: `${heRange(it)} · ${sideTxt(it)}` });
+    if (it.kind === 'shelf') it.devs.forEach(o => r.push({ d: devOf(o.dev), where: `${heRange(it)} · ${sideTxt(it)} · ${shelfOf(it).short}` }));
+  });
+  return r;
+}
+function renderDevList() {
+  const el = $('#devlist'); if (!el) return;
+  const r = devRows();
+  el.innerHTML = r.length ? `<table class="devtab"><thead><tr><th>Gerät</th><th>Vorn</th><th>Hinten</th><th>Links</th></tr></thead><tbody>${r.map(x => `<tr><td><b>${esc(x.name || x.d.n)}</b><small>${esc(x.d.mk)} · ${esc(fitTxt(x.d))}${x.d.d ? ' · ' + x.d.d + ' mm tief' : ''}${x.d.price != null ? ' · ' + EUR.format(x.d.price) : ''}</small><small>${esc(x.where)}${x.d.chk ? ' · Maße prüfen' : ''}</small></td><td>${esc(ioTxt(x.d.io.f))}</td><td>${esc(ioTxt(x.d.io.r))}</td><td><a href="${x.d.url}" target="_blank" rel="noopener">Hersteller</a><br><a href="${thomannQ(x.d)}" target="_blank" rel="noopener">Thomann</a></td></tr>`).join('')}</tbody></table>` : '<p class="hint">Noch keine Geräte aus der Gerätedatenbank im Rack (Popup → Geräte).</p>';
+}
 function renderSoft() {
   const L = layout();
   renderProject();
@@ -1743,7 +1992,7 @@ function renderSoft() {
   if (state.step === 2) { renderStage(L); renderWarns(L); renderInrack(); renderCaseMini(); }
   renderNotes();
   const B = renderBom(); renderSummary(L, B);
-  if (state.step === 3) { renderOrders(B.rows); renderOverview(L); }
+  if (state.step === 3) { renderOrders(B.rows); renderOverview(L); renderDevList(); }
   const it = state.items.find(i => i.id === sel);
   $('#inspTag').textContent = it ? `${heRange(it)} · ${sideTxt(it)}` : '';
   if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
@@ -1808,10 +2057,17 @@ function renderDlg() {
       <div class="opt"><span class="on">Rackwanne</span><span class="oa">87551 / 87552 · 375 mm · ${price(ART.tray1)} / ${price(ART.tray2)}</span><div class="chips">${[1, 2].map(x => chip('tray', x)).join('')}</div></div>
       <div class="opt"><span class="on">Schublade</span><span class="oa">87401 E / 87402 / 87403 / 87404 · 392 mm</span><div class="chips">${[1, 2, 3, 4].map(x => chip('drawer', x)).join('')}</div></div>
     </div></div>
+    <div class="cgroup"><h3>Rackwannen für Geräte</h3><div class="opts">
+      <div class="opt"><span class="on">${esc(SHELVES.bmd_urs.n)}</span><span class="oa">${esc(SHELVES.bmd_urs.art)} · ${price(SHELVES.bmd_urs)} · Raster 1/3 + 1/2 Rackbreite</span><div class="chips"><button type="button" class="chip" data-insshelf="bmd_urs">Einsetzen · 1 HE</button></div></div>
+      <div class="opt"><span class="on">${esc(SHELVES.thon_1u.n)}</span><span class="oa">${esc(SHELVES.thon_1u.art)} · ${SHELVES.thon_1u.innerW} mm innen · Geräte frei anordnen</span><div class="chips"><button type="button" class="chip" data-insshelf="thon_1u">Einsetzen · 1 HE</button></div></div>
+    </div></div>
     <div class="cgroup"><h3>Lose Teile · ohne Platz im Rack</h3><div data-accbox class="body" style="padding:0"></div></div>`;
   }
   if (dlg.tab === 'geraete') {
-    h += `<div class="cgroup"><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
+    h += `<input id="devSearch" type="search" placeholder="Gerät suchen, z. B. Teranex, ULXD, UniFi …" aria-label="Gerät suchen">`;
+    h += DEV_GROUPS.map(gr => `<div class="cgroup" data-devgroup><h3>${esc(gr)}</h3><div class="opts">${Object.entries(DEVDB).filter(([, d]) => d.g === gr).map(([k, d]) => `
+      <button type="button" class="opt" data-insdb="${k}"><span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span></button>`).join('')}</div></div>`).join('');
+    h += `<div class="cgroup" data-devgroup><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
       <button type="button" class="opt" data-insdev="${i}"><span class="on">${esc(d.name)}</span><span class="oa">${fmtHE(d.he)} · ${d.depth} mm tief</span></button>`).join('')}</div></div>
     <div class="cgroup"><h3>Eigenes Gerät</h3><div class="row">
       <div class="field" style="flex:2 1 180px"><label for="dName">Bezeichnung</label><input id="dName" type="text" placeholder="z. B. Shure ULXD4Q"></div>
@@ -1819,7 +2075,7 @@ function renderDlg() {
       <div class="field"><label for="dDepth">Tiefe (mm)</label><input id="dDepth" type="number" min="0" max="1000" step="5" value="250"></div>
       <button type="button" class="btn primary" data-insdevown>Einsetzen</button>
     </div></div>
-    <p class="dlg-foot">Geräte sind Platzhalter: Sie stehen nicht in der Bestellung, ihre Tiefe zählt aber für die Kollisionsprüfung.</p>`;
+    <p class="dlg-foot">Geräte stehen nicht in der Bestellung, ihre Tiefe zählt für die Kollisionsprüfung. Blackmagic-Geräte mit 1/3 oder 1/2 Rackbreite kommen in die BMD-Wanne, kleine Geräte in die Thomann-Wanne; ist eine passende Wanne ausgewählt, landen sie dort.</p>`;
   }
   if (dlg.tab === 'eigene') {
     const list = tpls();
@@ -1855,11 +2111,22 @@ function insertItem(kind, o = {}) {
   render();
   toast(`${title(it)} → ${heRange(it)} · ${sideTxt(it)}`);
 }
+function insertDev(id) {
+  const d = DEVDB[id]; if (!d) return;
+  if (d.fit === 'rack') { insertItem('device', { dev: id }); return; }
+  const want = d.fit === 'bmd' ? 'bmd_urs' : 'thon_1u';
+  const ok = i => i.kind === 'shelf' && i.shelf === want && shelfFree(i, id) != null;
+  const target = state.items.find(i => i.id === sel && ok(i)) || state.items.find(i => ok(i) && i.side === dlg.side && Math.abs(i.pos - dlg.pos) < 1e-6);
+  if (target) { target.devs.push({ dev: id, x: shelfFree(target, id) }); sel = target.id; closeAdd(); state.step = 2; render(); toast(`${d.n} → ${shelfOf(target).short} ${heRange(target)}`); return; }
+  insertItem('shelf', { shelf: want, devs: [{ dev: id, x: 0 }] });
+}
 function dlgClick(t) {
   if (t.closest('[data-close]')) { closeAdd(); return true; }
   const tab = t.closest('[data-tab]'); if (tab) { dlg.tab = tab.dataset.tab; renderDlg(); return true; }
   const ts = t.closest('[data-tside]'); if (ts) { dlg.side = ts.dataset.tside; dlg.pos = gapAt(dlg.side, dlg.pos) ? dlg.pos : firstFree(dlg.side, 1); renderDlg(); return true; }
   const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant }); return true; }
+  const db = t.closest('[data-insdb]'); if (db) { insertDev(db.dataset.insdb); return true; }
+  const shi = t.closest('[data-insshelf]'); if (shi) { insertItem('shelf', { shelf: shi.dataset.insshelf }); return true; }
   const dv = t.closest('[data-insdev]'); if (dv) { const d = DEVICES[+dv.dataset.insdev]; insertItem('device', { ...d }); return true; }
   if (t.closest('[data-insdevown]')) { insertItem('device', { name: $('#dName').value.trim() || undefined, he: +$('#dHe').value, depth: parseNum($('#dDepth').value) ?? 250 }); return true; }
   if (t.closest('[data-inscustom]')) {
@@ -1955,7 +2222,7 @@ async function exportLabels(list) {
   });
   await saveFile(`${slug()}-beschriftung.pdf`, doc.output('blob'), 'PDF');
 }
-const slug = () => (state.project.name || 'rackwerk').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rackwerk';
+const slug = () => (state.project.name || 'rack-manufaktur').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rack-manufaktur';
 async function saveFile(filename, blob, what) {
   let dl = null;
   try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
@@ -2037,9 +2304,9 @@ async function exportProjectPdf() {
     doc.splitTextToSize(pdfTxt(s), CWID - indent).forEach(line => { need(size * .45); T(line, M + indent, y); y += size * .42; });
   };
   // Kopf
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); T(p.name || 'Rackwerk-Projekt', M, y + 4); y += 10;
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(18); T(p.name || 'Rack Manufaktur-Projekt', M, y + 4); y += 10;
   doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(90);
-  T([p.client, `Stand ${new Date().toLocaleDateString('de-DE')}`, 'Rackwerk Konfigurator'].filter(Boolean).join(' · '), M, y); y += 7;
+  T([p.client, `Stand ${new Date().toLocaleDateString('de-DE')}`, 'Rack Manufaktur Konfigurator'].filter(Boolean).join(' · '), M, y); y += 7;
   doc.setTextColor(0);
   const facts = [['Case', `${ct.n} · ${c.he} HE · Nutztiefe ${c.depth} mm${ct.he.includes(c.he) && ct.art(c.he) ? ' · ' + ct.art(c.he) : ''}`], ['Rackschiene hinten', c.rear ? `bei ${c.railRear} mm hinter der Frontschiene` : 'keine'], ['Belegung', `vorn ${fmtN(L.front)} HE · hinten ${fmtN(L.rear)} HE`]];
   if (p.note) facts.push(['Notiz', p.note]);
@@ -2097,7 +2364,7 @@ async function exportProjectPdf() {
   }
   // Seitenzahlen
   const np = doc.getNumberOfPages();
-  for (let i = 1; i <= np; i++) { doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(120); T(`${p.name || 'Rackwerk'} · Seite ${i}/${np}`, PW - M, PH - 8, { align: 'right' }); }
+  for (let i = 1; i <= np; i++) { doc.setPage(i); doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5); doc.setTextColor(120); T(`${p.name || 'Rack Manufaktur'} · Seite ${i}/${np}`, PW - M, PH - 8, { align: 'right' }); }
   await saveFile(`${slug()}.pdf`, doc.output('blob'), 'PDF');
 }
 
@@ -2147,7 +2414,7 @@ function loadProjectFile(file) {
       if (!s.items || !s.case) throw 0;
       state = s; sel = state.items[0]?.id ?? null; selSlot = null; view = 'front'; state.step = 1;
       render(); toast(`Projekt „${state.project.name || file.name}“ geladen`);
-    } catch (e) { toast('Datei ist keine gültige Rackwerk-Projektdatei'); }
+    } catch (e) { toast('Datei ist keine gültige Rack Manufaktur-Projektdatei'); }
   };
   r.onerror = () => toast('Datei konnte nicht gelesen werden');
   r.readAsText(file);
@@ -2281,6 +2548,31 @@ document.addEventListener('change', e => {
   if (t.dataset.price) { const o = state.ov[t.dataset.price] = state.ov[t.dataset.price] || {}; o.price = parsePrice(t.value); renderSoft(); return; }
   if (t.dataset.art) { const o = state.ov[t.dataset.art] = state.ov[t.dataset.art] || {}; o.art = t.value; renderSoft(); return; }
   if (t.dataset.shop) { const o = state.ov[t.dataset.shop] = state.ov[t.dataset.shop] || {}; o.shop = t.value.trim(); renderSoft(); return; }
+});
+
+/* ---------- Rackwannen mit Geräten ---------- */
+document.addEventListener('click', e => {
+  const t = e.target, it = state.items.find(i => i.id === sel);
+  if (!it || it.kind !== 'shelf') return;
+  if (t.closest('[data-shadd]')) { const id = $('#f_shadd').value, x = shelfFree(it, id); if (x == null) { toast('Kein Platz mehr in der Wanne'); return; } it.devs.push({ dev: id, x }); render(); return; }
+  const del = t.closest('[data-shdel]'); if (del) { it.devs.splice(+del.dataset.shdel, 1); render(); return; }
+  if (t.closest('[data-shpack]')) { shelfPack(it); render(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target; if (t.dataset.shx == null) return;
+  const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'shelf') return;
+  const i = +t.dataset.shx, v = parseNum(t.value); if (v == null) return;
+  if (shelfFits(it, it.devs[i].dev, v, i)) it.devs[i].x = v; else toast('Dort ist kein Platz');
+  render();
+});
+document.addEventListener('input', e => {
+  if (e.target.id !== 'devSearch') return;
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#dlgBody [data-devgroup]').forEach(gr => {
+    let any = false;
+    gr.querySelectorAll('.opt').forEach(o => { const hit = !q || o.textContent.toLowerCase().includes(q) || (o.dataset.insdb || '').replace(/_/g, ' ').includes(q) || gr.querySelector('h3').textContent.toLowerCase().includes(q); o.hidden = !hit; any = any || hit; });
+    gr.hidden = !any;
+  });
 });
 
 /* ---------- Ziehen in der Ansicht ---------- */

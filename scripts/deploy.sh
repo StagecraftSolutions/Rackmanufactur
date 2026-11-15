@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rackwerk – lädt den Ordner public/ per SFTP auf den Server.
+# Rack Manufaktur – lädt den Ordner public/ per SFTP auf den Server.
 # Zugangsdaten kommen aus .env (einrichten mit scripts/deploy-setup.sh).
 #
 #   scripts/deploy.sh            prüfen, nachfragen, hochladen

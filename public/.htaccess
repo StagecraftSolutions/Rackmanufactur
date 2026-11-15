@@ -1,4 +1,4 @@
-# Rackwerk – Einstellungen für Apache-Webserver (auf anderen Servern wirkungslos)
+# Rack Manufaktur – Einstellungen für Apache-Webserver (auf anderen Servern wirkungslos)
 
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
