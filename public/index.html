@@ -481,6 +481,7 @@ td input.shop { min-width: 110px; }
 .exled-g { fill: #22c55e; } .exled-o { fill: #f97316; } .exled-b { fill: #60a5fa; } .exled-y { fill: #eab308; } .exled-off { fill: #3a3f45; } .ex-lcdl { fill: #d7dbd2; stroke: #6b737c; stroke-width: .3; } .ex-lcdt { fill: #2a2e33; opacity: .75; } .ex-swb { fill: #15171a; stroke: #6b737c; stroke-width: .3; } .ex-swt { fill: #3a3f45; }
 .exbtn-gd { fill: #1b2b20; stroke: #22c55e; stroke-width: .7; } .ex-wmag { fill: #d946ef; } .ex-segoff { fill: #2a2e33; } .ex-sego { fill: #f97316; } .ex-segg { fill: #22c55e; } .ex-seg7 { fill: #0d0e10; stroke: #3a3f45; stroke-width: .3; } .exred { fill: #ef4444; }
 .ex-tft { fill: #050607; stroke: #3a3f45; stroke-width: .4; } .ex-ring2 { fill: #22262a; stroke: #3a3f45; stroke-width: .5; } .ex-grillw { fill: #0d0e10; stroke: #2a2e33; stroke-width: .6; } .ex-slot { fill: #1b1d20; } .ex-badge { fill: #d9dde2; stroke: #8d959e; stroke-width: .3; }
+.ex-fan { fill: #15171a; stroke: #3a3f45; stroke-width: .4; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -981,7 +982,7 @@ const DEVDB = {
   pa821b: { n: 'Shure PA821B Antennen-Combiner (PSM)', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=PA821B', io: { f: 'bnc:1 Antenne Out (vorn)', r: 'bnc:8 8× Sender In; iec:1 Netz' } },
   // Mischpulte, Stageboxen
   wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 4, d: 326, url: 'https://www.behringer.com/en/products/0604-AAE', io: { f: 'lcd:1 10,1″-Touchscreen; btn:1 Tasten; knob:6 Encoder/Regler; usba:1 USB; jack:1 Kopfhörer', r: 'xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Kopfhörer, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/Audio-Netzwerk; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Netz' } },
-  midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL32', io: { f: 'xlr:48 32× Mic In, 16× Out; rj45:3 2× AES50, ULTRANET; xlr:1 AES/EBU', r: 'iec:1 Netz' } },
+  midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ACR', io: { f: 'xlrf:32 Mic In (Midas PRO); xlr:16 Line Out; btn:1 Mute All', r: 'iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out' } },
   midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/search?q=DL16', io: { f: 'xlr:24 16× Mic In, 8× Out; rj45:3 2× AES50, ULTRANET; jack:1 ADAT', r: 'iec:1 Netz' } },
   midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line In; xlr:2 StageConnect', r: 'dc:1 Netzteil' } },
   midas_dn4816o: { n: 'Midas DN4816-O (StageConnect Out)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line Out; xlr:2 StageConnect; rj45:1 ULTRANET', r: 'dc:1 Netzteil' } },
@@ -1366,6 +1367,8 @@ function exactFace(d, id, side, X, Y) {
       case 'combo': { const r0 = (e.s || 12) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .66)}" class="pg-hole"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .3)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .17)}" class="pg-hole"/><rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
       case 'ethercon': { const r0 = (e.s || 12) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .72)}" class="pg-hole"/><rect x="${f(x - r0 * .42)}" y="${f(y - r0 * .32)}" width="${f(r0 * .84)}" height="${f(r0 * .64)}" class="pg-port"/><rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
       case 'din': g += `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(e.r * .72)}" class="pg-hole"/>` + [210, 250, 290, 330, 270].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * e.r * .45)}" cy="${f(y + Math.sin(q) * e.r * .45 + (a === 270 ? e.r * .1 : 0))}" r=".55" class="pg-metal"/>`; }).join(''); break;
+      case 'xlrf': { const r0 = (e.s || 11) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .72)}" class="pg-hole"/>` + [210, 330, 90].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * r0 * .38)}" cy="${f(y + Math.sin(q) * r0 * .38)}" r="${f(r0 * .1)}" class="pg-ring"/>`; }).join('') + `<rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
+      case 'fan': { let s2 = `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="ex-fan"/>`; for (let yy = -e.r + 2; yy < e.r - 1; yy += 2.6) for (let xx = -e.r + 2; xx < e.r - 1; xx += 2.6) if (xx * xx + yy * yy < (e.r - 2) * (e.r - 2)) s2 += `<circle cx="${f(x + xx)}" cy="${f(y + yy)}" r=".8" class="pg-hole"/>`; g += s2; break; }
       case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
       case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
       case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
@@ -1553,6 +1556,25 @@ EXACT.ad4q = { hw: 440, f: [
   ...[191.3, 238.7, 286.1, 333.5].flatMap((x, i) => [{ t: 'xlr', x, y: 18.9, s: 11 }, { t: 'jack', x: x + 20.7, y: 32.2, s: 13 }, { t: 'txt', x, y: 41, v: 'output ' + (4 - i), s: 2.4 }]),
   { t: 'bnc', x: 377.8, y: 12.3, s: 11 }, { t: 'bnc', x: 411.3, y: 12.3, s: 11 }, { t: 'bnc', x: 377.8, y: 31.4, s: 11 }, { t: 'bnc', x: 411.3, y: 31.4, s: 11 },
   { t: 'txt', x: 386, y: 6, v: 'B', s: 2.6 }, { t: 'txt', x: 420, y: 6, v: 'A', s: 2.6 }, { t: 'txt', x: 386, y: 26, v: 'D', s: 2.6 }, { t: 'txt', x: 420, y: 26, v: 'C', s: 2.6 }, { t: 'txt', x: 394.5, y: 41, v: 'quadversity', s: 1.8 },
+] };
+// Midas DL32 (Herstellerfotos midasconsoles.com): 3 HE, Front und Rückseite auf 482,6 mm
+const DLX = i => 36.4 + i * 26.2;
+EXACT.midas_dl32 = { hw: 482.6, f: [
+  { t: 'rect', x: 23, y: 4.2, w: 415.6, h: 72.8, c: 'ex-mod' }, { t: 'rect', x: 23, y: 92, w: 415.6, h: 37.7, c: 'ex-mod' },
+  ...Array.from({ length: 16 }, (_, i) => [{ t: 'txt', x: DLX(i), y: 8, v: 'IN ' + (i + 1), s: 2.4 }, { t: 'xlrf', x: DLX(i), y: 27.3, s: 11 }, { t: 'txt', x: DLX(i), y: 42, v: 'IN ' + (i + 17), s: 2.4 }, { t: 'xlrf', x: DLX(i), y: 61.8, s: 11 }, { t: 'txt', x: DLX(i), y: 96, v: 'OUT ' + (i + 1), s: 2.4 }, { t: 'xlr', x: DLX(i), y: 112.1, s: 11 }]).flat(),
+  { t: 'logo', x: 46, y: 89, v: 'MIDAS', s: 7 }, { t: 'logo', x: 417, y: 89, v: 'DL32', s: 6 }, { t: 'txt', x: 440, y: 87.3, v: 'AES50 SYNC', s: 2.2, a: 'start' },
+  { t: 'txt', x: 449.5, y: 34.5, v: 'MUTE ALL', s: 2 }, { t: 'btn', x: 449.5, y: 46.7, w: 7, h: 7, c: 'exbtn-r' },
+  { t: 'ledc', x: 449.5, y: 66.7, r: .9, c: 'exled-o' }, { t: 'ledc', x: 449.5, y: 84.8, r: .8, c: 'exled-g' }, { t: 'ledc', x: 449.5, y: 90.9, r: .8, c: 'exled-g' },
+], r: [
+  { t: 'txt', x: 50, y: 77, v: 'AC / POWER', s: 3 }, { t: 'sw', x: 49.3, y: 92.6, w: 18, h: 13 }, { t: 'iec', x: 50.3, y: 109.8, s: 17 },
+  { t: 'logo', x: 82.3, y: 98, v: 'MIDAS', s: 13 }, { t: 'logo', x: 104, y: 117, v: 'DL32', s: 7 },
+  { t: 'fan', x: 367.6, y: 48.6, r: 28.9 },
+  { t: 'rect', x: 164.6, y: 83.2, w: 19.2, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 174.2, y: 86.5, v: 'USB', s: 2.6 }, { t: 'usb', x: 174.4, y: 114.5, s: 9 },
+  { t: 'rect', x: 186.6, y: 83.2, w: 64.8, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 219, y: 86.5, v: 'A — AES50 — B', s: 2.6 }, { t: 'ethercon', x: 202.6, y: 108.3, s: 14 }, { t: 'ethercon', x: 235.6, y: 108.3, s: 14 },
+  { t: 'rect', x: 253.9, y: 83.2, w: 30.5, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 269.2, y: 86.5, v: 'ULTRANET', s: 2.6 }, { t: 'ethercon', x: 269.3, y: 108.3, s: 14 },
+  { t: 'rect', x: 287.2, y: 83.2, w: 38, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 306.2, y: 86.5, v: 'ADAT OUT', s: 2.6 }, { t: 'opt', x: 297.5, y: 115.5, s: 8 }, { t: 'opt', x: 315.1, y: 115.5, s: 8 },
+  { t: 'rect', x: 328.3, y: 83.2, w: 59.7, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 358.2, y: 86.5, v: 'AES/EBU', s: 2.6 }, { t: 'xlr', x: 344.4, y: 107.6, s: 13 }, { t: 'xlr', x: 372.6, y: 107.6, s: 13 },
+  { t: 'rect', x: 391.2, y: 83.2, w: 51.8, h: 39.2, c: 'ex-mod' }, { t: 'txt', x: 417, y: 86.5, v: 'MIDI IN · OUT', s: 2.6 }, { t: 'din', x: 404.4, y: 109.2, r: 8 }, { t: 'din', x: 430.4, y: 109.2, r: 8 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
