@@ -1468,8 +1468,7 @@ function faceSVG(it, xL, W, live = false) {
       }
       g += panelBase(xL, y, EAR + 5, h) + panelBase(xL + W19 - EAR - 5, y, EAR + 5, h);
       g += `<rect x="${x0}" y="${y + .6}" width="${iw}" height="${h - 1.2}" class="well" style="fill:#08090a"/>`;
-      // Wanne in Perspektive (leere Bereiche bleiben schwarz)
-      g += `<path d="M${f(x0 + 8)} ${f(yb)} L${f(x0 + 34)} ${f(y + 6)} L${f(x0 + iw - 34)} ${f(y + 6)} L${f(x0 + iw - 8)} ${f(yb)}" class="trayline"/>`;
+      // leere Bereiche bleiben schwarz
       if (S.mode === 'grid') {
         const cw = iw / S.cells;
         for (let k = 1; k < S.cells; k++) g += `<line x1="${f(x0 + k * cw)}" y1="${f(yb - 1)}" x2="${f(x0 + k * cw)}" y2="${f(yb + 2)}" class="trayline"/>`;
