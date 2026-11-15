@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-11-15 – Stand 5
+
+- Live-Ansicht mit Umschalter Vorderansicht / Seitenansicht / Rückansicht.
+- Widget „Belegung“ entfällt: Module werden direkt in der Ansicht per Klicken und Ziehen verschoben (0,5-HE-Raster, Nachrutschen bei Überlappung).
+- Module sind der Vorder- oder Rückseite zuweisbar; freie Positionen statt lückenloser Liste. „Leer (Abstand)“ entfällt.
+- Seitenansicht erkennt Kollisionen zwischen vorn und hinten montierten Modulen.
+- Rackwanne als eigenes Modul.
+- Beschriftungsblende mit Teilungen, mehreren Zeilen, Raster vom Steckerfeld und PDF-Export.
+- Neue Steckerfelder: 872213 (12 D), 872225 (16 D + Zugentlastung), 872214 (2 HE, 24 D).
+- TRUE1-Out wahlweise ohne Bohren (Seetronic SAC3FPX20, D-Norm).
+
 ## 2026-11-15 – Stand 4
 
 - Cases auf ProCase Pro Rackmodule (560 mm und 715 mm) umgestellt; „Anderes Case“ für eigene Bauformen. Alte gespeicherte Bauformen werden automatisch übernommen.

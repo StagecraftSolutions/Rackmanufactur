@@ -31,13 +31,32 @@ Optionen und Zubehör:
 
 Weitere Kategorien im Shop (nicht im Tool): Basic-Rackmodule (1365xx), Fly-Rack Alu (1355xxALU), Rackmodul-Kästen, Topeinbau-Module, Double-Door-, Shockmount- und Vario-Racks.
 
-## Steckerfeld und Einsätze
+## Steckerfelder (Adam Hall 19" Parts Rack Panels)
+
+Quelle: [adamhall.com › 19" Parts Rack Panels](https://www.adamhall.com/shop/de/marken/adam-hall-hardware/19-parts-rack-panels). Preise nur mit Händler-Login.
+
+| Variante | Art.-Nr. | Preis | Hinweis |
+|---|---|---|---|
+| RACK U PAN 01 D12 TIE BAR · 1 HE · 12 D · Zugentlastung | 872215 | 9,50 € | Warenkorb |
+| RACK U PAN 01 D12 · 1 HE · 12 D | 872213 | – | |
+| RACK U PAN 01 D16 TIE BAR · 1 HE · 16 D · Zugentlastung | 872225 | – | |
+| RACK U PAN 02 D24 · 2 HE · 24 D in 2 Reihen | [872214](https://www.adamhall.com/shop/de/rack-u-pan-02-d24-872214) | 16,96 € UVP | 484 × 88,9 mm, 1,5 mm Stahl |
+| RACK PAN 01 D8 ANGLED · 1 HE · 8 D, gewinkelt | 872230 | – | nicht im Tool |
+| RACK U PAN 01 UNI | 872212 | – | nicht im Tool, nicht geprüft |
+
+Eine Blende mit fertigem Ausschnitt für **powerCON TRUE1 In + Out plus D-Löchern** gibt es bei Adam Hall nicht. Gefunden: [Penn-Elcom R1268/1UK/05TR](https://translations.penn-elcom.com/de/1he-rack-panel-gestanzt-fur-5-x-powercon-true1-chassis-anschlusse-r1268-1uk-05tr) (1 HE, nur 5× TRUE1). Die Lösung ohne Bohren ist eine TRUE1-kompatible Out-Buchse in D-Größe:
+
+| Buchse | Ausschnitt | Preis | Quelle |
+|---|---|---|---|
+| Seetronic SAC3MPX TR1 (In) | D-Norm | 2,90 € | Warenkorb |
+| Seetronic SAC3FPX-LY TR1 (Out) | größer als D, **aufbohren** (Neutrik-Out: 24,4 mm innen, 28,7 mm Hinterschnitt) | 4,50 € | Warenkorb |
+| **Seetronic SAC3FPX20** (Out, Power Twist) | **D-Norm, ohne Bohren** (laut Bewertungen knapp) | 4,50 € | [Thomann](https://www.thomann.de/de/seetronic_sac3fpx_20.htm) |
+| Neutrik NAC3FPX-D-TRUE1 (Out, airtight) | D-Size-Flansch | – | [Neutrik](https://www.neutrik.com/de/produkt/nac3fpx-d-true1) |
+
+## Einsätze
 
 | Teil | Art.-Nr. | Preis | Quelle |
 |---|---|---|---|
-| U-Rackblende 1 HE, 12× D, Zugentlastung | Adam Hall 872215 | 9,50 € | Warenkorb |
-| powerCON TRUE1 In | Seetronic SAC3MPX TR1 | 2,90 € | Warenkorb |
-| powerCON TRUE1 Out | Seetronic SAC3FPX-LY TR1 | 4,50 € | Warenkorb |
 | Blindplatte D | Millenium Blanking Plate D | 0,70 € | Warenkorb |
 | Schrauben M3 × 12 schwarz, 48 Stk. | Thon Rack Screw M3x12 BK | 9,60 € | Warenkorb |
 | XLR3 Buchse / Stecker | Neutrik NC3FD-L-1 / NC3MD-L-1 | je 4,90 € | [Thomann](https://www.thomann.de/de/neutrik_nc_3mdl1.htm) |
@@ -54,7 +73,7 @@ Weitere Kategorien im Shop (nicht im Tool): Basic-Rackmodule (1365xx), Fly-Rack 
 | Lüftungsblende 0,5 HE | 872205 VR | 5,50 € | [Music Store](https://www.musicstore.de/en_DE/EUR/Adam-Hall-872205VR-19-U-Rackblende-0-5HE/art-PAH0022166-000) (Thomann führt sie als 872005 VR) |
 | Lüftungsblende 1 / 2 / 3 HE | 87221 VR / 87222 VR / 87223 VR | 4,90 / 6,90 / – € | [Rockshop](https://www.rockshop.de/adam-hall-87221-vr-u-lueftungsblende-1-he), [aweo](https://www.aweo.de/Adam-Hall-87222VR-U-Entlueftungsblende-2-HE-Stahl) |
 | Rackblende Stahl 1–4 HE | 87221–87224 STL | 8,99 / 4,85 / 9,00 / 13,50 € | eBay, [Rockshop](https://www.rockshop.de/adam-hall-87222-stl-u-rackblende-2-he-stahl) |
-| Beschriftungsblende 0,5 HE | 872205 LBL | 5,90 € | Warenkorb |
+| Beschriftungsblende 0,5 HE (483 × 22 mm, Einbautiefe 8 mm; Streifenmaß nicht angegeben) | [872205 LBL](https://www.adamhall.com/shop/de/rack-u-pan-1-2-label-872205lbl) | 5,90 € | Warenkorb |
 | Bürstenblende 1 HE | 87221 BRUSH | 15,90 € | [Thomann](https://www.thomann.at/adam_hall_87221_brush.htm) |
 | Rackwanne 1 / 2 HE, 375 mm | 87551 / 87552 | 24,00 / 29,50 € | [envirel](https://www.envirel.de/Adam-Hall-19-Zoll-1HE-Rackwanne-375mm-tief/AH87551), [aweo](https://www.aweo.de/Adam-Hall-87552-19-Rackablage-2-HE-Rackwanne-375-mm-tief) |
 | Schublade 1 HE Eco | 87401 E | 68,00 € | Geizhals |

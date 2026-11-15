@@ -246,6 +246,26 @@ svg text { font-family: var(--f-mono); }
 .cbody { fill: #4a5058; stroke: #15171a; stroke-width: .4; }
 .cnum { fill: var(--hw-ink); font-size: 6.5px; font-weight: 600; text-anchor: middle; dominant-baseline: central; }
 .cnum.on-tr { fill: #1b1d20; }
+.item.dr { cursor: grab; touch-action: none; }
+.item.dragging { cursor: grabbing; opacity: .85; }
+.snap { fill: rgba(121, 164, 255, .18); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 2; pointer-events: none; }
+.behind { fill: none; stroke: var(--hw-ink-dim); stroke-width: .6; stroke-dasharray: 3 2; }
+.behindtxt { fill: var(--hw-ink-dim); font-size: 4.2px; dominant-baseline: central; }
+.coll { fill: rgba(224, 64, 47, .45); stroke: #ff5a45; stroke-width: .8; }
+.colltxt { fill: #ff8a7d; font-size: 5px; font-weight: 600; dominant-baseline: central; }
+.side-rear { fill: #2f4a3f; stroke: #15171a; stroke-width: .4; }
+.lblcell { stroke: #9a968a; stroke-width: .25; }
+.lbltxt { fill: #1b1d20; font-family: var(--f-display); font-weight: 600; text-anchor: middle; dominant-baseline: central; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg button { border: 0; background: transparent; padding: 4px 10px; cursor: pointer; font-size: 12.5px; }
+.seg button[aria-pressed="true"] { background: var(--fg); color: var(--surface); }
+.lblgrid { display: flex; flex-direction: column; gap: 4px; max-height: 340px; overflow-y: auto; padding-right: 2px; }
+.lblrow { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 6px; align-items: start; }
+.lblrow .n { font-family: var(--f-mono); font-size: 12px; color: var(--muted); text-align: center; padding-top: 5px; }
+.lblrow .ins { display: flex; flex-direction: column; gap: 3px; }
+.lblrow input { padding: 4px 6px; font-size: 12.5px; }
+.actions .hint { align-self: center; }
+.lib-row.wide .chips { grid-column: 1 / -1; justify-content: flex-start; }
 
 /* Inspektor */
 .insp-title { display: flex; align-items: center; gap: 10px; }
@@ -333,7 +353,7 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
     <section class="card">
       <header><h2>Module</h2><span class="eyebrow">hinzufügen</span></header>
       <div class="body">
-        <p class="hint">Neue Module landen unter dem ausgewählten Modul.</p>
+        <p class="hint">Neue Module landen auf dem ersten freien Platz der gezeigten Seite (Rückansicht = hinten). In der Ansicht per Ziehen verschieben.</p>
         <div class="lib" id="lib"></div>
       </div>
     </section>
@@ -347,11 +367,11 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
   <div class="col">
     <section class="card stage-card">
       <header>
-        <h2 id="stageTitle">Live-Ansicht</h2>
+        <h2>Live-Ansicht</h2>
         <div class="tabs" role="group" aria-label="Ansicht">
-          <button type="button" id="tabFront" aria-pressed="true">Live</button>
+          <button type="button" id="tabFront" aria-pressed="true">Vorderansicht</button>
+          <button type="button" id="tabSide" aria-pressed="false">Seitenansicht</button>
           <button type="button" id="tabRear" aria-pressed="false">Rückansicht</button>
-          <button type="button" id="tabSide" aria-pressed="false">Seite / Tiefe</button>
         </div>
       </header>
       <div class="stage" id="stage"></div>
@@ -371,10 +391,6 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
       <header><h2>Auswahl</h2><span class="eyebrow" id="inspTag"></span></header>
       <div class="body" id="insp"></div>
     </section>
-    <section class="card">
-      <header><h2>Belegung</h2><span class="eyebrow">von oben, ziehen zum Sortieren</span></header>
-      <div class="body" style="padding-inline:8px"><ol class="order" id="order"></ol></div>
-    </section>
   </div>
 </main>
 
@@ -386,7 +402,7 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
   </section>
   <div class="col">
     <section class="card">
-      <header><h2>Fertigung</h2><button type="button" class="btn sm" id="copyNotes">Kopieren</button></header>
+      <header><h2>Fertigung</h2><div class="actions"><button type="button" class="btn sm" id="labelPdfAll">Beschriftungen als PDF</button><button type="button" class="btn sm" id="copyNotes">Kopieren</button></div></header>
       <div class="body"><ul class="notes" id="notes"></ul></div>
     </section>
     <section class="card">
@@ -416,41 +432,51 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 (() => {
 'use strict';
 const HE = 44.45, W19 = 482.6, EAR = 16, CW = 18;
+const DSPAN = W19 - (EAR + 7) * 2;          // Breite des D-Lochfelds in der Zeichnung (mm)
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const fmtHE = h => String(h).replace('.', ',') + ' HE';
 const fmtN = n => String(Math.round(n * 100) / 100).replace('.', ',');
 const EUR = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
 const uid = () => Math.random().toString(36).slice(2, 9);
+const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 /* ---------- Katalog ---------- */
-// src: cart = Preis aus deinem Warenkorb · ref = Art.-Nr. recherchiert · check = bitte prüfen
+// src: cart = Warenkorb · web = Webpreis · ref = Art.-Nr. belegt · check = prüfen · user = eigene Angabe
 const CON = {
-  pc_in:  { s: 'TRUE1 IN',  n: 'powerCON TRUE1 In',              art: 'Seetronic SAC3MPX TR1',    price: 2.90, src: 'cart', g: 'pcin' },
-  pc_out: { s: 'TRUE1 OUT', n: 'powerCON TRUE1 Out',             art: 'Seetronic SAC3FPX-LY TR1', price: 4.50, src: 'cart', g: 'pcout' },
-  blank:  { s: 'Blind',     n: 'Blindplatte D-Format',           art: 'Millenium Blanking Plate D Format', price: 0.70, src: 'cart', g: 'blank' },
-  xlr3f:  { s: 'XLR3 F',    n: 'XLR 3-pol Buchse',               art: 'Neutrik NC3FD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrf', p: 3 },
-  xlr3m:  { s: 'XLR3 M',    n: 'XLR 3-pol Stecker',              art: 'Neutrik NC3MD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrm', p: 3 },
-  dmx5m:  { s: 'DMX IN',    n: 'DMX 5-pol Stecker (In)',         art: 'Neutrik NC5MD-L-1',  price: null, src: 'check', q: 'kein Euro-Preis gefunden', g: 'xlrm', p: 5 },
-  dmx5f:  { s: 'DMX OUT',   n: 'DMX 5-pol Buchse (Out)',         art: 'Neutrik NC5FD-L-1',  price: 11.70, src: 'web', q: 'Thomann', g: 'xlrf', p: 5 },
-  rj45:   { s: 'RJ45',      n: 'Netzwerk RJ45 (etherCON)',       art: 'Neutrik NE8FDP',     price: 9.10, src: 'web', q: 'Thomann', g: 'rj45' },
-  hdmi:   { s: 'HDMI',      n: 'HDMI-Durchführung',              art: 'Neutrik NAHDMI-W-B', price: 14.50, src: 'web', q: 'Thomann', g: 'hdmi' },
-  usb:    { s: 'USB',       n: 'USB-Durchführung',               art: 'Neutrik NAUSB-W-B',  price: 6.90, src: 'web', q: 'Thomann', g: 'usb' },
-  bnc:    { s: 'BNC',       n: 'BNC-Durchführung',               art: 'Neutrik NBB-75DFIB', price: null, src: 'check', g: 'bnc' },
-  nl4:    { s: 'NL4',       n: 'speakON 4-pol',                  art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
-  open:   { s: 'offen',     n: 'Loch offen (ohne Einsatz)',      art: '', price: null, src: 'user', g: 'open', nobom: true },
+  pc_in:    { s: 'TRUE1 IN',  n: 'powerCON TRUE1 In',                          art: 'Seetronic SAC3MPX TR1',    price: 2.90, src: 'cart', g: 'pcin' },
+  pc_out:   { s: 'TRUE1 OUT', n: 'powerCON TRUE1 Out (Loch aufbohren)',        art: 'Seetronic SAC3FPX-LY TR1', price: 4.50, src: 'cart', g: 'pcout' },
+  pc_out_d: { s: 'TRUE1 OUT', n: 'TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren)', art: 'Seetronic SAC3FPX20', price: 4.50, src: 'web', q: 'Thomann · Alternative: Neutrik NAC3FPX-D-TRUE1', g: 'pcout' },
+  blank:    { s: 'Blind',     n: 'Blindplatte D-Format',                       art: 'Millenium Blanking Plate D Format', price: 0.70, src: 'cart', g: 'blank' },
+  xlr3f:    { s: 'XLR3 F',    n: 'XLR 3-pol Buchse',                           art: 'Neutrik NC3FD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrf', p: 3 },
+  xlr3m:    { s: 'XLR3 M',    n: 'XLR 3-pol Stecker',                          art: 'Neutrik NC3MD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrm', p: 3 },
+  dmx5m:    { s: 'DMX IN',    n: 'DMX 5-pol Stecker (In)',                     art: 'Neutrik NC5MD-L-1',  price: null, src: 'check', q: 'kein Euro-Preis gefunden', g: 'xlrm', p: 5 },
+  dmx5f:    { s: 'DMX OUT',   n: 'DMX 5-pol Buchse (Out)',                     art: 'Neutrik NC5FD-L-1',  price: 11.70, src: 'web', q: 'Thomann', g: 'xlrf', p: 5 },
+  rj45:     { s: 'RJ45',      n: 'Netzwerk RJ45 (etherCON)',                   art: 'Neutrik NE8FDP',     price: 9.10, src: 'web', q: 'Thomann', g: 'rj45' },
+  hdmi:     { s: 'HDMI',      n: 'HDMI-Durchführung',                          art: 'Neutrik NAHDMI-W-B', price: 14.50, src: 'web', q: 'Thomann', g: 'hdmi' },
+  usb:      { s: 'USB',       n: 'USB-Durchführung',                           art: 'Neutrik NAUSB-W-B',  price: 6.90, src: 'web', q: 'Thomann', g: 'usb' },
+  bnc:      { s: 'BNC',       n: 'BNC-Durchführung',                           art: 'Neutrik NBB-75DFIB', price: null, src: 'check', g: 'bnc' },
+  nl4:      { s: 'NL4',       n: 'speakON 4-pol',                              art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
+  open:     { s: 'offen',     n: 'Loch offen (ohne Einsatz)',                  art: '', price: null, src: 'user', g: 'open', nobom: true },
 };
 const PICK = ['xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi', 'usb', 'bnc', 'nl4', 'blank', 'open'];
 
+// Steckerfelder (Adam Hall 19" Parts Rack Panels, adamhall.com, 11/2026)
+const PANELS = {
+  d12tb: { he: 1, cols: 12, rows: 1, short: '1 HE · 12 D · Zugentlastung', n: 'U-Rackblende 1 HE · 12× D · Zugentlastung', art: 'Adam Hall 872215', price: 9.50, src: 'cart' },
+  d12:   { he: 1, cols: 12, rows: 1, short: '1 HE · 12 D',                 n: 'U-Rackblende 1 HE · 12× D',                art: 'Adam Hall 872213', price: null, src: 'ref', q: 'adamhall.com · Preis nur mit Login' },
+  d16tb: { he: 1, cols: 16, rows: 1, short: '1 HE · 16 D · Zugentlastung', n: 'U-Rackblende 1 HE · 16× D · Zugentlastung', art: 'Adam Hall 872225', price: null, src: 'ref', q: 'adamhall.com · Preis nur mit Login' },
+  d24:   { he: 2, cols: 12, rows: 2, short: '2 HE · 24 D (2 Reihen)',      n: 'U-Rackblende 2 HE · 24× D in 2 Reihen',    art: 'Adam Hall 872214', price: 16.96, src: 'web', q: 'UVP Adam Hall' },
+};
+
 const ART = {
-  dpanel: { n: 'U-Rackblende 1 HE · 12× D-Loch · Zugentlastung', art: 'Adam Hall 872215', price: 9.50, src: 'cart' },
   label:  { n: 'U-Rackblende 0,5 HE mit Beschriftungsstreifen',  art: 'Adam Hall 872205 LBL', price: 5.90, src: 'cart' },
   brush:  { n: 'U-Rackblende 1 HE mit Bürstenleiste (Öffnung 400 × 21 mm)', art: 'Adam Hall 87221 BRUSH', price: 15.90, src: 'web', q: 'Thomann' },
   m3:     { n: 'Rack Screw M3 × 12 schwarz, 48 Stk. (für D-Einsätze)', art: 'Thon Rack Screw M3 x 12 BK', price: 9.60, src: 'cart' },
   tray1:  { n: 'Rackwanne 1 HE, 375 mm tief, 25 kg',             art: 'Adam Hall 87551', price: 24.00, src: 'web', q: 'envirel' },
   tray2:  { n: 'Rackwanne 2 HE, 375 mm tief',                     art: 'Adam Hall 87552', price: 29.50, src: 'web', q: 'aweo' },
   vent0_5: { n: 'U-Lüftungsblende 0,5 HE, Rundlochung, Stahl 1,5 mm', art: 'Adam Hall 872205 VR', price: 5.50, src: 'web', q: 'Music Store / Thomann (dort als 872005 VR)' },
-  vent1:  { n: 'U-Lüftungsblende 1 HE, Rundlochung',            art: 'Adam Hall 87221 VR', price: 4.90, src: 'web', q: 'Rockshop' },
+  vent1:  { n: 'U-Lüftungsblende 1 HE, Rundlochung',             art: 'Adam Hall 87221 VR', price: 4.90, src: 'web', q: 'Rockshop' },
   vent2:  { n: 'U-Lüftungsblende 2 HE, Rundlochung',             art: 'Adam Hall 87222 VR', price: 6.90, src: 'web', q: 'aweo' },
   vent3:  { n: 'U-Lüftungsblende 3 HE, Rundlochung',             art: 'Adam Hall 87223 VR', price: null, src: 'ref', q: 'gelistet bei Huss, kein Preis' },
   vent4:  { n: 'Gitterblende 4 HE',                               art: '', price: null, src: 'check', q: 'kein Adam-Hall-Artikel gefunden' },
@@ -468,13 +494,13 @@ const ART = {
   foam4:  { n: 'Schaumstoffeinlage für Schublade 4 HE',           art: '', price: null, src: 'check' },
 };
 const artKey = (kind, he) => kind + String(he).replace('.', '_');
-// Datenbasis Cases: procaseshop.de › 19 Zoll Racks › Rackmodule › Pro Rackmodule (Stand 11/2026, Preise nur mit Händler-Login)
-const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+
+// Cases: procaseshop.de › 19 Zoll Racks › Rackmodule › Pro Rackmodule (Stand 11/2026, Preise nur mit Händler-Login)
 const CASES = {
   pro560: {
     n: 'ProCase Pro Rackmodul · 560 mm', short: 'Pro Rackmodul 560', sys: 560, use: 482, rss: true, lids: true,
     he: [...range(1, 18), 20, 25], art: he => 'ProCase 1355' + String(he).padStart(2, '0'),
-    info: 'Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex, strukturlackiert · inkl. 4 Geräteschrauben-Sätze',
+    info: 'Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex, strukturlackiert · inkl. 4 Geräteschrauben-Sätze.',
     outer: he => `525 × ${Math.round(he * HE + 33)} × 560 mm`,
   },
   pro715: {
@@ -490,7 +516,7 @@ const CASES = {
   },
 };
 const RAIL_REAR = { n: '2. Rackschienenpaar hinten', art: 'ProCase 11910', price: null, src: 'ref', q: 'procaseshop.de · Option am Rackmodul' };
-const DEPTH = { dpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392, gap: 0 };
+const DEPTH = { dpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392 };
 const ACC_DEFAULT = [
   { id: 'rss',   n: 'Geräteschrauben-Satz für RSS-Schiene, 20 Stk.',      art: 'ProCase 119212', price: null, src: 'ref', q: 'procaseshop.de · auch 4er (11920) und 100er (11924)', pack: 20, qty: 0, auto: 'rss' },
   { id: 'm6',    n: 'Rackschrauben-Set M6, 8 Stk. (Blister)',            art: 'Adam Hall 5924 BLP', price: null, src: 'ref', q: 'kein Preis gefunden', pack: 8, qty: 0, auto: 'hole' },
@@ -498,17 +524,26 @@ const ACC_DEFAULT = [
   { id: 'lace',  n: 'Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite',   art: '', price: null, src: 'check', qty: 0 },
   { id: 'cable', n: 'Kabelbinder für Zugentlastung (Pack)',               art: '', price: null, src: 'check', qty: 0 },
 ];
+const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'brush'];
 
 /* ---------- Zustand ---------- */
+const STRIP = { w: 440, h: 15 };   // Beschriftungsstreifen 872205 LBL – Startwerte, bitte nachmessen
+function defPitch(div) { return Math.round(DSPAN / Math.max(1, div) * 100) / 100; }
 function makeItem(kind, o = {}) {
-  const it = { id: uid(), kind, he: o.he ?? 1 };
+  const it = { id: uid(), kind, he: o.he ?? 1, pos: o.pos ?? 0, side: o.side || 'front' };
   if (kind === 'dpanel') {
-    it.he = 1;
-    it.slots = ['pc_in', 'pc_out', ...Array(10).fill('blank')];
-    it.labels = ['Power In', 'Power Out', ...Array(10).fill('')];
+    it.variant = o.variant || 'd12tb';
+    const P = PANELS[it.variant], n = P.cols * P.rows;
+    it.he = P.he;
+    it.slots = ['pc_in', o.outD ? 'pc_out_d' : 'pc_out', ...Array(n - 2).fill('blank')];
+    it.labels = ['Power In', 'Power Out', ...Array(n - 2).fill('')];
   }
   if (kind === 'vent' || kind === 'blank') it.tray = null;
-  if (kind === 'label') { it.he = 0.5; it.text = ''; }
+  if (kind === 'tray') { it.he = o.he ?? 1; it.depth = 375; }
+  if (kind === 'label') {
+    it.he = 0.5; it.div = o.div ?? 12; it.lines = o.lines ?? 2; it.pitch = defPitch(it.div); it.offset = 0;
+    it.stripW = STRIP.w; it.stripH = STRIP.h; it.cells = Array.from({ length: it.div }, () => Array(it.lines).fill(''));
+  }
   if (kind === 'drawer') { it.he = o.he ?? 2; it.foam = false; }
   if (kind === 'device') { it.name = o.name ?? 'Gerät'; it.depth = o.depth ?? 250; it.color = 'black'; it.rearFix = !!o.rearFix; }
   if (kind === 'brush') it.he = 1;
@@ -520,39 +555,79 @@ function makeCase(type = 'pro560', he = 6) {
   return { type, he, depth, rear: true, railRear: depth - 25, lidF: false, lidR: false, name: '' };
 }
 function example() {
-  const p = makeItem('dpanel');
+  const p = makeItem('dpanel', { pos: 0.5 });
   p.slots = ['pc_in', 'pc_out', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'hdmi'];
   p.labels = ['Power In', 'Power Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
-  const v = makeItem('vent', { he: 2 }); v.tray = { he: 1, depth: 375 };
+  const lb = makeItem('label', { pos: 0, div: 12, lines: 2 });
+  lb.cells = p.labels.map((t, i) => [t, ['230 V', '230 V', 'XLR', 'XLR', 'XLR', 'XLR', 'XLR', 'XLR', '5-pol', '5-pol', 'Cat', 'HDMI'][i]]);
+  const v = makeItem('vent', { he: 2, pos: 4 }); v.tray = { he: 1, depth: 375 };
+  const rp = makeItem('dpanel', { pos: 0, side: 'rear', variant: 'd12tb', outD: true });
+  rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
+  rp.labels = ['Netz In', 'Netz Out', 'Mic 1', 'Mic 2', 'Mic 3', 'Mic 4', 'Out L', 'Out R', 'DMX In', 'DMX Out', 'Netz', 'Video'];
   return {
-    v: 3,
+    v: 4,
     case: makeCase('pro560', 8),
-    items: [p, makeItem('vent', { he: 0.5 }), makeItem('device', { name: 'Funkempfänger', he: 1, depth: 220 }), makeItem('device', { name: 'Netzwerk-Switch', he: 1, depth: 440, rearFix: true }), v, makeItem('drawer', { he: 2 })],
+    items: [
+      lb, p, makeItem('vent', { he: 0.5, pos: 1.5 }),
+      makeItem('device', { name: 'Funkempfänger', he: 1, depth: 220, pos: 2 }),
+      makeItem('device', { name: 'Netzwerk-Switch', he: 1, depth: 280, pos: 3 }),
+      v, makeItem('drawer', { he: 2, pos: 6 }),
+      rp, makeItem('device', { name: 'Stagebox-Splitter', he: 1, depth: 150, pos: 3, side: 'rear' }),
+    ],
     acc: ACC_DEFAULT.map(a => ({ ...a })),
     ov: {}, pack: 48,
   };
 }
 function empty() {
-  return { v: 3, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
+  return { v: 4, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
 }
 const KEY = 'rackwerk-v1';
 function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.case) return normalize(s); } catch (e) {} return null; }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(stripped())); } catch (e) {} }
 function normalize(s) {
-  // Katalogdaten der Standard-Zubehörteile immer aktuell halten, Mengen behalten
   const acc = Array.isArray(s.acc) ? s.acc : [];
   s.acc = ACC_DEFAULT.map(d => ({ ...d, qty: acc.find(a => a.id === d.id)?.qty ?? 0 })).concat(acc.filter(a => !ACC_DEFAULT.some(d => d.id === a.id)));
   s.ov = s.ov || {};
   if (!s.pack || (s.v || 1) < 2) s.pack = 48;
-  // Alte Bauformen (flight/shock/double/studio) → eigene Angabe, Tiefe behalten
   if (!CASES[s.case.type]) s.case = { ...makeCase('custom', s.case.he), depth: +s.case.depth || 450, name: s.case.name || '' };
   const c = s.case;
   if (c.rear == null) c.rear = true;
   if (c.railRear == null) c.railRear = (+c.depth || 450) - 25;
   c.lidF = !!c.lidF; c.lidR = !!c.lidR;
-  s.v = 3;
-  s.items.forEach(it => { it.id = it.id || uid(); });
+  // v1–v3: lückenlose Liste mit „gap“-Elementen → feste Positionen, alles vorne
+  if ((s.v || 1) < 4) {
+    let pos = 0;
+    s.items.forEach(it => { it.pos = pos; it.side = 'front'; pos += +it.he || 0; });
+    s.items = s.items.filter(it => it.kind !== 'gap');
+  }
+  s.items = s.items.filter(it => KINDS.includes(it.kind));
+  s.items.forEach(it => {
+    it.id = it.id || uid();
+    it.side = it.side === 'rear' ? 'rear' : 'front';
+    it.pos = Math.max(0, Math.round((+it.pos || 0) * 2) / 2);
+    if (it.kind === 'dpanel') {
+      if (!PANELS[it.variant]) it.variant = 'd12tb';
+      const P = PANELS[it.variant], n = P.cols * P.rows;
+      it.he = P.he;
+      it.slots = (it.slots || []).slice(0, n); while (it.slots.length < n) it.slots.push('blank');
+      it.labels = (it.labels || []).slice(0, n); while (it.labels.length < n) it.labels.push('');
+      it.slots[0] = 'pc_in'; if (it.slots[1] !== 'pc_out_d') it.slots[1] = 'pc_out';
+    }
+    if (it.kind === 'label' && !Array.isArray(it.cells)) {
+      const t = it.text || '';
+      Object.assign(it, { div: 1, lines: 1, pitch: STRIP.w, offset: 0, stripW: STRIP.w, stripH: STRIP.h, cells: [[t]] });
+      delete it.text;
+    }
+    if (it.kind === 'label') fixCells(it);
+  });
+  s.v = 4;
   return s;
+}
+function fixCells(it) {
+  it.div = Math.max(1, Math.min(32, Math.round(+it.div || 1)));
+  it.lines = Math.max(1, Math.min(4, Math.round(+it.lines || 1)));
+  const c = Array.isArray(it.cells) ? it.cells : [];
+  it.cells = Array.from({ length: it.div }, (_, i) => { const r = Array.isArray(c[i]) ? c[i].slice(0, it.lines) : []; while (r.length < it.lines) r.push(''); return r; });
 }
 
 let state = load() || example();
@@ -561,47 +636,97 @@ let selSlot = null;
 let view = 'front';
 
 /* ---------- Ableitungen ---------- */
+const ovl = (a, b) => a.pos < b.pos + b.he - 1e-6 && b.pos < a.pos + a.he - 1e-6;
+const sideItems = side => state.items.filter(i => i.side === side).sort((a, b) => a.pos - b.pos);
 function layout() {
-  let pos = 0, letter = 0;
-  state.items.forEach(it => { it._pos = pos; pos += it.he; it._letter = it.kind === 'dpanel' ? String.fromCharCode(65 + letter++) : null; });
-  return { used: pos };
+  let letter = 0;
+  ['front', 'rear'].forEach(side => sideItems(side).forEach(it => { it._letter = it.kind === 'dpanel' ? String.fromCharCode(65 + letter++) : null; }));
+  const maxEnd = state.items.reduce((m, it) => Math.max(m, it.pos + it.he), 0);
+  const used = side => state.items.filter(i => i.side === side).reduce((n, i) => n + i.he, 0);
+  return { maxEnd, front: used('front'), rear: used('rear') };
 }
 function heRange(it) {
-  const a = it._pos + 1, b = it._pos + it.he;
+  const a = it.pos + 1, b = it.pos + it.he;
   return it.he <= 1 ? `HE ${fmtN(a)}` : `HE ${fmtN(a)}–${fmtN(b)}`;
 }
+const sideTxt = it => it.side === 'rear' ? 'hinten' : 'vorn';
 function title(it) {
   switch (it.kind) {
     case 'dpanel': return `Steckerfeld ${it._letter}`;
     case 'vent': return `Gitterblende ${fmtHE(it.he)}`;
     case 'blank': return `Rackblende ${fmtHE(it.he)}`;
-    case 'label': return it.text ? `Beschriftung „${it.text}“` : 'Beschriftungsblende';
+    case 'tray': return `Rackwanne ${fmtHE(it.he)}`;
+    case 'label': return 'Beschriftungsblende';
     case 'brush': return 'Bürstenblende';
     case 'drawer': return `Schublade ${fmtHE(it.he)}`;
     case 'device': return it.name || 'Gerät';
-    case 'gap': return 'Leer (Abstand)';
   }
+  return it.kind;
 }
 function itemDepth(it) {
-  if (it.kind === 'device') return +it.depth || 0;
+  if (it.kind === 'device' || it.kind === 'tray') return +it.depth || 0;
   if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) return +it.tray.depth || 0;
   return DEPTH[it.kind] ?? 0;
 }
+// Belegter Tiefenbereich ab Frontschiene [a, b] in mm
+function span(it) {
+  const d = itemDepth(it), c = state.case;
+  if (it.side === 'rear') return [c.railRear - d, c.railRear];
+  if (it.kind === 'device' && it.rearFix && c.rear) return [0, Math.max(d, c.railRear)];
+  return [0, d];
+}
+function collisions() {
+  const out = [];
+  const f = state.items.filter(i => i.side === 'front'), r = state.items.filter(i => i.side === 'rear');
+  f.forEach(a => r.forEach(b => {
+    if (!ovl(a, b)) return;
+    const [, fa] = span(a), [rb] = span(b);
+    if (fa > rb) out.push({ a, b, from: rb, to: fa, top: Math.max(a.pos, b.pos), bot: Math.min(a.pos + a.he, b.pos + b.he) });
+  }));
+  return out;
+}
 function warnings(L) {
-  const w = [];
-  const he = state.case.he;
-  if (L.used > he) w.push({ err: true, t: `Die Belegung braucht ${fmtHE(L.used)}, das Case hat ${fmtHE(he)}. Case vergrößern oder ${fmtHE(L.used - he)} entfernen.` });
-  const off = state.items.find(it => it.kind !== 'gap' && it._pos % 1 !== 0 && it.he >= 1);
-  if (off && !CASES[state.case.type].rss) w.push({ t: `Ab „${title(off)}“ ist das Lochraster um 0,5 HE versetzt. Eine zweite 0,5-HE-Blende oder ein 0,5-HE-Abstand gleicht das aus.` });
-  if (!CASES[state.case.type].he.includes(he)) w.push({ t: `${CASES[state.case.type].short} gibt es bei procaseshop nicht in ${he} HE.` });
+  const w = [], c = state.case, he = c.he, ct = CASES[c.type];
+  if (L.maxEnd > he) w.push({ err: true, t: `Die Belegung reicht bis ${fmtHE(L.maxEnd)}, das Case hat ${fmtHE(he)}. Case vergrößern oder Module verschieben.` });
+  ['front', 'rear'].forEach(side => {
+    const s = sideItems(side);
+    for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) if (ovl(s[i], s[j])) w.push({ err: true, t: `„${title(s[i])}“ und „${title(s[j])}“ überlappen ${side === 'rear' ? 'hinten' : 'vorn'}.` });
+  });
+  if (!ct.rss) {
+    const off = state.items.find(it => it.pos % 1 !== 0 && it.he >= 1);
+    if (off) w.push({ t: `„${title(off)}“ sitzt um 0,5 HE versetzt zum Lochraster.` });
+  }
+  if (!ct.he.includes(he)) w.push({ t: `${ct.short} gibt es bei procaseshop nicht in ${he} HE.` });
+  if (c.rear && c.railRear > c.depth) w.push({ err: true, t: `Die hintere Rackschiene (${c.railRear} mm) liegt hinter der Rückwand (${c.depth} mm).` });
   state.items.forEach(it => {
     const d = itemDepth(it);
-    if (d > state.case.depth) w.push({ err: true, t: `„${title(it)}“ ist ${d} mm tief, das Case bietet ${state.case.depth} mm Einbautiefe.` });
-    if (it.kind === 'device' && it.rearFix && !state.case.rear) w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
+    if (it.side === 'front' && d > c.depth) w.push({ err: true, t: `„${title(it)}“ ist ${d} mm tief, das Case bietet ${c.depth} mm Einbautiefe.` });
+    if (it.side === 'rear' && !c.rear) w.push({ err: true, t: `„${title(it)}“ ist hinten montiert, das Case hat aber keine hintere Rackschiene.` });
+    if (it.side === 'rear' && c.rear && d > c.railRear) w.push({ err: true, t: `„${title(it)}“ (hinten, ${d} mm) ragt über die Frontschiene hinaus.` });
+    if (it.kind === 'device' && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
+    if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + 0.5) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
   });
-  if (state.case.rear && state.case.railRear > state.case.depth) w.push({ err: true, t: `Die hintere Rackschiene (${state.case.railRear} mm) liegt hinter der Rückwand (${state.case.depth} mm).` });
+  collisions().forEach(k => w.push({ err: true, t: `Kollision ${heRange({ pos: k.top, he: k.bot - k.top })}: „${title(k.a)}“ (vorn, bis ${Math.round(k.to)} mm) trifft „${title(k.b)}“ (hinten, ab ${Math.round(k.from)} mm) – ${Math.round(k.to - k.from)} mm Überdeckung.` }));
   return w;
 }
+
+/* ---------- Platzieren ---------- */
+// Setzt ein Modul auf pos; überlappende Module derselben Seite rutschen nach unten.
+function place(it, pos) {
+  it.pos = Math.max(0, Math.round(pos * 2) / 2);
+  const placed = [it];
+  sideItems(it.side).filter(o => o !== it).forEach(o => {
+    let moved = true;
+    while (moved) { moved = false; for (const p of placed) if (ovl(o, p)) { o.pos = p.pos + p.he; moved = true; } }
+    placed.push(o);
+  });
+}
+function firstFree(side, he) {
+  const s = sideItems(side), lim = Math.max(state.case.he, ...s.map(i => i.pos + i.he));
+  for (let p = 0; p + he <= lim + 1e-6; p += 0.5) if (!s.some(o => ovl({ pos: p, he }, o))) return p;
+  return s.reduce((m, i) => Math.max(m, i.pos + i.he), 0);
+}
+function compact(side) { let p = 0; sideItems(side).forEach(it => { it.pos = p; p += it.he; }); }
 
 /* ---------- Stecker-Glyphen (mm, Mittelpunkt cx/cy) ---------- */
 function glyph(t, cx, cy) {
@@ -617,41 +742,44 @@ function glyph(t, cx, cy) {
   const blades = (r) => [270, 30, 150].map(a => `<rect x="${cx - 1.6}" y="${cy - r - .7}" width="3.2" height="1.4" class="pin" transform="rotate(${a + 90} ${cx} ${cy})"/>`).join('');
   switch (g) {
     case 'pcin':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3" class="face"/>${blades(5.6)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3" class="face"/>${blades(5.6)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`; break;
     case 'pcout':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="tr1lt"/><circle cx="${cx}" cy="${cy}" r="6.6" class="facedk"/>${blades(4.2)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="tr1"/><circle cx="${cx}" cy="${cy}" r="8.6" class="tr1lt"/><circle cx="${cx}" cy="${cy}" r="6.6" class="facedk"/>${blades(4.2)}<rect x="${cx - 1.2}" y="${cy - 11.6}" width="2.4" height="2.4" class="facedk"/>`; break;
     case 'xlrf':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="facedk"/><circle cx="${cx}" cy="${cy}" r="9" class="face"/>${pins(c.p, c.p === 3 ? 1.5 : 1.15, 'pinhole', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 3}" y="${cy - 14.6}" width="6" height="3" rx=".8" class="pin"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="facedk"/><circle cx="${cx}" cy="${cy}" r="9" class="face"/>${pins(c.p, c.p === 3 ? 1.5 : 1.15, 'pinhole', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 3}" y="${cy - 14.6}" width="6" height="3" rx=".8" class="pin"/>`; break;
     case 'xlrm':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="9.2" class="facedk"/>${pins(c.p, c.p === 3 ? 1.1 : .9, 'pin', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 1.4}" y="${cy - 10.4}" width="2.8" height="1.8" class="face"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="9.2" class="facedk"/>${pins(c.p, c.p === 3 ? 1.1 : .9, 'pin', c.p === 3 ? 4 : 4.6)}<rect x="${cx - 1.4}" y="${cy - 10.4}" width="2.8" height="1.8" class="face"/>`; break;
     case 'rj45':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 4.2}" y="${cy - 3.6}" width="8.4" height="6.4" class="face"/><rect x="${cx - 1.6}" y="${cy + 2.8}" width="3.2" height="1.6" class="face"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 4.2}" y="${cy - 3.6}" width="8.4" height="6.4" class="face"/><rect x="${cx - 1.6}" y="${cy + 2.8}" width="3.2" height="1.6" class="face"/>`; break;
     case 'hdmi':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><polygon points="${cx - 6},${cy - 2.3} ${cx + 6},${cy - 2.3} ${cx + 6},${cy + .4} ${cx + 4.4},${cy + 2.3} ${cx - 4.4},${cy + 2.3} ${cx - 6},${cy + .4}" class="face"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><polygon points="${cx - 6},${cy - 2.3} ${cx + 6},${cy - 2.3} ${cx + 6},${cy + .4} ${cx + 4.4},${cy + 2.3} ${cx - 4.4},${cy + 2.3} ${cx - 6},${cy + .4}" class="face"/>`; break;
     case 'usb':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 5.4}" y="${cy - 2.4}" width="10.8" height="4.8" class="face"/><rect x="${cx - 4.4}" y="${cy - 1.6}" width="8.8" height="1.6" class="pin"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 5.4}" y="${cy - 2.4}" width="10.8" height="4.8" class="face"/><rect x="${cx - 4.4}" y="${cy - 1.6}" width="8.8" height="1.6" class="pin"/>`; break;
     case 'bnc':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="5.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".9" class="pin"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="5.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".9" class="pin"/>`; break;
     case 'nl4':
-      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3.2" class="face"/><rect x="${cx - 1.2}" y="${cy - 8}" width="2.4" height="3" class="face"/>`;
-      break;
+      s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8" class="facedk"/><circle cx="${cx}" cy="${cy}" r="3.2" class="face"/><rect x="${cx - 1.2}" y="${cy - 8}" width="2.4" height="3" class="face"/>`; break;
   }
   return s;
 }
-function miniGlyph(t) {
-  return `<svg viewBox="-14 -16 28 32" aria-hidden="true">${glyph(t, 0, 0)}</svg>`;
+function miniGlyph(t) { return `<svg viewBox="-14 -16 28 32" aria-hidden="true">${glyph(t, 0, 0)}</svg>`; }
+function rearGlyph(t, cx, cy, n) {
+  const c = CON[t] || CON.blank, g = c.g;
+  if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
+  if (g === 'blank') return `<rect x="${cx - 11}" y="${cy - 13}" width="22" height="26" rx="2" class="blankp"/>`;
+  const tr = g === 'pcin' || g === 'pcout';
+  return `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>`
+    + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
+    + `<text x="${cx}" y="${cy}" class="cnum${tr ? ' on-tr' : ''}">${n}</text>`;
+}
+// Lochmittelpunkte eines Steckerfelds (relativ zum Panel, x ab linker Panelkante)
+function holes(it) {
+  const P = PANELS[it.variant], pitch = DSPAN / P.cols, out = [];
+  for (let r = 0; r < P.rows; r++) for (let c = 0; c < P.cols; c++) out.push({ i: r * P.cols + c, x: EAR + 7 + pitch * (c + .5), y: 18.6 + r * HE, r });
+  return out;
 }
 
-/* ---------- Live-Ansicht (Front) ---------- */
-// Rackschienen: RSS = stufenlose Nutschiene (ProCase), sonst Vierkantlochraster
+/* ---------- SVG-Bausteine ---------- */
 function railsSVG(xL, he) {
   let s = '';
   const rss = CASES[state.case.type].rss;
@@ -668,246 +796,245 @@ function panelBase(x, y, w, h, cls = 'pnl') {
   ys.forEach(yy => { s += `<rect x="${x + 4.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/><rect x="${x + w - 11.5}" y="${yy - 1.7}" width="7" height="3.4" rx="1.7" class="earslot"/>`; });
   return s;
 }
-function frontSVG(L) {
-  const he = state.case.he, rows = Math.max(he, L.used);
-  const W = W19 + CW * 2, H = rows * HE + CW * 2, caseH = he * HE + CW * 2;
-  const xL = CW, inner = W19 - EAR * 2;
-  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Live-Ansicht des Racks von vorn">
-  <defs>
+const DEFS = `<defs>
     <pattern id="vent" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
     <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--hw-well)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--hw-free)" stroke-width="1.2"/></pattern>
   </defs>`;
-  // Case
-  s += `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
+function caseFrame(W, he, rowsH) {
+  const caseH = he * HE + CW * 2;
+  let s = `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
   [[0, 0], [W - 16, 0], [0, caseH - 16], [W - 16, caseH - 16]].forEach(([x, y]) => { s += `<rect x="${x}" y="${y}" width="16" height="16" rx="4" class="corner"/>`; });
-  s += `<rect x="${xL}" y="${CW}" width="${W19}" height="${he * HE}" class="well"/>`;
-  s += railsSVG(xL, he);
-  for (let u = 0; u < he; u++) s += `<text x="${CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
-  // frei
-  if (L.used < he) {
-    const y = CW + L.used * HE, h = (he - L.used) * HE;
-    s += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" fill="url(#hatch)" data-free="1"/>`;
-    s += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">FREI · ${fmtHE(he - L.used).toUpperCase()}</text>`;
-  }
-  // Module
-  state.items.forEach(it => {
-    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel;
-    let g = `<g class="item" data-id="${it.id}">`;
-    switch (it.kind) {
-      case 'dpanel': {
-        g += panelBase(xL, y, W19, h);
-        g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
-        const x0 = xL + EAR + 7, pitch = (W19 - (EAR + 7) * 2) / 12, cy = y + 18.6;
-        it.slots.forEach((t, i) => {
-          const cx = +(x0 + pitch * (i + .5)).toFixed(2);
-          g += `<g data-slot="${i}">${glyph(t, cx, cy)}`;
-          if (i === 1) g += `<circle cx="${cx}" cy="${cy}" r="14.6" class="drill"/>`;
-          if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${h - 1.4}" rx="2" class="slotsel"/>`;
-          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
-          g += `<text x="${cx}" y="${y + h - 3.2}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > 11 ? lab.slice(0, 10) + '…' : lab)}</text>`;
-          g += `</g>`;
-        });
-        break;
-      }
-      case 'vent': case 'blank': {
-        g += panelBase(xL, y, W19, h);
-        if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>`;
-        else g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">RACKBLENDE ${fmtHE(it.he).toUpperCase()}</text>`;
-        if (it.tray) {
-          const th = it.tray.he * HE - 3;
-          g += `<rect x="${xL + EAR + 3}" y="${y + h - th - 1.5}" width="${inner - 6}" height="${th}" rx="1" class="trayline"/>`;
-          g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="traytxt" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
-        }
-        break;
-      }
-      case 'label': {
-        g += panelBase(xL, y, W19, h);
-        g += `<rect x="${xL + EAR + 10}" y="${y + 4}" width="${inner - 20}" height="${h - 8}" rx="1" class="labelstrip"/>`;
-        g += `<text x="${W / 2}" y="${y + h / 2 + .4}" class="labeltxt">${esc((it.text || 'Beschriftung').toUpperCase())}</text>`;
-        break;
-      }
-      case 'brush': {
-        g += panelBase(xL, y, W19, h);
-        const by = y + h / 2 - 5;
-        g += `<rect x="${xL + EAR + 14}" y="${by}" width="${inner - 28}" height="10" rx="2" class="facedk"/>`;
-        let br = '';
-        for (let x = xL + EAR + 16; x < xL + W19 - EAR - 16; x += 1.6) br += `<line x1="${x.toFixed(1)}" y1="${by + .6}" x2="${(x + .5).toFixed(1)}" y2="${by + 9.4}" class="brush"/>`;
-        g += br;
-        break;
-      }
-      case 'drawer': {
-        g += panelBase(xL, y, W19, h);
-        const hh = Math.min(12, h * .3);
-        g += `<rect x="${W / 2 - 60}" y="${y + h / 2 - hh / 2}" width="120" height="${hh}" rx="${hh / 2}" class="handle"/>`;
-        g += `<circle cx="${xL + W19 - EAR - 22}" cy="${y + h / 2}" r="4.2" class="lock"/><rect x="${xL + W19 - EAR - 22.6}" y="${y + h / 2 - 2.4}" width="1.2" height="4.8" class="facedk"/>`;
-        g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
-        break;
-      }
-      case 'device': {
-        const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
-        g += panelBase(xL, y, W19, h, cls);
-        g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
-        const name = it.name || 'Gerät';
-        let fs = Math.min(h * .34, 13);
-        if (it.he <= .5) fs = Math.min(h * .5, 8);
-        const est = name.length * fs * .48;
-        if (est > inner - 30) fs = fs * (inner - 30) / est;
-        if (it.he <= .5) {
-          g += `<text x="${W / 2}" y="${y + h / 2}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)} · ${esc(fmtHE(it.he))}</text>`;
-        } else {
-          g += `<text x="${W / 2}" y="${y + h / 2 - fs * .32}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
-          g += `<text x="${W / 2}" y="${y + h / 2 + fs * .55}" class="devhe ${tc}" style="font-size:${Math.max(3.4, fs * .42).toFixed(2)}px">${esc(fmtHE(it.he))}</text>`;
-        }
-        break;
-      }
-      case 'gap': {
-        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" class="gapbox" style="fill:transparent"/>`;
-        g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">LEER · ${fmtHE(it.he).toUpperCase()}</text>`;
-        break;
-      }
+  s += `<rect x="${CW}" y="${CW}" width="${W19}" height="${he * HE}" fill="url(#hatch)"/>`;
+  return s;
+}
+// Labelstreifen-Geometrie: Zellmittelpunkte relativ zur Streifenmitte
+function cellX(it, i) { return it.offset + (i - (it.div - 1) / 2) * it.pitch; }
+
+// Vorderseite eines Moduls (für Front-Module in der Vorderansicht, Rück-Module in der Rückansicht)
+function faceSVG(it, xL, W) {
+  const y = CW + it.pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, inner = W19 - EAR * 2;
+  let g = '';
+  switch (it.kind) {
+    case 'dpanel': {
+      g += panelBase(xL, y, W19, h);
+      g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+      const P = PANELS[it.variant];
+      holes(it).forEach(({ i, x, y: hy, r }) => {
+        const t = it.slots[i], cx = +(xL + x).toFixed(2), cy = y + hy;
+        g += `<g data-slot="${i}">${glyph(t, cx, cy)}`;
+        if (t === 'pc_out') g += `<circle cx="${cx}" cy="${cy}" r="14.6" class="drill"/>`;
+        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
+        const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+        const max = P.cols > 12 ? 8 : 11;
+        g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text></g>`;
+      });
+      break;
     }
-    if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
-    s += g + '</g>';
-  });
-  if (L.used > he) {
+    case 'vent': case 'blank': {
+      g += panelBase(xL, y, W19, h);
+      if (it.kind === 'vent') g += `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>`;
+      else g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">RACKBLENDE ${fmtHE(it.he).toUpperCase()}</text>`;
+      if (it.tray) {
+        const th = it.tray.he * HE - 3;
+        g += `<rect x="${xL + EAR + 3}" y="${y + h - th - 1.5}" width="${inner - 6}" height="${th}" rx="1" class="trayline"/>`;
+        g += `<text x="${xL + W19 - EAR - 6}" y="${y + h - 4}" class="traytxt" text-anchor="end">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · ${it.tray.depth} MM DAHINTER</text>`;
+      }
+      break;
+    }
+    case 'tray': {
+      g += `<rect x="${xL}" y="${y}" width="${W19}" height="${h}" rx="1.2" class="well" style="fill:#08090a"/>`;
+      g += panelBase(xL, y, EAR + 6, h) + panelBase(xL + W19 - EAR - 6, y, EAR + 6, h);
+      g += `<rect x="${xL + EAR + 6}" y="${y + h - 5}" width="${inner - 12}" height="5" class="pnl"/>`;
+      g += `<path d="M${xL + EAR + 14} ${y + h - 5} L${xL + EAR + 40} ${y + 6} L${xL + W19 - EAR - 40} ${y + 6} L${xL + W19 - EAR - 14} ${y + h - 5}" class="trayline"/>`;
+      g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-tr1)">RACKWANNE ${fmtHE(it.he).toUpperCase()} · ${it.depth} MM</text>`;
+      break;
+    }
+    case 'label': {
+      g += panelBase(xL, y, W19, h);
+      const sh = Math.min(it.stripH, h - 3), sx = W / 2 - it.stripW / 2, sy = y + h / 2 - sh / 2;
+      g += `<rect x="${sx}" y="${sy}" width="${it.stripW}" height="${sh}" rx=".6" class="labelstrip"/>`;
+      const fs = Math.min(sh / it.lines * .62, 5);
+      for (let i = 0; i < it.div; i++) {
+        const cx = W / 2 + cellX(it, i), x0 = cx - it.pitch / 2;
+        if (i > 0) g += `<line x1="${x0}" y1="${sy}" x2="${x0}" y2="${sy + sh}" class="lblcell"/>`;
+        it.cells[i].forEach((t, k) => {
+          if (!t) return;
+          const ty = sy + sh * (k + .5) / it.lines;
+          let f = fs; const est = t.length * f * .5; if (est > it.pitch - 1.5) f = f * (it.pitch - 1.5) / est;
+          g += `<text x="${cx}" y="${ty}" class="lbltxt" style="font-size:${f.toFixed(2)}px">${esc(t)}</text>`;
+        });
+      }
+      break;
+    }
+    case 'brush': {
+      g += panelBase(xL, y, W19, h);
+      const by = y + h / 2 - 5;
+      g += `<rect x="${xL + EAR + 14}" y="${by}" width="${inner - 28}" height="10" rx="2" class="facedk"/>`;
+      for (let x = xL + EAR + 16; x < xL + W19 - EAR - 16; x += 1.6) g += `<line x1="${x.toFixed(1)}" y1="${by + .6}" x2="${(x + .5).toFixed(1)}" y2="${by + 9.4}" class="brush"/>`;
+      break;
+    }
+    case 'drawer': {
+      g += panelBase(xL, y, W19, h);
+      const hh = Math.min(12, h * .3);
+      g += `<rect x="${W / 2 - 60}" y="${y + h / 2 - hh / 2}" width="120" height="${hh}" rx="${hh / 2}" class="handle"/>`;
+      g += `<circle cx="${xL + W19 - EAR - 22}" cy="${y + h / 2}" r="4.2" class="lock"/><rect x="${xL + W19 - EAR - 22.6}" y="${y + h / 2 - 2.4}" width="1.2" height="4.8" class="facedk"/>`;
+      g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
+      break;
+    }
+    case 'device': {
+      const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
+      g += panelBase(xL, y, W19, h, cls);
+      g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(1.12)"/>`;
+      const name = it.name || 'Gerät';
+      let fs = Math.min(h * .34, 13);
+      if (it.he <= .5) fs = Math.min(h * .5, 8);
+      const est = name.length * fs * .48;
+      if (est > inner - 30) fs = fs * (inner - 30) / est;
+      if (it.he <= .5) g += `<text x="${W / 2}" y="${y + h / 2}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)} · ${esc(fmtHE(it.he))}</text>`;
+      else {
+        g += `<text x="${W / 2}" y="${y + h / 2 - fs * .32}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
+        g += `<text x="${W / 2}" y="${y + h / 2 + fs * .55}" class="devhe ${tc}" style="font-size:${Math.max(3.4, fs * .42).toFixed(2)}px">${esc(fmtHE(it.he))}</text>`;
+      }
+      break;
+    }
+  }
+  if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
+  return g;
+}
+// Rückseite eines Moduls, seitenverkehrt (Front-Module in der Rückansicht)
+function backSVG(it, xL, W) {
+  const y = CW + it.pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, inner = W19 - EAR * 2, D = +state.case.depth || 0;
+  const mx = x => +(W - x).toFixed(2), d = itemDepth(it);
+  const [, endD] = span(it);
+  const info = d ? `${d} MM TIEF · ${Math.max(0, Math.round((state.case.rear ? state.case.railRear : D) - endD))} MM BIS ${state.case.rear ? 'RÜCKSCHIENE' : 'RÜCKWAND'}` : '';
+  const infoTxt = `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo" text-anchor="end">${info}</text>`;
+  let g = '';
+  switch (it.kind) {
+    case 'dpanel': {
+      g += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" rx="1" class="rearpnl"/>`;
+      g += `<text x="${mx(xL + EAR / 2)}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+      const P = PANELS[it.variant];
+      holes(it).forEach(({ i, x, y: hy, r }) => {
+        const t = it.slots[i], cx = mx(xL + x), cy = y + hy;
+        g += `<g data-slot="${i}">${rearGlyph(t, cx, cy, i + 1)}`;
+        if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
+        const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
+        const max = P.cols > 12 ? 8 : 11;
+        g += `<text x="${cx}" y="${y + r * HE + HE - 4}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > max ? lab.slice(0, max - 1) + '…' : lab)}</text></g>`;
+      });
+      break;
+    }
+    case 'vent': case 'blank': {
+      g += `<g class="ghost">${it.kind === 'vent' ? `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#vent)"/>` : `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/>`}</g>`;
+      g += `<text x="${xL + EAR + 6}" y="${y + Math.min(6, h / 2)}" class="rearinfo" dominant-baseline="central">${(it.kind === 'vent' ? 'GITTERBLENDE ' : 'RACKBLENDE ') + fmtHE(it.he).toUpperCase()} · VORN</text>`;
+      if (it.tray) {
+        const th = it.tray.he * HE - 3, ty = y + h - th - 1.5;
+        g += `<rect x="${xL + EAR + 3}" y="${ty}" width="${inner - 6}" height="${th}" rx="1" class="trayback"/>`;
+        g += `<text x="${W / 2}" y="${ty + th / 2}" class="traytxt" text-anchor="middle" dominant-baseline="central">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · RÜCKKANTE BEI ${it.tray.depth} MM</text>`;
+      }
+      if (h > 12) g += infoTxt;
+      break;
+    }
+    case 'tray':
+      g += `<rect x="${xL + EAR + 3}" y="${y + 1.5}" width="${inner - 6}" height="${h - 3}" rx="1" class="trayback"/>`;
+      g += `<text x="${W / 2}" y="${y + h / 2}" class="traytxt" text-anchor="middle" dominant-baseline="central">RACKWANNE ${fmtHE(it.he).toUpperCase()} · RÜCKKANTE BEI ${it.depth} MM</text>` + infoTxt;
+      break;
+    case 'drawer':
+      g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" rx="1" class="side-drawer"/>`;
+      g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-ink)">SCHUBLADE ${fmtHE(it.he).toUpperCase()} · RÜCKWAND</text>` + infoTxt;
+      break;
+    case 'device': {
+      const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
+      if (it.rearFix && state.case.rear) g += panelBase(xL, y, W19, h, cls);
+      g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
+      const name = (it.name || 'Gerät') + ' · Rückseite';
+      let fs = Math.min(h * .3, 10);
+      if (it.he <= .5) fs = Math.min(h * .45, 7);
+      const est = name.length * fs * .48;
+      if (est > inner - 30) fs = fs * (inner - 30) / est;
+      g += `<text x="${W / 2}" y="${y + h / 2 - (it.he <= .5 ? 0 : fs * .25)}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
+      if (h > 12) g += `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo ${tc}" text-anchor="end">${info}${it.rearFix && state.case.rear ? ' · HINTEN VERSCHRAUBT' : ''}</text>`;
+      break;
+    }
+    case 'label': case 'brush':
+      g += `<g class="ghost"><rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/></g>`;
+      g += `<text x="${xL + EAR + 6}" y="${y + h / 2}" class="rearinfo" dominant-baseline="central">${esc(title(it)).toUpperCase()} · VORN</text>`;
+      break;
+  }
+  if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
+  return g;
+}
+// Module der anderen Seite: gestrichelter Umriss
+function behindSVG(it, xL, label) {
+  const y = CW + it.pos * HE + .8, h = it.he * HE - 1.6;
+  return `<rect x="${xL + EAR + 2}" y="${y}" width="${W19 - EAR * 2 - 4}" height="${h}" rx="1" class="behind"/>`
+    + (h > 6 ? `<text x="${xL + EAR + 6}" y="${y + Math.min(h / 2, 5)}" class="behindtxt">${esc(label + title(it))} · ${itemDepth(it)} MM</text>` : '');
+}
+
+/* ---------- Ansichten ---------- */
+function rackSVG(L, mode) {   // mode: 'front' | 'rear'
+  const c = state.case, he = c.he, rows = Math.max(he, L.maxEnd);
+  const W = W19 + CW * 2, H = rows * HE + CW * 2, xL = CW;
+  const own = mode, other = mode === 'front' ? 'rear' : 'front';
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${mode === 'front' ? 'Vorderansicht' : 'Rückansicht, seitenverkehrt'}">${DEFS}`;
+  s += caseFrame(W, he);
+  if (mode === 'front' || c.rear) s += railsSVG(xL, he);
+  else [xL, xL + W19 - EAR].forEach(x => { s += `<rect x="${x + .5}" y="${CW + .5}" width="${EAR - 1}" height="${he * HE - 1}" class="gapbox"/>`; });
+  if (mode === 'rear') s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">${c.rear ? `RÜCKSCHIENE · ${c.railRear} MM HINTER FRONT · ` : 'KEINE HINTERE RACKSCHIENE · '}RÜCKWAND ${c.depth} MM</text>`;
+  for (let u = 0; u < he; u++) s += `<text x="${mode === 'front' ? CW / 2 : W - CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
+  // andere Seite
+  if (mode === 'front') sideItems('rear').forEach(it => { s += `<g class="item" data-id="${it.id}">${behindSVG(it, xL, 'HINTEN: ')}</g>`; });
+  else sideItems('front').forEach(it => { s += `<g class="item" data-id="${it.id}">${backSVG(it, xL, W)}</g>`; });
+  // eigene Seite
+  sideItems(own).forEach(it => { s += `<g class="item dr" data-id="${it.id}">${faceSVG(it, xL, W)}</g>`; });
+  if (!sideItems(own).length) s += `<text x="${W / 2}" y="${CW + he * HE / 2}" class="freetxt">${mode === 'front' ? 'VORN NOCH LEER' : 'HINTEN NOCH NICHTS MONTIERT · MODULE MIT „HINTEN“ ZUWEISEN'}</text>`;
+  if (L.maxEnd > he) {
     const y = CW + he * HE;
-    s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.used - he) * HE}" class="over" pointer-events="none"/>`;
+    s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.maxEnd - he) * HE}" class="over" pointer-events="none"/>`;
     s += `<text x="${W / 2}" y="${y - 3}" class="overtxt">▼ PASST NICHT INS CASE</text>`;
   }
+  s += `<rect id="snap" x="${xL}" y="0" width="${W19}" height="0" class="snap" style="display:none"/>`;
   return s + '</svg>';
 }
-
-/* ---------- Rückansicht (von hinten gesehen, links/rechts gespiegelt) ---------- */
-function rearGlyph(t, cx, cy, n) {
-  const c = CON[t] || CON.blank, g = c.g;
-  if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
-  if (g === 'blank') return `<rect x="${cx - 11}" y="${cy - 13}" width="22" height="26" rx="2" class="blankp"/>`;
-  const tr = g === 'pcin' || g === 'pcout';
-  return `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>`
-    + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
-    + `<text x="${cx}" y="${cy}" class="cnum${tr ? ' on-tr' : ''}">${n}</text>`;
-}
-function rearSVG(L) {
-  const c = state.case, he = c.he, rows = Math.max(he, L.used), D = +c.depth || 0;
-  const W = W19 + CW * 2, H = rows * HE + CW * 2, caseH = he * HE + CW * 2;
-  const xL = CW, inner = W19 - EAR * 2, mx = x => +(W - x).toFixed(2);
-  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Rückansicht des Racks, seitenverkehrt">
-  <defs>
-    <pattern id="ventR" width="5.2" height="4.5" patternUnits="userSpaceOnUse"><rect width="5.2" height="4.5" fill="var(--hw-panel)"/><circle cx="1.3" cy="1.1" r="1.25" fill="var(--hw-hole)"/><circle cx="3.9" cy="3.35" r="1.25" fill="var(--hw-hole)"/></pattern>
-  </defs>`;
-  s += `<rect x="0" y="0" width="${W}" height="${caseH}" rx="5" class="case"/>`;
-  [[0, 0], [W - 16, 0], [0, caseH - 16], [W - 16, caseH - 16]].forEach(([x, y]) => { s += `<rect x="${x}" y="${y}" width="16" height="16" rx="4" class="corner"/>`; });
-  s += `<rect x="${xL}" y="${CW}" width="${W19}" height="${he * HE}" class="well"/>`;
-  if (c.rear) {
-    s += railsSVG(xL, he);
-    s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">RÜCKSCHIENE · ${c.railRear} MM HINTER FRONT · RÜCKWAND ${D} MM</text>`;
-  } else {
-    [xL, xL + W19 - EAR].forEach(x => { s += `<rect x="${x + .5}" y="${CW + .5}" width="${EAR - 1}" height="${he * HE - 1}" class="gapbox"/>`; });
-    s += `<text x="${W / 2}" y="${CW / 2}" class="henum" style="font-size:5px">KEINE HINTERE RACKSCHIENE · RÜCKWAND ${D} MM</text>`;
-  }
-  for (let u = 0; u < he; u++) s += `<text x="${W - CW / 2}" y="${CW + (u + .5) * HE}" class="henum">${u + 1}</text>`;
-  if (L.used < he) {
-    const y = CW + L.used * HE, h = (he - L.used) * HE;
-    s += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt">FREI · ${fmtHE(he - L.used).toUpperCase()}</text>`;
-  }
-  state.items.forEach(it => {
-    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, d = itemDepth(it);
-    const info = d ? `${d} MM TIEF · ${Math.max(0, D - d)} MM BIS RÜCKWAND` : '';
-    const infoTxt = `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo" text-anchor="end">${info}</text>`;
-    let g = `<g class="item" data-id="${it.id}">`;
-    switch (it.kind) {
-      case 'dpanel': {
-        g += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" rx="1" class="rearpnl"/>`;
-        g += `<text x="${mx(xL + EAR / 2)}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
-        const x0 = xL + EAR + 7, pitch = (W19 - (EAR + 7) * 2) / 12, cy = y + 18.6;
-        it.slots.forEach((t, i) => {
-          const cx = mx(x0 + pitch * (i + .5));
-          g += `<g data-slot="${i}">${rearGlyph(t, cx, cy, i + 1)}`;
-          if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - 17.5}" width="31" height="${h - 1.4}" rx="2" class="slotsel"/>`;
-          const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
-          g += `<text x="${cx}" y="${y + h - 3.2}" class="slab${it.labels[i] ? '' : ' dim'}">${esc(lab.length > 11 ? lab.slice(0, 10) + '…' : lab)}</text></g>`;
-        });
-        break;
-      }
-      case 'vent': case 'blank': {
-        g += `<g class="ghost">${it.kind === 'vent' ? `<rect x="${xL + EAR + 6}" y="${y + 3}" width="${inner - 12}" height="${h - 6}" fill="url(#ventR)"/>` : `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/>`}</g>`;
-        g += `<text x="${xL + EAR + 6}" y="${y + 6}" class="rearinfo">${(it.kind === 'vent' ? 'GITTERBLENDE ' : 'RACKBLENDE ') + fmtHE(it.he).toUpperCase()} · VORN</text>`;
-        if (it.tray) {
-          const th = it.tray.he * HE - 3, ty = y + h - th - 1.5;
-          g += `<rect x="${xL + EAR + 3}" y="${ty}" width="${inner - 6}" height="${th}" rx="1" class="trayback"/>`;
-          g += `<text x="${W / 2}" y="${ty + th / 2}" class="traytxt" text-anchor="middle" dominant-baseline="central">RACKWANNE ${fmtHE(it.tray.he).toUpperCase()} · RÜCKKANTE BEI ${it.tray.depth} MM</text>`;
-        }
-        g += infoTxt;
-        break;
-      }
-      case 'drawer':
-        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" rx="1" class="side-drawer"/>`;
-        g += `<text x="${W / 2}" y="${y + h / 2}" class="freetxt" style="fill:var(--hw-ink)">SCHUBLADE ${fmtHE(it.he).toUpperCase()} · RÜCKWAND</text>` + infoTxt;
-        break;
-      case 'device': {
-        const cls = it.color === 'silver' ? 'dev-silver' : 'dev-black', tc = it.color === 'silver' ? 'on-silver' : 'on-black';
-        if (it.rearFix) g += panelBase(xL, y, W19, h, cls);
-        g += `<rect x="${xL + EAR + 2}" y="${y + 1.5}" width="${inner - 4}" height="${h - 3}" rx="1" class="${cls}" style="filter:brightness(.9)"/>`;
-        const name = (it.name || 'Gerät') + ' · Rückseite';
-        let fs = Math.min(h * .3, 10);
-        if (it.he <= .5) fs = Math.min(h * .45, 7);
-        const est = name.length * fs * .48;
-        if (est > inner - 30) fs = fs * (inner - 30) / est;
-        g += `<text x="${W / 2}" y="${y + h / 2 - (it.he <= .5 ? 0 : fs * .25)}" class="devname ${tc}" style="font-size:${fs.toFixed(2)}px">${esc(name)}</text>`;
-        g += `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo ${tc}" text-anchor="end">${info}${it.rearFix ? ' · HINTEN VERSCHRAUBT' : ''}</text>`;
-        break;
-      }
-      case 'label': case 'brush':
-        g += `<g class="ghost"><rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" class="rearpnl"/></g>`;
-        g += `<text x="${xL + EAR + 6}" y="${y + h / 2}" class="rearinfo" dominant-baseline="central">${esc(title(it)).toUpperCase()} · VORN</text>`;
-        break;
-      case 'gap':
-        g += `<rect x="${xL + EAR + 2}" y="${y + 1}" width="${inner - 4}" height="${h - 2}" class="gapbox" style="fill:transparent"/>`;
-        break;
-    }
-    if (isSel) g += `<rect x="${xL - 1}" y="${y - 1}" width="${W19 + 2}" height="${h + 2}" rx="2" class="selbox"/>`;
-    s += g + '</g>';
-  });
-  if (L.used > he) {
-    const y = CW + he * HE;
-    s += `<rect x="${xL}" y="${y}" width="${W19}" height="${(L.used - he) * HE}" class="over" pointer-events="none"/>`;
-  }
-  return s + '</svg>';
-}
-
-/* ---------- Seitenansicht ---------- */
 function sideSVG(L) {
-  const he = state.case.he, rows = Math.max(he, L.used), D = +state.case.depth || 0;
-  const maxD = Math.max(D, ...state.items.map(itemDepth));
-  const X0 = CW + 6, W = X0 + maxD + CW + 20, caseH = he * HE + CW * 2, H = rows * HE + CW * 2 + 26;
-  let s = `<svg class="side" viewBox="0 0 ${W} ${H}" role="img" aria-label="Seitenansicht mit Einbautiefen">`;
-  s += `<rect x="0" y="0" width="${X0 + D + CW}" height="${caseH}" rx="5" class="case"/>`;
+  const c = state.case, he = c.he, rows = Math.max(he, L.maxEnd), D = +c.depth || 0;
+  const maxD = Math.max(D, ...state.items.map(it => span(it)[1]));
+  const minD = Math.min(0, ...state.items.map(it => span(it)[0]));
+  const X0 = CW + 6 - minD, W = X0 + maxD + CW + 20, caseH = he * HE + CW * 2, H = rows * HE + CW * 2 + 26;
+  let s = `<svg class="side" viewBox="0 0 ${W} ${H}" role="img" aria-label="Seitenansicht mit Einbautiefen und Kollisionen">`;
+  s += `<rect x="${X0 - CW - 6}" y="0" width="${D + CW * 2 + 6}" height="${caseH}" rx="5" class="case"/>`;
   s += `<rect x="${X0}" y="${CW}" width="${D}" height="${he * HE}" class="well"/>`;
   s += `<rect x="${X0}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
-  if (state.case.rear) s += `<rect x="${X0 + state.case.railRear - 1.5}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
+  if (c.rear) s += `<rect x="${X0 + c.railRear - 1.5}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
   state.items.forEach(it => {
-    const y = CW + it._pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it);
-    let g = `<g class="item" data-id="${it.id}">`;
-    g += `<rect x="${X0 - 2.5}" y="${y}" width="2.5" height="${h}" class="side-front"/>`;
-    let label = title(it), dl = '';
-    if (it.kind === 'device') { g += `<rect x="${X0 + 3}" y="${y + 1}" width="${Math.max(d - 3, 1)}" height="${h - 2}" class="side-dev"/>`; dl = `${d} mm`; }
-    else if (it.kind === 'drawer') { g += `<rect x="${X0 + 3}" y="${y + 1}" width="${d - 3}" height="${h - 2}" class="side-drawer"/>`; dl = `${d} mm`; }
-    else if (it.kind === 'dpanel') { g += `<rect x="${X0}" y="${y + 1}" width="${d}" height="${h - 2}" class="side-body"/>`; dl = `ca. ${d} mm inkl. Stecker`; }
-    else if (it.kind === 'label') { g += `<rect x="${X0}" y="${y + 1}" width="${d}" height="${h - 2}" class="side-body"/>`; }
-    else if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
+    const y = CW + it.pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it), [a, b] = span(it), rear = it.side === 'rear';
+    let g = `<g class="item dr" data-id="${it.id}">`;
+    const cls = rear ? 'side-rear' : it.kind === 'device' ? 'side-dev' : it.kind === 'drawer' ? 'side-drawer' : 'side-body';
+    if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
       const th = it.tray.he * HE - 2, ty = y + h - th;
-      g += `<path d="M${X0} ${ty} L${X0} ${y + h} L${X0 + d} ${y + h} L${X0 + d} ${ty + th * .45}" class="side-tray"/>`;
-      label += ' + Rackwanne'; dl = `${d} mm`;
+      const fx = rear ? X0 + b : X0, dir = rear ? -1 : 1;
+      g += `<rect x="${rear ? X0 + b - 2.5 : X0 - 2.5}" y="${y}" width="2.5" height="${h}" class="side-front"/>`;
+      g += `<path d="M${fx} ${ty} L${fx} ${y + h} L${fx + dir * d} ${y + h} L${fx + dir * d} ${ty + th * .45}" class="side-tray"/>`;
+    } else if (it.kind === 'tray') {
+      const fx = rear ? X0 + b : X0, dir = rear ? -1 : 1;
+      g += `<path d="M${fx} ${y + 2} L${fx} ${y + h} L${fx + dir * d} ${y + h} L${fx + dir * d} ${y + h * .45}" class="side-tray"/>`;
+    } else {
+      g += `<rect x="${X0 + a}" y="${y + 1}" width="${Math.max(b - a, 2)}" height="${h - 2}" class="${cls}"/>`;
+      g += `<rect x="${rear ? X0 + b : X0 - 2.5}" y="${y}" width="2.5" height="${h}" class="side-front"/>`;
     }
-    if (it.kind !== 'gap' && h > 9) {
-      const tx = X0 + 8;
-      g += `<text x="${tx}" y="${y + h / 2}" class="side-txt">${esc(label)}${dl ? ' · ' + esc(dl) : ''}</text>`;
+    if (h > 9) {
+      const lab = `${title(it)}${rear ? ' (hinten)' : ''}${(it.kind === 'vent' || it.kind === 'blank') && it.tray ? ' + Rackwanne' : ''} · ${d} mm`;
+      g += rear ? `<text x="${X0 + b - 6}" y="${y + h / 2}" class="side-txt" text-anchor="end">${esc(lab)}</text>` : `<text x="${X0 + 8}" y="${y + h / 2}" class="side-txt">${esc(lab)}</text>`;
     }
-    if (d > D) g += `<rect x="${X0 + D}" y="${y}" width="${d - D}" height="${h}" class="over"/>`;
-    if (it.id === sel) g += `<rect x="${X0 - 3.5}" y="${y - 1}" width="${Math.max(d, 20) + 4.5}" height="${h + 2}" rx="2" class="selbox"/>`;
+    if (!rear && d > D) g += `<rect x="${X0 + D}" y="${y}" width="${d - D}" height="${h}" class="over"/>`;
+    if (it.id === sel) g += `<rect x="${X0 + a - 3.5}" y="${y - 1}" width="${Math.max(b - a, 20) + 7}" height="${h + 2}" rx="2" class="selbox"/>`;
     s += g + '</g>';
   });
-  // Lineal
+  collisions().forEach(k => {
+    const y = CW + k.top * HE, h = (k.bot - k.top) * HE;
+    s += `<rect x="${X0 + k.from}" y="${y}" width="${k.to - k.from}" height="${h}" class="coll" pointer-events="none"/>`;
+    s += `<text x="${X0 + (k.from + k.to) / 2}" y="${y + Math.min(6, h / 4)}" class="colltxt" text-anchor="middle" pointer-events="none">KOLLISION ${Math.round(k.to - k.from)} MM</text>`;
+  });
   const ry = Math.max(caseH, rows * HE + CW * 2) + 8;
   s += `<line x1="${X0}" y1="${ry}" x2="${X0 + maxD}" y2="${ry}" class="ruler"/>`;
   for (let m = 0; m <= maxD; m += 50) {
@@ -916,7 +1043,9 @@ function sideSVG(L) {
   }
   s += `<line x1="${X0 + D}" y1="${CW - 6}" x2="${X0 + D}" y2="${ry}" class="depthline"/>`;
   s += `<text x="${X0 + D - 2}" y="${CW - 8}" class="rulertxt" style="text-anchor:end;fill:var(--hw-tr1)">Einbautiefe ${D} mm</text>`;
-  if (state.case.rear) s += `<text x="${X0 + state.case.railRear}" y="${ry - 6}" class="rulertxt" style="fill:var(--hw-rail)">Rückschiene ${state.case.railRear}</text>`;
+  if (c.rear) s += `<text x="${X0 + c.railRear - 3}" y="${ry - 5}" class="rulertxt" style="text-anchor:end;fill:var(--hw-rail)">Rückschiene ${c.railRear}</text>`;
+  s += `<text x="${X0}" y="${CW - 8}" class="rulertxt" style="text-anchor:start">◀ Front</text>`;
+  s += `<rect id="snap" x="${X0}" y="0" width="${D}" height="0" class="snap" style="display:none"/>`;
   return s + '</svg>';
 }
 
@@ -931,7 +1060,7 @@ function bom() {
   };
   const c = state.case, ct = CASES[c.type], he2 = String(c.he).padStart(2, '0');
   if (c.type === 'custom') add('case', { n: `Case · ${c.he} HE · ${c.depth} mm Einbautiefe`, art: c.name || '', src: 'user' }, 1);
-  else add('case', { n: `19″ ${ct.short.replace(/ \d+$/, '')} ${c.he} HE · Systemtiefe ${ct.sys} mm · Nutztiefe ${ct.useEst ? 'ca. ' : ''}${ct.use} mm`, art: ct.art(c.he), src: 'ref', q: 'procaseshop.de · Preis nur mit Händler-Login' + (c.name ? ' · ' + c.name : '') }, 1);
+  else add('case', { n: `19″ Pro Rackmodul ${c.he} HE · Systemtiefe ${ct.sys} mm · Nutztiefe ${ct.useEst ? 'ca. ' : ''}${ct.use} mm`, art: ct.art(c.he), src: 'ref', q: 'procaseshop.de · Preis nur mit Händler-Login' + (c.name ? ' · ' + c.name : '') }, 1);
   if (c.rear) add('rail_rear', c.type === 'custom' ? { ...RAIL_REAR, art: '', src: 'check', q: '' } : RAIL_REAR, 1);
   if (ct.lids && c.lidF) add('lidF', { n: `Deckel vorne für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}D`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de' : 'Art.-Nr. nach Muster 135502D abgeleitet' }, 1);
   if (ct.lids && c.lidR) add('lidR', { n: `Deckel hinten für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}DH`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de · montiert: 135502DHM' : 'Art.-Nr. nach Muster 135502DH abgeleitet' }, 1);
@@ -939,22 +1068,22 @@ function bom() {
   state.items.forEach(it => {
     switch (it.kind) {
       case 'dpanel':
-        add('dpanel', ART.dpanel, 1);
+        add('p_' + it.variant, PANELS[it.variant], 1);
         it.slots.forEach(t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q }, 1); m3 += 2; });
         break;
       case 'vent': case 'blank':
         add(artKey(it.kind, it.he), ART[artKey(it.kind, it.he)] || { n: `${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)}`, src: 'check' }, 1);
         if (it.tray) add('tray' + it.tray.he, ART['tray' + it.tray.he], 1);
         break;
+      case 'tray': add('tray' + it.he, ART['tray' + it.he], 1); break;
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
       case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
-      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)})`, art: '', src: 'user' }, 1); break;
+      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: '', src: 'user' }, 1); break;
     }
   });
-  if (m3) add('m3', ART.m3, Math.ceil(m3 / (state.pack || 100)), `${m3} Schrauben nötig · Pack à ${state.pack} Stk.`);
+  if (m3) add('m3', ART.m3, Math.ceil(m3 / (state.pack || 48)), `${m3} Schrauben nötig · Pack à ${state.pack} Stk.`);
   state.acc.forEach(a => { if (a.qty > 0) add('acc_' + a.id, { n: a.n, art: a.art, price: a.price ?? null, src: a.src || 'user', q: a.q }, a.qty); });
-  // Überschreibungen
   return [...rows.values()].map(r => {
     const o = state.ov[r.key] || {};
     const price = o.price != null && o.price !== '' ? +o.price : r.price;
@@ -984,20 +1113,19 @@ function renderCase() {
 }
 function renderLib() {
   const heChips = (kind, list) => list.map(h => `<button type="button" class="chip" data-add="${kind}" data-he="${h}">${String(h).replace('.', ',')}</button>`).join('');
+  const pChips = Object.entries(PANELS).map(([k, P]) => `<button type="button" class="chip" data-add="dpanel" data-variant="${k}" title="${esc(P.n + ' · ' + P.art)}">${P.he} HE · ${P.cols * P.rows} D${k.endsWith('tb') ? '+Z' : ''}</button>`).join('');
   $('#lib').innerHTML = `
-    <div class="lib-row"><span class="t">Steckerfeld 1 HE</span><div class="chips"><button type="button" class="chip" data-add="dpanel" data-he="1">+ 12× D</button></div><span class="a">Adam Hall 872215 · Loch 1/2 = powerCON TRUE1 In/Out</span></div>
-    <div class="lib-row"><span class="t">Gitterblende</span><div class="chips">${heChips('vent', [0.5, 1, 2, 3, 4])}</div><span class="a">HE wählen · Rackwanne dahinter möglich</span></div>
-    <div class="lib-row"><span class="t">Rackblende</span><div class="chips">${heChips('blank', [1, 2, 3, 4])}</div><span class="a">HE wählen · Rackwanne dahinter möglich</span></div>
+    <div class="lib-row wide"><span class="t">Steckerfeld</span><div class="chips">${pChips}</div><span class="a">Adam Hall 872215 / 872213 / 872225 / 872214 · +Z = Zugentlastung · Loch 1/2 = powerCON TRUE1</span></div>
+    <div class="lib-row"><span class="t">Beschriftungsblende</span><div class="chips"><button type="button" class="chip" data-add="label" data-he="0.5">0,5</button></div><span class="a">Adam Hall 872205 LBL · Teilungen, mehrzeilig, PDF</span></div>
+    <div class="lib-row"><span class="t">Gitterblende</span><div class="chips">${heChips('vent', [0.5, 1, 2, 3, 4])}</div><span class="a">Rackwanne dahinter möglich (ab 1 HE)</span></div>
+    <div class="lib-row"><span class="t">Rackblende</span><div class="chips">${heChips('blank', [1, 2, 3, 4])}</div><span class="a">Rackwanne dahinter möglich</span></div>
+    <div class="lib-row"><span class="t">Rackwanne</span><div class="chips">${heChips('tray', [1, 2])}</div><span class="a">Adam Hall 87551 / 87552 · 375 mm · eigenes Modul</span></div>
     <div class="lib-row"><span class="t">Schublade</span><div class="chips">${heChips('drawer', [1, 2, 3, 4])}</div><span class="a">Adam Hall 87401 E / 87402 / 87403 / 87404 · 392 mm</span></div>
-    <div class="lib-row"><span class="t">Gerät (Platzhalter)</span><div class="chips">${heChips('device', [1, 2, 3, 4])}</div><span class="a">Name mittig, Höhe in HE, Tiefe für Seitenansicht</span></div>
-    <div class="lib-row"><span class="t">Beschriftungsblende</span><div class="chips"><button type="button" class="chip" data-add="label" data-he="0.5">0,5</button></div><span class="a">Adam Hall 872205 LBL</span></div>
-    <div class="lib-row"><span class="t">Bürstenblende</span><div class="chips"><button type="button" class="chip" data-add="brush" data-he="1">1</button></div><span class="a">Kabeldurchführung</span></div>
-    <div class="lib-row"><span class="t">Leer (Abstand)</span><div class="chips">${heChips('gap', [0.5, 1, 2])}</div><span class="a">Platz ohne Bauteil</span></div>`;
+    <div class="lib-row"><span class="t">Gerät (Platzhalter)</span><div class="chips">${heChips('device', [1, 2, 3, 4])}</div><span class="a">Name mittig, Höhe in HE, Tiefe für Kollisionsprüfung</span></div>
+    <div class="lib-row"><span class="t">Bürstenblende</span><div class="chips"><button type="button" class="chip" data-add="brush" data-he="1">1</button></div><span class="a">Kabeldurchführung</span></div>`;
 }
-// Schrauben: vorn 4 je Modul (2 bei 0,5 HE), hinten 4 je hinten verschraubtem Gerät.
-// Bei RSS-Schienen (ProCase) sind 4 Geräteschrauben-Sätze beim Rackmodul dabei.
 function suggestScrews() {
-  const n = state.items.reduce((n, it) => n + (it.kind === 'gap' ? 0 : it.he < 1 ? 2 : 4) + (it.kind === 'device' && it.rearFix && state.case.rear ? 4 : 0), 0);
+  const n = state.items.reduce((n, it) => n + (it.he < 1 ? 2 : 4) + (it.kind === 'device' && it.rearFix && state.case.rear && it.side === 'front' ? 4 : 0), 0);
   return CASES[state.case.type].rss ? Math.max(0, n - 4) : n;
 }
 function accFits(a) { return !a.auto || (a.auto === 'rss') === !!CASES[state.case.type].rss; }
@@ -1014,30 +1142,35 @@ function renderInsp() {
   const it = state.items.find(i => i.id === sel);
   const box = $('#insp');
   if (!it) { $('#inspTag').textContent = ''; box.innerHTML = `<p class="hint">Kein Modul ausgewählt. Klicke ein Modul in der Ansicht an oder füge eines hinzu.</p>`; return; }
-  $('#inspTag').textContent = heRange(it);
-  const idx = state.items.indexOf(it);
+  $('#inspTag').textContent = `${heRange(it)} · ${sideTxt(it)}`;
   const heSel = (list, cur, key = 'he') => `<select id="f_${key}" data-f="${key}">${list.map(h => `<option value="${h}" ${h === cur ? 'selected' : ''}>${fmtHE(h)}</option>`).join('')}</select>`;
   let h = `<div class="insp-title"><span class="big">${esc(title(it))}</span></div>
+    <div class="row" style="align-items:center">
+      <span class="seg" role="group" aria-label="Montageseite"><button type="button" data-act="side-front" aria-pressed="${it.side === 'front'}">Vorderseite</button><button type="button" data-act="side-rear" aria-pressed="${it.side === 'rear'}">Rückseite</button></span>
+      <div class="field" style="flex:0 0 96px"><label for="f_pos">Ab HE</label><input id="f_pos" type="number" min="1" step="0.5" value="${it.pos + 1}" data-f="pos"></div>
+    </div>
     <div class="actions">
-      <button type="button" class="btn sm" data-act="up" ${idx === 0 ? 'disabled' : ''}>↑ nach oben</button>
-      <button type="button" class="btn sm" data-act="down" ${idx === state.items.length - 1 ? 'disabled' : ''}>↓ nach unten</button>
+      <button type="button" class="btn sm" data-act="up" ${it.pos <= 0 ? 'disabled' : ''}>↑ 0,5 HE</button>
+      <button type="button" class="btn sm" data-act="down">↓ 0,5 HE</button>
+      <button type="button" class="btn sm" data-act="compact" title="Module dieser Seite ohne Lücken nach oben schieben">Lücken schließen</button>
       <button type="button" class="btn sm" data-act="dup">Duplizieren</button>
       <button type="button" class="btn sm danger" data-act="del">Entfernen</button>
     </div>`;
+  if (it.side === 'rear') h += `<p class="hint">Hinten an der Rückschiene (${state.case.railRear} mm) montiert, Front zeigt nach hinten. Die Tiefe zählt von der Rückschiene nach vorn.</p>`;
   switch (it.kind) {
     case 'dpanel': {
-      h += `<p class="hint">Adam Hall 872215 · 12 D-Löcher. Loch 1 und 2 sind fest mit powerCON TRUE1 In/Out belegt, Loch 2 wird aufgebohrt.</p>`;
+      const P = PANELS[it.variant], n = P.cols * P.rows;
+      h += `<div class="field"><label for="f_variant">Blende</label><select id="f_variant" data-f="variant">${Object.entries(PANELS).map(([k, v]) => `<option value="${k}" ${k === it.variant ? 'selected' : ''}>${esc(v.short + ' · ' + v.art)}</option>`).join('')}</select></div>`;
+      h += `<div class="field"><label for="f_out">powerCON Out (Loch 2)</label><select id="f_out" data-f="out"><option value="drill" ${it.slots[1] === 'pc_out' ? 'selected' : ''}>SAC3FPX-LY TR1 · Loch aufbohren</option><option value="d" ${it.slots[1] === 'pc_out_d' ? 'selected' : ''}>SAC3FPX20 · D-Norm, ohne Bohren</option></select></div>`;
       h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null && selSlot >= 2 ? 'Loch ' + (selSlot + 1) : 'nächstes Loch'}</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" data-assign="${t}" title="${esc(CON[t].n + (CON[t].art ? ' · ' + CON[t].art : ''))}">${miniGlyph(t)}<span>${esc(CON[t].s)}</span></button>`).join('')}</div></div>`;
       h += `<div class="slots">`;
-      it.slots.forEach((t, i) => {
-        const on = selSlot === i ? ' on' : '';
-        if (i < 2) {
-          h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><span class="fixed">${esc(CON[t].s)} <span class="badge y">fest</span>${i === 1 ? '<span class="badge o">aufbohren</span>' : ''}</span><input type="text" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
-        } else {
-          h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select><input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
-        }
-      });
-      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Loch 3–12 auf Blindplatte</button></div>`;
+      for (let i = 0; i < n; i++) {
+        const t = it.slots[i], on = selSlot === i ? ' on' : '';
+        if (P.rows > 1 && i % P.cols === 0) h += `<span class="eyebrow">Reihe ${i / P.cols + 1}</span>`;
+        if (i < 2) h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><span class="fixed">${esc(CON[t].s)} <span class="badge y">fest</span>${t === 'pc_out' ? '<span class="badge o">aufbohren</span>' : i === 1 ? '<span class="badge">D-Norm</span>' : ''}</span><input type="text" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
+        else h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select><input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}"></div>`;
+      }
+      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Loch 3–${n} auf Blindplatte</button></div>`;
       break;
     }
     case 'vent': case 'blank': {
@@ -1045,14 +1178,12 @@ function renderInsp() {
       h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel(it.kind === 'vent' ? [0.5, 1, 2, 3, 4] : [1, 2, 3, 4], it.he)}</div></div>`;
       if (it.he >= 1) h += `<label class="check"><input type="checkbox" id="f_tray" data-f="tray" ${it.tray ? 'checked' : ''}> Rackwanne dahinter verschrauben</label>`;
       else h += `<p class="hint">Adam Hall 872205 VR · 0,5 HE. Für eine Rackwanne braucht die Blende mindestens 1 HE.</p>`;
-      if (it.tray) {
-        h += `<div class="row">
-          <div class="field"><label for="f_trayhe">Wannenhöhe</label><select id="f_trayhe" data-f="trayhe">${trayOpts.map(x => `<option value="${x}" ${x === it.tray.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div>
-          <div class="field"><label for="f_traydepth">Tiefe (mm)</label><input id="f_traydepth" type="number" min="50" max="900" step="10" value="${it.tray.depth}" data-f="traydepth"></div></div>`;
-      }
-      h += `<p class="hint">Rackwannen sind nur hinter Gitter- und Rackblenden vorgesehen und sitzen bündig unten in der Blende. Adam Hall 87551 (1 HE) und 87552 (2 HE) sind 375 mm tief.</p>`;
+      if (it.tray) h += `<div class="row"><div class="field"><label for="f_trayhe">Wannenhöhe</label><select id="f_trayhe" data-f="trayhe">${trayOpts.map(x => `<option value="${x}" ${x === it.tray.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div><div class="field"><label for="f_traydepth">Tiefe (mm)</label><input id="f_traydepth" type="number" min="50" max="900" step="10" value="${it.tray.depth}" data-f="traydepth"></div></div>`;
       break;
     }
+    case 'tray':
+      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2], it.he)}</div><div class="field"><label for="f_depth">Tiefe (mm)</label><input id="f_depth" type="number" min="50" max="900" step="5" value="${it.depth}" data-f="depth"></div></div><p class="hint">${esc(ART['tray' + it.he].art)} · eigenes Modul mit Rackohren, 375 mm tief.</p>`;
+      break;
     case 'drawer':
       h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3, 4], it.he)}</div></div>`;
       h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
@@ -1064,30 +1195,33 @@ function renderInsp() {
           <div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12], it.he)}</div>
           <div class="field"><label for="f_depth">Tiefe (mm)</label><input id="f_depth" type="number" min="0" max="1000" step="5" value="${it.depth}" data-f="depth"></div>
         </div>
-        <div class="field"><label for="f_color">Front</label><select id="f_color" data-f="color"><option value="black" ${it.color !== 'silver' ? 'selected' : ''}>schwarz</option><option value="silver" ${it.color === 'silver' ? 'selected' : ''}>silber</option></select></div>
-        <label class="check"><input type="checkbox" id="f_rear" data-f="rearFix" ${it.rearFix ? 'checked' : ''} ${state.case.rear ? '' : 'disabled'}> Hinten an der Rackschiene verschrauben</label>
-        <p class="hint">${state.case.rear ? `Hintere Schiene bei ${state.case.railRear} mm. Hinten verschraubte Geräte zeigt die Rückansicht mit Rackohren.` : 'Für hinten verschraubte Geräte zuerst „Rackschienen hinten“ beim Case einschalten.'}</p>`;
+        <div class="field"><label for="f_color">Front</label><select id="f_color" data-f="color"><option value="black" ${it.color !== 'silver' ? 'selected' : ''}>schwarz</option><option value="silver" ${it.color === 'silver' ? 'selected' : ''}>silber</option></select></div>`;
+      if (it.side === 'front') h += `<label class="check"><input type="checkbox" data-f="rearFix" ${it.rearFix ? 'checked' : ''} ${state.case.rear ? '' : 'disabled'}> Zusätzlich hinten an der Rückschiene verschrauben</label>`;
       break;
-    case 'label':
-      h += `<div class="field"><label for="f_text">Beschriftungsstreifen</label><input id="f_text" type="text" maxlength="48" value="${esc(it.text)}" data-f="text"></div><p class="hint">Adam Hall 872205 LBL · 0,5 HE.</p>`;
+    case 'label': {
+      h += `<div class="row">
+          <div class="field"><label for="f_div">Teilungen</label><input id="f_div" type="number" min="1" max="32" step="1" value="${it.div}" data-f="div"></div>
+          <div class="field"><label for="f_lines">Zeilen je Teilung</label><input id="f_lines" type="number" min="1" max="4" step="1" value="${it.lines}" data-f="lines"></div></div>
+        <div class="row">
+          <div class="field"><label for="f_pitch">Teilungsabstand (mm)</label><input id="f_pitch" type="number" min="5" max="480" step="0.01" value="${it.pitch}" data-f="pitch"></div>
+          <div class="field"><label for="f_offset">Versatz (mm)</label><input id="f_offset" type="number" min="-100" max="100" step="0.1" value="${it.offset}" data-f="offset"></div></div>
+        <div class="row">
+          <div class="field"><label for="f_sw">Streifen Breite (mm)</label><input id="f_sw" type="number" min="50" max="480" step="0.5" value="${it.stripW}" data-f="stripW"></div>
+          <div class="field"><label for="f_sh">Streifen Höhe (mm)</label><input id="f_sh" type="number" min="5" max="22" step="0.5" value="${it.stripH}" data-f="stripH"></div></div>
+        <div class="actions"><button type="button" class="btn sm" data-act="lblfrom">Raster + Texte vom Steckerfeld</button><button type="button" class="btn sm" data-act="lblpitch">Abstand auf D-Raster</button><button type="button" class="btn sm primary" data-act="lblpdf">PDF exportieren</button></div>
+        <p class="hint">Startwerte: Streifen ${STRIP.w} × ${STRIP.h} mm, Teilungsabstand = D-Raster der Zeichnung (${fmtN(defPitch(12))} mm bei 12 Löchern). Maße bitte am Streifen und an der Blende nachmessen. PDF in 100 % drucken.</p>
+        <div class="lblgrid">`;
+      for (let i = 0; i < it.div; i++) {
+        h += `<div class="lblrow"><span class="n">${i + 1}</span><div class="ins">${it.cells[i].map((t, k) => `<input type="text" value="${esc(t)}" data-cell="${i}:${k}" placeholder="Zeile ${k + 1}" aria-label="Teilung ${i + 1}, Zeile ${k + 1}">`).join('')}</div></div>`;
+      }
+      h += `</div>`;
       break;
+    }
     case 'brush':
       h += `<p class="hint">Adam Hall 87221 BRUSH · 1 HE, 1,5 mm Stahl, Bürstenöffnung 400 × 21 mm.</p>`;
       break;
-    case 'gap':
-      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([0.5, 1, 2, 3, 4], it.he)}</div></div><p class="hint">Freier Platz im Rack, erscheint nicht in der Stückliste.</p>`;
-      break;
   }
   box.innerHTML = h;
-}
-function renderOrder() {
-  $('#order').innerHTML = state.items.map(it => `
-    <li draggable="true" data-id="${it.id}" class="${it.id === sel ? 'on' : ''}">
-      <span class="grip" aria-hidden="true">⋮⋮</span>
-      <span class="pos">${heRange(it)}</span>
-      <span class="oname">${esc(title(it))}</span>
-      <span class="ohe">${fmtHE(it.he)}</span>
-    </li>`).join('') || '<li><span></span><span></span><span class="hint">Noch keine Module</span><span></span></li>';
 }
 function renderBom() {
   const rows = bom();
@@ -1111,47 +1245,54 @@ function renderBom() {
 }
 function notesData() {
   const out = [];
-  state.items.forEach(it => {
+  const all = [...sideItems('front'), ...sideItems('rear')];
+  all.forEach(it => {
+    const where = `${heRange(it)} · ${sideTxt(it)}`;
     if (it.kind === 'dpanel') {
       const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
-      out.push({ drill: true, h: `Steckerfeld ${it._letter} · ${heRange(it)}`, t: 'Loch 2 für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. Loch 1 TRUE1 In (SAC3MPX TR1). Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.', map });
+      const drill = it.slots[1] === 'pc_out';
+      out.push({ drill, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? 'Loch 2 für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ' : 'Loch 2: TRUE1-Out in D-Norm (SAC3FPX20), keine Bohrung nötig. ') + 'Loch 1 TRUE1 In (SAC3MPX TR1). Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
-    if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
-      out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${heRange(it)}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
-    }
-    if (it.kind === 'device' && it.rearFix && state.case.rear) out.push({ h: `${it.name || 'Gerät'} · ${heRange(it)}`, t: `Hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel hinten). Gerätetiefe ${it.depth} mm.` });
-    if (it.kind === 'label' && it.text) out.push({ h: `Beschriftung · ${heRange(it)}`, t: `Streifen „${it.text}“ drucken und einschieben.` });
+    if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
+    if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
+    if (it.kind === 'device' && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
+    if (it.kind === 'label' && it.cells.some(r => r.some(Boolean))) out.push({ h: `Beschriftung · ${where}`, t: `${it.div} Teilungen à ${fmtN(it.pitch)} mm, ${it.lines} Zeile${it.lines > 1 ? 'n' : ''}. Streifen ${it.stripW} × ${it.stripH} mm als PDF drucken (100 %), schneiden, einschieben.`, map: it.cells.map((r, i) => `${i + 1} ${r.filter(Boolean).join(' / ') || '–'}`).join(' · ') });
   });
   return out;
 }
 function renderNotes() {
   const n = notesData();
-  $('#notes').innerHTML = n.length ? n.map(x => `<li class="${x.drill ? 'drillnote' : ''}"><b>${esc(x.h)}</b>${esc(x.t)}${x.map ? `<span class="map">${esc(x.map)}</span>` : ''}</li>`).join('') : '<li>Keine Arbeitsschritte. Steckerfelder und Rackwannen erscheinen hier.</li>';
+  $('#notes').innerHTML = n.length ? n.map(x => `<li class="${x.drill ? 'drillnote' : ''}"><b>${esc(x.h)}</b>${esc(x.t)}${x.map ? `<span class="map">${esc(x.map)}</span>` : ''}</li>`).join('') : '<li>Keine Arbeitsschritte. Steckerfelder, Rackwannen und Beschriftungen erscheinen hier.</li>';
+  $('#labelPdfAll').disabled = !state.items.some(i => i.kind === 'label');
 }
+const HINTS = {
+  front: 'Module der Vorderseite per Ziehen verschieben. Gestrichelt: hinten montierte Module.',
+  rear: 'Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte zeigen ihre Rückseite.',
+  side: 'Front links. Rot = Kollision zwischen vorn und hinten montierten Modulen. Alle Module per Ziehen verschiebbar.',
+};
 function renderStage(L) {
-  $('#stage').innerHTML = view === 'front' ? frontSVG(L) : view === 'rear' ? rearSVG(L) : sideSVG(L);
-  $('#stageTitle').textContent = { front: 'Live-Ansicht', rear: 'Rückansicht', side: 'Seitenansicht' }[view];
-  $('#stageHint').textContent = view === 'rear' ? 'Von hinten gesehen, seitenverkehrt: powerCON sitzt rechts. Zahlen = Lochnummer von vorn.' : 'Klick auf ein Modul oder Loch wählt es aus.';
+  $('#stage').innerHTML = view === 'side' ? sideSVG(L) : rackSVG(L, view);
+  $('#stageHint').textContent = HINTS[view];
   $('#tabFront').setAttribute('aria-pressed', view === 'front');
   $('#tabRear').setAttribute('aria-pressed', view === 'rear');
   $('#tabSide').setAttribute('aria-pressed', view === 'side');
 }
 function renderSummary(L, B) {
-  const he = state.case.he, over = L.used > he;
+  const he = state.case.he, over = L.maxEnd > he, coll = collisions().length;
   $('#caseHeTag').textContent = `${he} HE · ${state.case.depth} mm`;
   $('#summary').innerHTML = `
-    <span class="pill ${over ? 'bad' : L.used === he ? 'good' : ''}">Belegt <b>${fmtN(L.used)} / ${he} HE</b></span>
-    <span class="pill">Steckerfelder <b>${state.items.filter(i => i.kind === 'dpanel').length}</b></span>
+    <span class="pill ${over ? 'bad' : ''}">Vorn <b>${fmtN(L.front)} / ${he} HE</b></span>
+    <span class="pill">Hinten <b>${fmtN(L.rear)} HE</b></span>
+    ${coll ? `<span class="pill bad">Kollisionen <b>${coll}</b></span>` : ''}
     <span class="pill">Summe <b>${EUR.format(B.sum)}</b>${B.missing ? `<span style="color:var(--muted);font-size:12px">+ ${B.missing} offen</span>` : ''}</span>`;
 }
-function renderWarns(L) {
-  $('#warns').innerHTML = warnings(L).map(w => `<div class="warn ${w.err ? 'err' : ''}">${esc(w.t)}</div>`).join('');
-}
+function renderWarns(L) { $('#warns').innerHTML = warnings(L).map(w => `<div class="warn ${w.err ? 'err' : ''}">${esc(w.t)}</div>`).join(''); }
 function renderSoft() {
   const L = layout();
-  renderStage(L); renderOrder(); renderWarns(L); renderNotes();
+  renderStage(L); renderWarns(L); renderNotes();
   const B = renderBom(); renderSummary(L, B);
-  $('#inspTag').textContent = (state.items.find(i => i.id === sel) && heRange(state.items.find(i => i.id === sel))) || '';
+  const it = state.items.find(i => i.id === sel);
+  $('#inspTag').textContent = it ? `${heRange(it)} · ${sideTxt(it)}` : '';
   if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
   save();
 }
@@ -1159,21 +1300,16 @@ function render() { layout(); renderCase(); renderInsp(); renderAcc(); renderSof
 function stripped() { return JSON.parse(JSON.stringify(state, (k, v) => k.startsWith('_') ? undefined : v)); }
 
 /* ---------- Aktionen ---------- */
-function addItem(kind, he) {
-  const it = makeItem(kind, { he: +he });
+function addItem(kind, he, variant) {
+  const side = view === 'rear' ? 'rear' : 'front';
+  const it = makeItem(kind, { he: +he, variant, side });
   if (kind === 'device') it.name = `Gerät ${fmtHE(+he)}`;
-  const i = state.items.findIndex(x => x.id === sel);
-  state.items.splice(i < 0 ? state.items.length : i + 1, 0, it);
+  it.pos = firstFree(side, it.he);
+  state.items.push(it);
   sel = it.id; selSlot = kind === 'dpanel' ? 2 : null;
   render();
 }
-function move(d) {
-  const i = state.items.findIndex(x => x.id === sel), j = i + d;
-  if (i < 0 || j < 0 || j >= state.items.length) return;
-  [state.items[i], state.items[j]] = [state.items[j], state.items[i]];
-  render();
-}
-function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 1800); }
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('show'); clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 2200); }
 async function copy(text, fallbackEl) {
   try { await navigator.clipboard.writeText(text); toast('In die Zwischenablage kopiert'); }
   catch (e) {
@@ -1183,20 +1319,103 @@ async function copy(text, fallbackEl) {
     if (!fallbackEl) ta.remove();
   }
 }
-const parseNum = v => { const n = parseFloat(String(v).replace(/\./g, '').replace(',', '.')); return isNaN(n) ? null : n; };
+const parseNum = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; };
 const parsePrice = v => { const s = String(v).trim(); if (!s) return null; const n = parseFloat(s.replace(',', '.')); return isNaN(n) ? null : n; };
 
+/* ---------- PDF für Beschriftungsstreifen ---------- */
+let jspdfP = null;
+function loadJsPDF() {
+  if (window.jspdf) return Promise.resolve(window.jspdf);
+  return jspdfP = jspdfP || new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = () => window.jspdf ? res(window.jspdf) : rej(new Error('jsPDF fehlt'));
+    s.onerror = () => { jspdfP = null; rej(new Error('jsPDF konnte nicht geladen werden')); };
+    document.head.appendChild(s);
+  });
+}
+async function exportLabels(list) {
+  if (!list.length) return toast('Keine Beschriftungsblende im Rack');
+  let lib;
+  try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek nicht erreichbar. Bitte Verbindung prüfen.'); }
+  layout();
+  const doc = new lib.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  const PW = 297, PH = 210, M = 10, maxW = PW - 2 * M;
+  let y = M + 6, first = true;
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+  doc.text('Rackwerk · Beschriftungsstreifen Adam Hall 872205 LBL', M, M);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
+  doc.text('In 100 % / Originalgröße drucken, nicht „an Seite anpassen“. Schnittlinien = Außenkante des Streifens. Geteilte Streifen an der Teilungslinie stoßen.', M, M + 4.5);
+  y = M + 12;
+  list.forEach(it => {
+    const SW = +it.stripW, SH = +it.stripH;
+    // Zellgrenzen relativ zum Streifenrand
+    const edges = [];
+    for (let i = 0; i <= it.div; i++) edges.push(SW / 2 + it.offset + (i - it.div / 2) * it.pitch);
+    // Teilen, wenn breiter als die Seite: an der Zellgrenze nahe der Mitte
+    let cuts = [0, SW];
+    if (SW > maxW) {
+      const inner = edges.filter(e => e > 1 && e < SW - 1);
+      const cut = inner.length ? inner.reduce((b, e) => Math.abs(e - SW / 2) < Math.abs(b - SW / 2) ? e : b) : SW / 2;
+      cuts = [0, cut, SW];
+    }
+    for (let p = 0; p < cuts.length - 1; p++) {
+      const a = cuts[p], b = cuts[p + 1], w = b - a;
+      if (y + SH + 10 > PH - M) { doc.addPage(); y = M + 4; }
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(90);
+      doc.text(`${heRange(it)} · ${sideTxt(it)} · ${it.div} Teilungen à ${fmtN(it.pitch)} mm · Streifen ${SW} × ${SH} mm${cuts.length > 2 ? ` · Teil ${p + 1}/${cuts.length - 1} (${fmtN(a)}–${fmtN(b)} mm)` : ''}`, M, y);
+      const x0 = M, y0 = y + 2;
+      doc.setDrawColor(0); doc.setLineWidth(0.15); doc.rect(x0, y0, w, SH);
+      // Schnittmarken
+      doc.setLineWidth(0.1);
+      [[x0, y0], [x0 + w, y0], [x0, y0 + SH], [x0 + w, y0 + SH]].forEach(([cx, cy]) => {
+        doc.line(cx - 3, cy, cx - 1, cy); doc.line(cx + 1, cy, cx + 3, cy);
+        doc.line(cx, cy - 3, cx, cy - 1); doc.line(cx, cy + 1, cx, cy + 3);
+      });
+      doc.setDrawColor(170); doc.setLineWidth(0.1);
+      edges.forEach((e, i) => { if (i > 0 && i < it.div && e > a + .1 && e < b - .1) doc.line(x0 + e - a, y0, x0 + e - a, y0 + SH); });
+      doc.setTextColor(0); doc.setFont('helvetica', 'bold');
+      const lineH = SH / it.lines;
+      for (let i = 0; i < it.div; i++) {
+        const cx = SW / 2 + cellX(it, i);
+        if (cx <= a || cx >= b) continue;
+        it.cells[i].forEach((t, k) => {
+          if (!t) return;
+          let pt = Math.min(lineH * 0.7 / 0.3528, 14);
+          doc.setFontSize(pt);
+          const tw = doc.getTextWidth(t);
+          if (tw > it.pitch - 1.2) { pt = pt * (it.pitch - 1.2) / tw; doc.setFontSize(pt); }
+          doc.text(t, x0 + cx - a, y0 + lineH * (k + .5), { align: 'center', baseline: 'middle' });
+        });
+      }
+      y = y0 + SH + 9;
+    }
+  });
+  const blob = doc.output('blob');
+  const filename = `beschriftung-${new Date().toISOString().slice(0, 10)}.pdf`;
+  let dl = null;
+  try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
+  if (dl) {
+    try { await dl.save({ filename, data: blob }); toast('PDF gespeichert'); }
+    catch (e) { if (e && e.code === 'declined') toast('Speichern abgebrochen'); else toast('Download hier nicht möglich'); }
+  } else {
+    doc.save(filename); toast('PDF erstellt');
+  }
+}
+
+/* ---------- Ereignisse ---------- */
 document.addEventListener('click', e => {
   const t = e.target;
   const add = t.closest('[data-add]');
-  if (add) return addItem(add.dataset.add, add.dataset.he);
+  if (add) return addItem(add.dataset.add, add.dataset.he || 1, add.dataset.variant);
   const assign = t.closest('[data-assign]');
   if (assign) {
     const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'dpanel') return;
+    const n = it.slots.length;
     let i = selSlot != null && selSlot >= 2 ? selSlot : it.slots.findIndex((s, k) => k >= 2 && s === 'blank');
     if (i < 2) i = 2;
     it.slots[i] = assign.dataset.assign;
-    selSlot = Math.min(11, i + 1);
+    selSlot = Math.min(n - 1, i + 1);
     renderInsp(); renderSoft(); return;
   }
   const pick = t.closest('[data-pick]');
@@ -1204,39 +1423,50 @@ document.addEventListener('click', e => {
   const act = t.closest('[data-act]');
   if (act) {
     const a = act.dataset.act, i = state.items.findIndex(x => x.id === sel), it = state.items[i];
-    if (a === 'up') move(-1);
-    if (a === 'down') move(1);
-    if (a === 'dup' && it) { const c = JSON.parse(JSON.stringify(stripped().items[i])); c.id = uid(); state.items.splice(i + 1, 0, c); sel = c.id; render(); }
-    if (a === 'del' && it) { state.items.splice(i, 1); sel = state.items[Math.min(i, state.items.length - 1)]?.id ?? null; selSlot = null; render(); }
-    if (a === 'clearslots' && it) { for (let k = 2; k < 12; k++) { it.slots[k] = 'blank'; } render(); }
-    return;
+    if (!it) return;
+    if (a === 'up') place(it, it.pos - 0.5);
+    if (a === 'down') place(it, it.pos + 0.5);
+    if (a === 'compact') compact(it.side);
+    if (a === 'side-front' || a === 'side-rear') {
+      const side = a === 'side-rear' ? 'rear' : 'front';
+      if (it.side !== side) { it.side = side; if (side === 'rear') it.rearFix = false; place(it, it.pos); if (side === 'rear' && view === 'front') view = 'rear'; if (side === 'front' && view === 'rear') view = 'front'; }
+    }
+    if (a === 'dup') { const c = JSON.parse(JSON.stringify(stripped().items[i])); c.id = uid(); c.pos = firstFree(c.side, c.he); state.items.push(c); sel = c.id; }
+    if (a === 'del') { state.items.splice(i, 1); sel = null; selSlot = null; }
+    if (a === 'clearslots') for (let k = 2; k < it.slots.length; k++) it.slots[k] = 'blank';
+    if (a === 'lblpitch') it.pitch = defPitch(it.div);
+    if (a === 'lblfrom') {
+      // nächstgelegenes Steckerfeld derselben Seite (zuerst darunter, sonst darüber)
+      const ps = sideItems(it.side).filter(o => o.kind === 'dpanel');
+      const below = ps.filter(o => o.pos >= it.pos + it.he).sort((x, y) => x.pos - y.pos)[0];
+      const above = ps.filter(o => o.pos + o.he <= it.pos).sort((x, y) => y.pos - x.pos)[0];
+      const p = below || above;
+      if (!p) { toast('Kein Steckerfeld auf dieser Seite gefunden'); return; }
+      const P = PANELS[p.variant], rowIdx = p === below ? 0 : P.rows - 1;
+      it.div = P.cols; it.pitch = defPitch(P.cols); it.offset = 0; fixCells(it);
+      for (let c = 0; c < P.cols; c++) {
+        const k = rowIdx * P.cols + c, t = p.slots[k];
+        it.cells[c][0] = p.labels[k] || (t !== 'blank' && t !== 'open' ? CON[t].s : '');
+      }
+      toast(`Raster und Texte von Steckerfeld ${p._letter} übernommen`);
+    }
+    if (a === 'lblpdf') { exportLabels([it]); return; }
+    render(); return;
   }
   const sug = t.closest('[data-accsug]');
   if (sug) { const a = state.acc.find(x => x.id === sug.dataset.accsug); a.qty = Math.ceil(suggestScrews() / (a.pack || 1)); renderAcc(); renderSoft(); return; }
   if (t.id === 'accAdd') { const v = $('#accNew').value.trim(); if (!v) return; state.acc.push({ id: uid(), n: v, art: '', qty: 1 }); renderAcc(); renderSoft(); toast('Position hinzugefügt'); return; }
-  // SVG
-  const stage = t.closest('#stage');
-  if (stage) {
-    const g = t.closest('[data-id]');
-    const slot = t.closest('[data-slot]');
-    if (g) { sel = g.dataset.id; selSlot = slot ? +slot.dataset.slot : null; }
-    else if (t.closest('[data-free]')) { sel = state.items[state.items.length - 1]?.id ?? null; selSlot = null; }
-    render();
-    if (selSlot != null) { const el = document.querySelector(`[data-slotrow="${selSlot}"] select, [data-slotrow="${selSlot}"] input`); el && el.focus({ preventScroll: true }); }
-    return;
-  }
-  const li = t.closest('#order li[data-id]');
-  if (li) { sel = li.dataset.id; selSlot = null; render(); }
 });
 
 document.addEventListener('input', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
   if (t.dataset.label != null && it) { it.labels[+t.dataset.label] = t.value; renderSoft(); return; }
-  if (t.dataset.f && it && ['name', 'text', 'depth', 'traydepth'].includes(t.dataset.f)) {
-    const f = t.dataset.f;
-    if (f === 'depth') it.depth = parseNum(t.value) ?? 0;
-    else if (f === 'traydepth') it.tray.depth = parseNum(t.value) ?? 0;
-    else it[f] = t.value;
+  if (t.dataset.cell != null && it) { const [i, k] = t.dataset.cell.split(':').map(Number); it.cells[i][k] = t.value; renderSoft(); return; }
+  if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH'].includes(t.dataset.f)) {
+    const f = t.dataset.f, v = parseNum(t.value);
+    if (f === 'name') it.name = t.value;
+    else if (f === 'traydepth') it.tray.depth = v ?? 0;
+    else if (v != null) it[f] = v;
     renderSoft(); $('.insp-title .big') && ($('.insp-title .big').textContent = title(it));
     return;
   }
@@ -1250,12 +1480,25 @@ document.addEventListener('change', e => {
   if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
   if (t.dataset.f && it) {
     const f = t.dataset.f;
-    if (f === 'he') { it.he = +t.value; if (it.tray && it.he < 1) it.tray = null; else if (it.tray && it.tray.he > it.he) it.tray.he = 1; }
+    if (f === 'he') { it.he = +t.value; if (it.tray && it.he < 1) it.tray = null; else if (it.tray && it.tray.he > it.he) it.tray.he = 1; place(it, it.pos); }
+    else if (f === 'pos') { const v = parseNum(t.value); if (v != null) place(it, v - 1); }
     else if (f === 'tray') it.tray = t.checked ? { he: 1, depth: 375 } : null;
-    else if (f === 'rearFix') it.rearFix = t.checked;
     else if (f === 'trayhe') it.tray.he = +t.value;
     else if (f === 'foam') it.foam = t.checked;
     else if (f === 'color') it.color = t.value;
+    else if (f === 'rearFix') it.rearFix = t.checked;
+    else if (f === 'out') it.slots[1] = t.value === 'd' ? 'pc_out_d' : 'pc_out';
+    else if (f === 'variant') {
+      const P = PANELS[t.value], n = P.cols * P.rows;
+      it.variant = t.value; it.he = P.he;
+      it.slots = it.slots.slice(0, n); while (it.slots.length < n) it.slots.push('blank');
+      it.labels = it.labels.slice(0, n); while (it.labels.length < n) it.labels.push('');
+      selSlot = null; place(it, it.pos);
+    }
+    else if (f === 'div' || f === 'lines') {
+      const v = parseInt(t.value, 10); if (!v) return;
+      it[f] = v; if (f === 'div') it.pitch = defPitch(v); fixCells(it);
+    }
     else return;
     render(); return;
   }
@@ -1273,27 +1516,53 @@ document.addEventListener('change', e => {
   if (t.dataset.art) { const o = state.ov[t.dataset.art] = state.ov[t.dataset.art] || {}; o.art = t.value; renderSoft(); return; }
 });
 
-// Ziehen zum Sortieren
-let dragId = null;
-const order = $('#order');
-order.addEventListener('dragstart', e => { const li = e.target.closest('li[data-id]'); if (!li) return; dragId = li.dataset.id; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', dragId); } catch (x) {} });
-order.addEventListener('dragover', e => { e.preventDefault(); order.querySelectorAll('.drop').forEach(n => n.classList.remove('drop')); const li = e.target.closest('li[data-id]'); li && li.classList.add('drop'); });
-order.addEventListener('dragleave', e => { if (!order.contains(e.relatedTarget)) order.querySelectorAll('.drop').forEach(n => n.classList.remove('drop')); });
-order.addEventListener('drop', e => {
+/* ---------- Ziehen in der Ansicht ---------- */
+const stage = $('#stage');
+let drag = null;
+function svgY(svg, e) { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()).y; }
+function draggable(it, g) { return g.classList.contains('dr') && it; }
+stage.addEventListener('pointerdown', e => {
+  if (e.button !== 0) return;
+  const g = e.target.closest('[data-id]'); const svg = stage.querySelector('svg');
+  if (!g || !svg) return;
+  const it = state.items.find(i => i.id === g.dataset.id); if (!it) return;
+  const slot = e.target.closest('[data-slot]');
+  drag = { it, g, svg, y0: svgY(svg, e), moved: false, slot: slot ? +slot.dataset.slot : null, can: !!draggable(it, g), id: e.pointerId, pos: it.pos };
+  if (drag.can) { try { svg.setPointerCapture(e.pointerId); } catch (x) {} }
+});
+stage.addEventListener('pointermove', e => {
+  if (!drag || !drag.can || e.pointerId !== drag.id) return;
+  const dy = svgY(drag.svg, e) - drag.y0;
+  if (!drag.moved && Math.abs(dy) < 3) return;
+  drag.moved = true;
   e.preventDefault();
-  const li = e.target.closest('li[data-id]');
-  if (!dragId) return;
-  const from = state.items.findIndex(x => x.id === dragId);
-  const [m] = state.items.splice(from, 1);
-  let to = li ? state.items.findIndex(x => x.id === li.dataset.id) : state.items.length;
-  if (to < 0) to = state.items.length;
-  state.items.splice(to, 0, m);
-  sel = m.id; dragId = null; render();
+  drag.g.classList.add('dragging');
+  drag.g.setAttribute('transform', `translate(0 ${dy.toFixed(1)})`);
+  const lim = Math.max(state.case.he, layout().maxEnd + drag.it.he);
+  drag.pos = Math.min(lim - drag.it.he, Math.max(0, Math.round((drag.it.pos * HE + dy) / (HE / 2)) / 2));
+  const snap = drag.svg.querySelector('#snap');
+  if (snap) { snap.style.display = ''; snap.setAttribute('y', CW + drag.pos * HE); snap.setAttribute('height', drag.it.he * HE); }
+});
+function endDrag(e) {
+  if (!drag || (e && e.pointerId !== drag.id)) return;
+  const d = drag; drag = null;
+  if (d.moved) { place(d.it, d.pos); sel = d.it.id; selSlot = null; render(); toast(`${title(d.it)} → ${heRange(d.it)}`); return; }
+  sel = d.it.id; selSlot = d.slot;
+  render();
+  if (selSlot != null) { const el = document.querySelector(`[data-slotrow="${selSlot}"] select, [data-slotrow="${selSlot}"] input`); el && el.focus({ preventScroll: true }); }
+}
+stage.addEventListener('pointerup', endDrag);
+stage.addEventListener('pointercancel', () => { if (drag) { drag = null; renderSoft(); } });
+document.addEventListener('keydown', e => {
+  if (!sel || !['ArrowUp', 'ArrowDown'].includes(e.key) || !e.altKey) return;
+  const it = state.items.find(i => i.id === sel); if (!it) return;
+  e.preventDefault(); place(it, it.pos + (e.key === 'ArrowUp' ? -0.5 : 0.5)); render();
 });
 
 $('#tabFront').onclick = () => { view = 'front'; renderSoft(); };
 $('#tabRear').onclick = () => { view = 'rear'; renderSoft(); };
 $('#tabSide').onclick = () => { view = 'side'; renderSoft(); };
+$('#labelPdfAll').onclick = () => { layout(); exportLabels([...sideItems('front'), ...sideItems('rear')].filter(i => i.kind === 'label')); };
 $('#copyBom').onclick = () => {
   const rows = bom();
   const lines = [['Menge', 'Artikel', 'Art.-Nr.', 'Einzelpreis', 'Summe'].join('\t')].concat(rows.map(r => [r.qty, r.n, r.art, r.price != null ? fmtN(r.price) : '', r.price != null ? fmtN(r.price * r.qty) : ''].join('\t')));
@@ -1308,7 +1577,7 @@ $('#jsonLoad').onclick = () => {
 $('#btnExample').onclick = () => { const ov = state.ov; state = example(); state.ov = ov; sel = state.items[0].id; selSlot = null; render(); toast('Beispiel geladen'); };
 const reset = $('#btnReset');
 reset.onclick = () => {
-  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; render(); delete reset.dataset.arm; reset.textContent = 'Leeres Case'; toast('Neues Case angelegt'); return; }
+  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; view = 'front'; render(); delete reset.dataset.arm; reset.textContent = 'Leeres Case'; toast('Neues Case angelegt'); return; }
   reset.dataset.arm = '1'; reset.textContent = 'Wirklich leeren?';
   setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Leeres Case'; }, 3000);
 };
