@@ -51,7 +51,7 @@ node scripts/daten.mjs import --gewichte data/gewichte-katalog.csv
 
 **Platzhalter prüfen** (Geräte mit `"ph": 1`)
 
-> Lies AGENTS.md. Prüfe in data/geraete.json alle Geräte mit "ph": 1 von Hersteller XY gegen die offiziellen Datenblätter: Höheneinheiten (he), Einbautiefe (d), Gewicht (kg), Anschlüsse vorn/hinten (io), Artikelnummer, UVP. Korrigiere die Werte, entferne "ph" und "chk", wenn alles belegt ist. Danach node scripts/daten.mjs import und node scripts/herstellerliste.mjs. Quellen in die PR-Beschreibung.
+> Lies AGENTS.md. Prüfe in data/geraete.json alle Geräte mit "ph": 1 von Hersteller XY gegen die offiziellen Datenblätter: Höheneinheiten (he), Einbautiefe (d), Gewicht (kg), Anschlüsse vorn/hinten (io), Artikelnummer, UVP. Korrigiere die Werte und entferne "ph", wenn Maße aus dem Datenblatt belegt sind; "chk" bleibt stehen, die Freigabe mache ich. Danach node scripts/daten.mjs import und node scripts/herstellerliste.mjs. Quellen in die PR-Beschreibung.
 
 **Maßstäbliche Ansicht anlegen**
 
