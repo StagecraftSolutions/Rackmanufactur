@@ -483,6 +483,7 @@ td input.shop { min-width: 110px; }
 .ex-tft { fill: #050607; stroke: #3a3f45; stroke-width: .4; } .ex-ring2 { fill: #22262a; stroke: #3a3f45; stroke-width: .5; } .ex-grillw { fill: #0d0e10; stroke: #2a2e33; stroke-width: .6; } .ex-slot { fill: #1b1d20; } .ex-badge { fill: #d9dde2; stroke: #8d959e; stroke-width: .3; }
 .ex-fan { fill: #15171a; stroke: #3a3f45; stroke-width: .4; }
 .exbtn-cr { fill: #f6ead0; } .exbtn-bl { fill: #1e4fa0; } .ex-slotw { fill: #e9ecef; }
+.pg-rcaw { fill: #e9ecef; } .pg-rcar { fill: #d42a2a; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -943,9 +944,9 @@ const DEVDB = {
   atem_hd8iso: { n: 'ATEM Television Studio HD8 ISO', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'desk', w: 585, h: 161, d: 375, note: 'Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)', url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C (Aufnahme); iec:1 Netz' } },
   atem_4k8: { n: 'ATEM Television Studio 4K8', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'desk', w: 585, h: 161, d: 375, note: 'Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)', url: BMD + 'atemtelevisionstudio', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:21 8× 12G-SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C; iec:1 Netz' } },
   atem_mic: { n: 'ATEM Microphone Converter', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM', fit: 'free', w: 200, h: 41, d: 125, price: 419, url: BMD + 'atemtelevisionstudio', note: 'Box 200 × 125 × 40,65 mm, XLR-Seite nach vorn', io: { f: 'combo:4 Mic/Line In 1–4', r: 'dc:1 +12 V; rj45:1 Ethernet; usbc:1 USB-C; bnc:2 MADI In/Out; hdmi:1 Monitor Out' } },
-  bm_stream_hd: { n: 'Blackmagic Streaming Encoder HD', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 549, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
-  bm_stream_4k: { n: 'Blackmagic Streaming Encoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
-  bm_decoder_4k: { n: 'Blackmagic Streaming Decoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 160, chk: 1, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI Out, Referenz In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_stream_hd: { n: 'Blackmagic Streaming Encoder HD', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 549, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_stream_4k: { n: 'Blackmagic Streaming Encoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_decoder_4k: { n: 'Blackmagic Streaming Decoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI Out, Referenz In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   bm_audiomon: { n: 'Blackmagic Audio Monitor 12G G3', mk: 'Blackmagic Design', g: 'Blackmagic · Monitoring', fit: 'rack', he: 1, d: 200, chk: 1, url: BMD + 'blackmagicaudiomonitor', io: { f: 'lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz' } },
   bm_vh_20: { n: 'Blackmagic Videohub 20x20 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   bm_cleanswitch: { n: 'Smart Videohub CleanSwitch 12x12 6G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
@@ -1371,6 +1372,7 @@ function exactFace(d, id, side, X, Y) {
       case 'xlrf': { const r0 = (e.s || 11) * .875; g += `<circle cx="${f(x)}" cy="${f(y)}" r="${f(r0)}" class="pg-ring"/><circle cx="${f(x)}" cy="${f(y)}" r="${f(r0 * .72)}" class="pg-hole"/>` + [210, 330, 90].map(a => { const q = a * Math.PI / 180; return `<circle cx="${f(x + Math.cos(q) * r0 * .38)}" cy="${f(y + Math.sin(q) * r0 * .38)}" r="${f(r0 * .1)}" class="pg-ring"/>`; }).join('') + `<rect x="${f(x - r0 * .3)}" y="${f(y - r0 - 1.5)}" width="${f(r0 * .6)}" height="2.2" class="pg-metal"/>`; break; }
       case 'fan': { let s2 = `<circle cx="${f(x)}" cy="${f(y)}" r="${e.r}" class="ex-fan"/>`; for (let yy = -e.r + 2; yy < e.r - 1; yy += 2.6) for (let xx = -e.r + 2; xx < e.r - 1; xx += 2.6) if (xx * xx + yy * yy < (e.r - 2) * (e.r - 2)) s2 += `<circle cx="${f(x + xx)}" cy="${f(y + yy)}" r=".8" class="pg-hole"/>`; g += s2; break; }
       case 'db9': g += `<circle cx="${f(x - 9.5)}" cy="${f(y)}" r="1.6" class="pg-metal"/><circle cx="${f(x + 9.5)}" cy="${f(y)}" r="1.6" class="pg-metal"/><polygon points="${f(x - 7)},${f(y - 3.4)} ${f(x + 7)},${f(y - 3.4)} ${f(x + 5.8)},${f(y + 3.4)} ${f(x - 5.8)},${f(y + 3.4)}" class="pg-ring"/><polygon points="${f(x - 5.8)},${f(y - 2.4)} ${f(x + 5.8)},${f(y - 2.4)} ${f(x + 4.8)},${f(y + 2.4)} ${f(x - 4.8)},${f(y + 2.4)}" class="pg-hole"/>`; break;
+      case 'rca': g += `<circle cx="${f(x)}" cy="${f(y)}" r="3.6" class="${e.c || 'pg-rcaw'}"/><circle cx="${f(x)}" cy="${f(y)}" r="2.4" class="pg-metal"/><circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
       case 'cover': g += `<rect x="${f(x)}" y="${f(y)}" width="${e.w}" height="${e.h}" rx="2" class="ex-cover"/>`; break;
       case 'led': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="ex-led"/>`; break;
       case 'reset': g += `<circle cx="${f(x)}" cy="${f(y)}" r=".8" class="pg-hole"/>`; break;
@@ -1657,6 +1659,38 @@ EXACT.hd_mini = { w: 140, h: 44.2, f: [
   { t: 'hdmi', x: 107.5, y: 13.2, s: 11 }, { t: 'usbc', x: 107.5, y: 32.2, s: 9 }, { t: 'bnc', x: 126.5, y: 9.7, s: 11 }, { t: 'bnc', x: 126.5, y: 27.8, s: 11 },
   { t: 'txt', x: 79.4, y: 38, v: 'REF · TIMECODE', s: 1.5 }, { t: 'txt', x: 126.5, y: 38, v: 'SDI IN', s: 1.5 },
 ] };
+// Blackmagic Streaming Encoder/Decoder (Maßzeichnungen): 140 × 44 × 175,5 mm
+const STREAM_FRONT = (btns, uhd) => [
+  ...(uhd ? [{ t: 'txt', x: 4, y: 6.5, v: 'ULTRA HD', s: 3, a: 'start', c: 'exorange' }] : []),
+  { t: 'cover', x: 4, y: 20, w: 18.8, h: 20.9 },
+  ...btns.map((v, i) => ({ t: 'btn', x: [34.5, 49.2][i % 2], y: [10, 22.1, 33.8][Math.floor(i / 2)], w: 12, h: 9, c: 'exbtn-dk', v })),
+  { t: 'screen', x: 65.3, y: 4, w: 47.3, h: 36.9 }, { t: 'txt', x: 138, y: 7.4, v: 'Blackmagicdesign', s: 1.8, a: 'end', c: 'exthin' }, { t: 'enc', x: 125.6, y: 24.1, r: 8.4, plain: 1 },
+];
+const STREAM_REAR = (l1, l2, l3) => [
+  { t: 'iec', x: 15.7, y: 21.4, s: 17 }, { t: 'xlr', x: 43.6, y: 23.6, s: 12 }, { t: 'txt', x: 43.6, y: 40, v: '12V DC', s: 1.5 },
+  { t: 'rj45', x: 68, y: 26.7, s: 10 }, { t: 'txt', x: 68, y: 40, v: 'LIVE STREAM', s: 1.5 }, { t: 'usbc', x: 85.4, y: 27.6, s: 9 }, { t: 'txt', x: 85.4, y: 40, v: 'WEBCAM OUT', s: 1.5 },
+  { t: 'bnc', x: 105.5, y: 11, s: 11 }, { t: 'hdmi', x: 105.5, y: 28.3, s: 11 }, { t: 'bnc', x: 127.3, y: 11, s: 11 }, { t: 'bnc', x: 127.3, y: 28.3, s: 11 },
+  { t: 'txt', x: 105.5, y: 40, v: l1, s: 1.5 }, { t: 'txt', x: 127.3, y: 19, v: l2, s: 1.4 }, { t: 'txt', x: 127.3, y: 40, v: l3, s: 1.5 },
+];
+EXACT.bm_stream_hd = { w: 140, h: 44, f: STREAM_FRONT(['ON AIR', 'MENU', 'OFF', 'SET', 'CALL', 'LOCK'], false), r: STREAM_REAR('MONITOR OUT', 'SDI LOOP OUT', 'SDI IN') };
+EXACT.bm_stream_4k = { w: 140, h: 44, f: STREAM_FRONT(['ON AIR', 'MENU', 'OFF', 'SET', 'CALL', 'LOCK'], true), r: STREAM_REAR('MONITOR OUT', '12G LOOP OUT', '12G-SDI IN') };
+EXACT.bm_decoder_4k = { w: 140, h: 44, f: STREAM_FRONT(['1', 'MENU', '2', 'SET', '3', 'LOCK'], true), r: STREAM_REAR('HDMI 4K OUT', 'REF IN', '12G-SDI OUT') };
+// Teranex Mini Rückseiten (Maßzeichnungen): gemeinsames Raster
+const TMB = (x, y, l) => [{ t: 'bnc', x, y, s: 11 }, ...(l ? [{ t: 'txt', x, y: y > 20 ? 40.5 : 21.5, v: l, s: 1.4 }] : [])];
+const TMX = (f, l, r) => [{ t: f ? 'xlrf' : 'xlr', x: 93.3, y: 19.3, s: 11 }, { t: f ? 'xlrf' : 'xlr', x: 113.6, y: 19.3, s: 11 }, { t: 'txt', x: 93.3, y: 33.5, v: l || 'L ANALOG/AES', s: 1.4 }, { t: 'txt', x: 113.6, y: 33.5, v: r || 'R ANALOG/AES', s: 1.4 }];
+const TM_BASE = (eth = true) => [{ t: 'iec', x: 16.5, y: 16, s: 17 }, ...(eth ? [{ t: 'rj45', x: 39.4, y: 33, s: 10 }, { t: 'txt', x: 39.4, y: 40.5, v: 'ETHERNET PoE+', s: 1.4 }] : [])];
+EXACT.tm_hdmi_sdi.r = [...TM_BASE(), { t: 'hdmi', x: 66.1, y: 12.9, s: 11 }, { t: 'txt', x: 66.1, y: 5.5, v: 'HDMI IN', s: 1.5 }, ...TMB(57, 31.1, 'SDI OUT'), ...TMB(73.1, 31.1, 'SDI OUT'), ...TMX(true)];
+EXACT.tm_sdi_analog.r = [...TM_BASE(), ...TMB(39.4, 12.4, 'Y/NTSC'), ...TMB(57, 12.4, 'B-Y / Y'), ...TMB(73.1, 12.4, 'R-Y / C'), ...TMB(57, 31.1, 'SDI IN'), ...TMB(73.1, 31.1, 'SDI LOOP'), ...TMX(false)];
+EXACT.tm_analog_sdi.r = [...TM_BASE(), ...TMB(39.4, 12.4, 'Y/NTSC'), ...TMB(57, 12.4, 'B-Y / Y'), ...TMB(73.1, 12.4, 'R-Y / C'), ...TMB(57, 31.1, 'SDI OUT'), ...TMB(73.1, 31.1, 'SDI OUT'), ...TMX(true)];
+const TM_RCA = lbl => [{ t: 'opt', x: 38.9, y: 11, s: 9 }, { t: 'txt', x: 38.9, y: 21.5, v: 'OPTICAL', s: 1.4 }, { t: 'rca', x: 57, y: 11, c: 'pg-rcaw' }, { t: 'rca', x: 70.5, y: 11, c: 'pg-rcar' }, { t: 'txt', x: 63.7, y: 21.5, v: lbl, s: 1.4 }];
+EXACT.tm_sdi_audio.r = [...TM_BASE(), ...TM_RCA('STEREO OUT'), ...TMB(57, 31.1, 'SDI IN'), ...TMB(73.1, 31.1, 'SDI OUT'), ...TMX(false)];
+EXACT.tm_audio_sdi.r = [...TM_BASE(), ...TM_RCA('STEREO IN'), ...TMB(57, 31.1, 'SDI IN'), ...TMB(73.1, 31.1, 'SDI OUT'), ...TMX(true)];
+EXACT.tm_opt_hdmi.r = [...TM_BASE(), { t: 'hdmi', x: 66.1, y: 12.9, s: 11 }, { t: 'txt', x: 66.1, y: 5.5, v: 'HDMI OUT', s: 1.5 }, ...TMB(57, 31.1, 'SDI IN'), { t: 'sfp', x: 71.3, y: 33, s: 9 }, { t: 'txt', x: 71.3, y: 40.5, v: 'OPTICAL', s: 1.4 }, ...TMX(false)];
+EXACT.tm_hdmi_opt.r = [...TM_BASE(), { t: 'hdmi', x: 66.1, y: 12.9, s: 11 }, { t: 'txt', x: 66.1, y: 5.5, v: 'HDMI IN', s: 1.5 }, ...TMB(57, 31.1, 'SDI OUT'), { t: 'sfp', x: 71.3, y: 33, s: 9 }, { t: 'txt', x: 71.3, y: 40.5, v: 'OPTICAL', s: 1.4 }, ...TMX(true)];
+EXACT.tm_sdi_dist.r = [...TM_BASE(), ...[39.4, 57, 73.1, 90, 105.5].flatMap(x => TMB(x, 12.4, 'SDI OUT')), ...TMB(57, 31.1, 'SDI IN'), ...[73.1, 90, 105.5].flatMap(x => TMB(x, 31.1, 'SDI OUT'))];
+EXACT.tm_sdi_quad.r = [...TM_BASE(), ...['A', 'B', 'C', 'D'].flatMap((l, i) => TMB([57, 73.1, 90, 105.5][i], 12.4, 'OUT ' + l)), ...TMB(57, 31.1, '12G-SDI IN'), ...TMB(73.1, 31.1, 'LOOP OUT')];
+EXACT.tm_quad_sdi.r = [...TM_BASE(), ...['A', 'B', 'C', 'D'].flatMap((l, i) => TMB([57, 73.1, 90, 105.5][i], 12.4, 'IN ' + l)), ...TMB(57, 31.1, '12G-SDI OUT'), ...TMB(73.1, 31.1, 'LOOP OUT')];
+EXACT.tm_ip_video.r = [...TM_BASE(), { t: 'sfp', x: 57, y: 33, s: 9 }, { t: 'txt', x: 57, y: 40.5, v: '10G ETHERNET', s: 1.4 }, ...TMB(73.1, 31.1, 'SDI IN'), ...TMB(90, 31.1, 'SDI OUT'), ...TMB(105.5, 31.1, 'SDI OUT')];
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
 function title(it) {
