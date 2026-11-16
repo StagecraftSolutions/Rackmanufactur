@@ -23,11 +23,11 @@ Offen:
 - [x] Midas DN4816-O, DN4816-I (vorn)
 - [ ] Midas DN4888, HUB4 (nicht mehr auf midasconsoles.com; HUB4 PRO 0609-AAO prüfen), DN4816 hinten
 - [ ] Swisson: XND-8, XSP-5R
-- [ ] Gerätetabelle in `docs/datenbasis.md` neu erzeugen
+- [x] Gerätetabelle in `docs/datenbasis.md` neu erzeugt (54 von 66 maßstäblich)
 
 ## 2. Veröffentlichen
 
-- [ ] Committen, pushen, `scripts/deploy.sh` (nach Rückfrage)
+- [x] Committen, pushen, hochladen (Stand 16)
 
 ## 3. Bedienung
 

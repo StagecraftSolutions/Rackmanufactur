@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-16 – Stand 16 · 54 von 66 Geräten maßstäblich
+
+- Maßstäblich nach Maßzeichnung/Herstellerfoto: Teranex-Mini-Rückseiten, Streaming Encoder HD/4K und Decoder 4K, Videohub 20x20 12G, CleanSwitch 12x12, Audio Monitor 12G G3, ATEM Constellation 1/2/4 M/E (HD und 4K), HyperDeck Studio (4 Modelle), UniFi Pro Max 24 PoE und Cloud Gateway Max, Shure ULXD4/4D/4Q, QLXD4, AD4D/AD4Q, P9T, P10T (hinten), UA845UWB, PA821B, Behringer WING RACK, Midas DL32/DL16/DN4816, NovaStar MX20.
+- Datenkorrekturen: WING RACK 4 HE, DL16 2 HE, ATEM Television Studio HD8/ISO/4K8 sind Tischpulte, ATEM Microphone Converter ist eine Box (200 × 125 × 41 mm), UCG Max 142 × 30 × 128 mm.
+- Aufgabenliste `docs/AUFGABEN.md`.
+
 ## 2026-11-16 – Stand 15
 
 - **Blende vor Rackwanne:** Gitter- und Rackblenden dürfen auf derselben HE wie eine Rackwanne liegen (einzige erlaubte Überlappung). Die Blende liegt davor, Geräte in der Wanne bleiben sichtbar, auswählbar und verschiebbar; die Blende wird an den Rackohren angefasst. Die frühere Option „Rackwanne dahinter verschrauben“ entfällt; gespeicherte Projekte werden automatisch umgewandelt.
