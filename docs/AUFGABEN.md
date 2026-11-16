@@ -50,6 +50,12 @@ Offen:
 - [x] Eigener Preis je Gerät in der Stückliste eintragbar
 - [x] Preise/Lieferanten (state.ov) sind Teil der Projektdatei und werden beim Laden übernommen
 
+## 7. Projekte verwalten (ohne Benutzerkonten)
+
+- [x] Stufe 1: Projektbibliothek im Browser (IndexedDB), Fenster „Projekte“, Projektordner per File System Access, Paket sichern/importieren
+- [ ] In Chrome mit echtem Nextcloud-Ordner auf zwei Rechnern testen (Abgleich, Umbenennen, Löschen)
+- [ ] Stufe 2 bei Bedarf: Speicherung auf STRATO (PHP) hinter Team-Passwort, Datenschutz anpassen
+
 ## 6. Katalog erweitern
 
 - [x] Je Hersteller Liste der 19″-fähigen Geräte: [hersteller-19zoll.md](hersteller-19zoll.md) (erzeugt mit `node scripts/herstellerliste.mjs`)

@@ -528,6 +528,17 @@ td input.shop { min-width: 110px; }
 .devcompact .opt .oa { font-size: 10.5px; }
 .devcompact .subh { margin: 6px 0 4px; }
 .subh { margin: 10px 0 6px; font-size: 12px; font-family: var(--f-mono); font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+.projbtn { align-self: center; }
+.projbtn .count { font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-left: 4px; }
+#projSearch { margin-left: auto; width: min(320px, 100%); }
+.pfolder { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
+.pfolder .hint { margin: 0; }
+.plist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.prow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 9px 0; border-top: 1px solid var(--line); }
+.prow.cur .pinfo b { color: var(--accent); }
+.pinfo { flex: 1 1 280px; min-width: 0; }
+.pinfo small { display: block; color: var(--muted); font-size: 12px; font-family: var(--f-mono); overflow-wrap: anywhere; }
+.pbtns { display: flex; gap: 6px; flex-wrap: wrap; }
 /* Fuß mit Rechtlichem */
 .site-foot {
   max-width: 1600px; margin: 32px auto 0; padding-top: 14px; border-top: 1px solid var(--line);
@@ -549,7 +560,7 @@ td input.shop { min-width: 110px; }
 <body>
 
 <header class="top">
-  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rack Manufaktur</h1><span class="projname" id="projTitle"></span></div>
+  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rack Manufaktur</h1><span class="projname" id="projTitle"></span><button type="button" class="btn sm projbtn" id="btnProjects" aria-haspopup="dialog">Projekte<span class="count" id="projCount"></span></button></div>
   <div class="summary" id="summary"></div>
 </header>
 
@@ -564,7 +575,7 @@ td input.shop { min-width: 110px; }
   <div class="s1">
     <div class="col">
       <section class="card">
-        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" data-loadfile>Projektdatei laden</button><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm danger" id="btnReset">Neues Projekt</button></div></header>
+        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" data-openproj aria-haspopup="dialog">Alle Projekte</button><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm" id="btnReset">Neues Projekt</button></div></header>
         <div class="body">
           <div class="projfields">
             <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. Anschlussrack 8 HE" data-proj="name"></div>
@@ -592,7 +603,7 @@ td input.shop { min-width: 110px; }
         <div class="body">
           <div class="actions"><button type="button" class="btn sm" id="jsonSave">Projektdatei speichern</button><button type="button" class="btn sm" data-loadfile>Projektdatei laden</button></div>
           <input type="file" id="fileIn" accept=".json,application/json" hidden>
-          <p class="hint">Die Projektdatei (.json) enthält Case, alle Module, Preise und Notizen und lässt sich hier wieder laden.</p>
+          <p class="hint">Die Projektdatei (.json) enthält Case, alle Module, Preise und Notizen und lässt sich hier wieder laden. Alle Projekte liegen außerdem automatisch im Browser und, wenn verbunden, im Projektordner (Fenster „Projekte“).</p>
           <details>
             <summary>Konfiguration als JSON (sichern / einspielen)</summary>
             <div class="body" style="padding-inline:0">
@@ -726,6 +737,10 @@ td input.shop { min-width: 110px; }
     <button type="button" role="tab" data-tab="eigene">Eigene Elemente</button>
   </div>
   <div class="dlg-body" id="dlgBody"></div>
+</dialog>
+<dialog class="add proj" id="projDlg" aria-labelledby="projTitleH">
+  <div class="dlg-head"><h2 id="projTitleH">Projekte</h2><input id="projSearch" type="search" placeholder="Suchen: Name, Kunde, Case" aria-label="Projekte durchsuchen"><button type="button" class="dlg-close" data-pclose aria-label="Schließen">×</button></div>
+  <div class="dlg-body" id="projBody"></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
 
@@ -1366,8 +1381,204 @@ function empty() {
 }
 const KEY = 'rackwerk-v1';
 function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.case) return normalize(s); } catch (e) {} return null; }
-function save() { try { localStorage.setItem(KEY, JSON.stringify(stripped())); } catch (e) {} }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(stripped())); } catch (e) {} LIB.queue(); }
+/* ---------- Projektbibliothek (IndexedDB) und Projektordner (File System Access) ---------- */
+const LIB = (() => {
+  const L = { off: false, count: 0, dir: null, dirOk: false, dirName: '', fs: typeof window.showDirectoryPicker === 'function' && (() => { try { return window.top === window.self; } catch (e) { return false; } })(), sig: {}, busy: false };
+  let dbp = null, timer = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    if (!window.indexedDB) { rej(new Error('kein IndexedDB')); return; }
+    const r = indexedDB.open('rack-manufaktur', 1);
+    r.onupgradeneeded = () => { const db = r.result; if (!db.objectStoreNames.contains('projects')) db.createObjectStore('projects', { keyPath: 'id' }); if (!db.objectStoreNames.contains('meta')) db.createObjectStore('meta'); };
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error('blockiert'));
+  }));
+  const rq = async (store, mode, f) => { const db = await open(); return new Promise((res, rej) => { const r = f(db.transaction(store, mode).objectStore(store)); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); };
+  L.all = async () => (await rq('projects', 'readonly', s => s.getAll())).sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
+  L.get = id => rq('projects', 'readonly', s => s.get(id));
+  const put = rec => rq('projects', 'readwrite', s => s.put(rec));
+  const del = id => rq('projects', 'readwrite', s => s.delete(id));
+  const mget = k => rq('meta', 'readonly', s => s.get(k));
+  const mset = (k, v) => rq('meta', 'readwrite', s => s.put(v, k));
+  const mdel = k => rq('meta', 'readwrite', s => s.delete(k));
+  const now = () => new Date().toISOString();
+  const sigOf = d => JSON.stringify({ ...d, updated: 0, step: 0 });
+  L.rec = (d, file) => ({ id: d.id, name: d.project.name || '', client: d.project.client || '', caseName: (CASES[d.case.type] || {}).short || (CASES[d.case.type] || {}).n || d.case.name || 'Case', he: d.case.he, n: d.items.length, updated: d.updated, file: file || '', data: d });
+  L.fname = d => `${slugOf(d)}_${d.id.slice(0, 6)}.json`;
+  async function writeFile(rec) {
+    if (!L.dir || !L.dirOk) return;
+    const name = L.fname(rec.data);
+    if (rec.file && rec.file !== name) { try { await L.dir.removeEntry(rec.file); } catch (e) {} }
+    const fh = await L.dir.getFileHandle(name, { create: true }), w = await fh.createWritable();
+    await w.write(JSON.stringify(rec.data, null, 1)); await w.close(); rec.file = name;
+  }
+  async function store(d, opt = {}) {          // Bibliothek + Ordner schreiben
+    if (L.off) return;
+    const old = await L.get(d.id).catch(() => null);
+    const rec = L.rec(d, old ? old.file : '');
+    try { await writeFile(rec); } catch (e) { L.dirOk = false; if (!opt.quiet) toast('Projektordner nicht erreichbar – bitte im Fenster „Projekte“ neu verbinden'); }
+    await put(rec); L.sig[d.id] = sigOf(d);
+    L.count = (await rq('projects', 'readonly', s => s.count()));
+    updateBadge();
+  }
+  L.mark = d => { L.sig[d.id] = sigOf(d); };
+  // nach jeder Änderung (aus save()): nur bei echtem Inhalt neu speichern
+  L.queue = () => { if (L.off) return; clearTimeout(timer); timer = setTimeout(L.flush, 500); };
+  L.flush = async () => {
+    clearTimeout(timer); if (L.off) return;
+    const d = stripped(); if (L.sig[d.id] === sigOf(d)) return;
+    state.updated = d.updated = now();
+    try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
+    try { await store(d); } catch (e) {}
+  };
+  L.put = (d, opt) => store(d, opt);
+  L.remove = async rec => {
+    if (rec.file && L.dir && L.dirOk) { try { await L.dir.removeEntry(rec.file); } catch (e) {} }
+    await del(rec.id); delete L.sig[rec.id];
+    L.count = await rq('projects', 'readonly', s => s.count()); updateBadge();
+  };
+  L.perm = async ask => {
+    if (!L.dir) return false;
+    try { const o = { mode: 'readwrite' }; let p = await L.dir.queryPermission(o); if (p === 'prompt' && ask) p = await L.dir.requestPermission(o); L.dirOk = p === 'granted'; }
+    catch (e) { L.dirOk = false; }
+    return L.dirOk;
+  };
+  L.pick = async () => {
+    const h = await window.showDirectoryPicker({ id: 'rack-manufaktur', mode: 'readwrite' });
+    L.dir = h; L.dirName = h.name; L.dirOk = true; await mset('dir', h);
+    const n = await L.scan(); await L.pushAll(); return n;
+  };
+  L.unlink = async () => { L.dir = null; L.dirOk = false; L.dirName = ''; await mdel('dir'); };
+  // Ordner → Bibliothek: neuere Dateien gewinnen; Dateien ohne ID bekommen eine und werden zurückgeschrieben
+  L.scan = async () => {
+    if (!L.dir || !L.dirOk) return 0;
+    let n = 0, cur = null;
+    for await (const [name, h] of L.dir.entries()) {
+      if (h.kind !== 'file' || !/\.json$/i.test(name)) continue;
+      try {
+        let d = JSON.parse(await (await h.getFile()).text());
+        if (!d || !d.items || !d.case) continue;
+        const hadId = !!d.id; d = normalize(d);
+        const old = await L.get(d.id);
+        if (old && (old.updated || '') >= (d.updated || '')) { if (old.file !== name) { old.file = name; await put(old); } continue; }
+        const rec = L.rec(d, name);
+        if (!hadId) { try { await L.dir.removeEntry(name); } catch (e) {} rec.file = ''; await writeFile(rec); }
+        await put(rec); n++;
+        if (d.id === state.id) cur = d;
+      } catch (e) {}
+    }
+    L.count = await rq('projects', 'readonly', s => s.count()); updateBadge();
+    if (cur) { state = cur; L.mark(cur); sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Neuere Fassung dieses Projekts aus dem Projektordner geladen'); }
+    return n;
+  };
+  // Bibliothek → Ordner: alles schreiben, was im Ordner fehlt
+  L.pushAll = async () => {
+    if (!L.dir || !L.dirOk) return;
+    for (const rec of await L.all()) { const want = L.fname(rec.data); if (rec.file === want) { try { await L.dir.getFileHandle(want); continue; } catch (e) {} } try { await writeFile(rec); await put(rec); } catch (e) {} }
+  };
+  L.init = async () => {
+    try {
+      await open();
+      const d = stripped(), old = await L.get(d.id);   // Arbeitskopie im Browser ist immer die neueste
+      if (!old || sigOf(old.data) !== sigOf(d)) { if (old) state.updated = d.updated = now(); await store(d, { quiet: true }); } else L.mark(d);
+      L.count = await rq('projects', 'readonly', s => s.count());
+      const h = await mget('dir');
+      if (h) { L.dir = h; L.dirName = h.name; if (await L.perm(false)) await L.scan(); }
+    } catch (e) { L.off = true; }
+    updateBadge();
+  };
+  return L;
+})();
+function slugOf(d) { return ((d.project && d.project.name) || 'rack-manufaktur').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rack-manufaktur'; }
+function updateBadge() { const b = $('#projCount'); if (b) b.textContent = LIB.off ? '' : String(Math.max(LIB.count, 1)); }
+const newId = () => uid() + uid();
+function stamp(s) { const t = new Date().toISOString(); s.id = newId(); s.created = t; s.updated = t; return s; }
+async function switchTo(s, msg) {
+  await LIB.flush();
+  state = s; sel = state.items[0]?.id ?? null; selSlot = null; view = 'front';
+  try { localStorage.setItem(KEY, JSON.stringify(stripped())); } catch (e) {}
+  render(); await LIB.put(stripped(), { quiet: true });
+  if (msg) toast(msg);
+}
+async function newProject(base, msg) { const ov = state.ov; const s = stamp(base); s.ov = ov; s.step = 1; await switchTo(s, msg); }
+async function openProject(id) { const r = await LIB.get(id); if (!r) return; const s = normalize(JSON.parse(JSON.stringify(r.data))); LIB.mark(s); await switchTo(s, `Projekt „${s.project.name || 'ohne Namen'}“ geöffnet`); }
+async function importProjects(list) {        // Projekte aus Datei/Paket in die Bibliothek
+  let n = 0;
+  for (const raw of list) {
+    if (!raw || !raw.items || !raw.case) continue;
+    const s = normalize(raw), old = LIB.off ? null : await LIB.get(s.id);
+    if (old && (old.updated || '') > (s.updated || '')) continue;
+    if (!LIB.off) await LIB.put(s, { quiet: true }); n++;
+  }
+  return n;
+}
+const fmtDate = iso => { try { return new Date(iso).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } };
+const projDlg = { q: '', arm: null };
+async function openProjects() {
+  const d = $('#projDlg');
+  if (!d.open) { if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', ''); }
+  await LIB.flush();
+  if (LIB.dir && LIB.dirOk) { try { await LIB.scan(); } catch (e) {} }
+  renderProjects(); $('#projSearch').focus();
+}
+function closeProjects() { const d = $('#projDlg'); if (d.open) { if (typeof d.close === 'function') d.close(); else d.removeAttribute('open'); } projDlg.arm = null; }
+async function renderProjects() {
+  const body = $('#projBody'), q = projDlg.q.trim().toLowerCase();
+  let folder;
+  if (LIB.off) folder = '<p class="hint">Die Projektbibliothek ist in diesem Browser nicht verfügbar (z. B. privates Fenster). Projekte weiter über „Projektdatei speichern/laden“ sichern.</p>';
+  else if (!LIB.fs) folder = '<p class="hint"><b>Projektordner:</b> In diesem Browser nicht möglich (nur Chrome und Edge). Die Projekte liegen im Browser; sichern mit „Alle Projekte sichern“.</p>';
+  else if (!LIB.dir) folder = `<p class="hint"><b>Projektordner:</b> nicht verbunden. Wähle einen Ordner, z. B. in Nextcloud – jedes Projekt wird dort als eigene .json-Datei gespeichert und über die Synchronisation auf anderen Rechnern sichtbar.</p><div class="actions"><button type="button" class="btn sm primary" data-pact="pick">Projektordner wählen …</button></div>`;
+  else if (!LIB.dirOk) folder = `<p class="hint"><b>Projektordner „${esc(LIB.dirName)}“:</b> Zugriff muss nach dem Neuladen einmal bestätigt werden.</p><div class="actions"><button type="button" class="btn sm primary" data-pact="perm">Wieder verbinden</button><button type="button" class="btn sm" data-pact="unlink">Trennen</button></div>`;
+  else folder = `<p class="hint"><b>Projektordner „${esc(LIB.dirName)}“</b> ist verbunden. Änderungen werden automatisch dort gespeichert; neuere Dateien aus dem Ordner (z. B. von einem anderen Rechner) werden beim Öffnen dieses Fensters übernommen.</p><div class="actions"><button type="button" class="btn sm" data-pact="sync">Jetzt abgleichen</button><button type="button" class="btn sm" data-pact="pick">Anderen Ordner wählen …</button><button type="button" class="btn sm" data-pact="unlink">Trennen</button></div>`;
+  let rows = '';
+  if (!LIB.off) {
+    const all = await LIB.all();
+    const list = all.filter(r => !q || `${r.name} ${r.client} ${r.caseName}`.toLowerCase().includes(q));
+    rows = list.map(r => {
+      const nm = r.name || 'Projekt ohne Namen', cur = r.id === state.id, armed = projDlg.arm === r.id;
+      return `<li class="prow${cur ? ' cur' : ''}"><div class="pinfo"><b>${esc(nm)}</b>${cur ? ' <span class="badge">geöffnet</span>' : ''}<small>${esc([r.client, `${r.caseName} · ${r.he} HE`, `${r.n} Elemente`, `geändert ${fmtDate(r.updated)}`].filter(Boolean).join(' · '))}${r.file && LIB.dirOk ? ` · Datei ${esc(r.file)}` : ''}</small></div>`
+        + `<div class="pbtns">${cur ? '' : `<button type="button" class="btn sm primary" data-popen="${r.id}" aria-label="${esc(nm)} öffnen">Öffnen</button>`}<button type="button" class="btn sm" data-pdup="${r.id}" aria-label="${esc(nm)} duplizieren">Duplizieren</button><button type="button" class="btn sm danger" data-pdel="${r.id}" aria-label="${esc(nm)} ${armed ? 'endgültig löschen' : 'löschen'}">${armed ? 'Wirklich löschen?' : 'Löschen'}</button></div></li>`;
+    }).join('');
+    rows = list.length ? `<ul class="plist">${rows}</ul>` : `<p class="hint">${all.length ? 'Kein Projekt passt zur Suche.' : 'Noch keine Projekte gespeichert.'}</p>`;
+    rows = `<p class="subh">${all.length} ${all.length === 1 ? 'Projekt' : 'Projekte'} in diesem Browser</p>` + rows;
+  }
+  body.innerHTML = `<div class="actions"><button type="button" class="btn sm primary" data-pact="new">Neues Projekt</button><button type="button" class="btn sm" data-pact="example">Beispiel als neues Projekt</button><button type="button" class="btn sm" data-pact="import">Projektdatei importieren …</button>${LIB.off ? '' : '<button type="button" class="btn sm" data-pact="export">Alle Projekte sichern</button>'}</div>`
+    + `<section class="pfolder">${folder}</section>` + rows;
+}
+async function projClick(t) {
+  const b = t.closest('[data-pact],[data-popen],[data-pdup],[data-pdel],[data-pclose]'); if (!b) return false;
+  try {
+    if (b.dataset.pclose != null) { closeProjects(); return true; }
+    if (b.dataset.popen) { await openProject(b.dataset.popen); closeProjects(); return true; }
+    if (b.dataset.pdup) {
+      const r = await LIB.get(b.dataset.pdup); const s = stamp(normalize(JSON.parse(JSON.stringify(r.data))));
+      s.project.name = (s.project.name || 'Projekt') + ' (Kopie)'; await LIB.put(s); toast(`„${s.project.name}“ angelegt`); renderProjects(); return true;
+    }
+    if (b.dataset.pdel) {
+      const id = b.dataset.pdel;
+      if (projDlg.arm !== id) { projDlg.arm = id; renderProjects(); setTimeout(() => { if (projDlg.arm === id) { projDlg.arm = null; if ($('#projDlg').open) renderProjects(); } }, 4000); return true; }
+      projDlg.arm = null; const r = await LIB.get(id); await LIB.remove(r);
+      if (id === state.id) { const rest = await LIB.all(); if (rest.length) await openProject(rest[0].id); else await newProject(empty(), null); }
+      toast(`„${r.name || 'Projekt'}“ gelöscht${r.file && LIB.dirOk ? ' (auch im Projektordner)' : ''}`); renderProjects(); return true;
+    }
+    const a = b.dataset.pact;
+    if (a === 'new') { await newProject(empty(), 'Neues Projekt angelegt'); closeProjects(); $('#pName').focus(); }
+    else if (a === 'example') { await newProject(example(), 'Beispiel als neues Projekt angelegt'); closeProjects(); }
+    else if (a === 'import') $('#fileIn').click();
+    else if (a === 'export') { const list = (await LIB.all()).map(r => r.data); saveFile(`rack-manufaktur-projekte-${new Date().toISOString().slice(0, 10)}.json`, new Blob([JSON.stringify({ kind: 'rack-manufaktur-projekte', v: 1, exported: new Date().toISOString(), projects: list }, null, 1)], { type: 'application/json' }), `${list.length} Projekte`); }
+    else if (a === 'pick') { const n = await LIB.pick(); toast(`Projektordner „${LIB.dirName}“ verbunden${n ? ` · ${n} Projekte übernommen` : ''}`); renderProjects(); }
+    else if (a === 'perm') { if (await LIB.perm(true)) { const n = await LIB.scan(); await LIB.pushAll(); toast(`Projektordner verbunden${n ? ` · ${n} Projekte aktualisiert` : ''}`); } else toast('Zugriff auf den Ordner wurde nicht erlaubt'); renderProjects(); }
+    else if (a === 'sync') { const n = await LIB.scan(); await LIB.pushAll(); toast(n ? `${n} Projekte aus dem Ordner aktualisiert` : 'Projektordner ist aktuell'); renderProjects(); }
+    else if (a === 'unlink') { await LIB.unlink(); toast('Projektordner getrennt – die Dateien bleiben im Ordner'); renderProjects(); }
+  } catch (e) {
+    if (e && e.name === 'AbortError') return true;
+    toast(e && e.name === 'SecurityError' ? 'Ordnerzugriff ist hier nicht erlaubt' : 'Aktion fehlgeschlagen');
+  }
+  return true;
+}
+
 function normalize(s) {
+  if (!s.id) s.id = uid() + uid();
+  s.created = s.created || new Date().toISOString(); s.updated = s.updated || s.created;
   const acc = Array.isArray(s.acc) ? s.acc : [];
   s.acc = ACC_DEFAULT.map(d => ({ ...d, qty: acc.find(a => a.id === d.id)?.qty ?? 0 })).concat(acc.filter(a => !ACC_DEFAULT.some(d => d.id === a.id)));
   s.ov = s.ov || {};
@@ -1426,6 +1637,7 @@ function fixCells(it) {
 }
 
 let state = load() || example();
+if (!state.id) { state.id = uid() + uid(); state.created = state.updated = new Date().toISOString(); }
 let sel = state.items[0]?.id ?? null;
 let selSlot = null;
 let view = 'front';
@@ -3199,7 +3411,7 @@ async function exportLabels(list) {
   });
   await saveFile(`${slug()}-beschriftung.pdf`, doc.output('blob'), 'PDF');
 }
-const slug = () => (state.project.name || 'rack-manufaktur').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rack-manufaktur';
+const slug = () => slugOf(state);
 async function saveFile(filename, blob, what) {
   let dl = null;
   try { dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { dl = null; }
@@ -3397,12 +3609,17 @@ document.addEventListener('drop', e => {
 function loadProjectFile(file) {
   if (!file) return;
   const r = new FileReader();
-  r.onload = () => {
+  r.onload = async () => {
     try {
-      const s = normalize(JSON.parse(r.result));
-      if (!s.items || !s.case) throw 0;
-      state = s; sel = state.items[0]?.id ?? null; selSlot = null; view = 'front'; state.step = 1;
-      render(); toast(`Projekt „${state.project.name || file.name}“ geladen`);
+      const raw = JSON.parse(r.result);
+      if (raw && raw.kind === 'rack-manufaktur-projekte' && Array.isArray(raw.projects)) {
+        const n = await importProjects(raw.projects); toast(`${n} von ${raw.projects.length} Projekten übernommen`);
+        if ($('#projDlg').open) renderProjects(); else openProjects(); return;
+      }
+      if (!raw || !raw.items || !raw.case) throw 0;
+      const s = normalize(raw); s.step = 1;
+      await switchTo(s, `Projekt „${s.project.name || file.name}“ geladen`);
+      if ($('#projDlg').open) renderProjects();
     } catch (e) { toast('Datei ist keine gültige Rack Manufaktur-Projektdatei'); }
   };
   r.onerror = () => toast('Datei konnte nicht gelesen werden');
@@ -3412,6 +3629,9 @@ function loadProjectFile(file) {
 /* ---------- Ereignisse ---------- */
 document.addEventListener('click', e => {
   const t = e.target;
+  if (t.id === 'projDlg') { closeProjects(); return; }
+  if (t.closest('#projDlg')) { projClick(t); return; }
+  if (t.closest('#btnProjects,[data-openproj]')) { openProjects(); return; }
   if (t.closest('#addDlg') && dlgClick(t)) return;
   if (t.id === 'addDlg') { closeAdd(); return; }   // Klick auf den Hintergrund
   const op = t.closest('[data-open]'); if (op) { openAdd(op.dataset.open); return; }
@@ -3674,16 +3894,18 @@ $('#copyBom').onclick = () => {
 $('#copyNotes').onclick = () => copy(notesData().map(n => `${n.h}\n${n.t}${n.map ? '\n' + n.map : ''}`).join('\n\n'));
 $('#jsonCopy').onclick = () => copy($('#json').value, $('#json'));
 $('#jsonLoad').onclick = () => {
-  try { const s = normalize(JSON.parse($('#json').value)); if (!s.items || !s.case) throw 0; state = s; sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Konfiguration übernommen'); }
+  try { const s = normalize(JSON.parse($('#json').value)); if (!s.items || !s.case) throw 0; s.id = state.id; s.created = state.created; state = s; sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Konfiguration übernommen'); }
   catch (e) { toast('JSON ist ungültig. Bitte den kompletten Text einfügen.'); }
 };
-$('#btnExample').onclick = () => { const ov = state.ov; state = example(); state.ov = ov; state.step = 1; sel = state.items[0].id; selSlot = null; render(); toast('Beispiel geladen'); };
+$('#btnExample').onclick = () => newProject(example(), 'Beispiel als neues Projekt angelegt');
 const reset = $('#btnReset');
 reset.onclick = () => {
-  if (reset.dataset.arm) { const ov = state.ov; state = empty(); state.ov = ov; sel = state.items[0].id; selSlot = 2; view = 'front'; render(); delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; toast('Neues Projekt angelegt'); $('#pName').focus(); return; }
-  reset.dataset.arm = '1'; reset.textContent = 'Wirklich alles leeren?';
-  setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; }, 3000);
+  if (LIB.off && !reset.dataset.arm) { reset.dataset.arm = '1'; reset.textContent = 'Wirklich alles leeren?'; setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; }, 3000); return; }
+  delete reset.dataset.arm; reset.textContent = 'Neues Projekt';
+  newProject(empty(), LIB.off ? 'Neues Projekt angelegt' : 'Neues Projekt angelegt – das bisherige liegt unter „Projekte“').then(() => $('#pName').focus());
 };
+$('#projSearch').oninput = e => { projDlg.q = e.target.value; renderProjects(); };
+addEventListener('pagehide', () => { LIB.flush(); });
 const saveJson = () => saveFile(`${slug()}.json`, new Blob([JSON.stringify(stripped(), null, 1)], { type: 'application/json' }), 'Projektdatei');
 $('#jsonSave').onclick = saveJson;
 $('#jsonSave3').onclick = saveJson;
@@ -3691,6 +3913,7 @@ $('#btnPdf').onclick = () => exportProjectPdf();
 $('#fileIn').onchange = e => { loadProjectFile(e.target.files[0]); e.target.value = ''; };
 
 render();
+LIB.init();
 })();
 </script>
 </body>

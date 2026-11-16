@@ -47,13 +47,16 @@
     </ul>
     <p>Zweck ist die Auslieferung der Website sowie die Sicherheit und Stabilität des Betriebs, etwa zur Abwehr von Angriffen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in einem sicheren und funktionsfähigen Angebot. Die Logfiles werden nach Ablauf der von STRATO festgelegten Frist automatisch gelöscht, sofern sie nicht zur Aufklärung eines Sicherheitsvorfalls länger benötigt werden. Mit STRATO besteht ein Vertrag zur Auftragsverarbeitung nach Art. 28 DSGVO.</p>
 
-    <h2>3. Speicherung im Browser (Local Storage)</h2>
-    <p>Damit deine Planung beim nächsten Besuch noch da ist, speichert der Konfigurator sie im Local Storage deines Browsers:</p>
+    <h2>3. Speicherung im Browser (Local Storage, IndexedDB)</h2>
+    <p>Damit deine Planung beim nächsten Besuch noch da ist, speichert der Konfigurator sie in deinem Browser:</p>
     <ul>
       <li><code>rackwerk-v1</code>: aktuelles Projekt (Projektname, Kunde, Notiz, Case, Module, Preise, Lieferanten)</li>
       <li><code>rackwerk-tpl</code>: deine gemerkten eigenen Elemente</li>
+      <li>IndexedDB-Datenbank <code>rack-manufaktur</code>: alle deine Projekte (gleicher Inhalt wie oben) und, falls du einen verbindest, der Verweis auf deinen Projektordner</li>
     </ul>
-    <p>Diese Daten verlassen dein Gerät nicht und werden nicht an uns übertragen. Die Speicherung ist für die von dir gewünschte Funktion unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist daher nicht nötig. Du kannst die Daten jederzeit löschen: mit „Neues Projekt“ im Konfigurator, durch Entfernen der gemerkten Elemente oder über die Einstellungen deines Browsers („Websitedaten löschen“).</p>
+    <p>Diese Daten verlassen dein Gerät nicht und werden nicht an uns übertragen. Die Speicherung ist für die von dir gewünschte Funktion unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist daher nicht nötig. Du kannst die Daten jederzeit löschen: im Fenster „Projekte“ des Konfigurators, durch Entfernen der gemerkten Elemente oder über die Einstellungen deines Browsers („Websitedaten löschen“).</p>
+
+    <p><strong>Projektordner:</strong> Wenn du im Fenster „Projekte“ einen Ordner auf deinem Rechner wählst (nur Chrome und Edge), schreibt der Browser jedes Projekt als .json-Datei in diesen Ordner und liest von dort neuere Fassungen ein. Der Zugriff gilt nur für diesen Ordner, du bestätigst ihn selbst und kannst ihn jederzeit trennen. Liegt der Ordner in einem Sync-Dienst (z.&nbsp;B. Nextcloud), überträgt dieser Dienst die Dateien nach seinen eigenen Regeln – nicht wir.</p>
 
     <h2>4. Projektdateien, PDF und PNG</h2>
     <p>Beim Laden einer Projektdatei liest dein Browser die Datei lokal ein; sie wird nicht hochgeladen. PDF-, PNG- und JSON-Dateien werden ebenfalls direkt in deinem Browser erzeugt und auf deinem Gerät gespeichert.</p>

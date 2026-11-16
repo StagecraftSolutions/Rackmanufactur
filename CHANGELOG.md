@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-16 – Stand 18 · Mehrere Projekte
+
+- **Fenster „Projekte“** (Knopf in der Kopfzeile und „Alle Projekte“ in Stufe 1): alle Cases mit Name, Kunde, Case, HE, Anzahl Elemente und Änderungsdatum; Neu, Öffnen, Duplizieren, Löschen (mit Rückfrage), Suche.
+- Projekte liegen in der Browser-Datenbank (IndexedDB) und werden automatisch gespeichert. „Neues Projekt“ und „Beispiel laden“ legen ein neues Projekt an, statt das offene zu überschreiben.
+- **Projektordner** (Chrome/Edge): Ordner wählen, z. B. in Nextcloud – jedes Projekt als eigene .json-Datei, automatisch geschrieben; neuere Fassungen aus dem Ordner (anderer Rechner) werden übernommen. Nach dem Neuladen einmal „Wieder verbinden“.
+- **Alle Projekte sichern** als Paketdatei; Projektdateien und Pakete lassen sich importieren. Alte Projektdateien ohne ID werden zu neuen Projekten.
+- Datenschutzerklärung um IndexedDB und Projektordner ergänzt.
+
 ## 2026-11-16 – Stand 17 · Bedienung, kurze Schubladen
 
 - Liste „Im Rack“: × zum Entfernen; Vorder-/Rückseite nur noch für Screenreader (aria-label).
