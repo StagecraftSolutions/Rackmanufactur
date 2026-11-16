@@ -17,7 +17,7 @@ Offen:
 - [x] Constellation 1 M/E HD/4K, 2 M/E 4K, 4 M/E HD/4K
 - [ ] Blackmagic: Constellation 4 M/E 4K Plus (4 HE)
 - [ ] Shure: ULXD4, ULXD4Q, QLXD4, SLXD4, AD4D, PSM1000 P10T, PSM900 P9T, AD600, UA845UWB, PA821B
-- [ ] UniFi: Cloud Gateway Max, Pro Max 24 PoE
+- [x] UniFi: Cloud Gateway Max, Pro Max 24 PoE
 - [ ] MA Lighting: Rückseiten 2Port/4Port/8Port Node
 - [ ] Midas StageConnect: DN4816-I, DN4816-O, DN4888, HUB4
 - [ ] Swisson: XND-8, XSP-5R

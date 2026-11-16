@@ -484,6 +484,7 @@ td input.shop { min-width: 110px; }
 .ex-fan { fill: #15171a; stroke: #3a3f45; stroke-width: .4; }
 .exbtn-cr { fill: #f6ead0; } .exbtn-bl { fill: #1e4fa0; } .ex-slotw { fill: #e9ecef; }
 .pg-rcaw { fill: #e9ecef; } .pg-rcar { fill: #d42a2a; }
+.ex-pill { fill: #0d1b2a; stroke: #8d959e; stroke-width: .3; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -966,8 +967,8 @@ const DEVDB = {
   atemc_4me_4k: { n: 'ATEM 4 M/E Constellation 4K', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 2, d: 231, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:70 40× 12G-SDI In, 28× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)' } },
   atemc_4me_4kplus: { n: 'ATEM 4 M/E Constellation 4K Plus', mk: 'Blackmagic Design', g: 'Blackmagic · ATEM Constellation', fit: 'rack', he: 4, d: 220, chk: 1, url: BMD + 'atemconstellation', io: { f: 'xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler', r: 'bnc:134 80× 12G-SDI In, 52× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)' } },
   // Ubiquiti UniFi
-  ucg_max: { n: 'UniFi Cloud Gateway Max', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'free', w: 213, h: 32, d: 128, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/ucg-max', io: { f: 'lcd:1 Status-Display; rj45:5 4× 2,5GbE LAN, 1× 2,5GbE WAN', r: 'usbc:1 Stromversorgung' } },
-  usw_pro_max_24_poe: { n: 'UniFi Pro Max 24 PoE', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 285, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-pro-max-24-poe', io: { f: 'lcd:1 Touch-Display; rj45:24 16× GbE PoE+, 8× 2,5GbE PoE++; sfp:2 10G SFP+', r: 'iec:1 Netz' } },
+  ucg_max: { n: 'UniFi Cloud Gateway Max', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'free', w: 142, h: 30, d: 128, col: 'silver', url: 'https://store.ui.com/eu/en/products/ucg-max', io: { f: 'lcd:1 0,96″-Display', r: 'usbc:1 Stromversorgung 5 V; rj45:5 1× 2,5GbE WAN, 4× 2,5GbE LAN' } },
+  usw_pro_max_24_poe: { n: 'UniFi Pro Max 24 PoE', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 325, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-pro-max-24-poe', io: { f: 'lcd:1 1,3″-Touchscreen; rj45:24 8× GbE PoE+, 8× GbE PoE++, 8× 2,5GbE PoE++; sfp:2 10G SFP+', r: 'iec:1 Netz; dc:1 USP-RPS-Backup' } },
   usw_24_poe: { n: 'UniFi Switch 24 PoE (USW-24-PoE)', mk: 'Ubiquiti', g: 'Netzwerk · UniFi', fit: 'rack', he: 1, d: 200, chk: 1, col: 'silver', url: 'https://store.ui.com/eu/en/products/usw-24-poe', io: { f: 'lcd:1 Display; rj45:24 GbE, davon 16× PoE+; sfp:2 1G SFP', r: 'iec:1 Netz' } },
   // Shure
   ulxd4: { n: 'Shure ULXD4 (Einkanal, halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 180, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V' } },
@@ -1787,6 +1788,21 @@ const ATEMC4_REAR = [
 ];
 EXACT.atemc_4me_hd = { hw: 482.6, f: ATEMC4_FRONT(false), r: ATEMC4_REAR };
 EXACT.atemc_4me_4k = { hw: 482.6, f: ATEMC4_FRONT(true), r: ATEMC4_REAR };
+// UniFi Pro Max 24 PoE (442 × 44 × 325 mm) und Cloud Gateway Max (141,8 × 30 × 127,6 mm), Herstellerabbildungen techspecs.ui.com
+EXACT.usw_pro_max_24_poe = { hw: 442, f: [
+  { t: 'screen', x: 25.6, y: 8.4, w: 22, h: 25 }, { t: 'txt', x: 36.6, y: 38.5, v: 'USW Pro Max', s: 2.2, c: 'exink' },
+  ...Array.from({ length: 24 }, (_, i) => ({ t: 'rj45', x: 20.3 + [44.8, 160.8, 276.9][Math.floor(i / 8)] + (i % 8) * 13.3, y: 26.4, s: 9.3 })),
+  { t: 'rect', x: 20.3 + 37, y: 6, w: 105, h: 1.6, c: 'ex-slot' }, { t: 'rect', x: 20.3 + 153, y: 6, w: 105, h: 1.6, c: 'ex-slot' }, { t: 'rect', x: 20.3 + 269, y: 6, w: 112, h: 1.6, c: 'ex-slot' },
+  { t: 'sfp', x: 20.3 + 398.2, y: 28, s: 9 }, { t: 'sfp', x: 20.3 + 415.6, y: 28, s: 9 }, { t: 'reset', x: 20.3 + 428.2, y: 38.5 },
+], r: [
+  { t: 'rect', x: 20, y: 20, w: 61.7, h: 17, c: 'ex-mod' }, { t: 'txt', x: 50.9, y: 40.5, v: 'USP RPS (DC-Backup)', s: 1.8, c: 'exink' }, { t: 'iec', x: 391.3, y: 23.7, s: 17 },
+] };
+EXACT.ucg_max = { w: 141.8, h: 30, f: [
+  { t: 'rect', x: 60.2, y: 8, w: 22.7, h: 11.7, c: 'ex-pill' }, { t: 'txt', x: 71.5, y: 25.9, v: 'Cloud Gateway Max', s: 2.4, c: 'exink' },
+], r: [
+  { t: 'reset', x: 9.8, y: 17 }, { t: 'usbc', x: 23.3, y: 17, s: 9 }, ...[39.9, 59.1, 78.4, 97.6, 116.8].map(x => ({ t: 'rj45', x, y: 14.9, s: 11 })),
+  { t: 'rect', x: 33, y: 24.2, w: 91, h: 1.6, c: 'ex-slot' }, { t: 'txt', x: 39.9, y: 6, v: 'WAN', s: 2, c: 'exink' },
+] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
 function title(it) {
