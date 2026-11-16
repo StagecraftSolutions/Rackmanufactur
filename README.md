@@ -2,7 +2,7 @@
 
 Web configurator for 19″ rack cases with connector panels, devices and rack parts. The app is a single HTML file in `public/` (plus local fonts and jsPDF), no build step: open `public/index.html` in a browser or upload the folder to a web server.
 
-Live: <https://td-media.eu/rackwerk/> · Interface in **English and German** (switch in the header).
+**Live instance: <https://td-media.eu/rackwerk/>** – runs the current `main` branch; the page footer links the exact commit that is deployed. Interface in **English and German** (switch in the header).
 
 Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) and **Thon** racks from Thomann. Connector panels, blank/vent panels, rack shelves and drawers from Adam Hall, D-size inserts from Seetronic and Neutrik. Device database with 200 devices from 13 manufacturers.
 

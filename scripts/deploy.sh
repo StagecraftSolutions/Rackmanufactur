@@ -138,6 +138,12 @@ fi
 STAGE="$(mktemp -d)"; BATCH="$(mktemp)"
 trap 'rm -rf "$STAGE" "$BATCH"' EXIT
 rsync -a --exclude '.DS_Store' --exclude '._*' "$PUBLIC/" "$STAGE/"
+# write the git revision into the page (footer: "Version <commit>" linking to GitHub); "+" = uncommitted changes in public/
+if sha="$(git -C "$ROOT" rev-parse HEAD 2>/dev/null)"; then
+  short="${sha:0:7}"; cdate="$(git -C "$ROOT" show -s --format=%cs HEAD)"
+  git -C "$ROOT" diff --quiet HEAD -- public 2>/dev/null || short="$short+"
+  sed -i.bak "s|__GIT_COMMIT__|$sha|g; s|__GIT_SHORT__|$short|g; s|__GIT_DATE__|$cdate|g" "$STAGE/index.html" && rm -f "$STAGE/index.html.bak"
+fi
 
 dirs=(); files=(); html=()
 while IFS= read -r d; do dirs+=("$d"); done < <(cd "$STAGE" && find . -mindepth 1 -type d | sed 's|^\./||' | sort)

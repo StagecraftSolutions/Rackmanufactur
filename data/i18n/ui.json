@@ -482,5 +482,7 @@
  "Steckerfeld {0} · {1} · {2}": "Connector panel {0} · {1} · {2}",
  "Funktion (englisch)": "Function (English)",
  "z. B. Input CH1": "e.g. Input CH1",
- "Das Herstellerbild bleibt in deinem Browser.": "The manufacturer image stays in your browser."
+ "Das Herstellerbild bleibt in deinem Browser.": "The manufacturer image stays in your browser.",
+ "Quellcode (GitHub)": "Source code (GitHub)",
+ "Git-Commit, aus dem diese Seite gebaut wurde": "Git commit this page was built from"
 }

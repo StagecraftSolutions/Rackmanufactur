@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-16 – Version 22 · Source and version reference
+
+- Footer links the source code on GitHub and the deployed commit ("Version <sha> · <date>"); `scripts/deploy.sh` writes the revision into the uploaded page (`+` = uncommitted changes in `public/`).
+- README points to the live instance at td-media.eu/rackwerk.
+
 ## 2026-11-16 – Version 21 · English and German, connector labels
 
 - **Bilingual UI:** language switch DE/EN in the header (default from the browser language, saved per browser). In English mode a dictionary translates every rendered text, attributes, PDF and PNG exports; numbers and prices use the English format.
