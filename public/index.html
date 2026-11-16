@@ -988,8 +988,8 @@ const DEVDB = {
   wing_rack: { n: 'Behringer WING RACK', mk: 'Behringer', g: 'Audio · Mischpult', fit: 'rack', he: 4, d: 326, url: 'https://www.behringer.com/en/products/0604-AAE', io: { f: 'lcd:1 10,1″-Touchscreen; btn:1 Tasten; knob:6 Encoder/Regler; usba:1 USB; jack:1 Kopfhörer', r: 'xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Kopfhörer, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/Audio-Netzwerk; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Netz' } },
   midas_dl32: { n: 'Midas DL32 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 3, d: 230, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ACR', io: { f: 'xlrf:32 Mic In (Midas PRO); xlr:16 Line Out; btn:1 Mute All', r: 'iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out' } },
   midas_dl16: { n: 'Midas DL16 Stagebox', mk: 'Midas', g: 'Audio · Stagebox', fit: 'rack', he: 2, d: 230, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ACJ', io: { f: 'xlrf:16 Mic In (Midas PRO); xlr:8 Line Out; lcd:1 Anzeige; btn:1 GAIN/HPF/CONFIG; knob:2 Head Amp, Level; jack:1 Kopfhörer', r: 'iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; din:2 MIDI In/Out' } },
-  midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line In; xlr:2 StageConnect', r: 'dc:1 Netzteil' } },
-  midas_dn4816o: { n: 'Midas DN4816-O (StageConnect Out)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlr:16 16× Line Out; xlr:2 StageConnect; rj45:1 ULTRANET', r: 'dc:1 Netzteil' } },
+  midas_dn4816i: { n: 'Midas DN4816-I (StageConnect In)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4816', io: { f: 'xlrf:16 16× Line In', r: 'xlr:2 StageConnect In/Thru; dc:1 Netzteil' } },
+  midas_dn4816o: { n: 'Midas DN4816-O (StageConnect Out)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 140, chk: 1, url: 'https://www.midasconsoles.com/en/products/0606-ADB', io: { f: 'xlr:16 16× Line Out', r: 'xlr:2 StageConnect In/Thru; rj45:1 ULTRANET; dc:1 Netzteil' } },
   midas_dn4888: { n: 'Midas DN4888 (StageConnect 8×8)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 169, chk: 1, url: 'https://www.midasconsoles.com/search?q=DN4888', io: { f: 'xlr:16 8× Line In, 8× Line Out; xlr:2 StageConnect', r: '' } },
   midas_hub4: { n: 'Midas HUB4 (Personal-Monitoring)', mk: 'Midas', g: 'Audio · StageConnect', fit: 'rack', he: 1, d: 150, chk: 1, url: 'https://www.midasconsoles.com/search?q=HUB4', io: { f: 'rj45:4 DP48 (PoE); jack:1 Kopfhörer', r: 'rj45:2 ULTRANET In/Thru; iec:1 Netz' } },
   // Licht, Video, Strom
@@ -1925,6 +1925,14 @@ EXACT.pa821b = { hw: 482.6, f: [
 ], r: [
   { t: 'iec', x: 72.6, y: 26, s: 17 }, ...[162, 192.3, 225.4, 257, 288.8, 320.4, 352.1, 382.4].map(x => ({ t: 'bnc', x, y: 30, s: 11 })), { t: 'txt', x: 272, y: 41, v: 'RF ANTENNA INPUTS 1–8', s: 1.8 },
 ] };
+// Midas DN4816-O (Herstellerfoto midasconsoles.com); DN4816-I gleiches Gehäuse mit Eingangsbuchsen
+const DN4816 = (io) => [
+  { t: 'logo', x: 30.3, y: 8.5, v: 'MIDAS', s: 4 }, { t: 'txt', x: 444.4, y: 7.1, v: io === 'O' ? 'DN4816-O' : 'DN4816-I', s: 2.6, a: 'end' },
+  ...Array.from({ length: 16 }, (_, i) => [{ t: io === 'O' ? 'xlr' : 'xlrf', x: 54.6 + i * 24.85, y: 23.3, s: 11 }, { t: 'txt', x: 54.6 + i * 24.85, y: 39.5, v: (io === 'O' ? 'OUT ' : 'IN ') + (i + 1), s: 1.8 }]).flat(),
+  { t: 'ledc', x: 39.4, y: 34, r: .9, c: 'exred' }, { t: 'ledc', x: 444.4, y: 34, r: .9, c: 'exled-b' },
+];
+EXACT.midas_dn4816o = { f: DN4816('O') };
+EXACT.midas_dn4816i = { f: DN4816('I') };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
 function title(it) {

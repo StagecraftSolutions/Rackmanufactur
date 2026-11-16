@@ -19,8 +19,9 @@ Offen:
 - [x] Shure: ULXD4 (vorn), ULXD4Q, QLXD4, AD4D, PSM1000 P10T (hinten), PSM900 P9T, UA845UWB, PA821B
 - [ ] Shure ohne frontale Quelle: SLXD4, AD600, P10T vorn, ULXD4 hinten
 - [x] UniFi: Cloud Gateway Max, Pro Max 24 PoE
-- [ ] MA Lighting: Rückseiten 2Port/4Port/8Port Node
-- [ ] Midas StageConnect: DN4816-I, DN4816-O, DN4888, HUB4
+- [ ] MA Lighting: Rückseiten 2Port/4Port/8Port Node (Datenblätter ohne Rückseitenfoto)
+- [x] Midas DN4816-O, DN4816-I (vorn)
+- [ ] Midas DN4888, HUB4 (nicht mehr auf midasconsoles.com; HUB4 PRO 0609-AAO prüfen), DN4816 hinten
 - [ ] Swisson: XND-8, XSP-5R
 - [ ] Gerätetabelle in `docs/datenbasis.md` neu erzeugen
 
