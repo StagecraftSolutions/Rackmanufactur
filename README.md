@@ -18,7 +18,9 @@ Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) a
 - **Live view:** front view (rear-mounted modules dashed), side view with mounting depths and **collisions** between front and rear modules (overlap in mm), rear view mirrored (rear-mounted modules show their front, front-mounted ones their rear).
 - **Placing modules:** click and drag (0.5 U grid), overlapping modules move down; inspector with "from U", ↑/↓ 0.5 U, "close gaps". Front or rear side per module.
 - **Modules:** connector panels 1 U · 12 D (with/without strain relief), 1 U · 16 D, 2 U · 24 D; label panel 0.5 U; vent panels 0.5–4 U and blank panels 1–4 U (may sit in front of a rack shelf); rack shelves (Adam Hall, Thon, Blackmagic Universal Rack Shelf, Shure and MA rack kits); drawers incl. short models; brush panel; custom elements with part no., price, supplier and weight.
-- **Connector panels:** fill holes by click, list or drag & drop, swap by dragging; mounting from rear or front per hole; drilled blank plates for RCA, jack, SMA.
+- **Connector panels:** fill holes by click or drag & drop, swap by dragging; the selected hole shows type, supplier/part, name/note and mounting direction (rear or front); drilled blank plates for RCA, jack, SMA.
+- **Connector database:** connector types with parts from several suppliers (Neutrik, Seetronic, Amphenol …), each D-size, in a drilled blank plate, or with its own footprint (cutouts and screw holes), e.g. CEE 16 A, Schuko, IEC C14.
+- **Custom connector panels:** a steel blank panel (1–4 U) with freely placed connectors in an editor (drag, arrow keys, coordinates), overlap and edge checks, drill plan in the build notes and a 1:1 drill template as PDF. Saved in the project file.
 - **Devices:** 213 devices (Blackmagic, Ubiquiti, Shure, Behringer, Midas, d&b, L-Acoustics, Powersoft, dBTechnologies, MA Lighting, Swisson, NovaStar, Eurolite, Netgear, APC, Stairville, GLP, Showtec, RF Venue, Botex, the t.amp). Devices with a scale view are drawn from dimensional drawings or photos; every connector has an English function label (tooltip, e.g. "SDI In 1", "Headphones"). Devices without a view appear as placeholders with name, height and depth.
 - **Label panel:** divisions, lines, pitch, offset, strip size; PDF export at actual size with cut marks.
 - **Bill of materials** with part numbers, suppliers, prices, sources and **weight**; prices, part numbers and suppliers can be overridden and are saved in the project file. Devices can be marked as "owned".
@@ -37,6 +39,7 @@ Devices, weights, views and translations are plain JSON in `data/` and are writt
 | `data/weights.json` | weights of all non-device items (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
 | `data/weight-catalog.csv` | every item with its weight key (empty kg = missing) |
 | `data/views.json` | scale views, incl. connector function labels (`l`) |
+| `data/connectors.json` | connector types and parts per supplier, footprints |
 | `data/i18n/ui.json`, `catalog.json` | German → English dictionary |
 
 ```bash
@@ -103,14 +106,15 @@ The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnit
 
 | Part | Content |
 |---|---|
-| `CON`, `PICK`, `PANELS` | D-size insert catalog, connector panel variants |
+| `CTYPES`, `CON`, `PANELS` | connector database (data block), connector panel variants |
 | `ART`, `DRAWERS`, `SHELVES`, `CASES` | rack parts, drawers, shelves/kits, case series |
-| `DEVDB`, `EXACT` / `EXACT_JSON`, `KG`, `I18N_EN` | data blocks written by `scripts/data.mjs` (do not edit by hand) |
+| `DEVDB`, `EXACT` / `EXACT_JSON`, `KG`, `I18N_EN`, `CTYPES`, `CON` | data blocks written by `scripts/data.mjs` (do not edit by hand) |
 | `rackSVG`, `sideSVG`, `faceSVG`, `backSVG`, `exactFace`, `devFace` | views as SVG in mm (1 U = 44.45; 19″ = 482.6) |
 | `bom()`, `weightOf()`, `notesData()` | bill of materials, weight, build notes |
 | `LIB` | project library (IndexedDB, project folder) |
 | `tr()`, `trTree()` | translation layer |
 | `openVE()` … | review editor |
+| `openCP()`, `cpPdf()` … | custom connector panel editor, drill template |
 
 Code comments are partly still German; see [docs/TASKS.md](docs/TASKS.md).
 

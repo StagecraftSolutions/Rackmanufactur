@@ -103,16 +103,32 @@ my_shelf: { n: 'Name', short: 'Short name', mk: 'Manufacturer', art: 'Part no.',
 
 **Panel in front of a shelf:** vent and blank panels (`vent`, `blank`) may share the U with a rack shelf (`canStack`). Other overlaps are errors.
 
-## 4. D-size insert (`CON` and `PICK`)
+## 4. Connector (`data/connectors.json`)
 
-```js
-my_connector: { s: 'SHORT', n: 'Name', art: 'Manufacturer part no.', price: 4.90, src: 'web', q: 'Thomann', g: 'glyph' },
+The connector database has **types** (what the connector is, e.g. XLR 3-pin female) and **connectors** (a concrete part from a supplier). In a connector panel you choose the type and then the supplier/part.
+
+```json
+"types": { "xlr3f": { "n": "XLR 3-pol Buchse", "s": "XLR3 F", "def": "xlr3f" } },
+"connectors": {
+  "xlr3f_a": { "type": "xlr3f", "mk": "Amphenol", "fit": "d", "s": "XLR3 F", "n": "XLR 3-pol Buchse", "art": "Amphenol AC3FDZ", "price": null, "src": "check", "g": "xlrf", "p": 3 },
+  "cee16f_70": { "type": "cee16f", "mk": "PCE", "fit": "fp", "s": "CEE16 F", "n": "CEE-Anbausteckdose 16 A 5-pol, Flansch 70 × 70", "art": "…", "src": "check",
+                 "el": { "t": "cee16f", "w": 56, "h": 66 },
+                 "fp": { "w": 70, "h": 70, "cut": [{ "t": "c", "d": 54 }, { "t": "h", "x": -28, "y": -28, "d": 4.5 }] }, "chk": 1 }
+}
 ```
 
-- `mount: 'f'`: front mounting only (e.g. Seetronic SAC3FPX20); the mounting direction is then fixed.
-- `drill: 8`: the insert goes into a drilled blank plate; the plate is added to the BOM, the hole size to the build notes.
-- Add the key to `PICK`, otherwise it is missing in the palette.
-- For a new symbol extend `glyph()` (front) and `rearGlyph()` (rear).
+| Field | Meaning |
+|---|---|
+| `type` | key in `types`; `def` of a type is the connector picked first |
+| `mk` | supplier (Neutrik, Seetronic, Amphenol …), shown in the supplier list |
+| `fit` | `d` = fits a D-size hole · `dblank` = in a drilled blank plate (needs `drill`, Ø mm) · `fp` = own cutout, only in custom connector panels |
+| `g` | symbol for D-size connectors (`glyph()` / `rearGlyph()`) |
+| `el` | drawing element for `fp` connectors (same elements as in the scale views, e.g. `cee16f`, `schuko`, `iec`) |
+| `fp` | footprint for `fp`: flange `w` × `h` (mm) and cutouts `cut` relative to the centre – `c` circle (`d`), `r` rectangle (`w`, `h`), `h` screw hole (`x`, `y`, `d`). D-size connectors use the D footprint (Ø 24 mm, 2 × M3 diagonal 19 × 24 mm, flange 26 × 31 mm) |
+| `mount: "f"` | front mounting only; the mounting direction is then fixed |
+| `chk: 1` | dimensions not verified – shown as "check dimensions" in the drill plan |
+
+Weights go into `data/weights.json` as `con:<key>`. `node scripts/data.mjs import` validates types, fits and footprints.
 
 ## 5. Finish
 

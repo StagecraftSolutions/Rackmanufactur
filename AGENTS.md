@@ -11,6 +11,7 @@ Only the product data, unless the task explicitly says otherwise:
 | `data/devices.json` | device database (key → device) |
 | `data/weights.json` | weights in kg for items without their own field (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
 | `data/views.json` | scale views (key = device key), incl. connector function labels `l` |
+| `data/connectors.json` | connector database: types and parts per supplier, D-size or own footprint (see [docs/adding-items.md](docs/adding-items.md)) |
 | `data/devices.csv` | the same devices as a table (semicolon, UTF-8) |
 | `data/weight-catalog.csv` | all items with their weight key (`key;name;part_no;kg`), empty kg = missing |
 | `data/i18n/ui.json`, `data/i18n/catalog.json` | German → English dictionary (`{0}` placeholders must be kept) |

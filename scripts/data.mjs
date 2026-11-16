@@ -13,13 +13,17 @@
 //   /* DATA:DEVDB */ const DEVDB = {...};        <- data/devices.json
 //   /* DATA:KG */ const KG = {...};              <- data/weights.json
 //   /* DATA:EXACT */ const EXACT_JSON = {...};   <- data/views.json
+//   /* DATA:CTYPES */ const CTYPES = {...};      <- data/connectors.json (types)
+//   /* DATA:CON */ const CON = {...};            <- data/connectors.json (connectors)
 //   /* DATA:I18N */ const I18N_EN = {...};       <- data/i18n/ui.json + data/i18n/catalog.json (only translated entries)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const ROOT = new URL('..', import.meta.url);
 const HTML = new URL('public/index.html', ROOT);
 const F = { DEVDB: 'data/devices.json', KG: 'data/weights.json', EXACT: 'data/views.json' };
-const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN' };
+const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN', CTYPES: 'CTYPES', CON: 'CON' };
+const CONF = 'data/connectors.json';
+const CFIT = ['d', 'dblank', 'fp'];
 
 const FIT = ['rack', 'bmd', 'half', 'free', 'desk'];
 const IO = ['rj45', 'sfp', 'bnc', 'xlr', 'xlrf', 'xlr5', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'dc', 'jack', 'opt', 'sd', 'powercon', 'cee32m', 'cee32f', 'cee16m', 'cee16f', 'schuko', 'gland', 'brk', 'rcd', 'lcd', 'btn', 'knob', 'combo', 'ethercon', 'din', 'rca', 'sma', 'ant', 'nl4', 'nl8', 'euroblock', 'db9', 'fan'];
@@ -35,8 +39,31 @@ const block = (k, obj) => `/* DATA:${k} */ const ${VAR[k]} = ${fmt(obj)};\n/* /D
 function writeBlock(src, k, obj) { if (!rx(k).test(src)) throw new Error(`block DATA:${k} missing`); return src.replace(rx(k), () => block(k, obj)); }
 const fileUrl = f => new URL(f, f.startsWith('/') ? 'file://' : new URL(process.cwd() + '/', 'file://'));
 
-function check(devdb, kg, exact, i18n) {
+function checkCon(cdb, err) {
+  const { types = {}, connectors = {} } = cdb;
+  for (const [k, t] of Object.entries(types)) {
+    if (!t.n || !t.s) err.push(`connector type ${k}: n/s missing`);
+    if (!connectors[t.def] || connectors[t.def].type !== k) err.push(`connector type ${k}: default "${t.def}" missing or of another type`);
+  }
+  for (const [k, c] of Object.entries(connectors)) {
+    const at = `connector ${k}`;
+    if (!/^[a-z0-9_]+$/.test(k)) err.push(`${at}: key may only use a–z, 0–9, _`);
+    if (!types[c.type]) err.push(`${at}: unknown type "${c.type}"`);
+    for (const f of ['n', 's', 'mk']) if (!c[f]) err.push(`${at}: field ${f} missing`);
+    if (!CFIT.includes(c.fit)) err.push(`${at}: fit must be ${CFIT.join(', ')}`);
+    if (c.fit === 'dblank' && !(c.drill > 0)) err.push(`${at}: dblank needs drill (Ø mm)`);
+    if (c.fit !== 'fp' && !c.g) err.push(`${at}: g (D glyph) missing`);
+    if (c.fit === 'fp') {
+      if (!c.el || !c.el.t) err.push(`${at}: el (drawing element) missing`);
+      if (!c.fp || !(c.fp.w > 0 && c.fp.h > 0) || !Array.isArray(c.fp.cut) || !c.fp.cut.length) err.push(`${at}: fp {w, h, cut[]} missing`);
+      else c.fp.cut.forEach((x, i) => { if (!['c', 'r', 'h'].includes(x.t) || (x.t === 'r' ? !(x.w > 0 && x.h > 0) : !(x.d > 0))) err.push(`${at}: cut[${i}] invalid (c: d · r: w, h · h: x, y, d)`); });
+    }
+    if (c.price != null && typeof c.price !== 'number') err.push(`${at}: price must be a number`);
+  }
+}
+function check(devdb, kg, exact, i18n, cdb) {
   const err = [], warn = [];
+  if (cdb) checkCon(cdb, err);
   for (const [k, d] of Object.entries(devdb)) {
     const at = `device ${k}`;
     if (!/^[a-z0-9_]+$/.test(k)) err.push(`${at}: key may only use a–z, 0–9, _`);
@@ -117,11 +144,13 @@ const cmd = process.argv[2] || 'check';
 let src = readFileSync(HTML, 'utf8');
 if (cmd === 'export') {
   for (const k of Object.keys(F)) writeFileSync(new URL(F[k], ROOT), JSON.stringify(readBlock(src, k), null, 1) + '\n');
+  writeFileSync(new URL(CONF, ROOT), JSON.stringify({ types: readBlock(src, 'CTYPES'), connectors: readBlock(src, 'CON') }, null, 1) + '\n');
   writeFileSync(new URL('data/devices.csv', ROOT), toCsv(readBlock(src, 'DEVDB')));
-  console.log('Exported: data/devices.json, data/weights.json, data/views.json, data/devices.csv');
+  console.log('Exported: data/devices.json, data/weights.json, data/views.json, data/connectors.json, data/devices.csv');
 } else if (cmd === 'import' || cmd === 'check') {
   const load = k => existsSync(new URL(F[k], ROOT)) ? JSON.parse(readFileSync(new URL(F[k], ROOT), 'utf8')) : readBlock(src, k);
   let devdb = load('DEVDB'); const kg = load('KG'), exact = load('EXACT');
+  const cdb = existsSync(new URL(CONF, ROOT)) ? JSON.parse(readFileSync(new URL(CONF, ROOT), 'utf8')) : { types: readBlock(src, 'CTYPES'), connectors: readBlock(src, 'CON') };
   const i18n = {};
   for (const f of ['data/i18n/ui.json', 'data/i18n/catalog.json']) if (existsSync(new URL(f, ROOT))) for (const [de, en] of Object.entries(JSON.parse(readFileSync(new URL(f, ROOT), 'utf8')))) if (en) i18n[de] = en;
   if (process.argv.includes('--csv')) devdb = mergeCsv(devdb, parseCsv(readFileSync(new URL('data/devices.csv', ROOT), 'utf8')));
@@ -149,15 +178,16 @@ if (cmd === 'export') {
     }
     console.log(`Weight list: ${n} values merged`);
   }
-  const { err, warn } = check(devdb, kg, exact, i18n);
+  const { err, warn } = check(devdb, kg, exact, i18n, cdb);
   const missingKg = warn.filter(w => /weight missing/.test(w)).length;
   warn.filter(w => !/weight missing/.test(w)).forEach(w => console.log('Note:', w));
   if (missingKg) console.log(`Note: ${missingKg} devices without weight`);
   if (err.length) { err.forEach(e => console.error('ERROR:', e)); console.error(`${err.length} error(s) – nothing written.`); process.exit(1); }
   if (cmd === 'import') {
     for (const [k, v] of [['DEVDB', devdb], ['KG', kg], ['EXACT', exact]]) writeFileSync(new URL(F[k], ROOT), JSON.stringify(v, null, 1) + '\n');
-    src = writeBlock(src, 'DEVDB', devdb); src = writeBlock(src, 'KG', kg); src = writeBlock(src, 'EXACT', exact); src = writeBlock(src, 'I18N', i18n);
+    src = writeBlock(src, 'DEVDB', devdb); src = writeBlock(src, 'KG', kg); src = writeBlock(src, 'EXACT', exact); src = writeBlock(src, 'I18N', i18n); src = writeBlock(src, 'CTYPES', cdb.types); src = writeBlock(src, 'CON', cdb.connectors);
+    writeFileSync(new URL(CONF, ROOT), JSON.stringify(cdb, null, 1) + '\n');
     writeFileSync(HTML, src);
-    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
-  } else console.log(`OK: ${Object.keys(devdb).length} devices, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations`);
+    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
+  } else console.log(`OK: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations`);
 } else { console.error('Usage: node scripts/data.mjs export|import|check [--csv] [--weights file] [--review file]'); process.exit(2); }

@@ -371,6 +371,22 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 [hidden] { display: none !important; }
 .pal[draggable="true"] { cursor: grab; }
 [data-slot].dropon > rect, [data-slot].dropon > circle:first-of-type { stroke: var(--accent); stroke-width: 2px; }
+.holes { display: grid; grid-template-columns: repeat(var(--cols, 12), minmax(0, 1fr)); gap: 4px; }
+.holes.free { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); }
+.hole-b { display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 3px 1px 2px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); color: inherit; font: inherit; font-size: 11px; cursor: pointer; min-width: 0; }
+.hole-b svg { width: 22px; height: 25px; }
+.hole-b small { display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: 9.5px; }
+.hole-b.on { border-color: var(--accent); background: var(--accent-soft); }
+.conform { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+.conform .field { min-width: 0; } .conform select, .conform input { width: 100%; }
+.conform .hint { grid-column: 1 / -1; margin: 0; }
+.selhole { border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; }
+.selhole h3 { margin: 0; }
+.cppal { display: flex; flex-wrap: wrap; gap: 6px; }
+.cpcut { fill: none; stroke: #ff5a4f; stroke-width: .5; }
+.cpfl { fill: none; stroke: rgba(255, 255, 255, .45); stroke-width: .35; stroke-dasharray: 1.4 1; }
+.cpbad { fill: rgba(255, 90, 79, .18); stroke: #ff5a4f; stroke-width: .5; }
+.cpwarn { margin: 6px 0 0; padding-left: 18px; color: var(--warn); font-size: 12.5px; }
 [data-slotrow].dropon { border-color: var(--accent); background: var(--accent-soft); }
 
 /* Stufen */
@@ -786,6 +802,10 @@ td input.shop { min-width: 110px; }
     <button type="button" class="dlg-close" data-veclose aria-label="Schließen">×</button></div>
   <div class="dlg-body" id="veBody"></div>
 </dialog>
+<dialog class="add vedit" id="cpDlg" aria-labelledby="cpTitle">
+  <div class="dlg-head"><h2 id="cpTitle">Eigenes Steckerfeld</h2><button type="button" class="dlg-close" data-cpclose aria-label="Schließen">×</button></div>
+  <div class="dlg-body" id="cpBody"></div>
+</dialog>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -805,15 +825,20 @@ const LANG = (() => { try { const l = localStorage.getItem('rm-lang'); if (l ===
 const LOC = LANG === 'en' ? 'en-GB' : 'de-DE';
 document.documentElement.lang = LANG;
 /* DATA:I18N */ const I18N_EN = {
+  "– Maße prüfen": "– check dimensions",
+  ", Loch für TRUE1 Out aufbohren": ", drill out the hole for TRUE1 Out",
+  ", von vorn": ", from the front",
   "· {0} Projekte aktualisiert": "· {0} projects updated",
   "· {0} Projekte übernommen": "· {0} projects added",
   "· Gewicht fehlt": "· weight missing",
   "· Maße am Gerät prüfen": "· check dimensions on the device",
   "· Maße prüfen": "· check dimensions",
   "· nicht bestellen": "· do not order",
+  "· nur von vorn einbaubar": "· front mounting only",
   "· Platzhalter": "· placeholder",
   "· Rückseite": "· rear",
   "· Schiene hinten bei {0} mm": "· rear rail at {0} mm",
+  "· von vorn": "· from the front",
   "„{0}“ (hinten, {1} mm) ragt über die Frontschiene hinaus.": "“{0}” (rear, {1} mm) protrudes past the front rail.",
   "„{0}“ angelegt": "“{0}” created",
   "„{0}“ ist {1} mm tief, das Case bietet {2} mm Einbautiefe.": "“{0}” is {1} mm deep, the case offers {2} mm mounting depth.",
@@ -829,10 +854,10 @@ document.documentElement.lang = LANG;
   "(bei diesem Case nicht möglich)": "(not possible with this case)",
   "(hinten)": "(rear)",
   "(nicht lieferbar)": "(not available)",
-  "(nur von vorn möglich)": "(front mounting only)",
   "(serienmäßig)": "(standard)",
   "(vorn)": "(front)",
   "{0} · {1} · {2} · {3} passende Geräte": "{0} · {1} · {2} · {3} matching devices",
+  "{0} · {1} · {2} (eigenes Steckerfeld)": "{0} · {1} · {2} (custom connector panel)",
   "{0} · {1} · Kabeldurchführung": "{0} · {1} · cable entry",
   "{0} · {1} · Teilungen, PDF": "{0} · {1} · divisions, PDF",
   "{0} {1} in diesem Browser": "{0} {1} in this browser",
@@ -853,9 +878,11 @@ document.documentElement.lang = LANG;
   "{0} Projekte aus dem Ordner aktualisiert": "{0} projects updated from the folder",
   "{0} Schrauben nötig · Pack à {1} Stk.": "{0} screws needed · pack of {1}",
   "{0} Teilungen à {1} mm, {2} Zeile{3}. Streifen {4} × {5} mm als PDF drucken (100 %), schneiden, einschieben.": "{0} divisions of {1} mm, {2} line(s). Print strip {4} × {5} mm as PDF (100 %), cut, slide in.",
+  "{0} und {1} überlappen.": "{0} and {1} overlap.",
   "{0} von {1} mm": "{0} of {1} mm",
   "{0} von {1} Projekten übernommen": "{0} of {1} projects imported",
   "{0}: {1}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.": "{0}: {1}. Close free cells with the blank plates (1/3, 1/6).",
+  "{0}{1} ragt über den nutzbaren Bereich der Blende{2}.": "{0}{1} extends beyond the usable area of the panel{2}.",
   "{1} – nach links/rechts ziehen": "{1} – drag left/right",
   "{1} öffnen": "Open {1}",
   "{1} Pos.": "{1} items",
@@ -885,6 +912,7 @@ document.documentElement.lang = LANG;
   "Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.": "Distance from the left inner edge in mm. Align devices flush with the front edge and secure with cable ties or screws.",
   "Adam Hall 872205 VR / 8722x VR · darf vor einer Rackwanne liegen": "Adam Hall 872205 VR / 8722x VR · may sit in front of a rack shelf",
   "Adam Hall 87221 BRUSH · 1 HE, 1,5 mm Stahl, Bürstenöffnung 400 × 21 mm.": "Adam Hall 87221 BRUSH · 1 U, 1.5 mm steel, brush opening 400 × 21 mm.",
+  "Adam Hall 8722x STL · D-Einsätze, CEE, Schuko, Kaltgeräte … frei platzieren · Bohrplan und Bohrschablone": "Adam Hall 8722x STL · place D inserts, CEE, Schuko, IEC … freely · drill plan and drill template",
   "Adam Hall 8722x STL · Stahl": "Adam Hall 8722x STL · steel",
   "Alle auf Blindplatte": "All on blank plate",
   "Alle Einsätze von hinten einbauen (Flansch hinter der Blende), M3-Schrauben von vorn.": "Mount all inserts from the rear (flange behind the panel), M3 screws from the front.",
@@ -920,8 +948,11 @@ document.documentElement.lang = LANG;
   "Art.-Nr. nach Muster 135502DH abgeleitet": "Part no. derived from pattern 135502DH",
   "Artikel": "Item",
   "Aus „Meine Elemente“ entfernt": "Removed from “My elements”",
+  "Ausschnitte mit „Maße prüfen“ vor dem Bohren mit dem Maßblatt des Herstellers abgleichen.": "Compare cutouts marked \"check dimensions\" with the manufacturer drawing before drilling.",
+  "Ausschnitte zeigen": "Show cutouts",
   "Außenmaß ca. {0} (B × H × T).": "Outer size approx. {0} (W × H × D).",
   "Auswahl": "Selection",
+  "Basis: {0} · {1} Stecker · Bohrplan in der Fertigung, Bohrschablone (PDF 1:1) im Editor. Doppelklick auf das Steckerfeld öffnet den Editor.": "Base: {0} · {1} connectors · drill plan in the build notes, drill template (PDF 1:1) in the editor. Double-click the panel to open the editor.",
   "Bedarf {0} Stk.{1} → {2} Pack": "Need {0} pcs{1} → {2} pack",
   "bei {0} mm hinter der Frontschiene": "at {0} mm behind the front rail",
   "Beispiel": "Example",
@@ -931,7 +962,6 @@ document.documentElement.lang = LANG;
   "Beispiel laden": "Load example",
   "belegt · schiebt nach unten": "occupied · pushes down",
   "Belegung": "Layout",
-  "Beschriftung": "Label",
   "Beschriftung {0}: {1} × {2} mm = {3} mm ist breiter als der Streifen ({4} mm).": "Label {0}: {1} × {2} mm = {3} mm is wider than the strip ({4} mm).",
   "Beschriftungen als PDF": "Labels as PDF",
   "Beschriftungsblende": "Label panel",
@@ -948,10 +978,14 @@ document.documentElement.lang = LANG;
   "Blende": "Panel",
   "Blende hinten an die Rückschiene, Front nach hinten.": "Panel on the rear rail, front facing backwards.",
   "Blenden": "Panels",
+  "Bohrschablone 1:1 · {0} · Vorderseite · Maße in mm ab linker Blendenkante und Oberkante · drucken mit „Tatsächliche Größe“ (100 %) und am Kontrollmaß prüfen": "Drill template 1:1 · {0} · front · dimensions in mm from the left panel edge and the top edge · print at \"Actual size\" (100 %) and check the control dimension",
+  "Bohrschablone PDF (1:1)": "Drill template PDF (1:1)",
   "Breite (mm)": "Width (mm)",
   "Bürstenblende": "Brush panel",
   "Case": "Case",
   "Case-Artikel / Notiz": "Case part / note",
+  "D-Einsätze {0} einbauen, je 2 × M3.": "Mount D inserts {0}, 2 × M3 each.",
+  "data/connectors.json": "data/connectors.json",
   "Datei ist keine gültige Rack Manufaktur-Projektdatei": "File is not a valid Rack Manufaktur project file",
   "Datei konnte nicht gelesen werden": "File could not be read",
   "Datenschutz": "Privacy",
@@ -974,7 +1008,12 @@ document.documentElement.lang = LANG;
   "Eigenes Element": "Custom element",
   "Eigenes Element: erscheint mit Art.-Nr. und Preis in der Stückliste.": "Custom element: appears with part no. and price in the bill of materials.",
   "Eigenes Gerät": "Custom device",
+  "Eigenes Steckerfeld": "Custom connector panel",
+  "Eigenes Steckerfeld · Rackblende mit frei platzierten Steckern": "Custom connector panel · rack panel with freely placed connectors",
+  "Ein Loch antippen (oben oder in der Ansicht), um Typ, Zulieferer, Name und Einbaurichtung zu bearbeiten.": "Tap a hole (above or in the view) to edit type, supplier, name and mounting direction.",
   "Ein- und Ausgänge, Links": "Inputs and outputs, links",
+  "Einbau": "Mounting",
+  "Einbausteckdosen/-stecker mit Schrauben nach Herstellerangabe befestigen.": "Fix panel sockets/inlets with screws as specified by the manufacturer.",
   "Einbautiefe {2} mm": "Mounting depth {2} mm",
   "Einsätze von hinten einbauen, außer Loch {0} von vorn.": "Mount inserts from the rear, except hole {0} from the front.",
   "Einsetzen": "Insert",
@@ -1036,6 +1075,7 @@ document.documentElement.lang = LANG;
   "In der App zeigen": "Show in the app",
   "In die Zwischenablage kopiert": "Copied to clipboard",
   "In diesem Browser nicht möglich (nur Chrome und Edge). Die Projekte liegen im Browser; sichern mit „Alle Projekte sichern“.": "Not possible in this browser (Chrome and Edge only). Projects are stored in the browser; back up with “Back up all projects”.",
+  "in gebohrter Blindplatte im D-Loch": "in a drilled blank plate in the D hole",
   "ist verbunden. Änderungen werden automatisch dort gespeichert; neuere Dateien aus dem Ordner (z. B. von einem anderen Rechner) werden beim Öffnen dieses Fensters übernommen.": "is connected. Changes are saved there automatically; newer files from the folder (e.g. from another computer) are imported when this window opens.",
   "Jetzt abgleichen": "Sync now",
   "JSON ist ungültig. Bitte den kompletten Text einfügen.": "JSON is invalid. Please paste the complete text.",
@@ -1064,6 +1104,7 @@ document.documentElement.lang = LANG;
   "Konfiguration als JSON (sichern / einspielen)": "Configuration as JSON (back up / restore)",
   "Konfiguration übernommen": "Configuration applied",
   "Konfigurator": "Configurator",
+  "Kontrollmaß 100 mm": "Control dimension 100 mm",
   "Kopieren": "Copy",
   "Kunde": "Client",
   "Kunde / Veranstaltung": "Client / event",
@@ -1076,9 +1117,10 @@ document.documentElement.lang = LANG;
   "Live-Ansicht": "Live view",
   "Loch {0} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren.": "Drill out hole {0} for powerCON TRUE1 Out (SAC3FPX-LY TR1).",
   "Loch {0}: Ø {1} mm ({2})": "Hole {0}: Ø {1} mm ({2})",
-  "Loch {1}: {2} · {3} eingebaut": "Hole {1}: {2} · {3} mounted",
+  "Loch {1}: {2}{3} · {4} eingebaut": "Hole {1}: {2}{3} · mounted {4}",
   "Loch 1/2 = TRUE1 In/Out": "Hole 1/2 = TRUE1 In/Out",
   "Loch aufbohren": "Drill out hole",
+  "Löcher · antippen zum Bearbeiten, ziehen zum Tauschen": "Holes · tap to edit, drag to swap",
   "lokaler Entwurf": "local draft",
   "löschen": "delete",
   "Löschen": "Delete",
@@ -1098,6 +1140,7 @@ document.documentElement.lang = LANG;
   "Nach dem Neuladen einmal den Zugriff bestätigen": "Confirm access once after reloading",
   "nach Lieferant": "by supplier",
   "nächstes freie Loch": "next free hole",
+  "Name / Bemerkung": "Name / note",
   "Name, Rackcase wählen": "Name, choose rack case",
   "Neue Tiefe (mm)": "New depth (mm)",
   "Neuere Fassung dieses Projekts aus dem Projektordner geladen": "Newer version of this project loaded from the project folder",
@@ -1113,6 +1156,8 @@ document.documentElement.lang = LANG;
   "Noch keine eigenen Elemente gespeichert.": "No custom elements saved yet.",
   "Noch keine Geräte aus der Gerätedatenbank im Rack (Popup → Geräte).": "No devices from the device database in the rack yet (popup → Devices).",
   "Noch keine Projekte gespeichert.": "No projects saved yet.",
+  "Noch keine Stecker – im Editor hinzufügen und frei platzieren.": "No connectors yet – add them in the editor and place them freely.",
+  "Noch keine Stecker platziert.": "No connectors placed yet.",
   "Noch leer.": "Empty so far.",
   "noch nicht geprüft": "not checked yet",
   "node scripts/data.mjs import --review <datei>": "node scripts/data.mjs import --review <file>",
@@ -1120,6 +1165,7 @@ document.documentElement.lang = LANG;
   "Notiz zum Case": "Case note",
   "nur mit Händler-Login": "dealer login only",
   "nur vorne": "front only",
+  "Oben einen Stecker wählen – er wird an die erste freie Stelle gesetzt.": "Choose a connector above – it is placed at the first free spot.",
   "Oder in der Vorder- bzw. Rückansicht mit der Maus über eine freie Stelle fahren und auf": "Or hover over a free spot in the front or rear view and click",
   "Öffnen": "Open",
   "Ohne Gewicht: {0}{1}.": "Without weight: {0}{1}.",
@@ -1127,10 +1173,12 @@ document.documentElement.lang = LANG;
   "Ordner wieder verbinden": "Reconnect folder",
   "Ordnerzugriff ist hier nicht erlaubt": "Folder access is not allowed here",
   "Original {2} mm. In der Fertigung steht: mit Winkelschleifer kürzen.": "Original {2} mm. The build notes say: shorten with an angle grinder.",
+  "passt ins D-Loch": "fits the D hole",
   "passt nicht zur Schiene dieses Cases": "does not fit this case's rail",
   "PDF exportieren": "Export PDF",
   "PDF wird erstellt …": "Creating PDF …",
   "PDF-Bibliothek konnte nicht geladen werden.": "PDF library could not be loaded.",
+  "PDF-Bibliothek nicht geladen": "PDF library not loaded",
   "Planungshilfe ohne Gewähr. Preise und Artikelnummern sind recherchierte Händlerangaben (Stand 11/2026), unverbindlich und kein Angebot. Marken- und Produktnamen gehören ihren Inhabern; keine Verbindung zu den Herstellern oder Händlern. Elektrische Arbeiten nur durch eine Elektrofachkraft.": "Planning aid without warranty. Prices and part numbers are researched dealer data (as of 11/2026), non-binding and not an offer. Brand and product names belong to their owners; no affiliation with the manufacturers or dealers. Electrical work only by a qualified electrician.",
   "PLATZHALTER": "PLACEHOLDER",
   "Platzhalter · Preis eintragen": "Placeholder · enter price",
@@ -1180,6 +1228,7 @@ document.documentElement.lang = LANG;
   "Rack Manufaktur Konfigurator": "Rack Manufaktur configurator",
   "Rack Manufaktur-Projekt": "Rack Manufaktur project",
   "Rackblende": "Blank panel",
+  "Rackblende Stahl mit eigenen Ausschnitten": "Steel rack panel with custom cutouts",
   "Rackcase wählen": "Choose rack case",
   "Rackschiene": "Rack rail",
   "Rackschiene hinten": "Rear rack rail",
@@ -1225,7 +1274,11 @@ document.documentElement.lang = LANG;
   "Speichern abgebrochen": "Saving cancelled",
   "Stand": "Date",
   "Startwerte: Streifen {6} × {7} mm, Teilungsabstand = D-Raster der Zeichnung ({8} mm bei 12 Löchern). Maße bitte am Streifen und an der Blende nachmessen. PDF in 100 % drucken.": "Starting values: strip {6} × {7} mm, division pitch = D grid of the drawing ({8} mm for 12 holes). Please measure on the strip and panel. Print the PDF at 100 %.",
+  "Stecker ({8})": "Connectors ({8})",
   "Stecker für {0} · antippen oder auf ein Loch in der Ansicht ziehen": "Connector for {0} · tap or drag onto a hole in the view",
+  "Stecker hinzufügen": "Add connector",
+  "Stecker mit D-Norm passen auch in die fertigen Steckerfelder; CEE, Schuko und Kaltgeräte brauchen einen eigenen Ausschnitt. Die Steckerdatenbank liegt in": "D-size connectors also fit the ready-made connector panels; CEE, Schuko and IEC need their own cutout. The connector database is in",
+  "Steckerfeld-Editor öffnen": "Open connector panel editor",
   "Steckerfelder": "Connector panels",
   "Streifen Breite (mm)": "Strip width (mm)",
   "Streifen Höhe (mm)": "Strip height (mm)",
@@ -1249,12 +1302,14 @@ document.documentElement.lang = LANG;
   "Übersicht": "Overview",
   "unbekannt": "unknown",
   "Versatz (mm)": "Offset (mm)",
+  "Vertikal mittig": "Centre vertically",
   "von hinten": "from the rear",
   "Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte sind abgedunkelt und zeigen ihre Rückseite (bearbeiten in der Vorderansicht).": "Seen from behind, mirrored. Drag rear mounted modules to move them; front mounted ones are dimmed and show their rear (edit in the front view).",
   "von vorn": "from the front",
   "Vorderansicht": "Front view",
   "Vorderseite": "Front",
   "Vorderseite geprüft": "Front checked",
+  "Vorderseite, Rackblende 482,6 mm × {6} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {6} mm. Drag connectors (0.5 mm grid, with Shift 0.1 mm), arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
   "vorhanden": "owned",
   "Vorhanden (nicht bestellen)": "Owned (do not order)",
   "Vorn": "Front",
@@ -1268,6 +1323,7 @@ document.documentElement.lang = LANG;
   "z. B. Anschlussrack 8 HE": "e.g. connector rack 8 U",
   "z. B. Hersteller und Art.-Nr.": "e.g. manufacturer and part no.",
   "z. B. Inventarnummer, Einsatzort, Termin": "e.g. inventory number, location, date",
+  "z. B. Mic 1, Strom Bühne": "e.g. Mic 1, stage power",
   "z. B. Rackleuchte, Kabel": "e.g. rack light, cable",
   "z. B. Shure ULXD4Q": "e.g. Shure ULXD4Q",
   "z. B. Steckdosenleiste 19″ 8-fach": "e.g. 19″ power strip, 8 sockets",
@@ -1276,9 +1332,13 @@ document.documentElement.lang = LANG;
   "Zoom": "Zoom",
   "Zugriff auf den Ordner wurde nicht erlaubt": "Access to the folder was not allowed",
   "Zugriff muss nach dem Neuladen einmal bestätigt werden.": "Access has to be confirmed once after reloading.",
-  "Zum Tauschen auf ein anderes Loch ziehen": "Drag onto another hole to swap",
+  "Zulieferer · Artikel": "Supplier · part",
   "Zusätzlich hinten an der Rackschiene bei {0} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe {1} mm.": "Also fix at the rear rack rail at {0} mm (rack ears or support brackets). Device depth {1} mm.",
   "Zusätzlich hinten an der Rückschiene verschrauben": "Also fix at the rear rail",
+  "(nur von vorn möglich)": "(front mounting only)",
+  "Beschriftung": "Label",
+  "Loch {1}: {2} · {3} eingebaut": "Hole {1}: {2} · {3} mounted",
+  "Zum Tauschen auf ein anderes Loch ziehen": "Drag onto another hole to swap",
   "Gesamtgewicht {0}": "Total weight {0}",
   "Case, Module, Zubehör und Geräte laut Stückliste, auch vorhandene Geräte.": "Case, modules, accessories and devices from the bill of materials, including owned devices.",
   "Ohne Gewicht: {0}": "Without weight: {0}",
@@ -1290,6 +1350,9 @@ document.documentElement.lang = LANG;
   "z. B. Input CH1": "e.g. Input CH1",
   "Das Herstellerbild bleibt in deinem Browser.": "The manufacturer image stays in your browser.",
   "Maße am Gerät prüfen": "check dimensions on the device",
+  "Eigenes Steckerfeld {0}": "Custom connector panel {0}",
+  "Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten.": "Mark the cutouts from the drill plan – centres in mm from the left panel edge (incl. rack ear) and from the top edge –, drill or punch and deburr.",
+  "Bohrschablone 1:1 als PDF im Steckerfeld-Editor.": "Drill template 1:1 as PDF in the connector panel editor.",
   "12G-Eignung prüfen": "check 12G suitability",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
   "210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.": "210 mm outer depth, inside 401 × 74 × 200 mm, 25 kg, full extension, lockable.",
@@ -1311,12 +1374,13 @@ document.documentElement.lang = LANG;
   "Abgekündigt. Anschlüsse aus Datenblatt, Rückseite nicht gezeichnet.": "Discontinued. Connectors from the data sheet, rear not drawn.",
   "adamhall.com · Preis nur mit Login": "adamhall.com · price with login only",
   "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.": "View generated from data sheet values, layout not checked against a photo.",
+  "Ausschnitt 28,8 × 19,4 mm für 0,8–1,5 mm Blech (29,6 × 19,4 mm für 1,6–2 mm)": "Cutout 28.8 × 19.4 mm for 0.8–1.5 mm sheet (29.6 × 19.4 mm for 1.6–2 mm)",
   "Behringer FX2000 Effektgerät": "Behringer FX2000 effects processor",
   "Blindplatte D wird mitbestellt": "D blank plate is ordered as well",
   "BNC-Durchführung": "BNC feed-through",
   "Box 200 × 125 × 40,65 mm, XLR-Seite nach vorn": "Box 200 × 125 × 40.65 mm, XLR side to the front",
   "Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm": "RCA panel socket insulated, hole Ø 8 mm",
-  "Cinch/RCA-Durchführung (D-Format)": "RCA feed-through (D format)",
+  "Cinch/RCA-Durchführung (D-Format)": "RCA feed-through (D-size)",
   "D-Format prüfen · Alternative Neutrik NAC3MPA-1-WOT": "check D format · alternative Neutrik NAC3MPA-1-WOT",
   "D-Format prüfen · Alternative Neutrik NAC3MPB-1-WOT": "check D format · alternative Neutrik NAC3MPB-1-WOT",
   "d&b 10D Installationsverstärker": "d&b 10D installation amplifier",
@@ -1333,6 +1397,8 @@ document.documentElement.lang = LANG;
   "Einzel-Node: Kit mit Blindblech 130281": "Single node: kit with blank plate 130281",
   "Eurolite SBM-32B Stromverteiler mit Messung": "Eurolite SBM-32B power distributor with metering",
   "Farbcode wählbar (-0 … -9)": "colour code selectable (-0 … -9)",
+  "Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.": "Footprint from manufacturer data (flange, hole spacing); check the cutout Ø against the drawing.",
+  "frei wählbar": "any",
   "Funk · RF-Zubehör": "Wireless · RF accessories",
   "Funk · Shure · RF-Zubehör": "Wireless · Shure · RF accessories",
   "Funkempfänger": "Wireless receiver",
@@ -1344,17 +1410,21 @@ document.documentElement.lang = LANG;
   "Gewichtsangaben schwanken (8–12 kg); Harting-Variante prüfen.": "Stated weights vary (8–12 kg); check the Harting version.",
   "Gleitmuttern M6 für stufenlose Aluschiene": "M6 slide nuts for stepless aluminium rail",
   "HDMI-Durchführung": "HDMI feed-through",
+  "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.": "Listed in the inventory as \"Showtec PSA321\" – check the model. View generated from data sheet values, layout not checked against a photo.",
   "im Lieferumfang der Geräte": "included with the devices",
   "Innenrack, Systemtiefe 715 mm · stufenlose RSS-Rackschiene vorne · hinten je 2 Kabeldurchführungen · inkl. 4 Geräteschrauben-Sätze. Nutztiefe nicht angegeben, 637 mm abgeleitet – bitte messen.": "Inner rack, system depth 715 mm · stepless RSS rack rail at the front · 2 cable entries at the rear on each side · incl. 4 device screw sets. Usable depth not specified, 637 mm derived – please measure.",
   "Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite": "Cable lacing bar 1 U, rear",
   "Kabelbinder für Zugentlastung (Pack)": "Cable ties for strain relief (pack)",
   "Käfigmuttern M6, 20 Stk. (für 2-mm-Stahlschienen)": "M6 cage nuts, 20 pcs (for 2 mm steel rails)",
+  "Kaltgeräte-Einbaustecker C14": "IEC C14 panel inlet",
+  "Kaltgeräte-Einbaustecker C14, Snap-in": "IEC C14 panel inlet, snap-in",
   "kein Adam-Hall-Artikel gefunden": "no Adam Hall item found",
   "kein Euro-Preis gefunden": "no euro price found",
   "kein Preis gefunden": "no price found",
   "Klinkeneinbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm (z. B. Neutrik NMJ6HCD2)": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm (e.g. Neutrik NMJ6HCD2)",
   "Laut Hersteller abgekündigt (02/2024).": "Discontinued according to the manufacturer (02/2024).",
   "liegt Shure-Empfängern/-Sendern halber Breite bei": "included with Shure half-width receivers/transmitters",
+  "Loch offen": "Hole open",
   "Loch offen (ohne Einsatz)": "Hole open (no insert)",
   "MA 2Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)": "MA 2Port Node 19″ rack kit – XLR connectors (front panel)",
   "MA 4Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)": "MA 4Port Node 19″ rack kit – XLR connectors (front panel)",
@@ -1369,8 +1439,10 @@ document.documentElement.lang = LANG;
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet",
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; abgekündigt": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet; discontinued",
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet; check U",
+  "powerCON Out weiß": "powerCON Out white",
   "powerCON Out weiß (D-Format)": "powerCON Out white (D format)",
   "powerCON TRUE1 Out (Loch aufbohren)": "powerCON TRUE1 Out (drill out hole)",
+  "powerCON TRUE1 Out, D-Norm (nur von vorn einbaubar)": "powerCON TRUE1 Out, D-size (front mounting only)",
   "Powersoft T302 Verstärker 2-Kanal": "Powersoft T302 amplifier, 2 channels",
   "Powersoft T304 Verstärker 4-Kanal": "Powersoft T304 amplifier, 4 channels",
   "Powersoft T602 Verstärker 2-Kanal": "Powersoft T602 amplifier, 2 channels",
@@ -1380,6 +1452,7 @@ document.documentElement.lang = LANG;
   "Powersoft X4 Verstärker 4-Kanal": "Powersoft X4 amplifier, 4 channels",
   "Powersoft X4L Verstärker 4-Kanal": "Powersoft X4L amplifier, 4 channels",
   "Powersoft X8 Verstärker 8-Kanal": "Powersoft X8 amplifier, 8 channels",
+  "Preis und Bezeichnung prüfen": "check price and designation",
   "Preis und D-Ausschnitt prüfen": "check price and D cut-out",
   "procaseshop.de · auch 4er (11920) und 100er (11924)": "procaseshop.de · also 4-pack (11920) and 100-pack (11924)",
   "procaseshop.de · auch 4er (11925) und 100er (11929)": "procaseshop.de · also 4-pack (11925) and 100-pack (11929)",
@@ -1402,6 +1475,7 @@ document.documentElement.lang = LANG;
   "Schaumstoffeinlage für Schublade 1 HE": "Foam insert for drawer 1 U",
   "Schaumstoffeinlage für Schublade 3 HE": "Foam insert for drawer 3 U",
   "Schaumstoffeinlage für Schublade 4 HE": "Foam insert for drawer 4 U",
+  "Schuko-Einbausteckdose mit Klappdeckel, Flansch 50 × 50": "Schuko panel socket with hinged lid, flange 50 × 50",
   "SDI-Durchführung BNC 75 Ω, isoliert": "SDI feed-through BNC 75 Ω, insulated",
   "Shure ANX4 Netzwerk-Empfänger": "Shure ANX4 network receiver",
   "Shure GLXD4R+ (Rack-Empfänger)": "Shure GLXD4R+ (rack receiver)",
@@ -1433,6 +1507,7 @@ document.documentElement.lang = LANG;
   "U-Lüftungsblende 3 HE, Rundlochung": "U vent panel 3 U, round perforation",
   "U-Rackblende 0,5 HE mit Beschriftungsstreifen": "U blank panel 0.5 U with label strip",
   "U-Rackblende 1 HE mit Bürstenleiste (Öffnung 400 × 21 mm)": "U blank panel 1 U with brush strip (opening 400 × 21 mm)",
+  "USB-3.0-Durchführung": "USB 3.0 feed-through",
   "USB-Durchführung": "USB feed-through",
   "Wie QSD 600, aber tiefer: Schiene–Schiene 573–690 mm, Frontschiene bis Deckel hinten max. 748 mm. LKW-Maß 60 × 80 cm. 26 und 28 HE als „slam door“-Version. Inkl. 24 Geräteschrauben.": "Like QSD 600 but deeper: rail to rail 573–690 mm, front rail to rear lid max. 748 mm. Truck size 60 × 80 cm. 26 and 28 U as “slam door” version. Incl. 24 device screws.",
   "Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen.": "Bolt two half-width devices together in the centre with the joining plate and side brackets (rack ears) – included with the devices. Optional antennas to the front: BNC on the side brackets.",
@@ -1449,8 +1524,29 @@ document.documentElement.lang = LANG;
   "Anschlüsse aus Datenblatt, Rückseite nicht gezeichnet.": "Connectors from the data sheet, rear not drawn.",
   "Abgekündigt, ähnlich Streaming Encoder HD.": "Discontinued, similar to Streaming Encoder HD.",
   "Maße wie Teranex-Mini-Gehäuse angenommen.": "Dimensions assumed as Teranex Mini housing.",
-  "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.": "Listed in the inventory as \"Showtec PSA321\" – check the model. View generated from data sheet values, layout not checked against a photo.",
-  "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen.": "Listed in the inventory as \"Showtec PSA321\" – check the model."
+  "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen.": "Listed in the inventory as \"Showtec PSA321\" – check the model.",
+  "CEE 16 A Buchse 5-pol": "CEE 16 A socket 5-pin",
+  "CEE 16 A Stecker 5-pol (Einspeisung)": "CEE 16 A inlet 5-pin (supply)",
+  "Schuko-Einbausteckdose": "Schuko panel socket",
+  "powerCON In blau": "powerCON In blue",
+  "BNC / SDI": "BNC / SDI",
+  "Klinke 6,3 mm": "Jack 6.3 mm",
+  "SMA-Antenne": "SMA antenna",
+  "Blindplatte": "Blank plate",
+  "CEE-Anbausteckdose 16 A 5-pol, Flansch 70 × 70": "CEE panel socket 16 A 5-pin, flange 70 × 70",
+  "CEE-Anbausteckdose 16 A 5-pol, Flansch 75 × 75": "CEE panel socket 16 A 5-pin, flange 75 × 75",
+  "CEE-Anbaustecker 16 A 5-pol, Flansch 70 × 70": "CEE panel inlet 16 A 5-pin, flange 70 × 70",
+  "Netzwerk RJ45 Cat 6A (etherCON)": "Network RJ45 Cat 6A (etherCON)",
+  "opticalCON DUO": "opticalCON DUO",
+  "Cinch/RCA": "RCA",
+  "KLINKE": "JACK",
+  "KLINKE*": "JACK*",
+  "offen": "open",
+  "XLR 3-pol Buchse": "XLR 3-pin female",
+  "XLR 3-pol Stecker": "XLR 3-pin male",
+  "DMX 5-pol Stecker (In)": "DMX 5-pin male (In)",
+  "DMX 5-pol Buchse (Out)": "DMX 5-pin female (Out)",
+  "speakON 4-pol": "speakON 4-pin"
 };
 /* /DATA:I18N */
 const TERMS_EN = [
@@ -1542,33 +1638,104 @@ const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 /* ---------- Katalog ---------- */
 // src: cart = Warenkorb · web = Webpreis · ref = Art.-Nr. belegt · check = prüfen · user = eigene Angabe
-const CON = {
-  pc_in:    { s: 'TRUE1 IN',  n: 'powerCON TRUE1 In',                          art: 'Seetronic SAC3MPX TR1',    price: 2.90, src: 'cart', g: 'pcin' },
-  pc_out:   { s: 'TRUE1 OUT', n: 'powerCON TRUE1 Out (Loch aufbohren)',        art: 'Seetronic SAC3FPX-LY TR1', price: 4.50, src: 'cart', g: 'pcout' },
-  pc_out_d: { s: 'TRUE1 OUT', n: 'TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren, nur von vorn einbaubar)', art: 'Seetronic SAC3FPX20', price: 4.50, src: 'web', q: 'Thomann · nur von vorn einbaubar · Alternative: Neutrik NAC3FPX-D-TRUE1', g: 'pcout', mount: 'f' },
-  blank:    { s: 'Blind',     n: 'Blindplatte D-Format',                       art: 'Millenium Blanking Plate D Format', price: 0.70, src: 'cart', g: 'blank' },
-  xlr3f:    { s: 'XLR3 F',    n: 'XLR 3-pol Buchse',                           art: 'Neutrik NC3FD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrf', p: 3 },
-  xlr3m:    { s: 'XLR3 M',    n: 'XLR 3-pol Stecker',                          art: 'Neutrik NC3MD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrm', p: 3 },
-  dmx5m:    { s: 'DMX IN',    n: 'DMX 5-pol Stecker (In)',                     art: 'Neutrik NC5MD-L-1',  price: null, src: 'check', q: 'kein Euro-Preis gefunden', g: 'xlrm', p: 5 },
-  dmx5f:    { s: 'DMX OUT',   n: 'DMX 5-pol Buchse (Out)',                     art: 'Neutrik NC5FD-L-1',  price: 11.70, src: 'web', q: 'Thomann', g: 'xlrf', p: 5 },
-  rj45:     { s: 'RJ45',      n: 'Netzwerk RJ45 (etherCON)',                   art: 'Neutrik NE8FDP',     price: 9.10, src: 'web', q: 'Thomann', g: 'rj45' },
-  hdmi:     { s: 'HDMI',      n: 'HDMI-Durchführung',                          art: 'Neutrik NAHDMI-W-B', price: 14.50, src: 'web', q: 'Thomann', g: 'hdmi' },
-  usb:      { s: 'USB',       n: 'USB-Durchführung',                           art: 'Neutrik NAUSB-W-B',  price: 6.90, src: 'web', q: 'Thomann', g: 'usb' },
-  bnc:      { s: 'BNC',       n: 'BNC-Durchführung',                           art: 'Neutrik NBB-75DFIB', price: null, src: 'check', g: 'bnc' },
-  nl4:      { s: 'NL4',       n: 'speakON 4-pol',                              art: 'Neutrik NL4MP',      price: null, src: 'check', g: 'nl4' },
-  pca_in:   { s: 'PCON IN',   n: 'powerCON In blau (D-Format)',               art: 'Seetronic SAC3MPA', price: null, src: 'check', q: 'D-Format prüfen · Alternative Neutrik NAC3MPA-1-WOT', g: 'pca' },
-  pcb_out:  { s: 'PCON OUT',  n: 'powerCON Out weiß (D-Format)',              art: 'Seetronic SAC3MPB', price: null, src: 'check', q: 'D-Format prüfen · Alternative Neutrik NAC3MPB-1-WOT', g: 'pcb' },
-  ocon:     { s: 'OPTICALCON', n: 'opticalCON DUO Einbaubuchse',              art: 'Neutrik NO2-4FDW-A', price: null, src: 'check', q: 'Preis und D-Ausschnitt prüfen', g: 'ocon' },
-  sdi:      { s: 'SDI',       n: 'SDI-Durchführung BNC 75 Ω, isoliert',        art: 'Neutrik NBB-75DFIB', price: null, src: 'check', q: '12G-Eignung prüfen', g: 'bnc' },
-  rca:      { s: 'RCA',       n: 'Cinch/RCA-Durchführung (D-Format)',         art: 'Neutrik NF2D-B-0', price: null, src: 'check', q: 'Farbcode wählbar (-0 … -9)', g: 'rca' },
-  rca_drill:{ s: 'RCA*',      n: 'Cinch-Einbaubuchse in gebohrter Blindplatte', art: 'Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'rca', drill: 8 },
-  jack:     { s: 'KLINKE',    n: 'Klinke 6,3 mm TRS/TS (D-Format)',           art: 'Neutrik NJ3FP6C-BAG', price: null, src: 'check', q: 'D-Format, stereo; mono-Stecker passen', g: 'jack' },
-  jack_drill:{ s: 'KLINKE*',  n: 'Klinkenbuchse 6,3 mm in gebohrter Blindplatte', art: 'Klinkeneinbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm (z. B. Neutrik NMJ6HCD2)', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'jack', drill: 9.5 },
-  sma_drill:{ s: 'SMA',       n: 'SMA-Antennendurchführung in gebohrter Blindplatte', art: 'SMA-Schottverbinder Buchse/Buchse, Bohrung Ø 6,5 mm', price: null, src: 'check', q: 'Blindplatte D wird mitbestellt', g: 'sma', drill: 6.5 },
-  open:     { s: 'offen',     n: 'Loch offen (ohne Einsatz)',                  art: '', price: null, src: 'user', g: 'open', nobom: true },
+// Steckerdatenbank (data/connectors.json, gepflegt mit scripts/data.mjs): Typen und Stecker je Zulieferer
+/* DATA:CTYPES */ const CTYPES = {
+  "true1_in": {"n":"powerCON TRUE1 In","s":"TRUE1 IN","def":"pc_in"},
+  "true1_out": {"n":"powerCON TRUE1 Out","s":"TRUE1 OUT","def":"pc_out_d"},
+  "pcon_a": {"n":"powerCON In blau","s":"PCON IN","def":"pca_in"},
+  "pcon_b": {"n":"powerCON Out weiß","s":"PCON OUT","def":"pcb_out"},
+  "xlr3f": {"n":"XLR 3-pol Buchse","s":"XLR3 F","def":"xlr3f"},
+  "xlr3m": {"n":"XLR 3-pol Stecker","s":"XLR3 M","def":"xlr3m"},
+  "dmx5m": {"n":"DMX 5-pol Stecker (In)","s":"DMX IN","def":"dmx5m"},
+  "dmx5f": {"n":"DMX 5-pol Buchse (Out)","s":"DMX OUT","def":"dmx5f"},
+  "rj45": {"n":"Netzwerk RJ45 (etherCON)","s":"RJ45","def":"rj45"},
+  "ocon": {"n":"opticalCON DUO","s":"OPTICALCON","def":"ocon"},
+  "hdmi": {"n":"HDMI-Durchführung","s":"HDMI","def":"hdmi"},
+  "usb": {"n":"USB-Durchführung","s":"USB","def":"usb"},
+  "bnc": {"n":"BNC / SDI","s":"BNC","def":"bnc"},
+  "rca": {"n":"Cinch/RCA","s":"RCA","def":"rca"},
+  "jack": {"n":"Klinke 6,3 mm","s":"KLINKE","def":"jack"},
+  "sma": {"n":"SMA-Antenne","s":"SMA","def":"sma_drill"},
+  "nl4": {"n":"speakON 4-pol","s":"NL4","def":"nl4"},
+  "cee16f": {"n":"CEE 16 A Buchse 5-pol","s":"CEE16 F","def":"cee16f_70"},
+  "cee16m": {"n":"CEE 16 A Stecker 5-pol (Einspeisung)","s":"CEE16 M","def":"cee16m_70"},
+  "schuko": {"n":"Schuko-Einbausteckdose","s":"SCHUKO","def":"schuko_50"},
+  "iec_c14": {"n":"Kaltgeräte-Einbaustecker C14","s":"C14","def":"iec_c14_snap"},
+  "blank": {"n":"Blindplatte","s":"Blind","def":"blank"},
+  "open": {"n":"Loch offen","s":"offen","def":"open"}
 };
-const PICK = ['pc_in', 'pc_out_d', 'pc_out', 'pca_in', 'pcb_out', 'xlr3f', 'xlr3m', 'dmx5m', 'dmx5f', 'rj45', 'ocon', 'hdmi', 'usb', 'sdi', 'bnc', 'rca', 'rca_drill', 'jack', 'jack_drill', 'sma_drill', 'nl4', 'blank', 'open'];
-const HOLE_LABELS = false;   // Lochbeschriftung (müsste gelasert werden) – vorerst abgeschaltet
+/* /DATA:CTYPES */
+/* DATA:CON */ const CON = {
+  "pc_in": {"type":"true1_in","mk":"Seetronic","fit":"d","s":"TRUE1 IN","n":"powerCON TRUE1 In","art":"Seetronic SAC3MPX TR1","price":2.9,"src":"cart","g":"pcin"},
+  "pc_out": {"type":"true1_out","mk":"Seetronic","fit":"d","s":"TRUE1 OUT","n":"powerCON TRUE1 Out (Loch aufbohren)","art":"Seetronic SAC3FPX-LY TR1","price":4.5,"src":"cart","g":"pcout"},
+  "pc_out_d": {"type":"true1_out","mk":"Seetronic","fit":"d","s":"TRUE1 OUT","n":"TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren, nur von vorn einbaubar)","art":"Seetronic SAC3FPX20","price":4.5,"src":"web","q":"Thomann · nur von vorn einbaubar · Alternative: Neutrik NAC3FPX-D-TRUE1","g":"pcout","mount":"f"},
+  "blank": {"type":"blank","mk":"Millenium","fit":"d","s":"Blind","n":"Blindplatte D-Format","art":"Millenium Blanking Plate D Format","price":0.7,"src":"cart","g":"blank"},
+  "xlr3f": {"type":"xlr3f","mk":"Neutrik","fit":"d","s":"XLR3 F","n":"XLR 3-pol Buchse","art":"Neutrik NC3FD-L-1","price":4.9,"src":"web","q":"Thomann","g":"xlrf","p":3},
+  "xlr3m": {"type":"xlr3m","mk":"Neutrik","fit":"d","s":"XLR3 M","n":"XLR 3-pol Stecker","art":"Neutrik NC3MD-L-1","price":4.9,"src":"web","q":"Thomann","g":"xlrm","p":3},
+  "dmx5m": {"type":"dmx5m","mk":"Neutrik","fit":"d","s":"DMX IN","n":"DMX 5-pol Stecker (In)","art":"Neutrik NC5MD-L-1","price":null,"src":"check","q":"kein Euro-Preis gefunden","g":"xlrm","p":5},
+  "dmx5f": {"type":"dmx5f","mk":"Neutrik","fit":"d","s":"DMX OUT","n":"DMX 5-pol Buchse (Out)","art":"Neutrik NC5FD-L-1","price":11.7,"src":"web","q":"Thomann","g":"xlrf","p":5},
+  "rj45": {"type":"rj45","mk":"Neutrik","fit":"d","s":"RJ45","n":"Netzwerk RJ45 (etherCON)","art":"Neutrik NE8FDP","price":9.1,"src":"web","q":"Thomann","g":"rj45"},
+  "hdmi": {"type":"hdmi","mk":"Neutrik","fit":"d","s":"HDMI","n":"HDMI-Durchführung","art":"Neutrik NAHDMI-W-B","price":14.5,"src":"web","q":"Thomann","g":"hdmi"},
+  "usb": {"type":"usb","mk":"Neutrik","fit":"d","s":"USB","n":"USB-Durchführung","art":"Neutrik NAUSB-W-B","price":6.9,"src":"web","q":"Thomann","g":"usb"},
+  "bnc": {"type":"bnc","mk":"Neutrik","fit":"d","s":"BNC","n":"BNC-Durchführung","art":"Neutrik NBB-75DFIB","price":null,"src":"check","g":"bnc"},
+  "nl4": {"type":"nl4","mk":"Neutrik","fit":"d","s":"NL4","n":"speakON 4-pol","art":"Neutrik NL4MP","price":null,"src":"check","g":"nl4"},
+  "pca_in": {"type":"pcon_a","mk":"Seetronic","fit":"d","s":"PCON IN","n":"powerCON In blau (D-Format)","art":"Seetronic SAC3MPA","price":null,"src":"check","q":"D-Format prüfen · Alternative Neutrik NAC3MPA-1-WOT","g":"pca"},
+  "pcb_out": {"type":"pcon_b","mk":"Seetronic","fit":"d","s":"PCON OUT","n":"powerCON Out weiß (D-Format)","art":"Seetronic SAC3MPB","price":null,"src":"check","q":"D-Format prüfen · Alternative Neutrik NAC3MPB-1-WOT","g":"pcb"},
+  "ocon": {"type":"ocon","mk":"Neutrik","fit":"d","s":"OPTICALCON","n":"opticalCON DUO Einbaubuchse","art":"Neutrik NO2-4FDW-A","price":null,"src":"check","q":"Preis und D-Ausschnitt prüfen","g":"ocon"},
+  "sdi": {"type":"bnc","mk":"Neutrik","fit":"d","s":"SDI","n":"SDI-Durchführung BNC 75 Ω, isoliert","art":"Neutrik NBB-75DFIB","price":null,"src":"check","q":"12G-Eignung prüfen","g":"bnc"},
+  "rca": {"type":"rca","mk":"Neutrik","fit":"d","s":"RCA","n":"Cinch/RCA-Durchführung (D-Format)","art":"Neutrik NF2D-B-0","price":null,"src":"check","q":"Farbcode wählbar (-0 … -9)","g":"rca"},
+  "rca_drill": {"type":"rca","mk":"frei wählbar","fit":"dblank","s":"RCA*","n":"Cinch-Einbaubuchse in gebohrter Blindplatte","art":"Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm","price":null,"src":"check","q":"Blindplatte D wird mitbestellt","g":"rca","drill":8},
+  "jack": {"type":"jack","mk":"Neutrik","fit":"d","s":"KLINKE","n":"Klinke 6,3 mm TRS/TS (D-Format)","art":"Neutrik NJ3FP6C-BAG","price":null,"src":"check","q":"D-Format, stereo; mono-Stecker passen","g":"jack"},
+  "jack_drill": {"type":"jack","mk":"frei wählbar","fit":"dblank","s":"KLINKE*","n":"Klinkenbuchse 6,3 mm in gebohrter Blindplatte","art":"Klinkeneinbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm (z. B. Neutrik NMJ6HCD2)","price":null,"src":"check","q":"Blindplatte D wird mitbestellt","g":"jack","drill":9.5},
+  "sma_drill": {"type":"sma","mk":"frei wählbar","fit":"dblank","s":"SMA","n":"SMA-Antennendurchführung in gebohrter Blindplatte","art":"SMA-Schottverbinder Buchse/Buchse, Bohrung Ø 6,5 mm","price":null,"src":"check","q":"Blindplatte D wird mitbestellt","g":"sma","drill":6.5},
+  "open": {"type":"open","mk":"–","fit":"d","s":"offen","n":"Loch offen (ohne Einsatz)","art":"","price":null,"src":"user","g":"open","nobom":true},
+  "pc_out_nd": {"type":"true1_out","mk":"Neutrik","fit":"d","s":"TRUE1 OUT","n":"powerCON TRUE1 Out, D-Norm (nur von vorn einbaubar)","art":"Neutrik NAC3FPX-D-TRUE1","price":null,"src":"check","q":"Preis und Bezeichnung prüfen","g":"pcout","mount":"f"},
+  "pca_in_n": {"type":"pcon_a","mk":"Neutrik","fit":"d","s":"PCON IN","n":"powerCON In blau (D-Format)","art":"Neutrik NAC3MPA-1-WOT","price":null,"src":"check","g":"pca"},
+  "pcb_out_n": {"type":"pcon_b","mk":"Neutrik","fit":"d","s":"PCON OUT","n":"powerCON Out weiß (D-Format)","art":"Neutrik NAC3MPB-1-WOT","price":null,"src":"check","g":"pcb"},
+  "xlr3f_a": {"type":"xlr3f","mk":"Amphenol","fit":"d","s":"XLR3 F","n":"XLR 3-pol Buchse","art":"Amphenol AC3FDZ","price":null,"src":"check","g":"xlrf","p":3},
+  "xlr3m_a": {"type":"xlr3m","mk":"Amphenol","fit":"d","s":"XLR3 M","n":"XLR 3-pol Stecker","art":"Amphenol AC3MMDZ","price":null,"src":"check","g":"xlrm","p":3},
+  "dmx5m_a": {"type":"dmx5m","mk":"Amphenol","fit":"d","s":"DMX IN","n":"DMX 5-pol Stecker (In)","art":"Amphenol AC5MMDZ","price":null,"src":"check","g":"xlrm","p":5},
+  "dmx5f_a": {"type":"dmx5f","mk":"Amphenol","fit":"d","s":"DMX OUT","n":"DMX 5-pol Buchse (Out)","art":"Amphenol AC5FDZ","price":null,"src":"check","g":"xlrf","p":5},
+  "rj45_6a": {"type":"rj45","mk":"Neutrik","fit":"d","s":"RJ45","n":"Netzwerk RJ45 Cat 6A (etherCON)","art":"Neutrik NE8FDX-P6-B","price":null,"src":"check","g":"rj45"},
+  "usb3": {"type":"usb","mk":"Neutrik","fit":"d","s":"USB 3","n":"USB-3.0-Durchführung","art":"Neutrik NAUSB3-B","price":null,"src":"check","g":"usb"},
+  "cee16f_70": {"type":"cee16f","mk":"PCE","fit":"fp","s":"CEE16 F","n":"CEE-Anbausteckdose 16 A 5-pol, Flansch 70 × 70","art":"PCE CEE-Anbausteckdose 16 A 5p 6h","price":null,"src":"check","q":"Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.","el":{"t":"cee16f","w":56,"h":66},"fp":{"w":70,"h":70,"cut":[{"t":"c","d":54},{"t":"h","x":-28,"y":-28,"d":4.5},{"t":"h","x":28,"y":-28,"d":4.5},{"t":"h","x":-28,"y":28,"d":4.5},{"t":"h","x":28,"y":28,"d":4.5}]},"chk":1},
+  "cee16f_75": {"type":"cee16f","mk":"PCE","fit":"fp","s":"CEE16 F","n":"CEE-Anbausteckdose 16 A 5-pol, Flansch 75 × 75","art":"PCE CEE-Anbausteckdose 16 A 5p 6h IP44/54","price":null,"src":"check","q":"Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.","el":{"t":"cee16f","w":58,"h":68},"fp":{"w":75,"h":75,"cut":[{"t":"c","d":56},{"t":"h","x":-30,"y":-30,"d":4.5},{"t":"h","x":30,"y":-30,"d":4.5},{"t":"h","x":-30,"y":30,"d":4.5},{"t":"h","x":30,"y":30,"d":4.5}]},"chk":1},
+  "cee16m_70": {"type":"cee16m","mk":"PCE","fit":"fp","s":"CEE16 M","n":"CEE-Anbaustecker 16 A 5-pol, Flansch 70 × 70","art":"PCE CEE-Anbaustecker 16 A 5p 6h","price":null,"src":"check","q":"Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.","el":{"t":"cee16m","s":14},"fp":{"w":70,"h":70,"cut":[{"t":"c","d":54},{"t":"h","x":-28,"y":-28,"d":4.5},{"t":"h","x":28,"y":-28,"d":4.5},{"t":"h","x":-28,"y":28,"d":4.5},{"t":"h","x":28,"y":28,"d":4.5}]},"chk":1},
+  "schuko_50": {"type":"schuko","mk":"Mennekes","fit":"fp","s":"SCHUKO","n":"Schuko-Einbausteckdose mit Klappdeckel, Flansch 50 × 50","art":"Mennekes 11081","price":null,"src":"check","q":"Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.","el":{"t":"schuko"},"fp":{"w":50,"h":50,"cut":[{"t":"c","d":40},{"t":"h","x":-19,"y":-19,"d":3.5},{"t":"h","x":19,"y":-19,"d":3.5},{"t":"h","x":-19,"y":19,"d":3.5},{"t":"h","x":19,"y":19,"d":3.5}]},"chk":1},
+  "iec_c14_snap": {"type":"iec_c14","mk":"Schurter","fit":"fp","s":"C14","n":"Kaltgeräte-Einbaustecker C14, Snap-in","art":"Schurter 1061","price":null,"src":"check","q":"Ausschnitt 28,8 × 19,4 mm für 0,8–1,5 mm Blech (29,6 × 19,4 mm für 1,6–2 mm)","el":{"t":"iec","s":16},"fp":{"w":32,"h":23,"cut":[{"t":"r","w":28.8,"h":19.4}]}}
+};
+/* /DATA:CON */
+const conOf = t => Object.keys(CON).filter(k => CON[k].type === t);
+const PICK = Object.keys(CTYPES).filter(t => conOf(t).some(k => CON[k].fit !== 'fp'));   // Typen für D-Steckerfelder
+const PICK_ALL = Object.keys(CTYPES).filter(t => t !== 'open');                          // Typen für eigene Steckerfelder
+// Stecker eines Typs wählen, möglichst vom selben Zulieferer
+function pickProd(t, mk, fpOK) {
+  const list = conOf(t).filter(k => fpOK || CON[k].fit !== 'fp');
+  return list.find(k => CON[k].mk === mk) || (list.includes(CTYPES[t].def) ? CTYPES[t].def : list[0]);
+}
+const conLabel = k => { const c = CON[k]; return [c.mk && c.mk !== '–' ? c.mk : '', c.art && !c.art.startsWith(c.mk) ? c.art : c.art ? c.art.slice(c.mk.length).trim() : '', c.price != null ? EUR.format(c.price) : ''].filter(Boolean).join(' · ') || c.n; };
+// Footprint: D-Norm (Ø 24 mm, 2 × M3 diagonal 19 × 24 mm, Flansch 26 × 31 mm) oder eigener Ausschnitt aus der Datenbank
+const D_FP = { w: 26, h: 31, cut: [{ t: 'c', d: 24 }, { t: 'h', x: 9.5, y: -12, d: 3.2 }, { t: 'h', x: -9.5, y: 12, d: 3.2 }] };
+const fpOf = k => { const c = CON[k] || CON.blank; return c.fit === 'fp' ? c.fp : D_FP; };
+function cutTxt(k) {   // Ausschnitt als Text, direkt zweisprachig (Maße)
+  const c = CON[k] || CON.blank, E = LANG === 'en', N = v => E ? String(Math.round(v * 100) / 100) : fmtN(v);
+  if (c.fit !== 'fp') return (E ? 'D cutout Ø 24 mm + 2 × Ø 3.2 mm (M3)' : 'D-Ausschnitt Ø 24 mm + 2 × Ø 3,2 mm (M3)') + (c.fit === 'dblank' ? (E ? `, drill the blank plate in the centre Ø ${N(c.drill)} mm` : `, Blindplatte mittig Ø ${N(c.drill)} mm bohren`) : '') + (k === 'pc_out' ? (E ? ', drill out the hole for TRUE1 Out' : ', Loch für TRUE1 Out aufbohren') : '');
+  const cs = c.fp.cut, main = cs.filter(x => x.t !== 'h'), hs = cs.filter(x => x.t === 'h');
+  const sp = hs.length > 1 ? ` (${E ? 'hole pattern' : 'Lochbild'} ${N(Math.max(...hs.map(x => x.x)) - Math.min(...hs.map(x => x.x)))} × ${N(Math.max(...hs.map(x => x.y)) - Math.min(...hs.map(x => x.y)))} mm)` : '';
+  return main.map(x => x.t === 'c' ? `Ø ${N(x.d)} mm` : `${E ? 'rectangle' : 'Rechteck'} ${N(x.w)} × ${N(x.h)} mm`).join(' + ') + (hs.length ? ` + ${hs.length} × Ø ${N(hs[0].d)} mm${sp}` : '') + (c.chk ? (E ? ' – check dimensions' : ' – Maße prüfen') : '');
+}
+// Eigenschaften eines Steckers (Typ, Zulieferer, Name, Einbau) – für ein Loch im D-Steckerfeld oder einen frei platzierten Stecker
+function conForm(who, k, label, mount, fpOK) {
+  const c = CON[k] || CON.blank, t = c.type, prods = conOf(t).filter(p => fpOK || CON[p].fit !== 'fp');
+  const fixed = !!c.mount || k === 'open' || c.fit === 'fp';
+  return `<div class="conform" data-cfwho="${who}">
+    <div class="field"><label>Typ</label><select data-cf="type">${(fpOK ? PICK_ALL : PICK).map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>${esc(CTYPES[x].n)}</option>`).join('')}</select></div>
+    <div class="field"><label>Zulieferer · Artikel</label><select data-cf="prod" ${prods.length < 2 ? 'disabled' : ''}>${prods.map(p => `<option value="${p}" ${p === k ? 'selected' : ''}>${esc(conLabel(p))}</option>`).join('')}</select></div>
+    <div class="field"><label>Name / Bemerkung</label><input type="text" data-cf="label" value="${esc(label || '')}" placeholder="z. B. Mic 1, Strom Bühne"></div>
+    <div class="field"><label>Einbau</label><select data-cf="mount" ${fixed ? 'disabled' : ''}><option value="r" ${mount !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${mount === 'f' ? 'selected' : ''}>von vorn</option></select></div>
+    <p class="hint">${esc(c.n)} · ${c.fit === 'fp' ? 'eigener Ausschnitt, nur in eigenen Steckerfeldern' : c.fit === 'dblank' ? 'in gebohrter Blindplatte im D-Loch' : 'passt ins D-Loch'}${c.mount ? ' · nur von vorn einbaubar' : ''}${k !== 'open' ? ' · ' + esc(cutTxt(k)) : ''}${c.q ? ' · ' + esc(c.q) : ''}</p>
+  </div>`;
+}const HOLE_LABELS = false;   // Lochbeschriftung (müsste gelasert werden) – vorerst abgeschaltet
 
 // Steckerfelder (Adam Hall 19" Parts Rack Panels, adamhall.com, 11/2026)
 const PANELS = {
@@ -1700,7 +1867,7 @@ const CASES = {
 const useOf = (ct, he) => typeof ct.use === 'function' ? ct.use(he) : ct.use;
 const stufenlos = ct => ct.rail === 'rss' || ct.rail === 'alu';
 const RAIL_REAR = { n: '2. Rackschienenpaar hinten', art: 'ProCase 11910', price: null, src: 'ref', q: 'procaseshop.de · Option am Rackmodul' };
-const DEPTH = { dpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392 };
+const DEPTH = { dpanel: 80, cpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392 };
 // auto: zu welchen Schienen der Schraubenvorschlag passt
 const ACC_DEFAULT = [
   { id: 'rss',   n: 'Geräteschrauben-Satz für RSS-Schiene, 20 Stk.',      art: 'ProCase 119212', price: null, src: 'ref', q: 'procaseshop.de · auch 4er (11920) und 100er (11924)', pack: 20, qty: 0, auto: 'rss' },
@@ -1737,7 +1904,7 @@ const DEVICES = [
   { name: 'Video-Kreuzschiene', he: 1, depth: 160 },
   { name: 'Rackleuchte', he: 1, depth: 40 },
 ];
-const KINDS = ['dpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'custom', 'brush', 'shelf'];
+const KINDS = ['dpanel', 'cpanel', 'label', 'vent', 'blank', 'tray', 'drawer', 'device', 'custom', 'brush', 'shelf'];
 const isDev = it => it.kind === 'device' || it.kind === 'custom';
 
 /* ---------- Gerätedatenbank ----------
@@ -2127,6 +2294,7 @@ function makeItem(kind, o = {}) {
     it.labels = Array(n).fill('');
     it.mounts = Array(n).fill('r');   // Einsätze von hinten (r) oder vorn (f) eingebaut
   }
+  if (kind === 'cpanel') { it.he = o.he ?? 1; it.name = o.name || ''; it.cons = (o.cons || []).map(c => ({ ...c, id: uid() })); }
   if (kind === 'vent' || kind === 'blank') it.tray = null;
   if (kind === 'tray') { it.he = o.he ?? 1; it.depth = 375; }
   if (kind === 'label') {
@@ -2511,6 +2679,10 @@ function normalize(s) {
       it.slots = it.slots.map(s => CON[s] ? s : 'blank');
       it.mounts = (it.mounts || []).slice(0, n); while (it.mounts.length < n) it.mounts.push('r');
     }
+    if (it.kind === 'cpanel') {
+      it.he = [1, 2, 3, 4].includes(+it.he) ? +it.he : 1; it.name = String(it.name || '');
+      it.cons = (Array.isArray(it.cons) ? it.cons : []).filter(c => c && CON[c.k]).map(c => ({ id: c.id || uid(), k: c.k, x: Math.round((+c.x || 0) * 10) / 10, y: Math.round((+c.y || 0) * 10) / 10, label: String(c.label || ''), mount: CON[c.k].fit === 'fp' || CON[c.k].mount ? 'f' : c.mount === 'f' ? 'f' : 'r' }));
+    }
     if (it.kind === 'label' && !Array.isArray(it.cells)) {
       const t = it.text || '';
       Object.assign(it, { div: 1, lines: 1, pitch: STRIP.w, offset: 0, stripW: STRIP.w, stripH: STRIP.h, cells: [[t]] });
@@ -2551,7 +2723,7 @@ const sideItems = side => state.items.filter(i => i.side === side).sort((a, b) =
 function layout() {
   state.items.forEach(it => { if (it.kind === 'dpanel') forceMount(it); if (it.kind === 'shelf') (it.devs || []).forEach(o => { o.id = o.id || uid(); }); });
   let letter = 0;
-  ['front', 'rear'].forEach(side => sideItems(side).forEach(it => { it._letter = it.kind === 'dpanel' ? String.fromCharCode(65 + letter++) : null; }));
+  ['front', 'rear'].forEach(side => sideItems(side).forEach(it => { it._letter = it.kind === 'dpanel' || it.kind === 'cpanel' ? String.fromCharCode(65 + letter++) : null; }));
   const maxEnd = state.items.reduce((m, it) => Math.max(m, it.pos + it.he), 0);
   const used = side => state.items.filter(i => i.side === side).reduce((n, i) => n + i.he, 0);
   return { maxEnd, front: used('front'), rear: used('rear') };
@@ -2588,8 +2760,9 @@ const EXACT = {
     ],
   },
 };
-function exactFace(d, id, side, X, Y) {
-  const E = EXACT[id], L = E && E[side]; if (!L) return '';
+function exactFace(d, id, side, X, Y) { const E = EXACT[id], L = E && E[side]; return L ? exEls(L, X, Y) : ''; }
+// Zeichenelemente der maßstäblichen Ansichten (auch für Stecker mit eigenem Ausschnitt)
+function exEls(L, X, Y) {
   const f = v => v.toFixed(2); let g = '';
   L.forEach(e => {
     const x = X + e.x, y = Y + e.y, g0 = g.length;
@@ -3255,6 +3428,7 @@ for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 function title(it) {
   switch (it.kind) {
     case 'dpanel': return `Steckerfeld ${it._letter}`;
+    case 'cpanel': return it.name || `Eigenes Steckerfeld ${it._letter}`;
     case 'vent': return `Gitterblende ${fmtHE(it.he)}`;
     case 'blank': return `Rackblende ${fmtHE(it.he)}`;
     case 'tray': return `Rackwanne ${fmtHE(it.he)}`;
@@ -3291,9 +3465,22 @@ function collisions() {
   }));
   return out;
 }
+// Prüfung eigener Steckerfelder: Flansch im nutzbaren Bereich (zwischen den Rackohren, 1,5 mm Rand), keine Überlappung
+const CP_EAR = 17;
+function cpRect(c) { const F = fpOf(c.k); return { x0: c.x - F.w / 2, x1: c.x + F.w / 2, y0: c.y - F.h / 2, y1: c.y + F.h / 2 }; }
+function cpIssues(it, ids) {
+  const out = [], H = it.he * HE, R = it.cons.map(cpRect);
+  it.cons.forEach((c, i) => {
+    const r = R[i];
+    if (r.x0 < CP_EAR || r.x1 > W19 - CP_EAR || r.y0 < 1.5 || r.y1 > H - 1.5) { out.push(`${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''} ragt über den nutzbaren Bereich der Blende${fpOf(c.k).h > H - 3 ? ` (braucht mind. ${fmtHE(Math.ceil((fpOf(c.k).h + 3) / HE))})` : ''}.`); ids && ids.add(c.id); }
+    for (let j = i + 1; j < it.cons.length; j++) { const q = R[j]; if (r.x0 < q.x1 - .01 && q.x0 < r.x1 - .01 && r.y0 < q.y1 - .01 && q.y0 < r.y1 - .01) { out.push(`${CON[c.k].s} und ${CON[it.cons[j].k].s} überlappen.`); ids && (ids.add(c.id), ids.add(it.cons[j].id)); } }
+  });
+  return out;
+}
 function warnings(L) {
   const w = [], c = state.case, he = c.he, ct = CASES[c.type];
   if (L.maxEnd > he) w.push({ err: true, t: `Die Belegung reicht bis ${fmtHE(L.maxEnd)}, das Case hat ${fmtHE(he)}. Case vergrößern oder Module verschieben.` });
+  state.items.filter(i => i.kind === 'cpanel').forEach(it => cpIssues(it).forEach(t => w.push({ t: `„${title(it)}“: ${t}` })));
   ['front', 'rear'].forEach(side => {
     const s = sideItems(side);
     for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) if (clash(s[i], s[j])) w.push({ err: true, t: `„${title(s[i])}“ und „${title(s[j])}“ überlappen ${side === 'rear' ? 'hinten' : 'vorn'}.` });
@@ -3422,6 +3609,16 @@ function railsSVG(xL, he) {
   });
   return s;
 }
+// Stecker eines eigenen Steckerfelds zeichnen (cx/cy = Mittelpunkt), back = Ansicht von hinten
+function cpDraw(c, cx, cy, back) {
+  const C = CON[c.k] || CON.blank, f = v => (+v).toFixed(2);
+  if (C.fit === 'fp') {
+    if (back) { const F = C.fp; return `<rect x="${f(cx - F.w / 2)}" y="${f(cy - F.h / 2)}" width="${F.w}" height="${F.h}" rx="2" class="flange"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(Math.min(F.w, F.h) * .34)}" class="facedk"/>`; }
+    return exEls([{ ...C.el, x: +cx, y: +cy }], 0, 0);
+  }
+  return back ? rearGlyph(c.k, +f(cx), +f(cy), '', c.mount) : glyph(c.k, +f(cx), +f(cy), c.mount);
+}
+const cpTip = c => `${CON[c.k].n}${c.label ? ' · „' + c.label + '“' : ''} · ${c.mount === 'f' ? 'von vorn' : 'von hinten'} eingebaut`;
 function panelBase(x, y, w, h, cls = 'pnl') {
   const ys = h >= HE * .9 ? [y + 6.35, y + h - 6.35] : [y + h / 2];
   let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="1.2" class="${cls}"/>`;
@@ -3449,13 +3646,19 @@ function faceSVG(it, xL, W, live = false) {
   const y = CW + it.pos * HE + .4, h = it.he * HE - .8, isSel = it.id === sel, inner = W19 - EAR * 2;
   let g = '';
   switch (it.kind) {
+    case 'cpanel': {
+      g += panelBase(xL, y, W19, h);
+      g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+      it.cons.forEach(c => { g += `<g><title>${esc(cpTip(c))}</title>${cpDraw(c, xL + c.x, y - .4 + c.y, false)}</g>`; });
+      break;
+    }
     case 'dpanel': {
       g += panelBase(xL, y, W19, h);
       g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
       const P = PANELS[it.variant];
       holes(it).forEach(({ i, x, y: hy, r }) => {
         const t = it.slots[i], cx = +(xL + x).toFixed(2), cy = y + hy;
-        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${glyph(t, cx, cy, it.mounts[i])}`;
+        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)}${it.labels[i] ? ' · „' + esc(it.labels[i]) + '“' : ''} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${glyph(t, cx, cy, it.mounts[i])}`;
         if (t === 'pc_out') g += `<circle cx="${cx}" cy="${cy}" r="14.6" class="drill"/>`;
         if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - (HE - 1.4) / 2}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
         if (HOLE_LABELS) {
@@ -3582,13 +3785,19 @@ function backSVG(it, xL, W) {
   const infoTxt = `<text x="${xL + W19 - EAR - 5}" y="${y + h - 3.2}" class="rearinfo" text-anchor="end">${info}</text>`;
   let g = '';
   switch (it.kind) {
+    case 'cpanel': {
+      g += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" rx="1" class="rearpnl"/>`;
+      g += `<text x="${mx(xL + EAR / 2)}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
+      it.cons.forEach(c => { g += `<g><title>${esc(cpTip(c))}</title>${cpDraw(c, mx(xL + c.x), y - .4 + c.y, true)}</g>`; });
+      break;
+    }
     case 'dpanel': {
       g += `<rect x="${xL + EAR}" y="${y}" width="${inner}" height="${h}" rx="1" class="rearpnl"/>`;
       g += `<text x="${mx(xL + EAR / 2)}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
       const P = PANELS[it.variant];
       holes(it).forEach(({ i, x, y: hy, r }) => {
         const t = it.slots[i], cx = mx(xL + x), cy = y + hy;
-        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${rearGlyph(t, cx, cy, i + 1, it.mounts[i])}`;
+        g += `<g data-slot="${i}"><title>Loch ${i + 1}: ${esc(CON[t].n)}${it.labels[i] ? ' · „' + esc(it.labels[i]) + '“' : ''} · ${it.mounts[i] === 'f' ? 'von vorn' : 'von hinten'} eingebaut</title>${rearGlyph(t, cx, cy, i + 1, it.mounts[i])}`;
         if (isSel && selSlot === i) g += `<rect x="${cx - 15.5}" y="${cy - (HE - 1.4) / 2}" width="31" height="${HE - 1.4}" rx="2" class="slotsel"/>`;
         if (HOLE_LABELS) {
           const lab = it.labels[i] || (CON[t] && t !== 'blank' && t !== 'open' ? CON[t].s : '');
@@ -3783,12 +3992,18 @@ function bom() {
   if (ct.lids && c.lidF) add('lidF', { n: `Deckel vorne für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}D`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de' : 'Art.-Nr. nach Muster 135502D abgeleitet', kg: kgv(`case:${c.type}:lidF:${c.he}`) }, 1);
   if (ct.lids && c.lidR) add('lidR', { n: `Deckel hinten für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}DH`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de · montiert: 135502DHM' : 'Art.-Nr. nach Muster 135502DH abgeleitet', kg: kgv(`case:${c.type}:lidR:${c.he}`) }, 1);
   let m3 = 0;
+  const addCon = t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q, kg: kgv('con:' + t) }, 1); if (cn.fit === 'dblank') add('c_blank', { n: CON.blank.n, art: CON.blank.art, price: CON.blank.price, src: CON.blank.src, kg: kgv('con:blank') }, 1); if (cn.fit !== 'fp') m3 += 2; };
   state.items.forEach(it => {
     switch (it.kind) {
       case 'dpanel':
         add('p_' + it.variant, withKg(PANELS[it.variant], 'panel:' + it.variant), 1);
-        it.slots.forEach(t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q, kg: kgv('con:' + t) }, 1); if (cn.drill) add('c_blank', { n: CON.blank.n, art: CON.blank.art, price: CON.blank.price, src: CON.blank.src, kg: kgv('con:blank') }, 1); m3 += 2; });
+        it.slots.forEach(addCon);
         break;
+      case 'cpanel': {
+        const k = artKey('blank', it.he); add(k, withKg(ART[k] || { n: `Rackblende ${fmtHE(it.he)}`, src: 'check' }, 'art:' + k), 1);
+        it.cons.forEach(c => addCon(c.k));
+        break;
+      }
       case 'vent': case 'blank':
         add(artKey(it.kind, it.he), withKg(ART[artKey(it.kind, it.he)] || { n: `${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)}`, src: 'check' }, 'art:' + artKey(it.kind, it.he)), 1);
         if (it.tray) add('tray' + it.tray.he, withKg(ART['tray' + it.tray.he], 'art:tray' + it.tray.he), 1);
@@ -3927,17 +4142,21 @@ function renderInsp() {
     case 'dpanel': {
       const P = PANELS[it.variant], n = P.cols * P.rows;
       h += `<div class="field"><label for="f_variant">Blende</label><select id="f_variant" data-f="variant">${Object.entries(PANELS).map(([k, v]) => `<option value="${k}" ${k === it.variant ? 'selected' : ''}>${esc(v.short + ' · ' + v.art)}</option>`).join('')}</select></div>`;
-      h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null ? 'Loch ' + (selSlot + 1) : 'nächstes freie Loch'} · antippen oder auf ein Loch in der Ansicht ziehen</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" draggable="true" data-assign="${t}" title="${esc(CON[t].n + (CON[t].art ? ' · ' + CON[t].art : ''))}">${miniGlyph(t)}<span>${esc(t === 'pc_out' ? 'OUT bohren' : t === 'pc_out_d' ? 'OUT D-Norm' : CON[t].s)}</span></button>`).join('')}</div></div>`;
-      const nf = it.mounts.filter(m => m === 'f').length;
-      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Einbau: ${nf === 0 ? 'alle von hinten' : nf === n ? 'alle von vorn' : `${n - nf} hinten, ${nf} vorn`}</span><button type="button" class="btn sm" data-act="mountall-r">Alle von hinten</button><button type="button" class="btn sm" data-act="mountall-f">Alle von vorn</button></div>`;
-      h += `<div class="slots">`;
-      for (let i = 0; i < n; i++) {
-        const t = it.slots[i], on = selSlot === i ? ' on' : '';
-        if (P.rows > 1 && i % P.cols === 0) h += `<span class="eyebrow">Reihe ${i / P.cols + 1}</span>`;
-        h += `<div class="slot${on}" data-slotrow="${i}" draggable="true" data-slotdrag="${i}" title="Zum Tauschen auf ein anderes Loch ziehen"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select>`
-          + (HOLE_LABELS ? `<input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}">` : `<select data-mount="${i}" aria-label="Einbau Loch ${i + 1}${CON[t].mount ? ' (nur von vorn möglich)' : ''}" ${t === 'open' || CON[t].mount ? 'disabled' : ''} ${CON[t].mount ? 'title="Dieser Einsatz ist nur von vorn einbaubar"' : ''}><option value="r" ${it.mounts[i] !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${it.mounts[i] === 'f' ? 'selected' : ''}>von vorn</option></select>`) + `</div>`;
-      }
-      h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Alle auf Blindplatte</button><button type="button" class="btn sm" data-act="pcdefault">Loch 1/2 = TRUE1 In/Out</button></div>`;
+      h += `<div class="field"><span class="eyebrow">Stecker für ${selSlot != null ? 'Loch ' + (selSlot + 1) : 'nächstes freie Loch'} · antippen oder auf ein Loch in der Ansicht ziehen</span><div class="palette">${PICK.map(t => `<button type="button" class="pal" draggable="true" data-assign="${t}" title="${esc(CTYPES[t].n)}">${miniGlyph(CTYPES[t].def)}<span>${esc(CTYPES[t].s)}</span></button>`).join('')}</div></div>`;
+      h += `<div class="field"><span class="eyebrow">Löcher · antippen zum Bearbeiten, ziehen zum Tauschen</span><div class="holes" style="--cols:${P.cols}">${it.slots.map((t, i) => `<button type="button" class="hole-b${selSlot === i ? ' on' : ''}" data-pick="${i}" data-slotrow="${i}" draggable="true" data-slotdrag="${i}" title="Loch ${i + 1}: ${esc(CON[t].n)}${it.labels[i] ? ' · ' + esc(it.labels[i]) : ''}${it.mounts[i] === 'f' && t !== 'open' ? ' · von vorn' : ''}">${miniGlyph(t)}<span>${i + 1}</span>${it.labels[i] ? `<small data-noi18n>${esc(it.labels[i])}</small>` : ''}</button>`).join('')}</div></div>`;
+      if (selSlot != null && selSlot < n) h += `<div class="selhole"><h3 class="subh">Loch ${selSlot + 1}</h3>${conForm('slot:' + selSlot, it.slots[selSlot], it.labels[selSlot], it.mounts[selSlot], false)}</div>`;
+      else h += '<p class="hint">Ein Loch antippen (oben oder in der Ansicht), um Typ, Zulieferer, Name und Einbaurichtung zu bearbeiten.</p>';
+      const nf = it.mounts.filter((m, i) => m === 'f' && it.slots[i] !== 'open').length, nu = it.slots.filter(t => t !== 'open').length;
+      h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Einbau: ${nf === 0 ? 'alle von hinten' : nf === nu ? 'alle von vorn' : `${nu - nf} hinten, ${nf} vorn`}</span><button type="button" class="btn sm" data-act="mountall-r">Alle von hinten</button><button type="button" class="btn sm" data-act="mountall-f">Alle von vorn</button></div>`;
+      h += `<div class="actions"><button type="button" class="btn sm" data-act="clearslots">Alle auf Blindplatte</button><button type="button" class="btn sm" data-act="pcdefault">Loch 1/2 = TRUE1 In/Out</button></div>`;
+      break;
+    }
+    case 'cpanel': {
+      const bk = ART[artKey('blank', it.he)];
+      h += `<div class="row"><div class="field" style="flex:2 1 180px"><label for="f_cpname">Bezeichnung</label><input id="f_cpname" type="text" data-f="cpname" value="${esc(it.name)}" placeholder="Eigenes Steckerfeld ${it._letter}"></div><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3, 4], it.he)}</div></div>`;
+      h += `<div class="actions"><button type="button" class="btn sm primary" data-cpedit="${it.id}">Steckerfeld-Editor öffnen</button></div>`;
+      h += it.cons.length ? `<div class="holes free">${it.cons.slice().sort((a, b) => a.x - b.x).map(c => `<button type="button" class="hole-b" data-cpedit="${it.id}" data-cpsel="${c.id}" title="${esc(cpTip(c))}">${CON[c.k].fit === 'fp' ? `<svg viewBox="${-fpOf(c.k).w / 2 - 2} ${-fpOf(c.k).h / 2 - 2} ${fpOf(c.k).w + 4} ${fpOf(c.k).h + 4}" aria-hidden="true">${cpDraw(c, 0, 0, false)}</svg>` : miniGlyph(c.k)}<span>${esc(CON[c.k].s)}</span>${c.label ? `<small data-noi18n>${esc(c.label)}</small>` : ''}</button>`).join('')}</div>` : '<p class="hint">Noch keine Stecker – im Editor hinzufügen und frei platzieren.</p>';
+      h += `<p class="hint">Basis: ${esc(bk ? bk.n + ' · ' + bk.art : 'Rackblende')} · ${it.cons.length} Stecker · Bohrplan in der Fertigung, Bohrschablone (PDF 1:1) im Editor. Doppelklick auf das Steckerfeld öffnet den Editor.</p>`;
       break;
     }
     case 'vent': case 'blank': {
@@ -4075,12 +4294,19 @@ function notesData() {
   all.forEach(it => {
     const where = `${heRange(it)} · ${sideTxt(it)}`;
     if (it.kind === 'dpanel') {
-      const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${t !== 'open' && it.mounts[i] === 'f' ? ' (vorn)' : ''}${HOLE_LABELS && it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
+      const map = it.slots.map((t, i) => `${i + 1} ${CON[t].s}${t !== 'open' && it.mounts[i] === 'f' ? ' (vorn)' : ''}${it.labels[i] ? ' „' + it.labels[i] + '“' : ''}`).join(' · ');
       const drills = it.slots.map((t, i) => t === 'pc_out' ? i + 1 : 0).filter(Boolean), drill = drills.length > 0;
       const fr = it.slots.map((t, i) => t !== 'open' && it.mounts[i] === 'f' ? i + 1 : 0).filter(Boolean);
       const mountTxt = !fr.length ? 'Alle Einsätze von hinten einbauen (Flansch hinter der Blende), M3-Schrauben von vorn.' : fr.length === it.slots.filter(t => t !== 'open').length ? 'Alle Einsätze von vorn einbauen.' : `Einsätze von hinten einbauen, außer Loch ${fr.join(', ')} von vorn.`;
       const bd = it.slots.map((t, i) => CON[t] && CON[t].drill ? `Loch ${i + 1}: Ø ${String(CON[t].drill).replace('.', ',')} mm (${CON[t].s.replace('*', '')})` : '').filter(Boolean);
       out.push({ drill: drill || bd.length > 0, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + (bd.length ? `Blindplatten mittig bohren – ${bd.join(', ')}. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
+    }
+    if (it.kind === 'cpanel') {
+      const cs = it.cons.slice().sort((a, b) => a.x - b.x || a.y - b.y), nD = cs.filter(c => CON[c.k].fit !== 'fp').length, nF = cs.length - nD;
+      const fr = cs.filter(c => CON[c.k].fit !== 'fp' && c.mount === 'f').length;
+      out.push({ drill: cs.length > 0, h: `${title(it)} · ${where} · ${(ART[artKey('blank', it.he)] || {}).art || 'Rackblende'} (eigenes Steckerfeld)`,
+        t: cs.length ? `Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten. Bohrschablone 1:1 als PDF im Steckerfeld-Editor.${nD ? ` D-Einsätze ${fr === 0 ? 'von hinten' : fr === nD ? 'von vorn' : 'wie angegeben'} einbauen, je 2 × M3.` : ''}${nF ? ' Einbausteckdosen/-stecker mit Schrauben nach Herstellerangabe befestigen.' : ''}${cs.some(c => CON[c.k].chk) ? ' Ausschnitte mit „Maße prüfen“ vor dem Bohren mit dem Maßblatt des Herstellers abgleichen.' : ''}` : 'Noch keine Stecker platziert.',
+        map: cs.map((c, i) => `${i + 1} ${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''}: x ${fmtN(c.x)} / y ${fmtN(c.y)} mm, ${cutTxt(c.k)}${CON[c.k].fit !== 'fp' && c.mount === 'f' ? ', von vorn' : ''}`).join(' · ') });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
     if (it.kind === 'shelf' && shelfOf(it).kit) { out.push({ h: `${shelfOf(it).short} · ${where}`, t: `${it.devs.map(o => `${devOf(o.dev).n} ${o.x ? 'rechts' : 'links'}`).join(', ') || 'leer'}: mit Verbindungsblech mittig verschrauben, Seitenteile als Rackohren.${it.antFront ? ' Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.' : ''}${it.devs.length < 2 ? (it.shelf === 'ma_kit' ? ' Freie Hälfte mit Leerblende MA 130281 schließen.' : ' Freie Hälfte mit Blindblech schließen.') : ''}${it.devs.some(o => o.fp) ? ' Frontblende mit XLR/etherCON: Node-Anschlüsse mit dem Adapterkabelsatz nach vorn führen.' : ''}` }); }
@@ -4245,6 +4471,7 @@ function renderDlg() {
   }
   if (dlg.tab === 'eigene') {
     const list = tpls();
+    h += `<div class="cgroup"><h3>Eigenes Steckerfeld · Rackblende mit frei platzierten Steckern</h3><div class="opts"><div class="opt"><span class="on">Rackblende Stahl mit eigenen Ausschnitten</span><span class="oa">Adam Hall 8722x STL · D-Einsätze, CEE, Schuko, Kaltgeräte … frei platzieren · Bohrplan und Bohrschablone</span><div class="chips">${[1, 2, 3, 4].map(x => chip('cpanel', x)).join('')}</div></div></div></div>`;
     h += `<div class="cgroup devcompact"><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
       <button type="button" class="opt" data-insdev="${i}"><span class="on">${esc(d.name)}</span><span class="oa">${fmtHE(d.he)} · ${d.depth} mm tief</span></button>`).join('')}</div></div>
     <div class="cgroup"><h3>Eigenes Gerät</h3><div class="row">
@@ -4280,6 +4507,7 @@ function insertItem(kind, o = {}) {
   state.items.push(it);
   place(it, dlg.pos);
   sel = it.id; selSlot = kind === 'dpanel' ? 2 : null;
+  if (kind === 'cpanel') { setTimeout(() => openCP(it.id), 0); }
   if (view !== 'side') view = it.side;
   closeAdd();
   state.step = 2;
@@ -4591,9 +4819,156 @@ document.addEventListener('drop', e => {
   if (!d) return;
   e.preventDefault();
   if (dragSwap) { if (d.it.id === dragSwap.id) { swapSlots(d.it, dragSwap.i, d.i); sel = d.it.id; selSlot = d.i; toast(`Loch ${dragSwap.i + 1} ⇄ Loch ${d.i + 1}`); } dragSwap = null; render(); return; }
-  d.it.slots[d.i] = dragCon; forceMount(d.it); sel = d.it.id; selSlot = d.i; dragCon = null;
+  d.it.slots[d.i] = CTYPES[dragCon] ? pickProd(dragCon, (CON[d.it.slots[d.i]] || {}).mk, false) : dragCon; forceMount(d.it); sel = d.it.id; selSlot = d.i; dragCon = null;
   render(); toast(`Loch ${d.i + 1}: ${CON[d.it.slots[d.i]].n}`);
 });
+
+/* ---------- Editor für eigene Steckerfelder ---------- */
+const CP = { id: null, sel: null, cuts: true, grid: false, drag: null };
+const cpIt = () => state.items.find(i => i.id === CP.id && i.kind === 'cpanel');
+function openCP(id, conId) {
+  const it = state.items.find(i => i.id === id && i.kind === 'cpanel'); if (!it) return;
+  CP.id = id; CP.sel = conId || (it.cons[0] && it.cons[0].id) || null; sel = id;
+  const dl = $('#cpDlg'); if (!dl.open) { if (typeof dl.showModal === 'function') dl.showModal(); else dl.setAttribute('open', ''); }
+  renderCP();
+}
+function closeCP() { const dl = $('#cpDlg'); if (dl.open) { if (typeof dl.close === 'function') dl.close(); else dl.removeAttribute('open'); } CP.drag = null; render(); }
+function cpFree(it, k) {   // erster freier Platz für einen neuen Stecker
+  const F = fpOf(k), H = it.he * HE, y = Math.max(F.h / 2 + 2, Math.min(H / 2, H - F.h / 2 - 2));
+  for (let x = CP_EAR + F.w / 2 + 6; x <= W19 - CP_EAR - F.w / 2; x += 1) {
+    const r = { x0: x - F.w / 2 - 2, x1: x + F.w / 2 + 2, y0: y - F.h / 2, y1: y + F.h / 2 };
+    if (!it.cons.some(c => { const q = cpRect(c); return r.x0 < q.x1 && q.x0 < r.x1 && r.y0 < q.y1 && q.y0 < r.y1; })) return [Math.round(x), Math.round(y * 2) / 2];
+  }
+  return [W19 / 2, Math.round(H / 2 * 2) / 2];
+}
+function renderCP() {
+  const it = cpIt(); if (!it) { closeCP(); return; }
+  if (!it.cons.some(c => c.id === CP.sel)) CP.sel = null;
+  const c = it.cons.find(x => x.id === CP.sel), bad = new Set(), iss = cpIssues(it, bad);
+  $('#cpTitle').textContent = title(it);
+  $('#cpBody').innerHTML = `
+    <div class="ve-tools">
+      <label>Bezeichnung <input type="text" id="cpName" value="${esc(it.name)}" placeholder="Eigenes Steckerfeld ${esc(it._letter || '')}" style="width:220px"></label>
+      <label>Höhe <select id="cpHe">${[1, 2, 3, 4].map(x => `<option value="${x}" ${x === it.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></label>
+      <label class="check"><input type="checkbox" id="cpCuts" ${CP.cuts ? 'checked' : ''}> Ausschnitte zeigen</label>
+      <label class="check"><input type="checkbox" id="cpGrid" ${CP.grid ? 'checked' : ''}> Raster 10 mm</label>
+      <button type="button" class="btn sm" data-cpact="pdf">Bohrschablone PDF (1:1)</button>
+    </div>
+    <div><span class="eyebrow">Stecker hinzufügen</span><div class="cppal palette">${PICK_ALL.map(t => `<button type="button" class="pal" data-cpadd="${t}" title="${esc(CTYPES[t].n)}">${CON[CTYPES[t].def].fit === 'fp' ? `<svg viewBox="${-fpOf(CTYPES[t].def).w / 2 - 2} ${-fpOf(CTYPES[t].def).h / 2 - 2} ${fpOf(CTYPES[t].def).w + 4} ${fpOf(CTYPES[t].def).h + 4}" aria-hidden="true">${cpDraw({ k: CTYPES[t].def, mount: 'f' }, 0, 0, false)}</svg>` : miniGlyph(CTYPES[t].def)}<span>${esc(CTYPES[t].s)}</span></button>`).join('')}</div></div>
+    <div class="ve-grid">
+      <div>
+        <div class="ve-stage" id="cpStage"></div>
+        <p class="hint">Vorderseite, Rackblende 482,6 mm × ${fmtN(it.he * HE)} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.</p>
+        ${iss.length ? `<ul class="cpwarn">${iss.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+      </div>
+      <div class="ve-panel">
+        <section><h3 class="subh">Stecker (${it.cons.length})</h3>${it.cons.length ? `<div class="holes free">${it.cons.map(x => `<button type="button" class="hole-b${x.id === CP.sel ? ' on' : ''}" data-cpsel="${x.id}" title="${esc(cpTip(x))}">${CON[x.k].fit === 'fp' ? `<svg viewBox="${-fpOf(x.k).w / 2 - 2} ${-fpOf(x.k).h / 2 - 2} ${fpOf(x.k).w + 4} ${fpOf(x.k).h + 4}" aria-hidden="true">${cpDraw(x, 0, 0, false)}</svg>` : miniGlyph(x.k)}<span>${esc(CON[x.k].s)}</span>${x.label ? `<small data-noi18n>${esc(x.label)}</small>` : ''}</button>`).join('')}</div>` : '<p class="hint">Oben einen Stecker wählen – er wird an die erste freie Stelle gesetzt.</p>'}</section>
+        ${c ? `<section class="selhole"><h3 class="subh">${esc(CON[c.k].s)}${c.label ? ` · <span data-noi18n>${esc(c.label)}</span>` : ''}</h3>${conForm('cp:' + c.id, c.k, c.label, c.mount, true)}
+          <div class="row"><div class="field"><label for="cpX">x (mm)</label><input id="cpX" type="number" step="0.5" value="${c.x}" data-cpxy="x"></div><div class="field"><label for="cpY">y (mm)</label><input id="cpY" type="number" step="0.5" value="${c.y}" data-cpxy="y"></div></div>
+          <div class="actions"><button type="button" class="btn sm" data-cpact="center">Vertikal mittig</button><button type="button" class="btn sm" data-cpact="dup">Duplizieren</button><button type="button" class="btn sm danger" data-cpact="del">Entfernen</button></div></section>` : ''}
+        <section><p class="hint">Stecker mit D-Norm passen auch in die fertigen Steckerfelder; CEE, Schuko und Kaltgeräte brauchen einen eigenen Ausschnitt. Die Steckerdatenbank liegt in <code>data/connectors.json</code>.</p></section>
+      </div>
+    </div>`;
+  cpStage(bad);
+}
+function cpStage(bad) {
+  const box = $('#cpStage'), it = cpIt(); if (!box || !it) return;
+  if (!bad) { bad = new Set(); cpIssues(it, bad); }
+  const H = it.he * HE, f = v => (+v).toFixed(2), m = 10;
+  let g = panelBase(0, 0, W19, H);
+  if (CP.grid) { let gl = ''; for (let x = 10; x < W19; x += 10) gl += `<line x1="${x}" y1="0" x2="${x}" y2="${f(H)}"/>`; for (let y = 10; y < H; y += 10) gl += `<line x1="0" y1="${y}" x2="${W19}" y2="${y}"/>`; g += `<g class="vegrid" pointer-events="none">${gl}</g>`; }
+  g += `<line x1="${CP_EAR}" y1="0" x2="${CP_EAR}" y2="${f(H)}" class="cpfl"/><line x1="${W19 - CP_EAR}" y1="0" x2="${W19 - CP_EAR}" y2="${f(H)}" class="cpfl"/>`;
+  it.cons.forEach(c => {
+    const F = fpOf(c.k), r = cpRect(c);
+    g += `<g data-cpi="${c.id}">${cpDraw(c, c.x, c.y, false)}`;
+    if (CP.cuts) {
+      g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="cpfl"/>`;
+      F.cut.forEach(q => { g += q.t === 'r' ? `<rect x="${f(c.x - q.w / 2)}" y="${f(c.y - q.h / 2)}" width="${q.w}" height="${q.h}" class="cpcut"/>` : `<circle cx="${f(c.x + (q.x || 0))}" cy="${f(c.y + (q.y || 0))}" r="${f(q.d / 2)}" class="cpcut"/>`; });
+    }
+    if (bad.has(c.id)) g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="cpbad" pointer-events="none"/>`;
+    g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="vehit"><title>${esc(cpTip(c))} · x ${c.x} / y ${c.y} mm</title></rect></g>`;
+  });
+  const s = it.cons.find(c => c.id === CP.sel);
+  if (s) { const r = cpRect(s); g += `<rect x="${f(r.x0 - 1)}" y="${f(r.y0 - 1)}" width="${f(r.x1 - r.x0 + 2)}" height="${f(r.y1 - r.y0 + 2)}" class="vesel"/>`; }
+  box.innerHTML = `<svg viewBox="${-m} ${-m} ${f(W19 + 2 * m)} ${f(H + 2 * m)}" style="width:100%" role="img" aria-label="${esc(title(it))}"><rect x="${-m}" y="${-m}" width="${f(W19 + 2 * m)}" height="${f(H + 2 * m)}" class="vebg"/>${g}</svg>`;
+}
+function cpAdd(t) {
+  const it = cpIt(); if (!it) return;
+  const k = CTYPES[t].def, [x, y] = cpFree(it, k);
+  const c = { id: uid(), k, x, y, label: '', mount: CON[k].fit === 'fp' || CON[k].mount ? 'f' : 'r' };
+  it.cons.push(c); CP.sel = c.id; renderCP(); renderSoft();
+}
+document.addEventListener('pointerdown', e => {
+  const svg = e.target.closest && e.target.closest('#cpStage svg'); if (!svg) return;
+  const gi = e.target.closest('[data-cpi]'), it = cpIt(); if (!it) return;
+  if (gi) { const c = it.cons.find(x => x.id === gi.dataset.cpi); if (!c) return; CP.sel = c.id; CP.drag = { id: c.id, p0: veP(svg, e), x0: c.x, y0: c.y }; e.preventDefault(); cpStage(); return; }
+  if (CP.sel) { CP.sel = null; renderCP(); }
+});
+document.addEventListener('pointermove', e => {
+  if (!CP.drag) return; const svg = $('#cpStage svg'), it = cpIt(); if (!svg || !it) return;
+  const c = it.cons.find(x => x.id === CP.drag.id); if (!c) return;
+  const p = veP(svg, e), k = e.shiftKey ? 10 : 2, q = v => Math.round(v * k) / k;
+  c.x = q(CP.drag.x0 + p.x - CP.drag.p0.x); c.y = q(CP.drag.y0 + p.y - CP.drag.p0.y); CP.drag.moved = true; cpStage();
+});
+document.addEventListener('pointerup', () => { if (!CP.drag) return; const d = CP.drag; CP.drag = null; if (d.moved) { renderCP(); renderSoft(); } });
+document.addEventListener('keydown', e => {
+  if (!$('#cpDlg').open || !CP.sel || /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '')) return;
+  const it = cpIt(), c = it && it.cons.find(x => x.id === CP.sel); if (!c) return;
+  const st = e.shiftKey ? 5 : .5, mv = { ArrowLeft: [-st, 0], ArrowRight: [st, 0], ArrowUp: [0, -st], ArrowDown: [0, st] }[e.key];
+  if (mv) { c.x = Math.round((c.x + mv[0]) * 10) / 10; c.y = Math.round((c.y + mv[1]) * 10) / 10; renderCP(); renderSoft(); e.preventDefault(); return; }
+  if (e.key === 'Delete' || e.key === 'Backspace') { it.cons = it.cons.filter(x => x.id !== c.id); CP.sel = null; renderCP(); renderSoft(); e.preventDefault(); }
+});
+document.addEventListener('click', e => {
+  const t = e.target; if (!t.closest) return;
+  const ed = t.closest('[data-cpedit]'); if (ed && !t.closest('#cpDlg')) { openCP(ed.dataset.cpedit, ed.dataset.cpsel); return; }
+  if (!t.closest('#cpDlg')) return;
+  if (t.closest('[data-cpclose]') || t === $('#cpDlg')) { closeCP(); return; }
+  const it = cpIt(); if (!it) return;
+  const ad = t.closest('[data-cpadd]'); if (ad) { cpAdd(ad.dataset.cpadd); return; }
+  const sl = t.closest('[data-cpsel]'); if (sl) { CP.sel = sl.dataset.cpsel; renderCP(); return; }
+  const a = t.closest('[data-cpact]'); if (!a) return;
+  const c = it.cons.find(x => x.id === CP.sel), act = a.dataset.cpact;
+  if (act === 'pdf') { cpPdf(it); return; }
+  if (!c) return;
+  if (act === 'del') { it.cons = it.cons.filter(x => x.id !== c.id); CP.sel = null; }
+  if (act === 'center') c.y = Math.round(it.he * HE / 2 * 10) / 10;
+  if (act === 'dup') { const [x, y] = cpFree(it, c.k), d = { ...c, id: uid(), x, y }; it.cons.push(d); CP.sel = d.id; }
+  renderCP(); renderSoft();
+});
+document.addEventListener('dblclick', e => { const g = e.target.closest && e.target.closest('#stage [data-id]'); if (!g) return; const it = state.items.find(i => i.id === g.dataset.id); if (it && it.kind === 'cpanel') openCP(it.id); });
+document.addEventListener('change', e => {
+  const t = e.target; if (!t.closest || !t.closest('#cpDlg')) return;
+  const it = cpIt(); if (!it) return;
+  if (t.id === 'cpName') { it.name = t.value.trim(); renderCP(); renderSoft(); }
+  if (t.id === 'cpHe') { it.he = +t.value; place(it, it.pos); renderCP(); renderSoft(); }
+  if (t.id === 'cpCuts') { CP.cuts = t.checked; cpStage(); }
+  if (t.id === 'cpGrid') { CP.grid = t.checked; cpStage(); }
+  if (t.dataset.cpxy) { const c = it.cons.find(x => x.id === CP.sel), v = parseNum(t.value); if (c && v != null) { c[t.dataset.cpxy] = Math.round(v * 10) / 10; renderCP(); renderSoft(); } }
+});
+// Bohrschablone 1:1 (eigenes Seitenformat, Druck mit „Tatsächliche Größe“)
+async function cpPdf(it) {
+  let jsPDF; try { ({ jsPDF } = await loadJsPDF()); } catch (e) { toast('PDF-Bibliothek nicht geladen'); return; }
+  const H = it.he * HE, M = 12, PW = W19 + 2 * M, PH = H + 2 * M + 30 + Math.ceil(it.cons.length / 2) * 3.4;
+  const doc = new jsPDF({ unit: 'mm', format: [PW, PH], orientation: 'landscape' }), X = M, Y = M + 22;
+  const T = (s, x, y, o) => doc.text(pdfTxt(s), x, y, o);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text(pdfTxt(state.project.name || 'Rack Manufaktur', 1) + ' · ' + pdfTxt(title(it), 1), X, M + 2);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7.5);
+  T(`Bohrschablone 1:1 · ${(ART[artKey('blank', it.he)] || {}).art || 'Rackblende'} · Vorderseite · Maße in mm ab linker Blendenkante und Oberkante · drucken mit „Tatsächliche Größe“ (100 %) und am Kontrollmaß prüfen`, X, M + 7);
+  doc.setLineWidth(.3); doc.line(X, M + 12, X + 100, M + 12); doc.line(X, M + 10.5, X, M + 13.5); doc.line(X + 100, M + 10.5, X + 100, M + 13.5); T('Kontrollmaß 100 mm', X + 102, M + 13);
+  doc.setLineWidth(.25); doc.rect(X, Y, W19, H);
+  doc.setLineDashPattern([1.5, 1], 0); doc.line(X + CP_EAR, Y, X + CP_EAR, Y + H); doc.line(X + W19 - CP_EAR, Y, X + W19 - CP_EAR, Y + H); doc.setLineDashPattern([], 0);
+  const ys = H >= HE * .9 ? [6.35, H - 6.35] : [H / 2]; for (let u = 1; u < it.he; u++) ys.push(u * HE + 6.35, u * HE - 6.35);
+  ys.forEach(yy => [8, W19 - 8].forEach(xx => doc.roundedRect(X + xx - 3.5, Y + yy - 1.7, 7, 3.4, 1.7, 1.7)));
+  it.cons.slice().sort((a, b) => a.x - b.x).forEach((c, i) => {
+    const F = fpOf(c.k), cx = X + c.x, cy = Y + c.y;
+    doc.setLineWidth(.15); doc.line(cx - 3, cy, cx + 3, cy); doc.line(cx, cy - 3, cx, cy + 3);
+    doc.setLineWidth(.3); F.cut.forEach(q => { if (q.t === 'r') doc.rect(cx - q.w / 2, cy - q.h / 2, q.w, q.h); else doc.circle(cx + (q.x || 0), cy + (q.y || 0), q.d / 2); });
+    doc.setLineWidth(.1); doc.setLineDashPattern([.8, .8], 0); doc.rect(cx - F.w / 2, cy - F.h / 2, F.w, F.h); doc.setLineDashPattern([], 0);
+    doc.setFontSize(5.5); T(`${i + 1} ${CON[c.k].s}`, cx, cy - F.h / 2 - 1.2, { align: 'center' });
+    doc.setFontSize(6); T(`${i + 1}: ${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''} · x ${fmtN(c.x)} / y ${fmtN(c.y)} · ${cutTxt(c.k)}`, X + (i % 2) * (W19 / 2), Y + H + 6 + Math.floor(i / 2) * 3.4);
+  });
+  await saveFile(`${slug()}-${slugOf({ project: { name: title(it) } })}-${LANG === 'en' ? 'drill-template' : 'bohrschablone'}.pdf`, doc.output('blob'), 'PDF');
+}
 
 /* ---------- Projektdatei laden ---------- */
 function loadProjectFile(file) {
@@ -4643,8 +5018,8 @@ document.addEventListener('click', e => {
     const n = it.slots.length;
     let i = selSlot != null ? selSlot : it.slots.findIndex(s => s === 'blank');
     if (i < 0) i = 0;
-    it.slots[i] = assign.dataset.assign;
-    selSlot = Math.min(n - 1, i + 1);
+    it.slots[i] = pickProd(assign.dataset.assign, (CON[it.slots[i]] || {}).mk, false); forceMount(it);
+    selSlot = i;
     renderInsp(); renderSoft(); return;
   }
   const pick = t.closest('[data-pick]');
@@ -4691,6 +5066,7 @@ document.addEventListener('click', e => {
 document.addEventListener('input', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
   if (t.dataset.label != null && it) { it.labels[+t.dataset.label] = t.value; renderSoft(); return; }
+  if (t.dataset.cf === 'label') { cfApply(t, true); return; }
   if (t.dataset.cell != null && it) { const [i, k] = t.dataset.cell.split(':').map(Number); it.cells[i][k] = t.value; renderSoft(); return; }
   if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH', 'art', 'price', 'shop', 'cutLen'].includes(t.dataset.f)) {
     const f = t.dataset.f, v = parseNum(t.value);
@@ -4711,8 +5087,29 @@ document.addEventListener('input', e => {
     const L = layout(); const B = renderBom(); renderSummary(L, B); if (state.step === 3) renderOrders(B.rows); save(); return;
   }
 });
+// Eigenschaften eines Steckers übernehmen (Loch im D-Steckerfeld oder Stecker im eigenen Steckerfeld)
+function cfApply(t, typing) {
+  const box = t.closest('[data-cfwho]'); if (!box) return;
+  const [kind, ref] = box.dataset.cfwho.split(':'), f = t.dataset.cf, v = t.value;
+  if (kind === 'slot') {
+    const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'dpanel') return; const i = +ref;
+    if (f === 'label') { it.labels[i] = v; if (typing) { renderSoft(); return; } }
+    if (f === 'type') it.slots[i] = pickProd(v, (CON[it.slots[i]] || {}).mk, false);
+    if (f === 'prod') it.slots[i] = v;
+    if (f === 'mount') it.mounts[i] = v;
+    forceMount(it); selSlot = i; renderInsp(); renderSoft(); return;
+  }
+  const it = cpIt(), c = it && it.cons.find(x => x.id === ref); if (!c) return;
+  if (f === 'label') { c.label = v; if (typing) { cpStage(); renderSoft(); return; } }
+  if (f === 'type') c.k = pickProd(v, (CON[c.k] || {}).mk, true);
+  if (f === 'prod') c.k = v;
+  if (f === 'mount') c.mount = v;
+  if (CON[c.k].fit === 'fp' || CON[c.k].mount) c.mount = 'f';
+  renderCP(); renderSoft();
+}
 document.addEventListener('change', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
+  if (t.dataset.cf) { cfApply(t); return; }
   if (t.dataset.mount != null && it) { it.mounts[+t.dataset.mount] = t.value; selSlot = +t.dataset.mount; renderInsp(); renderSoft(); return; }
   if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; forceMount(it); selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
   if (t.dataset.f && it) {
@@ -4722,6 +5119,7 @@ document.addEventListener('change', e => {
     else if (f === 'tray') it.tray = t.checked ? { he: 1, depth: 375 } : null;
     else if (f === 'trayhe') it.tray.he = +t.value;
     else if (f === 'foam') it.foam = t.checked;
+    else if (f === 'cpname') it.name = t.value.trim();
     else if (f === 'dw') { it.dw = t.value; const D = drawerOf(it); if (!D.hes.includes(it.he)) it.he = D.hes[0]; if (!D.foam) it.foam = false; place(it, it.pos); }
     else if (f === 'color') it.color = t.value;
     else if (f === 'rearFix') it.rearFix = t.checked;

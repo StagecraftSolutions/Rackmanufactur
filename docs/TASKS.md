@@ -12,6 +12,8 @@ Open work. Done items are checked off. Whoever continues starts with the first o
 
 ## Weights and product data
 
+- [ ] Connector database: verify footprints of CEE 16 A (PCE), Schuko (Mennekes 11081) and IEC C14 (Schurter 1061) against the manufacturer drawings; check Amphenol and new Neutrik part numbers and prices; add more suppliers (e.g. Seetronic XLR/etherCON) and weights (`con:` keys)
+
 - [x] Weight `kg` for devices, weight table `KG` for all other items, total weight in BOM/build notes/overview/PDF
 - [ ] **Add missing weights** (devices: "without weight" in [manufacturers.md](manufacturers.md); cases, panels, inserts, shelves: [`data/weight-catalog.csv`](../data/weight-catalog.csv)) – workflow in [ai-workflow.md](ai-workflow.md)
 - [ ] Check placeholders (`ph: 1`) against datasheets, starting with "check U" (Videohub 80/120, Behringer S16/S32/SD, Midas DL15x/DL231/DL252, NovaStar VX), L-Acoustics, Powersoft Quattrocanali/Duecanali, dBTechnologies

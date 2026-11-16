@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-16 – Version 25 · Connector database, custom connector panels
+
+- **Connector database** `data/connectors.json` (23 types, 37 parts): each connector has a type, supplier/part, price and a fit – D-size, in a drilled blank plate, or its own footprint (cutouts, screw holes). New parts: Amphenol XLR/DMX, Neutrik powerCON blue/white, TRUE1 Out D-size, etherCON Cat 6A, USB 3.0; for custom panels CEE 16 A socket/inlet (PCE), Schuko panel socket (Mennekes 11081), IEC C14 snap-in (Schurter 1061) – footprints from manufacturer data, cutout diameters marked "check dimensions".
+- **Connector panel inspector:** holes as a compact grid; only the selected hole shows its properties – type, supplier/part, name/note, mounting from rear/front. The palette picks a type and keeps the supplier. Names appear in tooltips and the build notes.
+- **Custom connector panels** (Add → Custom elements): steel blank panel 1–4 U, connectors placed freely in an editor (drag, 0.5 mm grid, arrow keys, x/y), cutouts shown, warnings for overlaps and the rack-ear zone. BOM with blank panel, connectors and M3 screws; build notes with a drill plan (coordinates and cutouts); drill template 1:1 as PDF. Saved in the project file.
+- `scripts/data.mjs` validates and imports the connector database (data blocks `CTYPES`, `CON`).
+
 ## 2026-11-16 – Version 24 · Inventory devices
 
 - **13 new rack devices** from TD Media's rack modules: Netgear GS724T, APC Smart-UPS C 1000 (2 U), Stairville DMX Splitter 4 MKIII, GLP PDP-2/S, Showtec PSA-32A12S, RF Venue DISTRO4, Blackmagic SmartView Duo, ATEM 2 M/E Production Studio 4K, Web Presenter HD, Botex CHC-8, the t.amp Quadro 500 DSP, Botex DPX-620 III (Harting), Botex PSA 16PT2-TR1 – with English connector descriptions, depth, weight and price where known. 8 new manufacturers (213 devices, 21 manufacturers).
