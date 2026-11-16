@@ -9,7 +9,7 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Blackmagic Design
 
-52 devices · 30 scale view · 4 data confirmed · 18 placeholder · 52 without weight
+55 devices · 31 scale view · 4 data confirmed · 20 placeholder · 53 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
@@ -65,6 +65,9 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 | Blackmagic UltraStudio 4K Mini | 1/2 rack width | 190 mm* | – | 1,119.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/de/products/ultrastudio) |
 | ATEM Monitoring Rack Panel 20 | 19″ · 1 U | 100 mm* | – | 1,069.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/de/products/atemconstellationip) |
 | ATEM Monitoring Rack Panel 40 | 19″ · 2 U | 100 mm* | – | 1,699.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/de/products/atemconstellationip) |
+| Blackmagic SmartView Duo | 19″ · 3 U | 60 mm* | 1.43 kg | 400.00 € | scale view | [Manufacturer](https://www.blackmagicdesign.com/products/smartview) |
+| ATEM 2 M/E Production Studio 4K | 19″ · 2 U | 235 mm* | 4.1 kg | 980.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/products/atem) |
+| Blackmagic Web Presenter HD | 1/3 rack width | 176 mm* | – | 500.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/products/blackmagicwebpresenter) |
 
 ## Ubiquiti
 
@@ -115,11 +118,11 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| Shure ULXD4 (Einkanal, halbe Breite) | half width (rack kit) | 180 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=ULXD4) |
+| Shure ULXD4 (Einkanal, halbe Breite) | half width (rack kit) | 180 mm* | – | 650.00 € | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=ULXD4) |
 | Shure QLXD4 (halbe Breite) | half width (rack kit) | 180 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=QLXD4) |
 | Shure SLXD4 (halbe Breite) | half width (rack kit) | 170 mm* | – | – | data confirmed | [Manufacturer](https://www.shure.com/de-DE/search?q=SLXD4) |
 | Shure PSM900 P9T Sender (halbe Breite) | half width (rack kit) | 200 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=P9T) |
-| Shure ULXD4D (Zweikanal) | 19″ · 1 U | 330 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=ULXD4D) |
+| Shure ULXD4D (Zweikanal) | 19″ · 1 U | 330 mm* | – | 2,000.00 € | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=ULXD4D) |
 | Shure ULXD4Q (Vierkanal) | 19″ · 1 U | 330 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=ULXD4Q) |
 | Shure PSM1000 P10T Sender | 19″ · 1 U | 300 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=P10T) |
 | Shure Axient Digital AD4D | 19″ · 1 U | 380 mm* | – | – | scale view | [Manufacturer](https://www.shure.com/de-DE/search?q=AD4D) |
@@ -136,12 +139,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Behringer
 
-10 devices · 1 scale view · 0 data confirmed · 9 placeholder · 10 without weight
+10 devices · 1 scale view · 0 data confirmed · 9 placeholder · 9 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | Behringer WING RACK | 19″ · 4 U | 326 mm | – | – | scale view | [Manufacturer](https://www.behringer.com/en/products/0604-AAE) |
-| Behringer X32 RACK | 19″ · 3 U | 250 mm* | – | – | placeholder | [Manufacturer](https://www.behringer.com/en/products/0604-AAA) |
+| Behringer X32 RACK | 19″ · 3 U | 250 mm* | 6.2 kg | 800.00 € | placeholder | [Manufacturer](https://www.behringer.com/en/products/0604-AAA) |
 | Behringer S32 Stagebox | 19″ · 3 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ACQ) |
 | Behringer S16 Stagebox | 19″ · 3 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ABC) |
 | Behringer SD16 Stagebox | 19″ · 2 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ACO) |
@@ -153,12 +156,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Midas
 
-16 devices · 4 scale view · 2 data confirmed · 10 placeholder · 16 without weight
+16 devices · 4 scale view · 2 data confirmed · 10 placeholder · 15 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| Midas DL32 Stagebox | 19″ · 3 U | 230 mm* | – | – | scale view | [Manufacturer](https://www.midasconsoles.com/en/products/0606-ACR) |
-| Midas DL16 Stagebox | 19″ · 2 U | 230 mm* | – | – | scale view | [Manufacturer](https://www.midasconsoles.com/en/products/0606-ACJ) |
+| Midas DL32 Stagebox | 19″ · 3 U | 230 mm* | – | 1,450.00 € | scale view | [Manufacturer](https://www.midasconsoles.com/en/products/0606-ACR) |
+| Midas DL16 Stagebox | 19″ · 2 U | 230 mm* | 4.9 kg | 730.00 € | scale view | [Manufacturer](https://www.midasconsoles.com/en/products/0606-ACJ) |
 | Midas DN4816-I (StageConnect In) | 19″ · 1 U | 140 mm* | – | – | scale view | [Manufacturer](https://www.midasconsoles.com/search?q=DN4816) |
 | Midas DN4816-O (StageConnect Out) | 19″ · 1 U | 140 mm* | – | – | scale view | [Manufacturer](https://www.midasconsoles.com/en/products/0606-ADB) |
 | Midas DN4888 (StageConnect 8×8) | 19″ · 1 U | 169 mm* | – | – | data confirmed | [Manufacturer](https://www.midasconsoles.com/search?q=DN4888) |
@@ -278,7 +281,7 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| NovaStar MX20 LED-Controller | 19″ · 1 U | 300 mm* | – | – | scale view | [Manufacturer](https://www.novastar.tech) |
+| NovaStar MX20 LED-Controller | 19″ · 1 U | 300 mm* | – | 1,800.00 € | scale view | [Manufacturer](https://www.novastar.tech) |
 | NovaStar VX400 Pro | 19″ · 1 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.novastar.tech/product/detail.html?catid=3&id=34) |
 | NovaStar VX600 Pro | 19″ · 1 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.novastar.tech/product/detail.html?catid=3&id=34) |
 | NovaStar VX1000 Pro | 19″ · 2 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.novastar.tech/product/detail.html?catid=3&id=34) |
@@ -297,6 +300,72 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 | Eurolite SBM-32B Stromverteiler mit Messung | 19″ · 3 U | 280 mm* | – | 534.31 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248401-eurolite-sbm-32b-stromverteiler.html) |
 | Eurolite SB-65/19 Stromverteiler 16 A | 19″ · 2 U | 210 mm* | – | 106.98 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248305-eurolite-sb-65-19-stromverteiler.html) |
 | Eurolite Steckdosenleiste R19-8 1 HE | 19″ · 1 U | 60 mm* | – | 47.48 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30240215-eurolite-steckdosenleiste-r19-8-1he-sw-27m.html) |
+
+## Netgear
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| Netgear GS724T Smart Switch (24 Port) | 19″ · 1 U | 204 mm* | 2.74 kg | 100.00 € | scale view | [Manufacturer](https://www.netgear.com/business/wired/switches/smart-cloud/gs724t/) |
+
+## APC
+
+1 devices · 0 scale view · 0 data confirmed · 1 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| APC Smart-UPS C 1000 VA (SMC1000I-2U) | 19″ · 2 U | 406 mm* | 20.5 kg | – | placeholder · discontinued | [Manufacturer](https://www.se.com/de/de/product/SMC1000I-2U/) |
+
+## Stairville
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 1 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| Stairville DMX Splitter 4 MKIII 19″ | 19″ · 1 U | 130 mm* | – | 98.00 € | scale view | [Manufacturer](https://www.thomann.de/de/stairville_dmx_splitter_4_mkiii_19.htm) |
+
+## GLP
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| GLP PDP-2/S Power Distributor | 19″ · 2 U | 194 mm* | 4 kg | – | scale view | [Manufacturer](https://glp.de/en/products/pdp-2-pdp-2-s) |
+
+## Showtec
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| Showtec PSA-32A12S Power Distributor | 19″ · 4 U | 250 mm* | 9.8 kg | 300.00 € | scale view | [Manufacturer](https://www.thomann.de/de/showtec_psa_32a12s_power_distributor.htm) |
+
+## RF Venue
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| RF Venue DISTRO4 Antenna Distribution | 19″ · 1 U | 250 mm* | 2.15 kg | 389.00 € | scale view | [Manufacturer](https://www.rfvenue.com/distro4) |
+
+## Botex
+
+3 devices · 1 scale view · 0 data confirmed · 2 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| Botex CHC-8 Chainhoist Controller | 19″ · 4 U | 278 mm* | 10.3 kg | – | placeholder | [Manufacturer](https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm) |
+| Botex DPX-620 III 6-Ch. Dimmer (Harting) | 19″ · 2 U | 325 mm* | 8 kg | 459.00 € | placeholder | [Manufacturer](https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm) |
+| Botex PSA 16PT2-TR1 Power Distributor | 19″ · 1 U | 200 mm* | 3.5 kg | – | scale view | [Manufacturer](https://www.thomann.de/de/botex_psa_16pt2_tr1.htm) |
+
+## the t.amp
+
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| the t.amp Quadro 500 DSP | 19″ · 1 U | 460 mm* | 8 kg | 579.00 € | scale view | [Manufacturer](https://www.thomann.de/de/the_t.amp_quadro_500_dsp.htm) |
 
 ## Not included
 

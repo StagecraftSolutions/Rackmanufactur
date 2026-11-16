@@ -126,3 +126,11 @@ Not included: Flyht Pro Rack Drawer 2U 9.5″ (not 19″ wide); Gator GRW-DRWSH2
 ## Weights
 
 Device weights are in `data/devices.json` (field `kg`), all other items in `data/weights.json`. The complete list of weight keys is `data/weight-catalog.csv`. Missing weights are tracked in [TASKS.md](TASKS.md).
+
+## Devices from the TD Media inventory (Nov 2026)
+
+13 rack devices were added because they are used in TD Media's rack modules: Netgear GS724T, APC Smart-UPS C 1000 (SMC1000I-2U), Stairville DMX Splitter 4 MKIII, GLP PDP-2/S, Showtec PSA-32A12S, RF Venue DISTRO4, Blackmagic SmartView Duo, ATEM 2 M/E Production Studio 4K, Blackmagic Web Presenter HD, Botex CHC-8, the t.amp Quadro 500 DSP, Botex DPX-620 III (Harting), Botex PSA 16PT2-TR1.
+
+- Dimensions, weights and connectors come from manufacturer data sheets and dealer pages (Thomann, Schneider Electric, GLP, RF Venue, Netgear, Blackmagic). Where sources disagree or a value is missing, the device has `chk: 1` and a note.
+- Some list prices (new prices) come from the operator's inventory list and are approximate: Netgear GS724T, Showtec PSA-32A12S, RF Venue DISTRO4, SmartView Duo, ATEM 2 M/E Production Studio 4K, Web Presenter HD, t.amp Quadro 500 DSP, Botex DPX-620 III, and the missing prices of Midas DL16/DL32, Behringer X32 RACK, Shure ULXD4D/ULXD4, NovaStar MX20. Weights of Midas DL16 and X32 RACK from the same list.
+- Eight scale views were generated from data sheet values (layout not checked against a photo, see the device note): GS724T, Stairville splitter, GLP PDP-2/S, Showtec PSA-32A12S, DISTRO4, SmartView Duo, Quadro 500 DSP, PSA 16PT2-TR1. Approve or correct them in the review editor.

@@ -1,4 +1,4 @@
-schluessel;name;art_nr;kg
+key;name;part_no;kg
 case:pro560:1;ProCase Pro Rackmodul · 1 HE;ProCase 135501;
 case:pro560:2;ProCase Pro Rackmodul · 2 HE;ProCase 135502;
 case:pro560:3;ProCase Pro Rackmodul · 3 HE;ProCase 135503;
@@ -216,7 +216,7 @@ dev:ua845uwb;Shure UA845UWB Antennenverteiler;;
 dev:pa821b;Shure PA821B Antennen-Combiner (PSM);;
 dev:wing_rack;Behringer WING RACK;;
 dev:midas_dl32;Midas DL32 Stagebox;;
-dev:midas_dl16;Midas DL16 Stagebox;;
+dev:midas_dl16;Midas DL16 Stagebox;;4.9
 dev:midas_dn4816i;Midas DN4816-I (StageConnect In);;
 dev:midas_dn4816o;Midas DN4816-O (StageConnect Out);;
 dev:midas_dn4888;Midas DN4888 (StageConnect 8×8);;
@@ -282,7 +282,7 @@ dev:anx4;Shure ANX4 Netzwerk-Empfänger;;
 dev:adtq;Shure ADTQ PSM-Vierfachsender (Axient Digital PSM);;
 dev:adtd;Shure ADTD PSM-Zweifachsender (Axient Digital PSM);;
 dev:ad8c;Shure AD8C Antennen-Combiner 8-fach;;
-dev:beh_x32_rack;Behringer X32 RACK;;
+dev:beh_x32_rack;Behringer X32 RACK;;6.2
 dev:beh_s32;Behringer S32 Stagebox;;
 dev:beh_s16;Behringer S16 Stagebox;;
 dev:beh_sd16;Behringer SD16 Stagebox;;
@@ -359,3 +359,16 @@ dev:dbt_control8;dBTechnologies RDNet Control 8;;
 dev:dbt_ac26n;dBTechnologies AC26N Controller;;
 dev:dbt_ia3204r;dBTechnologies IA3204 R Installationsverstärker;;
 dev:dbt_ia3204d;dBTechnologies IA3204 D Installationsverstärker (Dante);;
+dev:netgear_gs724t;Netgear GS724T Smart Switch (24 Port);;2.74
+dev:apc_smc1000i_2u;APC Smart-UPS C 1000 VA (SMC1000I-2U);;20.5
+dev:stairville_dmxsplit4;Stairville DMX Splitter 4 MKIII 19″;;
+dev:glp_pdp2s;GLP PDP-2/S Power Distributor;;4
+dev:showtec_psa32a12s;Showtec PSA-32A12S Power Distributor;;9.8
+dev:rfvenue_distro4;RF Venue DISTRO4 Antenna Distribution;;2.15
+dev:bm_smartview_duo;Blackmagic SmartView Duo;;1.43
+dev:atem_2me_ps4k;ATEM 2 M/E Production Studio 4K;;4.1
+dev:bm_webpresenter_hd;Blackmagic Web Presenter HD;;
+dev:botex_chc8;Botex CHC-8 Chainhoist Controller;;10.3
+dev:tamp_quadro500dsp;the t.amp Quadro 500 DSP;;8
+dev:botex_dpx620;Botex DPX-620 III 6-Ch. Dimmer (Harting);;8
+dev:botex_psa16pt2_tr1;Botex PSA 16PT2-TR1 Power Distributor;;3.5

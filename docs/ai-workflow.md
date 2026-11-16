@@ -3,7 +3,7 @@
 The tedious work on the product database – adding weights, checking dimensions, creating views, translating – can be done by another AI. The data lives as JSON/CSV in `data/`; a script validates it and writes it into the app.
 
 ```
-data/devices.json       devices (200)
+data/devices.json       devices (213)
 data/weights.json       weights for cases, panels, inserts, shelves, accessories
 data/views.json         scale views incl. connector function labels
 data/devices.csv        devices as a table

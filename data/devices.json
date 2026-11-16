@@ -642,7 +642,8 @@
   "io": {
    "f": "lcd:1 Display; btn:1 Buttons",
    "r": "bnc:2 Antenna A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V"
-  }
+  },
+  "price": 650
  },
  "qlxd4": {
   "n": "Shure QLXD4 (halbe Breite)",
@@ -704,7 +705,8 @@
   "io": {
    "f": "lcd:2 Displays; btn:1 Buttons; jack:1 Headphones",
    "r": "bnc:4 Antenna A/B In, Cascade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Power In/Thru"
-  }
+  },
+  "price": 2000
  },
  "ulxd4q": {
   "n": "Shure ULXD4Q (Vierkanal)",
@@ -829,7 +831,8 @@
   "io": {
    "f": "xlrf:32 Mic In (Midas PRO); xlr:16 Line Out; btn:1 Mute All",
    "r": "iec:1 Power with switch; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out"
-  }
+  },
+  "price": 1450
  },
  "midas_dl16": {
   "n": "Midas DL16 Stagebox",
@@ -843,7 +846,9 @@
   "io": {
    "f": "xlrf:16 Mic In (Midas PRO); xlr:8 Line Out; lcd:1 Display; btn:1 GAIN/HPF/CONFIG; knob:2 Head Amp, Level; jack:1 Headphones",
    "r": "iec:1 Power with switch; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; din:2 MIDI In/Out"
-  }
+  },
+  "price": 730,
+  "kg": 4.9
  },
  "midas_dn4816i": {
   "n": "Midas DN4816-I (StageConnect In)",
@@ -944,7 +949,8 @@
   "io": {
    "f": "btn:1 On/Standby; lcd:1 2″-TFT; knob:1 Rotary knob, BACK; usba:1 USB 2.0",
    "r": "rj45:3 2× Ethernet (Control), AUX; opt:1 S/PDIF Out; bnc:4 Genlock In/Loop, 3G-SDI In/Loop; hdmi:4 2× HDMI 1.3 In + Loop; ethercon:6 LED outputs 1–6; sfp:2 OPT 1/2 (10G); iec:1 Power"
-  }
+  },
+  "price": 1800
  },
  "eurolite_sb1100": {
   "n": "Eurolite SB-1100 Stromverteiler 32 A",
@@ -1933,7 +1939,9 @@
   "io": {
    "f": "lcd:1 5″-colour display; usba:1 USB; jack:1 Headphones; knob:6 knobs; btn:1 Buttons",
    "r": "xlrf:17 16× Mic In, Talkback; xlr:8 Out; jack:8 6× Aux In/Out, 2× Monitor; rca:4 Cinch In/Out; ethercon:3 2× AES50, Ultranet; rj45:1 Ethernet; din:2 MIDI In/Out; iec:1 Power"
-  }
+  },
+  "price": 800,
+  "kg": 6.2
  },
  "beh_s32": {
   "n": "Behringer S32 Stagebox",
@@ -3138,5 +3146,225 @@
   "chk": 1,
   "ph": 1,
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft"
+ },
+ "netgear_gs724t": {
+  "n": "Netgear GS724T Smart Switch (24 Port)",
+  "mk": "Netgear",
+  "g": "Netzwerk · Switches",
+  "fit": "rack",
+  "he": 1,
+  "d": 204,
+  "kg": 2.74,
+  "price": 100,
+  "chk": 1,
+  "url": "https://www.netgear.com/business/wired/switches/smart-cloud/gs724t/",
+  "io": {
+   "f": "rj45:24 GbE 1–24; sfp:2 SFP (shared with 23/24)",
+   "r": "iec:1 Power"
+  },
+  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+ },
+ "apc_smc1000i_2u": {
+  "n": "APC Smart-UPS C 1000 VA (SMC1000I-2U)",
+  "mk": "APC",
+  "g": "Strom · USV",
+  "fit": "rack",
+  "he": 2,
+  "d": 406,
+  "kg": 20.5,
+  "chk": 1,
+  "ph": 1,
+  "note": "Laut Hersteller abgekündigt (02/2024).",
+  "url": "https://www.se.com/de/de/product/SMC1000I-2U/",
+  "io": {
+   "f": "lcd:1 LCD; btn:4 Power, menu buttons",
+   "r": "iec:5 Mains In (C14), 4× Out (C13); usb:1 USB; rj45:1 Serial"
+  }
+ },
+ "stairville_dmxsplit4": {
+  "n": "Stairville DMX Splitter 4 MKIII 19″",
+  "mk": "Stairville",
+  "g": "Licht · DMX",
+  "fit": "rack",
+  "he": 1,
+  "d": 130,
+  "price": 98,
+  "chk": 1,
+  "note": "Tiefe, Gewicht und Netzanschluss nicht angegeben – nachmessen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "url": "https://www.thomann.de/de/stairville_dmx_splitter_4_mkiii_19.htm",
+  "io": {
+   "f": "xlr:1 DMX In (3-pin); xlr5:1 DMX In (5-pin); xlrf:5 DMX Thru, Out 1–4 (3-pin); xlr5:5 DMX Thru, Out 1–4 (5-pin)",
+   "r": "iec:1 Power"
+  }
+ },
+ "glp_pdp2s": {
+  "n": "GLP PDP-2/S Power Distributor",
+  "mk": "GLP",
+  "g": "Strom",
+  "fit": "rack",
+  "he": 2,
+  "d": 194,
+  "kg": 4,
+  "chk": 1,
+  "url": "https://glp.de/en/products/pdp-2-pdp-2-s",
+  "io": {
+   "f": "schuko:3 Schuko Out 16 A; cee16f:1 CEE 16 A Out 5-pin; brk:3 RCBO C16",
+   "r": "schuko:6 Schuko Out 16 A; gland:1 CEE 16 A In (2 m cable)"
+  },
+  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+ },
+ "showtec_psa32a12s": {
+  "n": "Showtec PSA-32A12S Power Distributor",
+  "mk": "Showtec",
+  "g": "Strom",
+  "fit": "rack",
+  "he": 4,
+  "d": 250,
+  "kg": 9.8,
+  "price": 300,
+  "chk": 1,
+  "note": "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "url": "https://www.thomann.de/de/showtec_psa_32a12s_power_distributor.htm",
+  "io": {
+   "f": "rcd:1 RCD; brk:12 MCB C16; lcd:6 3× voltmeter, 3× ammeter; schuko:1 Schuko Out (front)",
+   "r": "schuko:12 Schuko Out (3 × 4 circuits); gland:1 CEE 32 A In (1.5 m cable)"
+  }
+ },
+ "rfvenue_distro4": {
+  "n": "RF Venue DISTRO4 Antenna Distribution",
+  "mk": "RF Venue",
+  "g": "Funk · RF-Zubehör",
+  "fit": "rack",
+  "he": 1,
+  "d": 250,
+  "kg": 2.15,
+  "price": 389,
+  "chk": 1,
+  "url": "https://www.rfvenue.com/distro4",
+  "io": {
+   "f": "btn:1 Power switch",
+   "r": "iec:1 AC In; dc:2 DC Out 12 V to receivers; bnc:12 Antenna A/B In, Cascade A/B Out, 4× Out A, 4× Out B"
+  },
+  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+ },
+ "bm_smartview_duo": {
+  "n": "Blackmagic SmartView Duo",
+  "mk": "Blackmagic Design",
+  "g": "Blackmagic · Monitoring",
+  "fit": "rack",
+  "he": 3,
+  "d": 60,
+  "kg": 1.43,
+  "price": 400,
+  "chk": 1,
+  "note": "Abgekündigt, Nachfolger SmartView Duo 2. Tiefe ohne Stecker geschätzt. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "url": "https://www.blackmagicdesign.com/products/smartview",
+  "io": {
+   "f": "lcd:2 8″ LCD; btn:2 Menu buttons",
+   "r": "bnc:4 3G-SDI In 1/2 + Loop Out; rj45:1 Ethernet; db9:1 Tally; usb:1 USB; dc:1 12 V DC"
+  }
+ },
+ "atem_2me_ps4k": {
+  "n": "ATEM 2 M/E Production Studio 4K",
+  "mk": "Blackmagic Design",
+  "g": "Blackmagic · ATEM",
+  "fit": "rack",
+  "he": 2,
+  "d": 235,
+  "kg": 4.1,
+  "price": 980,
+  "chk": 1,
+  "ph": 1,
+  "note": "Abgekündigt. Anschlüsse aus Datenblatt, Rückseite nicht gezeichnet.",
+  "url": "https://www.blackmagicdesign.com/products/atem",
+  "io": {
+   "f": "btn:1 Power LEDs",
+   "r": "bnc:31 20× 6G-SDI In, Program, Preview, 6× Aux, Multiview, Ref In; hdmi:2 Multiview Out, Aux Out; xlr:2 Analog Audio In; rj45:1 Ethernet; usb:1 USB; iec:2 Power (redundant)"
+  }
+ },
+ "bm_webpresenter_hd": {
+  "n": "Blackmagic Web Presenter HD",
+  "mk": "Blackmagic Design",
+  "g": "Blackmagic · Streaming",
+  "fit": "bmd",
+  "frac": 0.3333333333333333,
+  "d": 176,
+  "chk": 1,
+  "ph": 1,
+  "price": 500,
+  "note": "Abgekündigt, ähnlich Streaming Encoder HD. Maße wie Teranex-Mini-Gehäuse angenommen.",
+  "url": "https://www.blackmagicdesign.com/products/blackmagicwebpresenter",
+  "io": {
+   "f": "lcd:1 Display; btn:4 Control buttons",
+   "r": "bnc:2 12G-SDI In, SDI Program Out; xlr:2 Audio In; rj45:1 Ethernet; usb:1 USB-C Webcam/Tethering; iec:1 Power"
+  }
+ },
+ "botex_chc8": {
+  "n": "Botex CHC-8 Chainhoist Controller",
+  "mk": "Botex",
+  "g": "Rigging · Motorsteuerung",
+  "fit": "rack",
+  "he": 4,
+  "d": 278,
+  "kg": 10.3,
+  "chk": 1,
+  "ph": 1,
+  "note": "Eigene Harting-Belegung von Botex (Nutzerhinweis) – vor Einsatz prüfen.",
+  "url": "https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm",
+  "io": {
+   "f": "btn:10 8× channel select, Up/Down; btn:2 Emergency stop, key switch",
+   "r": "gland:1 CEE 32 A In; cee16f:2 Harting 16-pin Out (motors 1–4, 5–8)"
+  }
+ },
+ "tamp_quadro500dsp": {
+  "n": "the t.amp Quadro 500 DSP",
+  "mk": "the t.amp",
+  "g": "Audio · Endstufen",
+  "fit": "rack",
+  "he": 1,
+  "d": 460,
+  "kg": 8,
+  "price": 579,
+  "chk": 1,
+  "url": "https://www.thomann.de/de/the_t.amp_quadro_500_dsp.htm",
+  "io": {
+   "f": "lcd:1 Display; knob:1 Encoder; btn:4 Channel buttons; usb:1 USB",
+   "r": "xlr:4 Input A–D; nl4:4 Speaker Out A–D; iec:1 Power"
+  },
+  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+ },
+ "botex_dpx620": {
+  "n": "Botex DPX-620 III 6-Ch. Dimmer (Harting)",
+  "mk": "Botex",
+  "g": "Licht · Dimmer",
+  "fit": "rack",
+  "he": 2,
+  "d": 325,
+  "kg": 8,
+  "price": 459,
+  "chk": 1,
+  "ph": 1,
+  "note": "Gewichtsangaben schwanken (8–12 kg); Harting-Variante prüfen.",
+  "url": "https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm",
+  "io": {
+   "f": "lcd:1 Display; btn:4 Menu buttons; brk:6 Channel fuses",
+   "r": "gland:1 CEE 32 A In; cee16f:1 Harting 16-pin Out (6 channels); xlr5:2 DMX In/Out"
+  }
+ },
+ "botex_psa16pt2_tr1": {
+  "n": "Botex PSA 16PT2-TR1 Power Distributor",
+  "mk": "Botex",
+  "g": "Strom",
+  "fit": "rack",
+  "he": 1,
+  "d": 200,
+  "kg": 3.5,
+  "chk": 1,
+  "note": "Tiefe nicht angegeben – nachmessen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "url": "https://www.thomann.de/de/botex_psa_16pt2_tr1.htm",
+  "io": {
+   "f": "brk:3 MCB C16; lcd:1 Voltage display per phase",
+   "r": "powercon:6 TRUE1 Out (2 per phase); gland:1 CEE 16 A In (1.7 m cable)"
+  }
  }
 }

@@ -7,6 +7,7 @@ Open work. Done items are checked off. Whoever continues starts with the first o
 - [x] Review editor with overlay, approval front/rear/data, import via `--review`
 - [ ] **Review all scale views** (0 approved so far): overlay the manufacturer image, correct, approve
 - [ ] ATEM 4 M/E Constellation 4K Plus: review the view created by ChatGPT
+- [ ] Inventory devices (Version 24): check the 8 generated views (GS724T, Stairville splitter, GLP PDP-2/S, Showtec PSA-32A12S, DISTRO4, SmartView Duo, Quadro 500 DSP, PSA 16PT2-TR1) against photos; measure depth of Stairville splitter and PSA 16PT2-TR1; confirm the Showtec model and the Botex DPX-620 III weight
 - [ ] Review the automatically assigned connector function labels (`l`) – 1,178 labels, about a third taken from the printed labels, the rest derived from the device data
 
 ## Weights and product data
@@ -23,6 +24,7 @@ Open work. Done items are checked off. Whoever continues starts with the first o
 - [ ] MA Lighting: rear of 2Port/4Port/8Port Node (datasheets without rear photo)
 - [ ] Midas DN4888, HUB4 (no longer on midasconsoles.com; check HUB4 PRO 0609-AAO), DN4816 rear
 - [ ] All new manufacturers (d&b, L-Acoustics, Powersoft, dBTechnologies) and the placeholders
+- [ ] Inventory placeholders: APC SMC1000I-2U, ATEM 2 M/E Production Studio 4K, Web Presenter HD, Botex CHC-8, Botex DPX-620 III
 
 ## Language and open source
 

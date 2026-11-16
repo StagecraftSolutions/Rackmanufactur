@@ -4,7 +4,7 @@ Web configurator for 19″ rack cases with connector panels, devices and rack pa
 
 **Live instance: <https://td-media.eu/rackwerk/>** – runs the current `main` branch; the page footer links the exact commit that is deployed. Interface in **English and German** (switch in the header).
 
-Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) and **Thon** racks from Thomann. Connector panels, blank/vent panels, rack shelves and drawers from Adam Hall, D-size inserts from Seetronic and Neutrik. Device database with 200 devices from 13 manufacturers.
+Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) and **Thon** racks from Thomann. Connector panels, blank/vent panels, rack shelves and drawers from Adam Hall, D-size inserts from Seetronic and Neutrik. Device database with 213 devices from 21 manufacturers.
 
 ## Three steps
 
@@ -19,7 +19,7 @@ Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) a
 - **Placing modules:** click and drag (0.5 U grid), overlapping modules move down; inspector with "from U", ↑/↓ 0.5 U, "close gaps". Front or rear side per module.
 - **Modules:** connector panels 1 U · 12 D (with/without strain relief), 1 U · 16 D, 2 U · 24 D; label panel 0.5 U; vent panels 0.5–4 U and blank panels 1–4 U (may sit in front of a rack shelf); rack shelves (Adam Hall, Thon, Blackmagic Universal Rack Shelf, Shure and MA rack kits); drawers incl. short models; brush panel; custom elements with part no., price, supplier and weight.
 - **Connector panels:** fill holes by click, list or drag & drop, swap by dragging; mounting from rear or front per hole; drilled blank plates for RCA, jack, SMA.
-- **Devices:** 200 devices (Blackmagic, Ubiquiti, Shure, Behringer, Midas, d&b, L-Acoustics, Powersoft, dBTechnologies, MA Lighting, Swisson, NovaStar, Eurolite). Devices with a scale view are drawn from dimensional drawings or photos; every connector has an English function label (tooltip, e.g. "SDI In 1", "Headphones"). Devices without a view appear as placeholders with name, height and depth.
+- **Devices:** 213 devices (Blackmagic, Ubiquiti, Shure, Behringer, Midas, d&b, L-Acoustics, Powersoft, dBTechnologies, MA Lighting, Swisson, NovaStar, Eurolite, Netgear, APC, Stairville, GLP, Showtec, RF Venue, Botex, the t.amp). Devices with a scale view are drawn from dimensional drawings or photos; every connector has an English function label (tooltip, e.g. "SDI In 1", "Headphones"). Devices without a view appear as placeholders with name, height and depth.
 - **Label panel:** divisions, lines, pitch, offset, strip size; PDF export at actual size with cut marks.
 - **Bill of materials** with part numbers, suppliers, prices, sources and **weight**; prices, part numbers and suppliers can be overridden and are saved in the project file. Devices can be marked as "owned".
 - **Build notes:** drilling, mounting direction, rack shelf cutting (angle grinder), MA front panels, label strips.
