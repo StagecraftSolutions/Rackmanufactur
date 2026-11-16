@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-11-16 – Stand 17 · Bedienung, kurze Schubladen
+
+- Liste „Im Rack“: × zum Entfernen; Vorder-/Rückseite nur noch für Screenreader (aria-label).
+- Geräte-Popup kompakter, Suche bleibt oben; Platzhalter und „Eigenes Gerät“ unter „Eigene Elemente“.
+- Stecker im Steckerfeld per Ziehen tauschen (Ansicht und Lochliste).
+- Seetronic SAC3FPX20 nur von vorn einbaubar.
+- Rackwanne kürzbar (Checkbox + neue Tiefe), Fertigungshinweis mit Winkelschleifer.
+- Geräte kommen mit Preis in die Bestellung; „vorhanden“ je Gerät umschaltbar, eigene Preise werden in der Projektdatei gespeichert.
+- **Kurze Schubladen:** Adam Hall 87402 S (210 mm), Thon Rack Drawer 2U Short (210 mm), Flyht Pro 2U/3U 28 cm; Modell im Inspektor umschaltbar.
+
 ## 2026-11-16 – Stand 16 · 54 von 66 Geräten maßstäblich
 
 - Maßstäblich nach Maßzeichnung/Herstellerfoto: Teranex-Mini-Rückseiten, Streaming Encoder HD/4K und Decoder 4K, Videohub 20x20 12G, CleanSwitch 12x12, Audio Monitor 12G G3, ATEM Constellation 1/2/4 M/E (HD und 4K), HyperDeck Studio (4 Modelle), UniFi Pro Max 24 PoE und Cloud Gateway Max, Shure ULXD4/4D/4Q, QLXD4, AD4D/AD4Q, P9T, P10T (hinten), UA845UWB, PA821B, Behringer WING RACK, Midas DL32/DL16/DN4816, NovaStar MX20.

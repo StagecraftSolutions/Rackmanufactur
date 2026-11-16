@@ -803,6 +803,10 @@ const ART = {
   foam2:  { n: 'Mikro-Schaumstoffeinlage für Schublade 2 HE',     art: 'Adam Hall 87402 MI', price: 38.00, src: 'web', q: 'Music Store' },
   foam3:  { n: 'Schaumstoffeinlage für Schublade 3 HE',           art: '', price: null, src: 'check' },
   foam4:  { n: 'Schaumstoffeinlage für Schublade 4 HE',           art: '', price: null, src: 'check' },
+  dr_ah2s:   { n: 'Rackschublade 2 HE Short, Stahl, abschließbar, 210 mm tief', art: 'Adam Hall 87402 S', price: 52.00, src: 'web', q: 'Thomann 494619' },
+  dr_thon2s: { n: 'Rackschublade 2 HE Short, Stahl, 210 mm tief',  art: 'Thon Rack Drawer 2U Short', price: 44.00, src: 'web', q: 'Thomann 417809' },
+  dr_fp2:    { n: 'Rackschublade 2 HE, Stahl, abschließbar, 280 mm Einbautiefe', art: 'Flyht Pro Rack Drawer 19" 2U 28 cm lock', price: 55.00, src: 'web', q: 'Thomann 429026' },
+  dr_fp3:    { n: 'Rackschublade 3 HE, Stahl, abschließbar, 280 mm Einbautiefe', art: 'Flyht Pro Rack Drawer 19" 3U 28 cm lock', price: 55.00, src: 'web', q: 'Thomann 429025' },
 };
 const artKey = (kind, he) => kind + String(he).replace('.', '_');
 
@@ -1018,6 +1022,20 @@ const parseIO = s => (s || '').split(';').map(x => x.trim()).filter(Boolean).map
 const ioTxt = s => parseIO(s).map(p => p.n > 1 ? `${p.n}× ${p.txt || p.t}` : (p.txt || p.t)).join(', ') || '–';
 
 /* ---------- Rackwannen für Geräte ---------- */
+// Schubladen: Standard (Adam Hall, 392 mm) und kurze Bauformen für flache Racks
+const DRAWERS = {
+  ah:      { n: 'Adam Hall Standard', short: '', hes: [1, 2, 3, 4], depth: { 1: 392, 2: 392, 3: 392, 4: 392 }, key: he => 'drawer' + he, lock: true, foam: true,
+             info: '392 mm Außentiefe, Innentiefe 373 mm, 25 kg Traglast.', url: 'https://www.adamhall.com/shop/en/19-rack-drawers' },
+  ah_2s:   { n: 'Adam Hall 87402 S Short', short: 'Short', hes: [2], depth: { 2: 210 }, key: () => 'dr_ah2s', lock: true,
+             info: '210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.', url: 'https://www.adamhall.com/shop/en/brands/rack-drawer-02-short-87402s' },
+  thon_2s: { n: 'Thon Rack Drawer 2U Short', short: 'Thon Short', hes: [2], depth: { 2: 210 }, key: () => 'dr_thon2s', lock: false,
+             info: '210 mm Einbautiefe, im Rack mind. 220 mm frei; innen 404 × 74 × 210 mm, ohne Schloss.', url: 'https://www.thomann.de/de/thon_rack_drawer_2u_short.htm' },
+  fp_28:   { n: 'Flyht Pro Rack Drawer 28 cm', short: 'Flyht Pro 28 cm', hes: [2, 3], depth: { 2: 300, 3: 295 }, key: he => 'dr_fp' + he, lock: true,
+             info: '280 mm Einbautiefe (außen 300 / 295 mm), innen 410 × 70 × 270 mm (2 HE) bzw. 411 × 115 × 273 mm (3 HE), 20 kg, Vollauszug, abschließbar.', url: 'https://www.thomann.de/de/flyht_pro_rack_drawer_19_2u_28_cm_lock.htm' },
+};
+const drawerOf = it => DRAWERS[it.dw] || DRAWERS.ah;
+const drawerDepth = it => { const D = drawerOf(it); return D.depth[it.he] ?? D.depth[D.hes[0]]; };
+
 const SHELVES = {
   ah_1u: { bom: 'tray1', n: 'Rackwanne 1 HE, 375 mm tief (Adam Hall 87551)', short: 'Rackwanne 1 HE', mk: 'Adam Hall', art: 'Adam Hall 87551', price: 24.00, src: 'web', q: 'envirel', he: 1, mode: 'free', innerW: 440, depth: 375, acc: ['free', 'bmd', 'half'], url: 'https://www.adamhall.com',
     info: 'Rackwanne mit Rackohren. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).' },
@@ -1206,7 +1224,7 @@ function makeItem(kind, o = {}) {
     it.he = 0.5; it.div = o.div ?? 12; it.lines = o.lines ?? 2; it.pitch = defPitch(it.div); it.offset = 0;
     it.stripW = STRIP.w; it.stripH = STRIP.h; it.cells = Array.from({ length: it.div }, () => Array(it.lines).fill(''));
   }
-  if (kind === 'drawer') { it.he = o.he ?? 2; it.foam = false; }
+  if (kind === 'drawer') { it.he = o.he ?? 2; it.foam = false; it.dw = DRAWERS[o.dw] ? o.dw : 'ah'; if (!DRAWERS[it.dw].hes.includes(it.he)) it.he = DRAWERS[it.dw].hes[0]; }
   if (kind === 'device' || kind === 'custom') { it.name = o.name ?? (kind === 'custom' ? 'Eigenes Element' : 'Gerät'); it.depth = o.depth ?? 250; it.color = o.color || 'black'; it.rearFix = !!o.rearFix; }
   if (kind === 'custom') { it.art = o.art || ''; it.price = o.price ?? null; it.shop = o.shop || ''; }
   if (kind === 'brush') it.he = 1;
@@ -1953,7 +1971,7 @@ function title(it) {
     case 'tray': return `Rackwanne ${fmtHE(it.he)}`;
     case 'label': return 'Beschriftungsblende';
     case 'brush': return 'Bürstenblende';
-    case 'drawer': return `Schublade ${fmtHE(it.he)}`;
+    case 'drawer': return `Schublade ${fmtHE(it.he)}${drawerOf(it).short ? ' ' + drawerOf(it).short : ''}`;
     case 'device': return it.name || 'Gerät';
     case 'custom': return it.name || 'Eigenes Element';
     case 'shelf': return shelfOf(it).short + (it.devs && it.devs.length ? ` · ${it.devs.length} Gerät${it.devs.length > 1 ? 'e' : ''}` : '');
@@ -1962,6 +1980,7 @@ function title(it) {
 }
 function itemDepth(it) {
   if (it.kind === 'shelf') return shelfDepth(it);
+  if (it.kind === 'drawer') return drawerDepth(it);
   if (isDev(it) || it.kind === 'tray') return +it.depth || 0;
   if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) return +it.tray.depth || 0;
   return DEPTH[it.kind] ?? 0;
@@ -2210,7 +2229,7 @@ function faceSVG(it, xL, W, live = false) {
       g += panelBase(xL, y, W19, h);
       const hh = Math.min(12, h * .3);
       g += `<rect x="${W / 2 - 60}" y="${y + h / 2 - hh / 2}" width="120" height="${hh}" rx="${hh / 2}" class="handle"/>`;
-      g += `<circle cx="${xL + W19 - EAR - 22}" cy="${y + h / 2}" r="4.2" class="lock"/><rect x="${xL + W19 - EAR - 22.6}" y="${y + h / 2 - 2.4}" width="1.2" height="4.8" class="facedk"/>`;
+      if (drawerOf(it).lock) g += `<circle cx="${xL + W19 - EAR - 22}" cy="${y + h / 2}" r="4.2" class="lock"/><rect x="${xL + W19 - EAR - 22.6}" y="${y + h / 2 - 2.4}" width="1.2" height="4.8" class="facedk"/>`;
       g += `<text x="${xL + EAR + 8}" y="${y + h - 4}" class="engr">SCHUBLADE ${fmtHE(it.he).toUpperCase()}</text>`;
       break;
     }
@@ -2487,7 +2506,7 @@ function bom() {
         it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + (o.id || it.id + '_' + o.x), { n: `${o.owned ? 'Gerät (vorhanden): ' : ''}${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: d.art ? d.mk + ' ' + d.art : '', price: d.price ?? null, src: d.price != null ? 'web' : 'check', q: d.price != null ? 'UVP/Webpreis Hersteller' : 'Preis eintragen', shop: d.mk, own: !!o.owned }, 1); }); break; }
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
-      case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
+      case 'drawer': { const D = drawerOf(it), k = D.key(it.he); add(k, ART[k], 1); if (it.foam && D.foam) add('foam' + it.he, ART['foam' + it.he], 1); break; }
       case 'device': { const d = it.dev && devOf(it.dev); add('dev_' + it.id, { n: `${it.owned ? 'Gerät (vorhanden): ' : ''}${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: d && d.art ? d.mk + ' ' + d.art : '', price: d ? d.price ?? null : null, src: d && d.price != null ? 'web' : 'check', q: d ? (d.price != null ? 'UVP/Webpreis Hersteller' : 'Preis eintragen') : 'Platzhalter · Preis eintragen', shop: d ? d.mk : '', own: !!it.owned }, 1); break; }
       case 'custom': add('cus_' + (it.art ? it.art + '|' + it.name : it.id), { n: `${it.name || 'Eigenes Element'} (${fmtHE(it.he)})`, art: it.art, price: it.price, src: it.price != null ? 'user' : 'check', shop: it.shop }, 1); break;
     }
@@ -2635,9 +2654,11 @@ function renderInsp() {
       h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2], it.he)}</div><div class="field"><label for="f_depth">Tiefe (mm)</label><input id="f_depth" type="number" min="50" max="900" step="5" value="${it.depth}" data-f="depth"></div></div><p class="hint">${esc(ART['tray' + it.he].art)} · eigenes Modul mit Rackohren, 375 mm tief.</p>`;
       break;
     case 'drawer':
-      h += `<div class="row"><div class="field"><label for="f_he">Höhe</label>${heSel([1, 2, 3, 4], it.he)}</div></div>`;
-      h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
-      h += `<p class="hint">${esc(ART['drawer' + it.he].art)} · 392 mm Außentiefe, 25 kg Traglast.${it.he === 2 ? ' Schaumstoffeinlage: 87402 MI.' : ''}</p>`;
+      { const D = drawerOf(it), A = ART[D.key(it.he)];
+      h += `<div class="row"><div class="field"><label for="f_dw">Modell</label><select id="f_dw" data-f="dw">${Object.entries(DRAWERS).map(([k, x]) => `<option value="${k}" ${k === (it.dw || 'ah') ? 'selected' : ''}>${esc(x.n)} · ${x.hes.map(fmtHE).join('/')} · ${x.depth[x.hes[0]]} mm</option>`).join('')}</select></div>`
+        + `<div class="field"><label for="f_he">Höhe</label>${heSel(D.hes, it.he)}</div></div>`;
+      if (D.foam) h += `<label class="check"><input type="checkbox" id="f_foam" data-f="foam" ${it.foam ? 'checked' : ''}> Schaumstoffeinlage dazu</label>`;
+      h += `<p class="hint">${esc(A.art)} · ${A.price != null ? EUR.format(A.price) : 'Preis offen'} · ${esc(D.info)}${D.foam && it.he === 2 ? ' Schaumstoffeinlage: 87402 MI.' : ''} <a href="${D.url}" target="_blank" rel="noopener">Produktseite</a></p>`; }
       break;
     case 'shelf': {
       const Sh = shelfOf(it), grid = Sh.mode === 'grid';
@@ -2890,8 +2911,9 @@ function renderDlg() {
       <div class="opt"><span class="on">${esc(SHELVES.bmd_urs.n)}</span><span class="oa">${esc(SHELVES.bmd_urs.art)} · ${price(SHELVES.bmd_urs)} · Verschraubung für BMD-Geräte 1/3 + 1/2</span><div class="chips">${chip('shelf', 1, '1 HE', 'data-shelf="bmd_urs"')}</div></div>
       <div class="opt"><span class="on">${esc(SHELVES.thon_1u.n)}</span><span class="oa">${esc(SHELVES.thon_1u.art)} · ${SHELVES.thon_1u.innerW} mm innen · 255 mm</span><div class="chips">${chip('shelf', 1, '1 HE', 'data-shelf="thon_1u"')}</div></div>
     </div></div>`;
-    h += `<div class="cgroup"><h3>Schubladen</h3><div class="opts">
+    h += `<div class="cgroup"><h3>Schubladen · kurze Modelle für flache Racks</h3><div class="opts">
       <div class="opt"><span class="on">Schublade Adam Hall</span><span class="oa">87401 E / 87402 / 87403 / 87404 · 392 mm</span><div class="chips">${[1, 2, 3, 4].map(x => chip('drawer', x)).join('')}</div></div>
+      ${Object.entries(DRAWERS).filter(([k]) => k !== 'ah').map(([k, D]) => `<div class="opt"><span class="on">${esc(D.n)}</span><span class="oa">kurz · ${D.hes.map(x => D.depth[x] + ' mm').filter((v, i, a) => a.indexOf(v) === i).join(' / ')} tief · ${D.hes.map(x => price(ART[D.key(x)])).filter((v, i, a) => a.indexOf(v) === i).join(' / ')}${D.lock ? ' · Schloss' : ''}</span><div class="chips">${D.hes.map(x => chip('drawer', x, undefined, `data-dw="${k}"`)).join('')}</div></div>`).join('')}
     </div></div>`;
     h += `<div class="cgroup"><h3>Sonstiges</h3><div class="opts">
       <div class="opt"><span class="on">Bürstenblende</span><span class="oa">${esc(ART.brush.art)} · ${price(ART.brush)} · Kabeldurchführung</span><div class="chips">${chip('brush', 1)}</div></div>
@@ -2980,7 +3002,7 @@ function dlgClick(t) {
   if (t.closest('[data-close]')) { closeAdd(); return true; }
   const tab = t.closest('[data-tab]'); if (tab) { dlg.tab = tab.dataset.tab; if (dlg.tab !== 'geraete') dlg.shelf = null; renderDlg(); return true; }
   const ts = t.closest('[data-tside]'); if (ts) { dlg.side = ts.dataset.tside; dlg.pos = gapAt(dlg.side, dlg.pos) ? dlg.pos : firstFree(dlg.side, 1); renderDlg(); return true; }
-  const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant, shelf: ins.dataset.shelf }); return true; }
+  const ins = t.closest('[data-ins]'); if (ins) { insertItem(ins.dataset.ins, { he: +ins.dataset.he, variant: ins.dataset.variant, shelf: ins.dataset.shelf, dw: ins.dataset.dw }); return true; }
   if (t.closest('[data-shall]')) { dlg.shelf = null; renderDlg(); return true; }
   const db = t.closest('[data-insdb]'); if (db) { insertDev(db.dataset.insdb); return true; }
   const shi = t.closest('[data-insshelf]'); if (shi) { insertItem('shelf', { shelf: shi.dataset.insshelf }); return true; }
@@ -3391,6 +3413,7 @@ document.addEventListener('change', e => {
     else if (f === 'tray') it.tray = t.checked ? { he: 1, depth: 375 } : null;
     else if (f === 'trayhe') it.tray.he = +t.value;
     else if (f === 'foam') it.foam = t.checked;
+    else if (f === 'dw') { it.dw = t.value; const D = drawerOf(it); if (!D.hes.includes(it.he)) it.he = D.hes[0]; if (!D.foam) it.foam = false; place(it, it.pos); }
     else if (f === 'color') it.color = t.value;
     else if (f === 'rearFix') it.rearFix = t.checked;
     else if (f === 'antFront') it.antFront = t.checked;

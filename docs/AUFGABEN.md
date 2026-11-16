@@ -39,7 +39,7 @@ Offen:
 
 ## 4. Rackwannen und Schubladen
 
-- [ ] Kurze Rackschubladen (geringe Einbautiefe) bei Adam Hall und anderen Herstellern recherchieren und aufnehmen
+- [x] Kurze Rackschubladen aufgenommen: Adam Hall 87402 S, Thon 2U Short (210 mm), Flyht Pro 2U/3U 28 cm (keine kurze 1-HE-Schublade am Markt gefunden)
 - [x] Rackwanne per Checkbox kürzbar; Fertigungshinweis Winkelschleifer
 
 ## 5. Preise und Bestellung
