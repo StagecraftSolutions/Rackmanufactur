@@ -474,7 +474,7 @@ td input.shop { min-width: 110px; }
 .ex-cover { fill: #15171a; stroke: #3a3f45; stroke-width: .3; } .ex-led { fill: #f4f4f4; } .ex-screen { fill: #0d1b2a; stroke: #7d8790; stroke-width: .4; } .ex-ring { fill: none; stroke: #6fb6e8; stroke-width: .6; }
 .exbtn-dk { fill: #3a3f45; stroke: #22262a; stroke-width: .3; } .exbtn-w { fill: #e9ecef; } .exbtn-g { fill: #4ade80; } .exbtn-r { fill: #ef4444; } .exbtn-a { fill: #fbbf24; }
 .exbtnt { fill: #2a2e33; font-family: var(--f-display); font-weight: 600; text-anchor: middle; dominant-baseline: central; }
-.exbtnt-l { fill: #e8eaed; }
+.exbtnt-l { fill: #e8eaed; } .exlbl.exink { fill: #2a2e33; }
 .exma { fill: #f4f4f4; } .exmat { fill: #15171a; font-family: var(--f-display); font-weight: 700; text-anchor: middle; dominant-baseline: central; } .exmal { stroke: #15171a; stroke-width: .5; }
 .exmabar { fill: #3a4048; } .exmagreen { fill: #22c55e; } .exmayel { fill: #eab308; } .exencring { fill: none; stroke: #22c55e; stroke-width: .9; }
 .ex-mod { fill: #23262a; stroke: #5d646c; stroke-width: .35; } .ex-vline { stroke: #4b5159; stroke-width: .35; } .ex-tag { fill: none; stroke: #6b737c; stroke-width: .3; } .ex-ir { fill: #3a1418; } .ex-sw { fill: #c9ced4; }
@@ -947,9 +947,9 @@ const DEVDB = {
   bm_stream_hd: { n: 'Blackmagic Streaming Encoder HD', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 549, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   bm_stream_4k: { n: 'Blackmagic Streaming Encoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
   bm_decoder_4k: { n: 'Blackmagic Streaming Decoder 4K', mk: 'Blackmagic Design', g: 'Blackmagic · Streaming', fit: 'bmd', frac: 1 / 3, d: 176, price: 709, url: BMD + 'blackmagicstreamingprocessors', io: { f: 'lcd:1 LCD; btn:1 Bedienfeld', r: 'bnc:3 12G-SDI Out, Referenz In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
-  bm_audiomon: { n: 'Blackmagic Audio Monitor 12G G3', mk: 'Blackmagic Design', g: 'Blackmagic · Monitoring', fit: 'rack', he: 1, d: 200, chk: 1, url: BMD + 'blackmagicaudiomonitor', io: { f: 'lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz' } },
-  bm_vh_20: { n: 'Blackmagic Videohub 20x20 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
-  bm_cleanswitch: { n: 'Smart Videohub CleanSwitch 12x12 6G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 120, chk: 1, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
+  bm_audiomon: { n: 'Blackmagic Audio Monitor 12G G3', mk: 'Blackmagic Design', g: 'Blackmagic · Monitoring', fit: 'rack', he: 1, d: 242, url: BMD + 'blackmagicaudiomonitor', io: { f: 'lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl', r: 'bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz' } },
+  bm_vh_20: { n: 'Blackmagic Videohub 20x20 12G', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 236, url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz' } },
+  bm_cleanswitch: { n: 'Smart Videohub CleanSwitch 12x12', mk: 'Blackmagic Design', g: 'Blackmagic · Videohub', fit: 'rack', he: 1, d: 160, col: 'silver', url: BMD + 'smartvideohub', io: { f: 'lcd:1 LCD; btn:1 Tasten', r: 'bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz' } },
   // MA Lighting · grandMA3 Nodes (Datenblätter MA Lighting, 3/2024)
   ma3_2port: { n: 'grandMA3 2Port Node', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'half', kitType: 'ma', frac: 1 / 2, w: 207, h: 43, d: 184, art: '4010515', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:2 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1' } },
   ma3_4port: { n: 'grandMA3 4Port Node', mk: 'MA Lighting', g: 'Licht · MA Lighting', fit: 'half', kitType: 'ma', frac: 1 / 2, w: 207, h: 43, d: 184, art: '4010516', url: 'https://www.malighting.com', io: { f: 'lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber', r: 'xlr5:4 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1' } },
@@ -1691,6 +1691,44 @@ EXACT.tm_sdi_dist.r = [...TM_BASE(), ...[39.4, 57, 73.1, 90, 105.5].flatMap(x =>
 EXACT.tm_sdi_quad.r = [...TM_BASE(), ...['A', 'B', 'C', 'D'].flatMap((l, i) => TMB([57, 73.1, 90, 105.5][i], 12.4, 'OUT ' + l)), ...TMB(57, 31.1, '12G-SDI IN'), ...TMB(73.1, 31.1, 'LOOP OUT')];
 EXACT.tm_quad_sdi.r = [...TM_BASE(), ...['A', 'B', 'C', 'D'].flatMap((l, i) => TMB([57, 73.1, 90, 105.5][i], 12.4, 'IN ' + l)), ...TMB(57, 31.1, '12G-SDI OUT'), ...TMB(73.1, 31.1, 'LOOP OUT')];
 EXACT.tm_ip_video.r = [...TM_BASE(), { t: 'sfp', x: 57, y: 33, s: 9 }, { t: 'txt', x: 57, y: 40.5, v: '10G ETHERNET', s: 1.4 }, ...TMB(73.1, 31.1, 'SDI IN'), ...TMB(90, 31.1, 'SDI OUT'), ...TMB(105.5, 31.1, 'SDI OUT')];
+// Blackmagic Videohub 20x20 12G, Smart Videohub CleanSwitch 12x12, Audio Monitor 12G G3 (Maßzeichnungen)
+EXACT.bm_vh_20 = { hw: 482.6, f: [
+  { t: 'txt', x: 12, y: 21.7, v: '12G SDI', s: 3, c: 'exorange' }, { t: 'txt', x: 37.6, y: 14.5, v: 'Blackmagic', s: 3.2, a: 'start' }, { t: 'txt', x: 37.6, y: 24.1, v: 'Videohub 20x20 12G', s: 5.4, a: 'start' },
+  ...['MON', 'DECK', 'EDIT', 'ATEM', 'M/VIEW', 'STREAM', 'CAM', 'ST/C', 'PC', 'MAC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].map((v, i) => ({ t: 'btn', x: 136.6 + (i % 10) * 15.4, y: i < 10 ? 14.5 : 30.4, w: 13.5, h: 11.6, c: v === 'DECK' || v === '5' ? 'exbtn-a' : 'exbtn-w', v })),
+  { t: 'btn', x: 302.1, y: 14.5, w: 13.5, h: 11.6, c: 'exbtn-a', v: 'IN' }, { t: 'btn', x: 317.6, y: 14.5, w: 13.5, h: 11.6, c: 'exbtn-a', v: 'CLEAR' },
+  { t: 'btn', x: 302.1, y: 30.4, w: 13.5, h: 11.6, c: 'exbtn-w', v: 'OUT' }, { t: 'btn', x: 317.6, y: 30.4, w: 13.5, h: 11.6, c: 'exbtn-r', v: 'TAKE' },
+  { t: 'screen', x: 336.9, y: 4.8, w: 46.8, h: 35.2 }, { t: 'enc', x: 409.2, y: 21.7, r: 14.5, plain: 1 },
+  ...['MENU', 'SET', 'LOCK'].map((v, i) => ({ t: 'btn', x: 442.5, y: [9.7, 22.2, 34.7][i], w: 9, h: 8, c: 'exbtn-dk', v })), { t: 'txt', x: 468, y: 22.7, v: 'Blackmagicdesign', s: 1.8, a: 'end', c: 'exthin' },
+], r: [
+  { t: 'iec', x: 42, y: 21.7, s: 17 }, { t: 'bnc', x: 63.2, y: 11.6, s: 11 }, { t: 'bnc', x: 83, y: 11.6, s: 11 }, { t: 'rj45', x: 63.2, y: 29, s: 10 }, { t: 'usbc', x: 83, y: 29, s: 9 },
+  { t: 'txt', x: 63.2, y: 4.5, v: 'REF IN', s: 1.5 }, { t: 'txt', x: 83, y: 4.5, v: 'REF OUT', s: 1.5 },
+  ...Array.from({ length: 20 }, (_, i) => ({ t: 'bnc', x: 99.9 + (i % 10) * 17.4, y: i < 10 ? 11.6 : 29.4, s: 11 })),
+  ...Array.from({ length: 20 }, (_, i) => ({ t: 'bnc', x: 281.4 + (i % 10) * 17.4, y: i < 10 ? 11.6 : 29.4, s: 11 })),
+  { t: 'txt', x: 178, y: 40.5, v: 'SD/3G/12G SDI IN 1–20', s: 1.8 }, { t: 'txt', x: 360, y: 40.5, v: 'SD/3G/12G SDI OUT 1–20', s: 1.8 },
+] };
+EXACT.bm_cleanswitch = { hw: 482.6, f: [
+  { t: 'txt', x: 37.6, y: 21.7, v: 'Smart Videohub CleanSwitch 12x12', s: 5, a: 'start', c: 'exink' },
+  ...['1', '4', '7', '10', '2', '5', '8', '11', '3', '6', '9', '12'].map((v, i) => ({ t: 'btn', x: [224.4, 239.9, 255.8, 271.7][i % 4], y: [9.7, 21.7, 34.3][Math.floor(i / 4)], w: 12, h: 9.5, c: v === '2' ? 'exbtn-w' : 'exbtn-dk', v })),
+  ...[['SRC', 'MENU'], ['DEST', 'VIDEO'], ['CLEAR', 'TAKE']].flatMap((row, r) => row.map((v, c) => ({ t: 'btn', x: [288.6, 304.5][c], y: [9.7, 21.7, 34.3][r], w: 12, h: 9.5, c: v === 'DEST' || v === 'VIDEO' ? 'exbtn-w' : 'exbtn-dk', v }))),
+  { t: 'screen', x: 319.5, y: 4.8, w: 46.3, h: 35.2 }, { t: 'enc', x: 385.1, y: 21.7, r: 8.7, plain: 1 }, { t: 'txt', x: 451, y: 21.7, v: 'Blackmagicdesign', s: 3, a: 'end', c: 'exthin exink' },
+], r: [
+  { t: 'iec', x: 48.3, y: 19.3, s: 17 }, { t: 'bnc', x: 74.3, y: 11.1, s: 11 }, { t: 'rj45', x: 89.3, y: 11.1, s: 8 }, { t: 'rj45', x: 74.3, y: 30.4, s: 10 }, { t: 'usb', x: 89.8, y: 31.4, s: 8 },
+  { t: 'txt', x: 74.3, y: 19, v: 'REF IN', s: 1.4 }, { t: 'txt', x: 89.3, y: 19, v: 'RS-422', s: 1.4 },
+  ...Array.from({ length: 24 }, (_, i) => ({ t: 'bnc', x: 102.8 + (i % 12) * 17.9, y: i < 12 ? 11.1 : 30.4, s: 11 })),
+  { t: 'txt', x: 312, y: 11.1, v: 'SDI OUT', s: 1.8, a: 'start' }, { t: 'txt', x: 312, y: 30.4, v: 'SDI IN', s: 1.8, a: 'start' },
+] };
+EXACT.bm_audiomon = { hw: 482.6, f: [
+  { t: 'txt', x: 13, y: 21.7, v: '12G SDI', s: 3, c: 'exorange' }, { t: 'rect', x: 29, y: 3, w: 92, h: 38, c: 'ex-grillw' }, { t: 'rect', x: 360, y: 3, w: 92, h: 38, c: 'ex-grillw' },
+  { t: 'jack', x: 134.2, y: 22.7, s: 13 },
+  ...['SOLO L', 'SOLO R', 'CH ▲', 'CH ▼', 'INPUT', 'MUTE'].map((v, i) => ({ t: 'btn', x: [149.6, 159.3][i % 2], y: [13, 21.7, 30.9][Math.floor(i / 2)], w: 8, h: 7, c: 'exbtn-dk', v })),
+  ...[14.5, 29].flatMap(y => Array.from({ length: 24 }, (_, k) => ({ t: 'rect', x: 168.9 + k * 4.42, y: y - 3, w: 3.4, h: 6, c: k < 14 ? 'ex-segg' : k < 19 ? 'ex-sego' : k < 20 ? 'exbtn-r' : 'ex-segoff' }))),
+  { t: 'screen', x: 283.8, y: 4.8, w: 47.3, h: 35.2 }, { t: 'enc', x: 344.6, y: 21.7, r: 8, plain: 1 }, { t: 'txt', x: 452, y: 21.7, v: 'Blackmagicdesign', s: 3, a: 'end', c: 'exthin' },
+], r: [
+  { t: 'iec', x: 49.2, y: 20.3, s: 17 }, { t: 'rj45', x: 155.9, y: 29, s: 10 }, { t: 'usbc', x: 176.1, y: 30.4, s: 9 }, { t: 'hdmi', x: 197.4, y: 30.4, s: 11 },
+  { t: 'bnc', x: 216.2, y: 24.1, s: 11 }, { t: 'bnc', x: 237, y: 24.1, s: 11 }, { t: 'xlrf', x: 258.7, y: 21.7, s: 12 }, { t: 'xlrf', x: 282.8, y: 21.7, s: 12 }, { t: 'xlrf', x: 305, y: 21.7, s: 12 },
+  { t: 'rca', x: 330.6, y: 12, c: 'pg-rcaw' }, { t: 'rca', x: 330.6, y: 30.4, c: 'pg-rcar' },
+  { t: 'txt', x: 155.9, y: 40, v: '10G 2110 IP', s: 1.4 }, { t: 'txt', x: 197.4, y: 40, v: 'HDMI 4K OUT', s: 1.4 }, { t: 'txt', x: 226.6, y: 40, v: '12G SDI IN · OUT', s: 1.4 }, { t: 'txt', x: 282, y: 40, v: 'AES/EBU · ANALOG AUDIO IN', s: 1.4 }, { t: 'txt', x: 330.6, y: 4.5, v: 'STEREO IN', s: 1.4 },
+] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
 function title(it) {

@@ -13,7 +13,8 @@ Erledigt:
 
 Offen:
 - [x] Teranex-Mini-Rückseiten (11 Modelle; 2110 ohne Zeichnung), Streaming Encoder HD/4K, Decoder 4K
-- [ ] Blackmagic: Audio Monitor 12G, Videohub 20x20, CleanSwitch 12x12, Constellation (1/4 M/E HD, 1/2/4 M/E 4K, 4K Plus)
+- [x] Audio Monitor 12G G3, Videohub 20x20 12G, CleanSwitch 12x12
+- [ ] Blackmagic: Constellation (1/4 M/E HD, 1/2/4 M/E 4K, 4K Plus)
 - [ ] Shure: ULXD4, ULXD4Q, QLXD4, SLXD4, AD4D, PSM1000 P10T, PSM900 P9T, AD600, UA845UWB, PA821B
 - [ ] UniFi: Cloud Gateway Max, Pro Max 24 PoE
 - [ ] MA Lighting: Rückseiten 2Port/4Port/8Port Node
