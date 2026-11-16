@@ -485,6 +485,7 @@ td input.shop { min-width: 110px; }
 .exbtn-cr { fill: #f6ead0; } .exbtn-bl { fill: #1e4fa0; } .ex-slotw { fill: #e9ecef; }
 .pg-rcaw { fill: #e9ecef; } .pg-rcar { fill: #d42a2a; }
 .ex-pill { fill: #0d1b2a; stroke: #8d959e; stroke-width: .3; }
+.ex-green { fill: #22a35a; stroke: #0d5c2e; stroke-width: .4; }
 .exlogo { fill: #f4f4f4; font-family: var(--f-display); font-weight: 700; font-style: italic; }
 .ex-din { fill: #0d0e10; stroke: #3a3f45; stroke-width: .4; }
 .ex-lbl { fill: #c9ced4; opacity: .6; }
@@ -1849,6 +1850,80 @@ EXACT.ad4d = { hw: 440, f: [
   ...[286.1, 333.5].flatMap((x, i) => [{ t: 'xlr', x, y: 18.9, s: 11 }, { t: 'jack', x: x + 20.7, y: 32.2, s: 13 }, { t: 'txt', x, y: 41, v: 'output ' + (2 - i), s: 2.4 }]),
   { t: 'bnc', x: 377.8, y: 12.3, s: 11 }, { t: 'bnc', x: 411.3, y: 12.3, s: 11 }, { t: 'bnc', x: 377.8, y: 31.4, s: 11 }, { t: 'bnc', x: 411.3, y: 31.4, s: 11 },
   { t: 'txt', x: 386, y: 6, v: 'B', s: 2.6 }, { t: 'txt', x: 420, y: 6, v: 'A', s: 2.6 }, { t: 'txt', x: 386, y: 26, v: 'D', s: 2.6 }, { t: 'txt', x: 420, y: 26, v: 'C', s: 2.6 },
+] };
+// Shure PSM1000 P10T (Rückseite), PSM900 P9T, QLXD4, ULXD4 (vorn), UA845UWB, PA821B – Herstellerfotos shure.com
+EXACT.psm1000_p10t = { hw: 440, r: [
+  { t: 'logo', x: 20, y: 4, v: 'SHURE', s: 2.8 }, { t: 'rect', x: 24, y: 19.2, w: 10, h: 10, c: 'ex-green' },
+  { t: 'iec', x: 62.4, y: 25.3, s: 17 }, { t: 'iec', x: 101.4, y: 25.3, s: 17 }, { t: 'txt', x: 82, y: 40, v: 'AC IN · OUT', s: 1.8 },
+  { t: 'rect', x: 121.4, y: 4, w: 30, h: 38, c: 'ex-mod' }, { t: 'txt', x: 136.4, y: 8, v: 'antenna 2 out', s: 1.8 }, { t: 'bnc', x: 136.4, y: 34.1, s: 11 },
+  { t: 'rect', x: 154, y: 4, w: 85, h: 38, c: 'ex-mod' }, { t: 'txt', x: 196, y: 8, v: 'transmitter 2 inputs', s: 1.8 },
+  { t: 'jack', x: 168.2, y: 14.3, s: 12 }, { t: 'jack', x: 168.2, y: 30.8, s: 12 }, { t: 'combo', x: 193.8, y: 25.3, s: 12.5 }, { t: 'combo', x: 225, y: 25.3, s: 12.5 },
+  { t: 'rect', x: 250, y: 4, w: 22, h: 38, c: 'ex-mod' }, { t: 'rj45', x: 260.7, y: 18.7, s: 10 }, { t: 'rj45', x: 260.7, y: 30.8, s: 10 },
+  { t: 'rect', x: 283, y: 4, w: 85, h: 38, c: 'ex-mod' }, { t: 'txt', x: 325, y: 8, v: 'transmitter 1 inputs', s: 1.8 },
+  { t: 'combo', x: 297.4, y: 25.3, s: 12.5 }, { t: 'combo', x: 328.6, y: 25.3, s: 12.5 }, { t: 'jack', x: 356.4, y: 14.3, s: 12 }, { t: 'jack', x: 356.4, y: 30.8, s: 12 },
+  { t: 'rect', x: 371, y: 4, w: 30, h: 38, c: 'ex-mod' }, { t: 'txt', x: 386, y: 8, v: 'antenna 1 out', s: 1.8 }, { t: 'bnc', x: 385.4, y: 34.1, s: 11 },
+] };
+EXACT.psm900_p9t = { w: 214, h: 43, f: [
+  { t: 'logo', x: 2.5, y: 4, v: 'SHURE', s: 4 }, { t: 'txt', x: 31.5, y: 2.6, v: 'PSM900 Transmitter P9T', s: 2.4, a: 'start' },
+  { t: 'txt', x: 9.4, y: 9, v: 'level', s: 2 }, { t: 'btn', x: 9.4, y: 18.2, w: 8, h: 7, c: 'exbtn-gd', v: '▲' }, { t: 'btn', x: 9.4, y: 28.7, w: 8, h: 7, c: 'exbtn-gd', v: '▼' },
+  ...[0, 1, 2, 3, 4, 5, 6].flatMap(k => [{ t: 'ledc', x: 20.4, y: 14.9 + k * 3.5, r: .7, c: k < 1 ? 'exred' : k < 3 ? 'exled-y' : 'exled-g' }, { t: 'ledc', x: 27.7, y: 14.9 + k * 3.5, r: .7, c: k < 1 ? 'exred' : k < 3 ? 'exled-y' : 'exled-g' }]),
+  { t: 'lcdl', x: 35.2, y: 12.5, w: 48.2, h: 21.2 }, { t: 'btn', x: 93.5, y: 17.2, w: 10, h: 7, c: 'exbtn-dk', v: 'enter' }, { t: 'btn', x: 93.5, y: 29.4, w: 10, h: 7, c: 'exbtn-dk', v: 'exit' },
+  { t: 'txt', x: 111.7, y: 6, v: 'menu', s: 2 }, { t: 'enc', x: 111.7, y: 20.5, r: 9, plain: 1 },
+  { t: 'rect', x: 129.6, y: 9, w: 18.9, h: 30, c: 'ex-ir' }, { t: 'btn', x: 139.1, y: 30.7, w: 10, h: 7, c: 'exbtn-dk', v: 'sync' },
+  { t: 'txt', x: 158, y: 6, v: 'volume', s: 2 }, { t: 'enc', x: 158, y: 19.8, r: 5, plain: 1 }, { t: 'jack', x: 159, y: 32.3, s: 9 },
+  { t: 'sw', x: 175.3, y: 27, w: 7, h: 14 }, { t: 'sw', x: 194.2, y: 27, w: 7, h: 14 }, { t: 'txt', x: 194.2, y: 6, v: 'power', s: 2 },
+], r: [
+  { t: 'dc', x: 26.7, y: 27, s: 9 }, { t: 'txt', x: 26.7, y: 39, v: 'DC INPUT', s: 1.8 }, { t: 'txt', x: 30, y: 4, v: 'PSM900 Transmitter P9T', s: 1.8 },
+  { t: 'jack', x: 74, y: 21.5, s: 13 }, { t: 'jack', x: 92.8, y: 21.5, s: 13 }, { t: 'txt', x: 83.4, y: 39, v: 'L-LOOP OUT-R', s: 1.8 },
+  { t: 'combo', x: 118, y: 21.5, s: 12.5 }, { t: 'combo', x: 151, y: 21.5, s: 12.5 }, { t: 'txt', x: 134.5, y: 39, v: 'LEFT/CH1 · RIGHT/CH2 IN', s: 1.6 },
+  { t: 'bnc', x: 177, y: 29, s: 11 }, { t: 'txt', x: 177, y: 39, v: 'ANTENNA', s: 1.8 }, { t: 'logo', x: 168, y: 9, v: 'SHURE', s: 3 },
+] };
+EXACT.qlxd4 = { w: 214, h: 43, f: [
+  { t: 'logo', x: 6.2, y: 15, v: 'SHURE', s: 6 }, { t: 'txt', x: 6.2, y: 20.5, v: 'QLXD4', s: 3.4, a: 'start' },
+  { t: 'screen', x: 54.3, y: 14.7, w: 65.1, h: 22.7 },
+  { t: 'btn', x: 126.2, y: 20.8, w: 9, h: 6, c: 'exbtn-dk', v: '▲' }, { t: 'btn', x: 126.2, y: 35.2, w: 9, h: 6, c: 'exbtn-dk', v: '▼' }, { t: 'ledc', x: 126.2, y: 28, r: 1, c: 'exled-g' },
+  { t: 'btn', x: 139.5, y: 20.8, w: 9, h: 6, c: 'exbtn-dk', v: 'menu' }, { t: 'btn', x: 139.5, y: 35.2, w: 9, h: 6, c: 'exbtn-dk', v: 'enter' }, { t: 'ledc', x: 139.5, y: 28, r: 1, c: 'exled-b' },
+  { t: 'rect', x: 148.2, y: 17.8, w: 9, h: 6, c: 'ex-ir' }, { t: 'btn', x: 152.7, y: 35.2, w: 9, h: 6, c: 'exbtn-dk', v: 'sync' },
+  { t: 'ledc', x: 191.3, y: 27.7, r: 6, c: 'ex-ring2' }, { t: 'txt', x: 191.3, y: 27.7, v: '⏻', s: 4 },
+], r: [
+  { t: 'logo', x: 18, y: 7, v: 'SHURE', s: 3.2 }, { t: 'txt', x: 38, y: 6, v: 'QLXD4', s: 2.6, a: 'start' },
+  { t: 'dc', x: 21.7, y: 33.2, s: 9 }, { t: 'txt', x: 21.7, y: 40.5, v: 'power', s: 1.8 }, { t: 'rj45', x: 40.3, y: 33.2, s: 10 },
+  { t: 'bnc', x: 72.9, y: 33.2, s: 11 }, { t: 'txt', x: 72.9, y: 40.5, v: 'antenna B', s: 1.8 },
+  { t: 'rect', x: 97.5, y: 30, w: 6.5, h: 3, c: 'ex-sw' }, { t: 'xlr', x: 122.5, y: 26.3, s: 11 }, { t: 'txt', x: 112, y: 40.5, v: 'mic / line', s: 1.8 },
+  { t: 'jack', x: 147.3, y: 30.5, s: 12 }, { t: 'txt', x: 147.3, y: 40.5, v: 'inst / aux', s: 1.8 }, { t: 'bnc', x: 181.4, y: 33.2, s: 11 }, { t: 'txt', x: 181.4, y: 40.5, v: 'antenna A', s: 1.8 },
+] };
+EXACT.ulxd4 = { w: 214, h: 43, f: [
+  { t: 'logo', x: 4.7, y: 11, v: 'SHURE', s: 4.6 }, { t: 'txt', x: 4.7, y: 15.9, v: 'ULXD4', s: 3.4, a: 'start' }, { t: 'rect', x: 4.7, y: 31.5, w: 18.8, h: 3.7, c: 'ex-tag' },
+  { t: 'rect', x: 34.4, y: 14.3, w: 6.2, h: 12.7, c: 'ex-ir' }, { t: 'btn', x: 37.5, y: 37.2, w: 7, h: 4, c: 'exbtn-dk', v: 'sync' },
+  { t: 'lcdl', x: 48.4, y: 12.7, w: 48.4, h: 20.7 },
+  { t: 'btn', x: 109.3, y: 18.4, w: 11, h: 5, c: 'exbtn-dk', v: 'ENTER' }, { t: 'btn', x: 109.3, y: 27.7, w: 11, h: 5, c: 'exbtn-dk', v: 'EXIT' }, { t: 'btn', x: 109.3, y: 36.9, w: 11, h: 5, c: 'exbtn-dk', v: 'SCAN' },
+  { t: 'txt', x: 131.8, y: 8, v: 'control', s: 2.2 }, { t: 'enc', x: 131.8, y: 21.3, r: 9, plain: 1 }, { t: 'txt', x: 131.8, y: 37.5, v: 'push', s: 2 },
+  { t: 'ledc', x: 147.8, y: 12.7, r: .8, c: 'exled-off' }, { t: 'ledc', x: 151.5, y: 12.7, r: .8, c: 'exled-b' },
+  ...[0, 1, 2, 3, 4].flatMap(k => [{ t: 'ledc', x: 149, y: 17 + k * 3.8, r: .75, c: 'exled-o' }, { t: 'ledc', x: 158.3, y: 17 + k * 3.8, r: .75, c: k < 2 ? 'exled-o' : 'exled-g' }]),
+  { t: 'txt', x: 169, y: 8, v: 'gain', s: 2.2 }, { t: 'btn', x: 169, y: 18.1, w: 7, h: 6, c: 'exbtn-dk', v: '▲' }, { t: 'btn', x: 169, y: 29.3, w: 7, h: 6, c: 'exbtn-dk', v: '▼' },
+  { t: 'txt', x: 187.4, y: 8, v: 'power', s: 2.2 }, { t: 'sw', x: 187.4, y: 22.3, w: 7, h: 14 },
+] };
+EXACT.ua845uwb = { hw: 482.6, f: [
+  { t: 'logo', x: 28, y: 6.5, v: 'SHURE', s: 3.6 }, { t: 'txt', x: 28, y: 36, v: 'UA845UWB', s: 2.6, a: 'start' },
+  { t: 'txt', x: 70, y: 13.5, v: 'ANT A', s: 2, a: 'start' }, { t: 'ledc', x: 82, y: 13, r: .9, c: 'exled-g' }, { t: 'txt', x: 70, y: 19.5, v: 'ANT B', s: 2, a: 'start' }, { t: 'ledc', x: 82, y: 19, r: .9, c: 'exled-g' },
+  ...['174 – 216 MHz', '470 – 960 MHz', '1240 – 1260 MHz', '1492 – 1525 MHz', '1785 – 1805 MHz'].flatMap((v, k) => [{ t: 'txt', x: 136, y: 6 + k * 7, v, s: 2, a: 'end' }, { t: 'ledc', x: 140, y: 5.6 + k * 7, r: .8, c: k === 1 ? 'exled-g' : 'exled-off' }]),
+  { t: 'btn', x: 158.8, y: 22.3, w: 5, h: 5, c: 'exbtn-dk' }, { t: 'txt', x: 166, y: 22.3, v: 'SET', s: 2 }, { t: 'txt', x: 395, y: 10, v: 'POWER', s: 2 }, { t: 'sw', x: 395, y: 24.6, w: 8, h: 14 },
+], r: [
+  { t: 'iec', x: 49.3, y: 20.2, s: 17 }, { t: 'iec', x: 84.5, y: 20.2, s: 17 }, { t: 'bnc', x: 112.7, y: 34.7, s: 11 }, { t: 'txt', x: 112.7, y: 41.5, v: 'antenna B', s: 1.8 },
+  { t: 'bnc', x: 140.8, y: 34.7, s: 11 }, ...[171, 202.7, 233.7, 262.6].map(x => ({ t: 'bnc', x, y: 34.7, s: 11 })), { t: 'txt', x: 217, y: 41.5, v: 'RF output B', s: 1.8 },
+  ...[293.6, 323.8, 355.5, 383.6].map(x => ({ t: 'bnc', x, y: 34.7, s: 11 })), { t: 'bnc', x: 411.8, y: 34.7, s: 11 }, { t: 'txt', x: 339, y: 41.5, v: 'RF output A', s: 1.8 },
+  { t: 'bnc', x: 440, y: 34.7, s: 11 }, { t: 'txt', x: 440, y: 41.5, v: 'antenna A', s: 1.8 },
+  ...[145.7, 165.4, 309.8, 343.6].map(x => ({ t: 'dc', x, y: 15.7, s: 7 })), { t: 'logo', x: 172, y: 12, v: 'SHURE', s: 3.6 },
+] };
+EXACT.pa821b = { hw: 482.6, f: [
+  { t: 'logo', x: 30, y: 6, v: 'SHURE', s: 3 }, { t: 'txt', x: 30, y: 10, v: 'PA821B', s: 2.2, a: 'start' },
+  { t: 'bnc', x: 59.4, y: 27, s: 11 }, { t: 'txt', x: 59.4, y: 38, v: 'MAIN OUT', s: 1.8 },
+  ...[0, 1, 2, 3].flatMap(k => [{ t: 'ledc', x: 78 + k * 4, y: 22, r: .7, c: 'exled-g' }, { t: 'ledc', x: 78 + k * 4, y: 28, r: .7, c: 'exled-g' }]),
+  ...Array.from({ length: 12 }, (_, k) => ({ t: 'rect', x: 112 + k * 9.5, y: 8, w: 2.6, h: 28, c: 'ex-slot' })),
+  { t: 'bnc', x: 242.8, y: 27, s: 11 }, { t: 'bnc', x: 281.6, y: 27, s: 11 }, { t: 'bnc', x: 334.4, y: 27, s: 11 }, { t: 'txt', x: 262, y: 38, v: 'A IN · B IN', s: 1.8 }, { t: 'txt', x: 334.4, y: 38, v: 'A+B OUT', s: 1.8 },
+  { t: 'ledc', x: 362.6, y: 27, r: .9, c: 'exled-b' }, { t: 'sw', x: 383.7, y: 22, w: 8, h: 14 },
+], r: [
+  { t: 'iec', x: 72.6, y: 26, s: 17 }, ...[162, 192.3, 225.4, 257, 288.8, 320.4, 352.1, 382.4].map(x => ({ t: 'bnc', x, y: 30, s: 11 })), { t: 'txt', x: 272, y: 41, v: 'RF ANTENNA INPUTS 1–8', s: 1.8 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
