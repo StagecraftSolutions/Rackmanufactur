@@ -978,7 +978,7 @@ const DEVDB = {
   ulxd4d: { n: 'Shure ULXD4D (Zweikanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4D', io: { f: 'lcd:2 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
   ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:1 LCD; btn:1 4 Empfängerblöcke, ENTER/EXIT/SCAN; knob:1 Steuerung', r: 'iec:1 Netz; bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out (line/mic); rj45:2 Dante primary/secondary' } },
   psm1000_p10t: { n: 'Shure PSM1000 P10T Sender', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P10T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz' } },
-  ad4d: { n: 'Shure Axient Digital AD4D', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4D', io: { f: 'lcd:2 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ad4d: { n: 'Shure Axient Digital AD4D', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4D', io: { f: 'lcd:1 LCD; jack:1 Kopfhörer; btn:1 2 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung', r: 'iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D; xlr:3 AES3, 2× Audio Out; jack:2 Audio Out' } },
   ad4q: { n: 'Shure Axient Digital AD4Q', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4Q', io: { f: 'lcd:1 LCD; jack:1 Kopfhörer; btn:1 4 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung', r: 'iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D (Quadversity/Kaskade); xlr:4 Audio Out (AES3 1&2, 3&4); jack:4 Audio Out' } },
   ad600: { n: 'Shure AD600 Spectrum Manager', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 320, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD600', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:4 Antenne In/Out; rj45:2 Ethernet; iec:1 Netz' } },
   ua845uwb: { n: 'Shure UA845UWB Antennenverteiler', mk: 'Shure', g: 'Funk · Shure · RF-Zubehör', fit: 'rack', he: 1, d: 250, chk: 1, url: 'https://www.shure.com/de-DE/search?q=UA845UWB', io: { f: 'btn:1 Netzschalter', r: 'bnc:12 Antenne A/B In, 10× Out (5 Empfänger); bnc:2 Kaskade; dc:5 Strom für Empfänger; iec:1 Netz' } },
@@ -1822,6 +1822,33 @@ EXACT.ulxd4q = { hw: 440, f: [
   { t: 'rect', x: 204.1, y: 2.2, w: 61.9, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 235, y: 10, v: 'Dante', s: 2.4 }, { t: 'rj45', x: 222.3, y: 24.2, s: 10 }, { t: 'rj45', x: 244.5, y: 24.2, s: 10 },
   { t: 'txt', x: 222.3, y: 16, v: 'secondary', s: 1.8 }, { t: 'txt', x: 244.5, y: 16, v: 'primary', s: 1.8 },
   { t: 'txt', x: 362, y: 5, v: 'A', s: 2.6 }, { t: 'bnc', x: 383.3, y: 13.9, s: 11 }, { t: 'bnc', x: 358.3, y: 29.7, s: 11 }, { t: 'txt', x: 383.3, y: 39, v: 'antenna in · cascade out', s: 1.6 },
+] };
+// Shure Axient Digital AD4D (Herstellerfotos shure.com)
+const AD_RX2 = (ox, n) => [
+  { t: 'txt', x: ox + 96.9, y: 2.6, v: 'RX ' + n, s: 2.4 }, { t: 'txt', x: ox + 111, y: 2.6, v: 'RF', s: 2.2 }, { t: 'txt', x: ox + 121.5, y: 2.6, v: 'AUDIO', s: 2.2 },
+  { t: 'btn', x: ox + 96.9, y: 15.5, w: 10, h: 9, c: 'exbtn-dk', v: String(n) }, { t: 'btn', x: ox + 96.9, y: 31.3, w: 9, h: 4.5, c: 'exbtn-dk', v: 'SYNC' },
+  { t: 'ledc', x: ox + 107.5, y: 9.3, r: .8, c: 'exled-b' }, { t: 'ledc', x: ox + 114.6, y: 9.3, r: .8, c: 'exled-b' },
+  ...[0, 1, 2, 3, 4, 5].flatMap(k => [{ t: 'ledc', x: ox + 107.5, y: 20.2 + k * 2.7, r: .65, c: 'exled-o' }, { t: 'ledc', x: ox + 114.6, y: 20.2 + k * 2.7, r: .65, c: 'exled-o' }, { t: 'ledc', x: ox + 121.7, y: 20.2 + k * 2.7, r: .65, c: k < 3 ? 'exled-y' : 'exled-g' }]),
+];
+EXACT.ad4d = { hw: 440, f: [
+  { t: 'logo', x: 37.4, y: 4, v: 'SHURE', s: 3.6 }, { t: 'txt', x: 37.4, y: 8.5, v: 'AD4D', s: 4.4, a: 'start' }, { t: 'txt', x: 37.4, y: 14, v: 'B 606-810 MHz', s: 1.8, a: 'start' },
+  { t: 'txt', x: 37.4, y: 31, v: 'AXIENT DIGITAL', s: 2.2, a: 'start' }, { t: 'txt', x: 37.4, y: 34, v: 'Wireless Receiver', s: 1.8, a: 'start' },
+  { t: 'enc', x: 66.2, y: 14.5, r: 5.6, plain: 1 }, { t: 'jack', x: 67.7, y: 29.8, s: 14 }, { t: 'rect', x: 77.7, y: 9.1, w: 5.9, h: 8.5, c: 'ex-ir' }, { t: 'txt', x: 80.6, y: 2.6, v: 'IR', s: 2.2 },
+  { t: 'ledc', x: 80.6, y: 22.3, r: .7, c: 'exled-off' }, { t: 'btn', x: 80.6, y: 29.8, w: 6.5, h: 7.5, c: 'exbtn-w' },
+  ...[87.1, 127.7, 168.3].map(x => ({ t: 'vline', x, y: 6, h: 33 })), ...AD_RX2(0, 1), ...AD_RX2(40.6, 2),
+  { t: 'screen', x: 258.3, y: 9.3, w: 69.4, h: 27 },
+  { t: 'txt', x: 340, y: 2.6, v: 'FUNCTION', s: 2.2 }, ...[11.1, 18.1, 25.4, 32.6].map(y => ({ t: 'btn', x: 340, y, w: 8.5, h: 4, c: 'exbtn-dk' })),
+  { t: 'btn', x: 356.5, y: 12.4, w: 9, h: 5, c: 'exbtn-dk', v: 'ENTER' }, { t: 'btn', x: 356.5, y: 31.6, w: 9, h: 5, c: 'exbtn-dk', v: 'EXIT' },
+  { t: 'txt', x: 376.4, y: 2.6, v: 'CONTROL', s: 2.2 }, { t: 'txt', x: 360, y: 22, v: 'PUSH', s: 2 }, { t: 'enc', x: 376.4, y: 22, r: 11, plain: 1 },
+  { t: 'txt', x: 401.5, y: 2.6, v: 'POWER', s: 2.2 }, { t: 'sw', x: 401.5, y: 22.3, w: 8, h: 16 },
+], r: [
+  { t: 'txt', x: 45, y: 6, v: 'AC Power', s: 2 }, { t: 'iec', x: 37.4, y: 24.1, s: 17 }, { t: 'iec', x: 79.5, y: 24.1, s: 17 },
+  { t: 'rect', x: 106, y: 6, w: 36, h: 36, c: 'ex-mod' }, ...[[116, 16.2], [131.8, 16.2], [116, 32.2], [131.8, 32.2]].map(([x, y]) => ({ t: 'rj45', x, y, s: 10 })),
+  { t: 'bnc', x: 156.1, y: 9.7, s: 11 }, { t: 'bnc', x: 156.1, y: 30.7, s: 11 }, { t: 'txt', x: 156.1, y: 41, v: 'word clock', s: 1.8 },
+  { t: 'xlr', x: 185, y: 18.9, s: 11 }, { t: 'txt', x: 185, y: 6, v: 'AES3 1&2', s: 2 },
+  ...[286.1, 333.5].flatMap((x, i) => [{ t: 'xlr', x, y: 18.9, s: 11 }, { t: 'jack', x: x + 20.7, y: 32.2, s: 13 }, { t: 'txt', x, y: 41, v: 'output ' + (2 - i), s: 2.4 }]),
+  { t: 'bnc', x: 377.8, y: 12.3, s: 11 }, { t: 'bnc', x: 411.3, y: 12.3, s: 11 }, { t: 'bnc', x: 377.8, y: 31.4, s: 11 }, { t: 'bnc', x: 411.3, y: 31.4, s: 11 },
+  { t: 'txt', x: 386, y: 6, v: 'B', s: 2.6 }, { t: 'txt', x: 420, y: 6, v: 'A', s: 2.6 }, { t: 'txt', x: 386, y: 26, v: 'D', s: 2.6 }, { t: 'txt', x: 420, y: 26, v: 'C', s: 2.6 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
