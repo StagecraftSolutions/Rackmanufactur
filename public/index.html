@@ -976,7 +976,7 @@ const DEVDB = {
   slxd4: { n: 'Shure SLXD4 (halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 170, chk: 1, url: 'https://www.shure.com/de-DE/search?q=SLXD4', io: { f: 'lcd:1 Display; btn:1 Tasten', r: 'bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; dc:1 12–18 V' } },
   psm900_p9t: { n: 'Shure PSM900 P9T Sender (halbe Breite)', mk: 'Shure', g: 'Funk · Shure', fit: 'half', frac: 1 / 2, w: 214, h: 43, d: 200, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P9T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:2 Audio In (Kombi XLR/Klinke); jack:2 Loop Out; dc:1 15 V' } },
   ulxd4d: { n: 'Shure ULXD4D (Zweikanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4D', io: { f: 'lcd:2 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
-  ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:4 Displays; btn:1 Tasten; jack:1 Kopfhörer', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out; jack:1 AES3 Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru' } },
+  ulxd4q: { n: 'Shure ULXD4Q (Vierkanal)', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 330, chk: 1, url: 'https://www.shure.com/de-DE/search?q=ULXD4Q', io: { f: 'lcd:1 LCD; btn:1 4 Empfängerblöcke, ENTER/EXIT/SCAN; knob:1 Steuerung', r: 'iec:1 Netz; bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out (line/mic); rj45:2 Dante primary/secondary' } },
   psm1000_p10t: { n: 'Shure PSM1000 P10T Sender', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 300, chk: 1, url: 'https://www.shure.com/de-DE/search?q=P10T', io: { f: 'lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz' } },
   ad4d: { n: 'Shure Axient Digital AD4D', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4D', io: { f: 'lcd:2 Displays; jack:1 Kopfhörer; btn:1 Tasten', r: 'bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:4 Dante/Ethernet; iec:2 Netz In/Thru' } },
   ad4q: { n: 'Shure Axient Digital AD4Q', mk: 'Shure', g: 'Funk · Shure', fit: 'rack', he: 1, d: 380, chk: 1, url: 'https://www.shure.com/de-DE/search?q=AD4Q', io: { f: 'lcd:1 LCD; jack:1 Kopfhörer; btn:1 4 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung', r: 'iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D (Quadversity/Kaskade); xlr:4 Audio Out (AES3 1&2, 3&4); jack:4 Audio Out' } },
@@ -1802,6 +1802,26 @@ EXACT.ucg_max = { w: 141.8, h: 30, f: [
 ], r: [
   { t: 'reset', x: 9.8, y: 17 }, { t: 'usbc', x: 23.3, y: 17, s: 9 }, ...[39.9, 59.1, 78.4, 97.6, 116.8].map(x => ({ t: 'rj45', x, y: 14.9, s: 11 })),
   { t: 'rect', x: 33, y: 24.2, w: 91, h: 1.6, c: 'ex-slot' }, { t: 'txt', x: 39.9, y: 6, v: 'WAN', s: 2, c: 'exink' },
+] };
+// Shure ULXD4Q (Herstellerfotos shure.com)
+const ULXD_RXN = (ox, n) => ULXD_RX(ox).map(e => e.v === 'RX1' || e.v === 'RX2' ? { ...e, v: 'RX' + n } : e);
+EXACT.ulxd4q = { hw: 440, f: [
+  { t: 'logo', x: 45.2, y: 9.5, v: 'SHURE', s: 4.6 }, { t: 'txt', x: 45.2, y: 12.6, v: 'ULXD4Q', s: 3.6, a: 'start' }, { t: 'txt', x: 45.2, y: 15.6, v: 'Digital Wireless Receiver', s: 1.4, a: 'start' },
+  { t: 'rect', x: 44.6, y: 28.3, w: 20.8, h: 3.7, c: 'ex-tag' }, { t: 'rect', x: 73.3, y: 13.3, w: 8, h: 18.7, c: 'ex-ir' }, { t: 'txt', x: 77.3, y: 36, v: 'IR', s: 2 },
+  { t: 'lcdl', x: 89.8, y: 12.3, w: 46, h: 21.3 },
+  { t: 'btn', x: 147.2, y: 18.4, w: 12, h: 5, c: 'exbtn-dk', v: 'ENTER' }, { t: 'btn', x: 147.2, y: 27.5, w: 12, h: 5, c: 'exbtn-dk', v: 'EXIT' }, { t: 'btn', x: 147.2, y: 36.3, w: 12, h: 5, c: 'exbtn-dk', v: 'SCAN' },
+  { t: 'txt', x: 169.5, y: 6.7, v: 'control', s: 2.4 }, { t: 'enc', x: 169.5, y: 22.1, r: 9, plain: 1 }, { t: 'txt', x: 169.5, y: 36.5, v: 'push', s: 2.2 },
+  ...[184.9, 242.6, 300.5, 358.2, 416.1].map(x => ({ t: 'vline', x, y: 5, h: 34 })),
+  ...[1, 2, 3, 4].flatMap(n => ULXD_RXN((n - 1) * 57.6, n)),
+  { t: 'txt', x: 427.8, y: 6.7, v: 'power', s: 2.4 }, { t: 'sw', x: 427.8, y: 24, w: 8.5, h: 17 },
+], r: [
+  { t: 'iec', x: 27.2, y: 20.9, s: 17 }, { t: 'logo', x: 40.8, y: 7, v: 'SHURE', s: 3.4 }, { t: 'txt', x: 57, y: 6, v: 'ULXD4Q', s: 2.8, a: 'start' },
+  { t: 'txt', x: 108, y: 5, v: 'B', s: 2.6 }, { t: 'bnc', x: 87.8, y: 14.3, s: 11 }, { t: 'bnc', x: 106.6, y: 30.8, s: 11 }, { t: 'txt', x: 87.8, y: 39, v: 'cascade out', s: 1.6 },
+  ...[[123.6, 146.3, 132.7, 'output 4'], [164.4, 189.4, 175.6, 'output 3'], [267, 290.3, 275, 'output 2'], [309.1, 332.3, 317, 'output 1']].flatMap(([x0, xx, sw, l]) => [
+    { t: 'rect', x: x0, y: 2.2, w: 40.5, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: x0 + 20.2, y: 6, v: l, s: 2.4 }, { t: 'xlr', x: xx, y: 24.2, s: 11 }, { t: 'rect', x: sw - 1.5, y: 34, w: 3, h: 5, c: 'ex-sw' }]),
+  { t: 'rect', x: 204.1, y: 2.2, w: 61.9, h: 39.5, c: 'ex-mod' }, { t: 'txt', x: 235, y: 10, v: 'Dante', s: 2.4 }, { t: 'rj45', x: 222.3, y: 24.2, s: 10 }, { t: 'rj45', x: 244.5, y: 24.2, s: 10 },
+  { t: 'txt', x: 222.3, y: 16, v: 'secondary', s: 1.8 }, { t: 'txt', x: 244.5, y: 16, v: 'primary', s: 1.8 },
+  { t: 'txt', x: 362, y: 5, v: 'A', s: 2.6 }, { t: 'bnc', x: 383.3, y: 13.9, s: 11 }, { t: 'bnc', x: 358.3, y: 29.7, s: 11 }, { t: 'txt', x: 383.3, y: 39, v: 'antenna in · cascade out', s: 1.6 },
 ] };
 for (const [k, d] of Object.entries(DEVDB)) d.id = k;
 
