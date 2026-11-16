@@ -12,6 +12,7 @@ Nur an den Produktdaten, außer der Auftrag sagt ausdrücklich etwas anderes:
 | `data/gewichte.json` | Gewichte in kg für Artikel ohne eigenes Feld (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
 | `data/ansichten.json` | maßstäbliche Ansichten (Schlüssel = Geräteschlüssel) |
 | `data/geraete.csv` | dieselben Geräte als Tabelle (Semikolon, UTF-8) |
+| `data/gewichte-katalog.csv` | alle Artikel mit Gewichts-Schlüssel (`schluessel;name;art_nr;kg`), leere kg = fehlt |
 
 `public/index.html` **nicht von Hand ändern**. Nach jeder Änderung an `data/`:
 
@@ -24,8 +25,10 @@ Bricht `import` mit FEHLER ab, die Daten korrigieren – nichts erzwingen.
 
 ## Regeln
 
-1. **Nur belegte Werte.** Jede Zahl stammt von Herstellerseite, Datenblatt, Handbuch oder Händlerseite. Quelle in der Pull-Request-Beschreibung nennen (URL + Seite).
-2. **Ungeprüftes kennzeichnen.** Geschätzt → `"chk": 1`. Aus einer Herstellerliste übernommen, Maße offen → `"ph": 1`. Wenn du Maße belegst, `ph`/`chk` entfernen.
+**Erfassen und Freigeben sind getrennt.** Du erfasst: Werte recherchieren, Positionen aus Zeichnungen und Fotos messen und eintragen. Ein Mensch gibt frei – in der App unter „Ansicht prüfen“ (Herstellerbild unterlegen, korrigieren, Haken setzen). Trau dich also, gemessene Werte einzutragen; sie bleiben bis zur Freigabe als ungeprüft markiert.
+
+1. **Quellen.** Jede Zahl stammt von Herstellerseite, Datenblatt, Handbuch oder Händlerseite. Quelle in der Pull-Request-Beschreibung nennen (URL + Seite). Gemessene Positionen sind erlaubt; schreib dazu, woraus gemessen wurde.
+2. **Kennzeichnung.** `"chk": 1` bleibt stehen, bis ein Mensch freigibt – entferne `chk` nie selbst. Aus einer Herstellerliste übernommen, Maße offen → `"ph": 1`; sind Maße aus dem Datenblatt belegt, darfst du `ph` entfernen. Das Feld `ok` (Freigaben) nie setzen oder ändern.
 3. **Gewicht** in kg, Punkt als Dezimaltrenner (`"kg": 1.8`). Unbekannt → Feld weglassen, nicht 0.
 4. **Preise** in Euro inkl. MwSt.; Netto-Preise × 1,19. Unbekannt → weglassen.
 5. **Keine Bilder oder Logos** von Herstellern ins Repo legen. Ansichten werden aus Elementen nachgebaut (siehe unten).
@@ -60,5 +63,7 @@ Koordinaten in **mm**, Ursprung oben links.
 Elemente: Anschlüsse (`t` = io-Typ, `s` = Größe: XLR/etherCON ≈ 12,4, BNC ≈ 11, powerCON ≈ 13,6, IEC ≈ 17), `txt` (`v`, `s`, `a`: start/middle/end, `c`: exorange/exthin/exred), `btn` (`w`, `h`, `v`), `enc` (`r`, `plain`), `rect` (`w`, `h`, `c`: ex-mod/ex-screen/exredline/pg-lcdl), `ledc` (`r`, `c`: exled-r), `lcdl`, `screen`, `cover`, `led`, `fan` (`r`).
 
 Vorgehen: Maßstab aus bekannter Breite (482,6 mm Frontplatte) bestimmen, jeden Mittelpunkt messen, Werte auf 0,1 mm runden. Quelle ist eine Maßzeichnung oder ein frontales Foto.
+
+Messen: Bild/PDF auf die bekannte Breite skalieren und Pixel in mm umrechnen – lieber ein kleines Skript schreiben, als Positionen zu schätzen. Eine fehlende Position ist besser als eine geratene; gib in der PR an, welche Werte geschätzt sind.
 
 Weitere Details: `docs/neue-artikel.md`, Ablauf mit ChatGPT: `docs/ki-workflow.md`.

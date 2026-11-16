@@ -9,7 +9,7 @@ Preise: UVP bzw. Webpreis inkl. MwSt.; Eurolite nach Steinigke-Liste netto + 19 
 
 ## Blackmagic Design
 
-52 Geräte · 29 maßstäblich · 5 Daten belegt · 18 Platzhalter · 52 ohne Gewicht
+52 Geräte · 30 maßstäblich · 4 Daten belegt · 18 Platzhalter · 52 ohne Gewicht
 
 | Gerät | Bauform | Tiefe | Gewicht | Preis | Stand | Link |
 |---|---|---|---|---|---|---|
@@ -46,7 +46,7 @@ Preise: UVP bzw. Webpreis inkl. MwSt.; Eurolite nach Steinigke-Liste netto + 19 
 | ATEM 1 M/E Constellation 4K | 2/3 Rackbreite | 176 mm | – | – | maßstäblich | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) |
 | ATEM 2 M/E Constellation 4K | 19″ · 1 HE | 234 mm | – | – | maßstäblich | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) |
 | ATEM 4 M/E Constellation 4K | 19″ · 2 HE | 231 mm | – | – | maßstäblich | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) |
-| ATEM 4 M/E Constellation 4K Plus | 19″ · 4 HE | 220 mm* | – | – | Daten belegt | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) |
+| ATEM 4 M/E Constellation 4K Plus | 19″ · 4 HE | 220 mm* | – | – | maßstäblich | [Hersteller](https://www.blackmagicdesign.com/de/products/atemconstellation) |
 | Blackmagic Videohub Mini 4x2 12G | 1/3 Rackbreite | 150 mm* | – | 739,00 € | Platzhalter | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini) |
 | Blackmagic Videohub Mini 6x2 12G | 1/2 Rackbreite | 150 mm* | – | 829,00 € | Platzhalter | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini) |
 | Blackmagic Videohub Mini 8x4 12G | 2/3 Rackbreite | 150 mm* | – | 1.105,00 € | Platzhalter | [Hersteller](https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini) |

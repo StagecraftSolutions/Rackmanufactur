@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-16 – Stand 20 · Ansichten prüfen
+
+- **Prüfansicht mit Editor:** Gerät wählen, Herstellerbild (lokal, wird nicht hochgeladen) halbtransparent unterlegen und ausrichten, Elemente per Ziehen, Pfeiltasten oder Eingabe korrigieren, neue Elemente setzen. Freigabe je Vorderseite, Rückseite und Gerätedaten. Entwürfe bleiben im Browser; „Alle Entwürfe speichern“ liefert eine Prüfdatei für `node scripts/daten.mjs import --pruefung`.
+- Einstieg über Projekte → „Geräteansichten prüfen“, die Geräte-Infobox oder `#pruefen=<gerät>`; Geräteliste mit ✓ geprüft / ◐ Ansicht / ○ Platzhalter.
+- Ansichten aus `data/ansichten.json` haben Vorrang vor den Ansichten im Code und lassen sich damit für alle Geräte korrigieren.
+- `data/gewichte-katalog.csv` im Repository (alle 360 Artikel mit Gewichts-Schlüssel), neu erzeugen mit `node scripts/gewichte-katalog.mjs`.
+- KI-Regeln: Erfassen (KI) und Freigeben (Mensch) getrennt; erste KI-Ansicht ATEM 4 M/E Constellation 4K Plus (ungeprüft).
+
 ## 2026-11-16 – Stand 19 · Platzhalter, Gewichte, neue Hersteller
 
 - **Platzhalter-Ansicht:** Geräte ohne maßstäbliche Ansicht erscheinen wie „Eigene Elemente“ – Name, Hersteller, Höhe bzw. Größe und Tiefe aus der Datenbank, gestrichelt umrandet, Kennzeichen „PLATZHALTER“. Die schematische Anschlussdarstellung entfällt.

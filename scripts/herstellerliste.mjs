@@ -34,7 +34,7 @@ for (const mk of [...order, ...Object.keys(by).filter(m => !order.includes(m))])
   const list = by[mk]; if (!list) continue;
   const n = s => list.filter(([k, d]) => state(k, d) === s).length;
   md += `## ${mk}\n\n${list.length} Geräte · ${n('maßstäblich')} maßstäblich · ${n('Daten belegt')} Daten belegt · ${n('Platzhalter')} Platzhalter · ${list.filter(([, d]) => d.kg == null).length} ohne Gewicht\n\n| Gerät | Bauform | Tiefe | Gewicht | Preis | Stand | Link |\n|---|---|---|---|---|---|---|\n`;
-  for (const [k, d] of list) md += `| ${d.n} | ${fit(d)} | ${d.d ? d.d + ' mm' + (d.chk ? '*' : '') : '–'} | ${kgT(d.kg)} | ${eur(d.price)} | ${state(k, d)}${/HE prüfen/.test(d.note || '') ? ' · HE prüfen' : ''}${/abgekündigt/.test(d.note || '') ? ' · abgekündigt' : ''} | [Hersteller](${d.url}) |\n`;
+  for (const [k, d] of list) md += `| ${d.n} | ${fit(d)} | ${d.d ? d.d + ' mm' + (d.chk ? '*' : '') : '–'} | ${kgT(d.kg)} | ${eur(d.price)} | ${state(k, d)}${d.ok && (d.ok.f || d.ok.r) ? ' · ✓ Ansicht geprüft' : ''}${d.ok && d.ok.data ? ' · ✓ Daten geprüft' : ''}${/HE prüfen/.test(d.note || '') ? ' · HE prüfen' : ''}${/abgekündigt/.test(d.note || '') ? ' · abgekündigt' : ''} | [Hersteller](${d.url}) |\n`;
   md += '\n';
 }
 md += EXTRA;

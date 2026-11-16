@@ -50,6 +50,12 @@ Offen:
 - [x] Eigener Preis je Gerät in der Stückliste eintragbar
 - [x] Preise/Lieferanten (state.ov) sind Teil der Projektdatei und werden beim Laden übernommen
 
+## 9. Prüfen und freigeben
+
+- [x] Prüfansicht mit Editor, Freigabe vorn/hinten/Daten, Import per `--pruefung`
+- [ ] **Alle maßstäblichen Ansichten prüfen** (bisher 0 freigegeben) – Herstellerbild unterlegen, korrigieren, abhaken
+- [ ] ATEM 4 M/E Constellation 4K Plus: Ansicht von ChatGPT (Stand 20) prüfen
+
 ## 8. Gewichte und Produktdaten
 
 - [x] Gewicht `kg` für Geräte, Gewichtstabelle `KG` für alle übrigen Artikel, Gesamtgewicht in Stückliste/Fertigung/Übersicht/PDF

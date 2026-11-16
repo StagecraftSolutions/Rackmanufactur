@@ -227,6 +227,25 @@ svg text { font-family: var(--f-mono); }
 .phline-s { stroke: rgba(0, 0, 0, .28); }
 .phtag { font-family: var(--f-mono); font-size: 2px; opacity: .55; letter-spacing: .08em; }
 .notes li.kgnote { background: var(--surface-2); }
+dialog.add.vedit { width: min(1500px, calc(100vw - 24px)); }
+dialog.add.vedit[open] { margin: 12px auto auto; max-height: calc(100vh - 24px); }
+.ve-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px; align-items: start; }
+@media (max-width: 960px) { .ve-grid { grid-template-columns: minmax(0, 1fr); } }
+.ve-stage { background: #0b0c0e; border: 1px solid var(--line); border-radius: 8px; overflow: auto; }
+.ve-stage svg { display: block; height: auto; touch-action: none; user-select: none; }
+.vebg { fill: #0b0c0e; }
+.vehit { fill: transparent; cursor: move; }
+.vehit:hover { fill: rgba(255, 212, 0, .12); }
+.vesel { fill: none; stroke: #ffd400; stroke-width: .45; stroke-dasharray: 1.2 .8; pointer-events: none; }
+.vegrid line { stroke: rgba(255, 255, 255, .09); stroke-width: .15; }
+.ve-tools { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 13px; }
+.ve-tools input[type=number] { width: 76px; }
+.ve-panel { display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
+.ve-panel section { display: flex; flex-direction: column; gap: 6px; }
+.ve-props { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.ve-props input, .ve-props select { width: 100%; }
+#veJson { width: 100%; min-height: 150px; font-family: var(--f-mono); font-size: 11px; }
+#veDev { max-width: 360px; }
 .earhit { fill: transparent; cursor: grab; }
 .traylinex { fill: none; stroke: var(--hw-ink-dim); stroke-width: .4; stroke-dasharray: 2 2; opacity: .55; }
 .traytxtx { fill: var(--hw-ink-dim); font-family: var(--f-mono); font-size: 3.4px; letter-spacing: .3px; }
@@ -758,6 +777,12 @@ td input.shop { min-width: 110px; }
 <dialog class="add proj" id="projDlg" aria-labelledby="projTitleH">
   <div class="dlg-head"><h2 id="projTitleH">Projekte</h2><input id="projSearch" type="search" placeholder="Suchen: Name, Kunde, Case" aria-label="Projekte durchsuchen"><button type="button" class="dlg-close" data-pclose aria-label="Schließen">×</button></div>
   <div class="dlg-body" id="projBody"></div>
+</dialog>
+<dialog class="add vedit" id="veDlg" aria-labelledby="veTitle">
+  <div class="dlg-head"><h2 id="veTitle">Ansicht prüfen</h2><label for="veDev" class="sr">Gerät</label><select id="veDev"></select>
+    <span class="seg" role="group" aria-label="Seite"><button type="button" data-veside="f">Vorn</button><button type="button" data-veside="r">Hinten</button></span>
+    <button type="button" class="dlg-close" data-veclose aria-label="Schließen">×</button></div>
+  <div class="dlg-body" id="veBody"></div>
 </dialog>
 <div class="toast" id="toast" role="status"></div>
 
@@ -1588,7 +1613,7 @@ async function renderProjects() {
     rows = list.length ? `<ul class="plist">${rows}</ul>` : `<p class="hint">${all.length ? 'Kein Projekt passt zur Suche.' : 'Noch keine Projekte gespeichert.'}</p>`;
     rows = `<p class="subh">${all.length} ${all.length === 1 ? 'Projekt' : 'Projekte'} in diesem Browser</p>` + rows;
   }
-  body.innerHTML = `<div class="actions"><button type="button" class="btn sm primary" data-pact="new">Neues Projekt</button><button type="button" class="btn sm" data-pact="example">Beispiel als neues Projekt</button><button type="button" class="btn sm" data-pact="import">Projektdatei importieren …</button>${LIB.off ? '' : '<button type="button" class="btn sm" data-pact="export">Alle Projekte sichern</button>'}</div>`
+  body.innerHTML = `<div class="actions"><button type="button" class="btn sm primary" data-pact="new">Neues Projekt</button><button type="button" class="btn sm" data-pact="example">Beispiel als neues Projekt</button><button type="button" class="btn sm" data-pact="import">Projektdatei importieren …</button>${LIB.off ? '' : '<button type="button" class="btn sm" data-pact="export">Alle Projekte sichern</button>'}<button type="button" class="btn sm" data-vedit="">Geräteansichten prüfen</button></div>`
     + `<section class="pfolder">${folder}</section>` + rows;
 }
 async function projClick(t) {
@@ -1797,10 +1822,10 @@ const TM_FRONT = name => [
   "swisson_xsr5r": {"hw":432,"f":[{"t":"rect","x":137.3,"y":2.6,"w":208.7,"h":39.3,"c":"exredline"},{"t":"txt","x":140.3,"y":6.4,"v":"+swisson","s":3.4,"a":"start","c":"exred"},{"t":"xlr5","x":158.1,"y":22.2,"s":12.4},{"t":"txt","x":158.1,"y":40,"v":"IN","s":1.7},{"t":"xlrf","x":183,"y":22.2,"s":12.4},{"t":"txt","x":183,"y":40,"v":"THRU","s":1.7},{"t":"ledc","x":201.3,"y":12,"r":0.8},{"t":"ledc","x":201.3,"y":16,"r":0.8,"c":"exled-r"},{"t":"btn","x":198.7,"y":31,"w":4.2,"h":4.2},{"t":"btn","x":203.9,"y":31,"w":4.2,"h":4.2},{"t":"xlrf","x":228.8,"y":22.2,"s":12.4},{"t":"txt","x":228.8,"y":40,"v":"1","s":1.7},{"t":"xlrf","x":254.6,"y":22.2,"s":12.4},{"t":"txt","x":254.6,"y":40,"v":"2","s":1.7},{"t":"xlrf","x":281.2,"y":22.2,"s":12.4},{"t":"txt","x":281.2,"y":40,"v":"3","s":1.7},{"t":"xlrf","x":307.8,"y":22.2,"s":12.4},{"t":"txt","x":307.8,"y":40,"v":"4","s":1.7},{"t":"xlrf","x":333.6,"y":22.2,"s":12.4},{"t":"txt","x":333.6,"y":40,"v":"5","s":1.7}],"r":[{"t":"iec","x":216,"y":22,"s":17},{"t":"txt","x":216,"y":38,"v":"AC IN","s":1.8}]},
   "swisson_xsp5r5r": {"hw":432,"f":[{"t":"rect","x":27.5,"y":2.6,"w":211.3,"h":39.3,"c":"exredline"},{"t":"txt","x":30.5,"y":6.4,"v":"+swisson","s":3.4,"a":"start","c":"exred"},{"t":"xlr5","x":51.6,"y":22.2,"s":12.4},{"t":"txt","x":51.6,"y":40,"v":"IN","s":1.7},{"t":"xlrf","x":77.4,"y":22.2,"s":12.4},{"t":"txt","x":77.4,"y":40,"v":"THRU","s":1.7},{"t":"ledc","x":94,"y":12,"r":0.8},{"t":"ledc","x":94,"y":16,"r":0.8,"c":"exled-r"},{"t":"btn","x":94,"y":31,"w":4.2,"h":4.2},{"t":"xlrf","x":122.3,"y":22.2,"s":12.4},{"t":"txt","x":122.3,"y":40,"v":"1","s":1.7},{"t":"xlrf","x":148.9,"y":22.2,"s":12.4},{"t":"txt","x":148.9,"y":40,"v":"2","s":1.7},{"t":"xlrf","x":175.6,"y":22.2,"s":12.4},{"t":"txt","x":175.6,"y":40,"v":"3","s":1.7},{"t":"xlrf","x":201.3,"y":22.2,"s":12.4},{"t":"txt","x":201.3,"y":40,"v":"4","s":1.7},{"t":"xlrf","x":227.1,"y":22.2,"s":12.4},{"t":"txt","x":227.1,"y":40,"v":"5","s":1.7},{"t":"rect","x":242.1,"y":2.6,"w":212.2,"h":39.3,"c":"exredline"},{"t":"txt","x":245.1,"y":6.4,"v":"+swisson","s":3.4,"a":"start","c":"exred"},{"t":"xlr5","x":266.2,"y":22.2,"s":12.4},{"t":"txt","x":266.2,"y":40,"v":"IN","s":1.7},{"t":"xlrf","x":292,"y":22.2,"s":12.4},{"t":"txt","x":292,"y":40,"v":"THRU","s":1.7},{"t":"ledc","x":308.6,"y":12,"r":0.8},{"t":"ledc","x":308.6,"y":16,"r":0.8,"c":"exled-r"},{"t":"btn","x":308.6,"y":31,"w":4.2,"h":4.2},{"t":"xlrf","x":336.9,"y":22.2,"s":12.4},{"t":"txt","x":336.9,"y":40,"v":"1","s":1.7},{"t":"xlrf","x":363.5,"y":22.2,"s":12.4},{"t":"txt","x":363.5,"y":40,"v":"2","s":1.7},{"t":"xlrf","x":390.2,"y":22.2,"s":12.4},{"t":"txt","x":390.2,"y":40,"v":"3","s":1.7},{"t":"xlrf","x":415.9,"y":22.2,"s":12.4},{"t":"txt","x":415.9,"y":40,"v":"4","s":1.7},{"t":"xlrf","x":441.7,"y":22.2,"s":12.4},{"t":"txt","x":441.7,"y":40,"v":"5","s":1.7}],"r":[{"t":"iec","x":109.1,"y":22,"s":17},{"t":"iec","x":324.1,"y":22,"s":17},{"t":"txt","x":109.1,"y":38,"v":"AC IN","s":1.8},{"t":"txt","x":324.1,"y":38,"v":"AC IN","s":1.8}]},
   "_ma_fp2": {"w":214,"h":43,"f":[{"t":"txt","x":6,"y":9,"v":"MA Lighting · 2Port Node","s":3,"a":"start"},{"t":"xlrf","x":112,"y":25,"s":12},{"t":"xlrf","x":142,"y":25,"s":12},{"t":"ethercon","x":180,"y":25,"s":12},{"t":"txt","x":112,"y":40.5,"v":"DMX 1","s":1.8},{"t":"txt","x":142,"y":40.5,"v":"DMX 2","s":1.8},{"t":"txt","x":180,"y":40.5,"v":"ETHERNET","s":1.8}]},
-  "_ma_fp4": {"w":214,"h":43,"f":[{"t":"txt","x":6,"y":9,"v":"MA Lighting · 4Port Node","s":3,"a":"start"},{"t":"xlrf","x":66,"y":25,"s":12},{"t":"txt","x":66,"y":40.5,"v":"DMX 1","s":1.8},{"t":"xlrf","x":94,"y":25,"s":12},{"t":"txt","x":94,"y":40.5,"v":"DMX 2","s":1.8},{"t":"xlrf","x":122,"y":25,"s":12},{"t":"txt","x":122,"y":40.5,"v":"DMX 3","s":1.8},{"t":"xlrf","x":150,"y":25,"s":12},{"t":"txt","x":150,"y":40.5,"v":"DMX 4","s":1.8},{"t":"ethercon","x":186,"y":25,"s":12},{"t":"txt","x":186,"y":40.5,"v":"ETHERNET","s":1.8}]}
+  "_ma_fp4": {"w":214,"h":43,"f":[{"t":"txt","x":6,"y":9,"v":"MA Lighting · 4Port Node","s":3,"a":"start"},{"t":"xlrf","x":66,"y":25,"s":12},{"t":"txt","x":66,"y":40.5,"v":"DMX 1","s":1.8},{"t":"xlrf","x":94,"y":25,"s":12},{"t":"txt","x":94,"y":40.5,"v":"DMX 2","s":1.8},{"t":"xlrf","x":122,"y":25,"s":12},{"t":"txt","x":122,"y":40.5,"v":"DMX 3","s":1.8},{"t":"xlrf","x":150,"y":25,"s":12},{"t":"txt","x":150,"y":40.5,"v":"DMX 4","s":1.8},{"t":"ethercon","x":186,"y":25,"s":12},{"t":"txt","x":186,"y":40.5,"v":"ETHERNET","s":1.8}]},
+  "atemc_4me_4kplus": {"hw":431.5,"f":[{"t":"btn","x":76.5,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":92,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":107,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":122.5,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":138.5,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":154,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":169,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":184.5,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":199.5,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":216,"y":66,"w":15,"h":13,"v":""},{"t":"btn","x":76.5,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":92,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":107,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":122.5,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":138.5,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":154,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":169,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":184.5,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":199.5,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":216,"y":81,"w":15,"h":13,"v":""},{"t":"btn","x":76.5,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":92,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":107,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":122.5,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":138.5,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":154,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":169,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":184.5,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":199.5,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":216,"y":96.5,"w":15,"h":13,"v":""},{"t":"btn","x":76.5,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":92,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":107,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":122.5,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":138.5,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":154,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":169,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":184.5,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":199.5,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":216,"y":112.5,"w":15,"h":13,"v":""},{"t":"btn","x":39.5,"y":63,"w":11,"h":10,"v":""},{"t":"btn","x":52,"y":63,"w":11,"h":10,"v":""},{"t":"btn","x":39.5,"y":75.5,"w":11,"h":10,"v":""},{"t":"btn","x":52,"y":75.5,"w":11,"h":10,"v":""},{"t":"btn","x":39.5,"y":88,"w":11,"h":10,"v":""},{"t":"btn","x":52,"y":88,"w":11,"h":10,"v":""},{"t":"btn","x":241.5,"y":63,"w":12,"h":9,"v":""},{"t":"btn","x":253.5,"y":63,"w":12,"h":9,"v":""},{"t":"btn","x":266,"y":63,"w":12,"h":9,"v":""},{"t":"btn","x":278.5,"y":63,"w":12,"h":9,"v":""},{"t":"btn","x":241.5,"y":75.5,"w":12,"h":9,"v":""},{"t":"btn","x":253.5,"y":75.5,"w":12,"h":9,"v":""},{"t":"btn","x":266,"y":75.5,"w":12,"h":9,"v":""},{"t":"btn","x":278.5,"y":75.5,"w":12,"h":9,"v":""},{"t":"btn","x":241.5,"y":88,"w":12,"h":9,"v":""},{"t":"btn","x":253.5,"y":88,"w":12,"h":9,"v":""},{"t":"btn","x":266,"y":88,"w":12,"h":9,"v":""},{"t":"btn","x":278.5,"y":88,"w":12,"h":9,"v":""},{"t":"btn","x":243.5,"y":113.5,"w":18,"h":17,"v":"CUT"},{"t":"btn","x":275.5,"y":113.5,"w":18,"h":17,"v":"AUTO"},{"t":"btn","x":442.5,"y":63,"w":18,"h":17,"v":"MENU"},{"t":"btn","x":442.5,"y":75.5,"w":18,"h":17,"v":"SET"},{"t":"btn","x":442.5,"y":88,"w":18,"h":17,"v":"LOCK"},{"t":"xlr5","x":45,"y":113.5,"s":12.4},{"t":"screen","x":349,"y":89.5,"w":111,"h":85},{"t":"enc","x":421.5,"y":89.5,"r":9}],"r":[{"t":"bnc","x":97,"y":20.5,"s":11},{"t":"bnc","x":113.5,"y":20.5,"s":11},{"t":"bnc","x":129.5,"y":20.5,"s":11},{"t":"bnc","x":146,"y":20.5,"s":11},{"t":"bnc","x":162,"y":20.5,"s":11},{"t":"bnc","x":178,"y":20.5,"s":11},{"t":"bnc","x":194,"y":20.5,"s":11},{"t":"bnc","x":210,"y":20.5,"s":11},{"t":"bnc","x":226,"y":20.5,"s":11},{"t":"bnc","x":242,"y":20.5,"s":11},{"t":"bnc","x":97,"y":40,"s":11},{"t":"bnc","x":113.5,"y":40,"s":11},{"t":"bnc","x":129.5,"y":40,"s":11},{"t":"bnc","x":146,"y":40,"s":11},{"t":"bnc","x":162,"y":40,"s":11},{"t":"bnc","x":178,"y":40,"s":11},{"t":"bnc","x":194,"y":40,"s":11},{"t":"bnc","x":210,"y":40,"s":11},{"t":"bnc","x":226,"y":40,"s":11},{"t":"bnc","x":242,"y":40,"s":11},{"t":"bnc","x":97,"y":60.5,"s":11},{"t":"bnc","x":113.5,"y":60.5,"s":11},{"t":"bnc","x":129.5,"y":60.5,"s":11},{"t":"bnc","x":146,"y":60.5,"s":11},{"t":"bnc","x":162,"y":60.5,"s":11},{"t":"bnc","x":178,"y":60.5,"s":11},{"t":"bnc","x":194,"y":60.5,"s":11},{"t":"bnc","x":210,"y":60.5,"s":11},{"t":"bnc","x":226,"y":60.5,"s":11},{"t":"bnc","x":242,"y":60.5,"s":11},{"t":"bnc","x":97,"y":80.5,"s":11},{"t":"bnc","x":113.5,"y":80.5,"s":11},{"t":"bnc","x":129.5,"y":80.5,"s":11},{"t":"bnc","x":146,"y":80.5,"s":11},{"t":"bnc","x":162,"y":80.5,"s":11},{"t":"bnc","x":178,"y":80.5,"s":11},{"t":"bnc","x":194,"y":80.5,"s":11},{"t":"bnc","x":210,"y":80.5,"s":11},{"t":"bnc","x":226,"y":80.5,"s":11},{"t":"bnc","x":242,"y":80.5,"s":11},{"t":"bnc","x":97,"y":100,"s":11},{"t":"bnc","x":113.5,"y":100,"s":11},{"t":"bnc","x":129.5,"y":100,"s":11},{"t":"bnc","x":146,"y":100,"s":11},{"t":"bnc","x":162,"y":100,"s":11},{"t":"bnc","x":178,"y":100,"s":11},{"t":"bnc","x":194,"y":100,"s":11},{"t":"bnc","x":210,"y":100,"s":11},{"t":"bnc","x":226,"y":100,"s":11},{"t":"bnc","x":242,"y":100,"s":11},{"t":"bnc","x":97,"y":120.5,"s":11},{"t":"bnc","x":113.5,"y":120.5,"s":11},{"t":"bnc","x":129.5,"y":120.5,"s":11},{"t":"bnc","x":146,"y":120.5,"s":11},{"t":"bnc","x":162,"y":120.5,"s":11},{"t":"bnc","x":178,"y":120.5,"s":11},{"t":"bnc","x":194,"y":120.5,"s":11},{"t":"bnc","x":210,"y":120.5,"s":11},{"t":"bnc","x":226,"y":120.5,"s":11},{"t":"bnc","x":242,"y":120.5,"s":11},{"t":"bnc","x":97,"y":140.5,"s":11},{"t":"bnc","x":113.5,"y":140.5,"s":11},{"t":"bnc","x":129.5,"y":140.5,"s":11},{"t":"bnc","x":146,"y":140.5,"s":11},{"t":"bnc","x":162,"y":140.5,"s":11},{"t":"bnc","x":178,"y":140.5,"s":11},{"t":"bnc","x":194,"y":140.5,"s":11},{"t":"bnc","x":210,"y":140.5,"s":11},{"t":"bnc","x":226,"y":140.5,"s":11},{"t":"bnc","x":242,"y":140.5,"s":11},{"t":"bnc","x":97,"y":161,"s":11},{"t":"bnc","x":113.5,"y":161,"s":11},{"t":"bnc","x":129.5,"y":161,"s":11},{"t":"bnc","x":146,"y":161,"s":11},{"t":"bnc","x":162,"y":161,"s":11},{"t":"bnc","x":178,"y":161,"s":11},{"t":"bnc","x":194,"y":161,"s":11},{"t":"bnc","x":210,"y":161,"s":11},{"t":"bnc","x":226,"y":161,"s":11},{"t":"bnc","x":242,"y":161,"s":11},{"t":"bnc","x":279,"y":20.5,"s":11},{"t":"bnc","x":295,"y":20.5,"s":11},{"t":"bnc","x":311,"y":20.5,"s":11},{"t":"bnc","x":327.5,"y":20.5,"s":11},{"t":"bnc","x":343.5,"y":20.5,"s":11},{"t":"bnc","x":359.5,"y":20.5,"s":11},{"t":"bnc","x":279,"y":40,"s":11},{"t":"bnc","x":295,"y":40,"s":11},{"t":"bnc","x":311,"y":40,"s":11},{"t":"bnc","x":327.5,"y":40,"s":11},{"t":"bnc","x":343.5,"y":40,"s":11},{"t":"bnc","x":359.5,"y":40,"s":11},{"t":"bnc","x":279,"y":60.5,"s":11},{"t":"bnc","x":295,"y":60.5,"s":11},{"t":"bnc","x":311,"y":60.5,"s":11},{"t":"bnc","x":327.5,"y":60.5,"s":11},{"t":"bnc","x":343.5,"y":60.5,"s":11},{"t":"bnc","x":359.5,"y":60.5,"s":11},{"t":"bnc","x":279,"y":80.5,"s":11},{"t":"bnc","x":295,"y":80.5,"s":11},{"t":"bnc","x":311,"y":80.5,"s":11},{"t":"bnc","x":327.5,"y":80.5,"s":11},{"t":"bnc","x":343.5,"y":80.5,"s":11},{"t":"bnc","x":359.5,"y":80.5,"s":11},{"t":"bnc","x":279,"y":100,"s":11},{"t":"bnc","x":295,"y":100,"s":11},{"t":"bnc","x":311,"y":100,"s":11},{"t":"bnc","x":327.5,"y":100,"s":11},{"t":"bnc","x":343.5,"y":100,"s":11},{"t":"bnc","x":359.5,"y":100,"s":11},{"t":"bnc","x":279,"y":120.5,"s":11},{"t":"bnc","x":295,"y":120.5,"s":11},{"t":"bnc","x":311,"y":120.5,"s":11},{"t":"bnc","x":327.5,"y":120.5,"s":11},{"t":"bnc","x":343.5,"y":120.5,"s":11},{"t":"bnc","x":359.5,"y":120.5,"s":11},{"t":"bnc","x":279,"y":140.5,"s":11},{"t":"bnc","x":295,"y":140.5,"s":11},{"t":"bnc","x":311,"y":140.5,"s":11},{"t":"bnc","x":327.5,"y":140.5,"s":11},{"t":"bnc","x":343.5,"y":140.5,"s":11},{"t":"bnc","x":359.5,"y":140.5,"s":11},{"t":"bnc","x":279,"y":161,"s":11},{"t":"bnc","x":295,"y":161,"s":11},{"t":"bnc","x":311,"y":161,"s":11},{"t":"bnc","x":327.5,"y":161,"s":11},{"t":"bnc","x":343.5,"y":161,"s":11},{"t":"bnc","x":359.5,"y":161,"s":11},{"t":"bnc","x":391.5,"y":100,"s":11},{"t":"bnc","x":391.5,"y":120.5,"s":11},{"t":"bnc","x":391.5,"y":140.5,"s":11},{"t":"bnc","x":391.5,"y":161,"s":11},{"t":"bnc","x":54,"y":44,"s":11},{"t":"bnc","x":75,"y":44,"s":11},{"t":"bnc","x":54,"y":60.5,"s":11},{"t":"bnc","x":75,"y":60.5,"s":11},{"t":"bnc","x":54,"y":80,"s":11},{"t":"bnc","x":75,"y":80,"s":11},{"t":"xlr","x":24,"y":20.5,"s":12.4},{"t":"xlr","x":24,"y":76,"s":12.4},{"t":"iec","x":24,"y":110.5,"s":17},{"t":"iec","x":24,"y":147,"s":17},{"t":"xlr5","x":24,"y":60,"s":12.4},{"t":"rj45","x":54.5,"y":100,"s":12.5},{"t":"rj45","x":54.5,"y":138.5,"s":12.5},{"t":"usbc","x":54.5,"y":162.5,"s":12.5},{"t":"bnc","x":75,"y":139,"s":11},{"t":"jack","x":415.5,"y":100,"s":10},{"t":"jack","x":415.5,"y":161,"s":10}]}
 };
 /* /DATEN:EXACT */
-Object.assign(EXACT, EXACT_JSON);
 Object.keys(DEVDB).filter(k => /^tm_|^bmd_2110/.test(k)).forEach(k => {
   EXACT[k] = Object.assign(EXACT[k] || {}, { w: 140, h: 44, hw: 140, f: TM_FRONT(DEVDB[k].n.replace(/^Teranex Mini |^Blackmagic /, '')) });
 });
@@ -3208,7 +3233,7 @@ function renderSteps() {
   document.querySelectorAll('.step').forEach(el => { el.hidden = +el.dataset.step !== state.step; });
   document.querySelectorAll('.steps [data-step]').forEach(b => { if (+b.dataset.step === state.step) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
 }
-const devInfo = d => `<div class="devinfo"><p class="eyebrow">${EXACT[d.id] ? `Maßstäblich nach Herstellerfoto/Datenblatt: ${EXACT[d.id].f ? 'vorn' : ''}${EXACT[d.id].f && EXACT[d.id].r ? ' und ' : ''}${EXACT[d.id].r ? 'hinten' : ''}${EXACT[d.id].f && EXACT[d.id].r ? '' : ' (andere Seite als Platzhalter)'}` : 'Platzhalter-Ansicht: Name, Höhe und Tiefe aus der Datenbank – maßstäbliche Ansicht folgt'}${d.note ? ' · ' + esc(d.note) : ''}</p><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.kg ? ' · ' + d.kg.toLocaleString('de-DE') + ' kg' : ' · Gewicht fehlt'}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p></div>`;
+const devInfo = d => `<div class="devinfo"><p class="eyebrow">${EXACT[d.id] ? `Maßstäblich nach Herstellerfoto/Datenblatt: ${EXACT[d.id].f ? 'vorn' : ''}${EXACT[d.id].f && EXACT[d.id].r ? ' und ' : ''}${EXACT[d.id].r ? 'hinten' : ''}${EXACT[d.id].f && EXACT[d.id].r ? '' : ' (andere Seite als Platzhalter)'}` : 'Platzhalter-Ansicht: Name, Höhe und Tiefe aus der Datenbank – maßstäbliche Ansicht folgt'}${d.note ? ' · ' + esc(d.note) : ''}</p><p><b>${esc(d.mk)}</b> · ${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}${d.kg ? ' · ' + d.kg.toLocaleString('de-DE') + ' kg' : ' · Gewicht fehlt'}${d.price != null ? ' · ' + EUR.format(d.price) : ''}${d.chk ? ' · Maße am Gerät prüfen' : ''}</p><p><span class="eyebrow">Vorn</span> ${esc(ioTxt(d.io.f))}</p><p><span class="eyebrow">Hinten</span> ${esc(ioTxt(d.io.r))}</p><p><a href="${d.url}" target="_blank" rel="noopener">Hersteller</a> · <a href="${thomannQ(d)}" target="_blank" rel="noopener">Thomann</a></p><p><button type="button" class="btn sm" data-vedit="${d.id}">Ansicht prüfen / bearbeiten</button> ${d.ok && d.ok.f ? `<span class="badge">vorn geprüft ${esc(d.ok.f)}</span>` : ''}${d.ok && d.ok.r ? ` <span class="badge">hinten geprüft ${esc(d.ok.r)}</span>` : ''}${d.ok && d.ok.data ? ` <span class="badge">Daten geprüft ${esc(d.ok.data)}</span>` : ''}${!d.ok ? '<span class="badge o">noch nicht geprüft</span>' : ''}</p></div>`;
 function devRows() {
   const r = [];
   [...sideItems('front'), ...sideItems('rear')].forEach(it => {
@@ -4010,6 +4035,184 @@ document.addEventListener('change', e => {
   if (t.dataset.shfp != null && it.devs) { const o = it.devs[+t.dataset.shfp]; if (o) { o.fp = t.checked; render(); } return; }
   if (t.dataset.kg != null) { const v = parseFloat(String(t.value).replace(',', '.')); it.kg = v > 0 ? v : null; render(); }
 });
+
+/* ---------- Prüfansicht und Ansichts-Editor ----------
+   Herstellerbild (lokal, wird nicht hochgeladen) unter die Zeichnung legen, Elemente per Ziehen korrigieren,
+   Freigabe setzen. Entwürfe liegen im Browser (rm-ve-<Gerät>); übernommen werden sie mit
+   node scripts/daten.mjs import --pruefung <datei>. */
+const VE_TYPES = ['xlrf', 'xlr', 'xlr5', 'ethercon', 'rj45', 'sfp', 'bnc', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'powercon', 'dc', 'jack', 'combo', 'opt', 'sd', 'rca', 'db9', 'fan', 'txt', 'btn', 'enc', 'rect', 'ledc', 'led', 'lcdl', 'screen', 'cover', 'schuko', 'gland', 'cee16f', 'cee32f', 'mcb', 'rcd', 'lamp'];
+const VE_DEF = t => ({ xlrf: { s: 12.4 }, xlr: { s: 7.2 }, xlr5: { s: 12.4 }, ethercon: { s: 12.4 }, rj45: { s: 11 }, sfp: { s: 9 }, bnc: { s: 11 }, hdmi: { s: 11 }, usb: { s: 10 }, usba: { s: 10 }, usbc: { s: 9 }, iec: { s: 17 }, powercon: { s: 13.6 }, dc: { s: 8 }, jack: { s: 10 }, combo: { s: 12.4 }, opt: { s: 8 }, sd: { s: 10 }, rca: {}, db9: {}, fan: { r: 18 }, txt: { v: 'Text', s: 3, a: 'middle' }, btn: { w: 6, h: 6 }, enc: { r: 10 }, rect: { w: 20, h: 10, c: 'ex-mod' }, ledc: { r: .8 }, led: {}, lcdl: { w: 30, h: 15 }, screen: { w: 40, h: 22 }, cover: { w: 30, h: 12 }, schuko: {}, gland: {}, cee16f: { w: 40, h: 44 }, cee32f: { w: 46, h: 52 }, mcb: { n: 1, h: 40 }, rcd: { w: 35, h: 40 }, lamp: {} })[t] || { s: 10 };
+const VE_PROPS = ['x', 'y', 's', 'w', 'h', 'r', 'n', 'v', 'a', 'c'];
+const VE_TL = ['rect', 'lcdl', 'screen', 'cover', 'madisp', 'malogo', 'rcd'];   // x/y = linke obere Ecke
+const VE = { key: null, side: 'f', E: {}, ok: {}, sel: -1, img: { url: null, x: 0, y: 0, w: 0, op: .5 }, zoom: 1, grid: true, moveImg: false, drag: null, draft: false };
+const veStoreKey = k => 'rm-ve-' + k;
+const veToday = () => new Date().toISOString().slice(0, 10);
+const veNum = v => { const n = parseFloat(String(v).replace(',', '.')); return Number.isFinite(n) ? Math.round(n * 100) / 100 : null; };
+function veGeom() {
+  const d = DEVDB[VE.key], rack = d.fit === 'rack';
+  const H = rack ? d.he * HE : (VE.E.h || devH(d));
+  const W = rack ? (VE.side === 'f' ? W19 : (VE.E.hw || 442)) : (VE.E.w || devW(d));
+  return { d, rack, W, H };
+}
+const veList = () => (VE.E[VE.side] = VE.E[VE.side] || []);
+function veCenter(el) {
+  if (VE_TL.includes(el.t) || (el.t === 'din' && el.w)) return [el.x + (el.w || 0) / 2, el.y + (el.h || 0) / 2];
+  if (el.t === 'mcb') return [el.x + (el.n || 1) * 8.75, el.y + (el.h || 40) / 2];
+  if (el.t === 'cee16f' || el.t === 'cee32f') return [el.x, el.y + (el.h || 44) / 2];
+  return [el.x, el.y];
+}
+function veHitR(el) {
+  if (el.r) return el.r + 1;
+  if (el.t === 'mcb') return Math.max((el.n || 1) * 8.75, (el.h || 40) / 2);
+  if (el.w) return Math.max(el.w, el.h || el.w) / 2;
+  if (el.t === 'txt') return Math.max(2, el.s || 3);
+  if (el.t === 'schuko') return 24;
+  if (el.t === 'gland') return 11;
+  return el.s ? el.s * .6 : 3;
+}
+function veElSvg(d, el) { EXACT._ve = { f: [el] }; const s = exactFace(d, '_ve', 'f', 0, 0); delete EXACT._ve; return s; }
+function veClean(E) { const a = JSON.parse(JSON.stringify(E)); ['f', 'r'].forEach(s => { if (a[s] && !a[s].length) delete a[s]; }); return a; }
+function veCurrent() { return { [VE.key]: { ansicht: veClean(VE.E), ok: VE.ok } }; }
+function veSave() { try { localStorage.setItem(veStoreKey(VE.key), JSON.stringify({ ansicht: VE.E, ok: VE.ok })); VE.draft = true; } catch (e) {} }
+function veDraftKeys() { const ks = []; try { for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.startsWith('rm-ve-')) ks.push(k.slice(6)); } } catch (e) {} return ks.filter(k => DEVDB[k]); }
+function veExportAll() {
+  const out = {};
+  veDraftKeys().forEach(k => { try { const x = JSON.parse(localStorage.getItem(veStoreKey(k))); if (x) out[k] = { ansicht: veClean(x.ansicht || {}), ok: x.ok || {} }; } catch (e) {} });
+  return out;
+}
+function openVE(key) {
+  VE.key = key && DEVDB[key] ? key : (VE.key && DEVDB[VE.key] ? VE.key : Object.keys(DEVDB).find(k => EXACT[k]) || Object.keys(DEVDB)[0]);
+  VE.sel = -1;
+  let draft = null; try { draft = JSON.parse(localStorage.getItem(veStoreKey(VE.key))); } catch (e) {}
+  const d = DEVDB[VE.key];
+  VE.E = draft ? draft.ansicht || {} : JSON.parse(JSON.stringify(EXACT[VE.key] || {}));
+  VE.ok = draft ? draft.ok || {} : { ...(d.ok || {}) };
+  VE.draft = !!draft;
+  if (d.fit !== 'rack') { VE.E.w = VE.E.w || devW(d); VE.E.h = VE.E.h || devH(d); }
+  VE.side = VE.E.f || !VE.E.r ? 'f' : 'r';
+  const dl = $('#veDlg'); if (!dl.open) { if (typeof dl.showModal === 'function') dl.showModal(); else dl.setAttribute('open', ''); }
+  renderVE();
+}
+function closeVE() { const dl = $('#veDlg'); if (dl.open) { if (typeof dl.close === 'function') dl.close(); else dl.removeAttribute('open'); } VE.drag = null; }
+function renderVE() {
+  const d = DEVDB[VE.key], { W, rack } = veGeom();
+  $('#veDev').innerHTML = Object.entries(DEVDB).sort((a, b) => a[1].n.localeCompare(b[1].n, 'de')).map(([k, x]) => `<option value="${k}" ${k === VE.key ? 'selected' : ''}>${x.ok && (x.ok.f || x.ok.r) ? '✓ ' : EXACT[k] ? '◐ ' : '○ '}${esc(x.n)}</option>`).join('');
+  document.querySelectorAll('[data-veside]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.veside === VE.side)));
+  const el = veList()[VE.sel], def = el ? VE_DEF(el.t) : {};
+  const props = el
+    ? `<div class="ve-props"><div class="field" style="grid-column:1/-1"><label for="ve_t">Typ</label><select id="ve_t" data-vep="t">${VE_TYPES.concat(VE_TYPES.includes(el.t) ? [] : [el.t]).map(t => `<option ${t === el.t ? 'selected' : ''}>${t}</option>`).join('')}</select></div>`
+      + VE_PROPS.filter(p => p === 'x' || p === 'y' || el[p] != null || def[p] != null).map(p => `<div class="field"><label for="ve_${p}">${p}${p === 'x' || p === 'y' ? ' (mm)' : ''}</label><input id="ve_${p}" data-vep="${p}" value="${esc(el[p] ?? '')}" ${['v', 'a', 'c'].includes(p) ? '' : 'inputmode="decimal"'}></div>`).join('')
+      + `</div><div class="actions"><button type="button" class="btn sm" data-veact="dup">Duplizieren</button><button type="button" class="btn sm danger" data-veact="del">Löschen</button></div>`
+    : '<p class="hint">Element anklicken zum Bearbeiten, ziehen zum Verschieben (mit Umschalt: 0,5-mm-Raster). Pfeiltasten verschieben das gewählte Element um 0,1 mm, mit Umschalt um 1 mm; Entf löscht.</p>';
+  const okBox = (k, t) => `<label class="check"><input type="checkbox" data-veok="${k}" ${VE.ok[k] ? 'checked' : ''}> ${t}${VE.ok[k] ? ` <small>(${esc(VE.ok[k])})</small>` : ''}</label>`;
+  const drafts = veDraftKeys();
+  $('#veBody').innerHTML = `
+    <div class="ve-tools">
+      <label class="btn sm">Herstellerbild laden …<input type="file" id="veImg" accept="image/*" hidden></label>
+      <label>Deckkraft <input type="range" id="veOp" min="0" max="100" value="${Math.round(VE.img.op * 100)}"></label>
+      <label>Bild x <input type="number" id="veIx" step="0.5" value="${VE.img.x}"></label>
+      <label>y <input type="number" id="veIy" step="0.5" value="${VE.img.y}"></label>
+      <label>Breite (mm) <input type="number" id="veIw" step="0.5" value="${VE.img.w || W}"></label>
+      <label class="check"><input type="checkbox" id="veMoveImg" ${VE.moveImg ? 'checked' : ''}> Bild verschieben</label>
+      <label class="check"><input type="checkbox" id="veGrid" ${VE.grid ? 'checked' : ''}> Raster 10 mm</label>
+      <label>Zoom <select id="veZoom">${[1, 1.5, 2, 3].map(z => `<option value="${z}" ${z === VE.zoom ? 'selected' : ''}>${z * 100} %</option>`).join('')}</select></label>
+    </div>
+    <div class="ve-grid">
+      <div>
+        <div class="ve-stage" id="veStage"></div>
+        <p class="hint">${esc(d.n)} · ${VE.side === 'f' ? 'Vorderseite' : 'Rückseite (von hinten gesehen)'} · ${rack ? (VE.side === 'f' ? 'Frontplatte 482,6 mm inkl. Rackohren' : `Gehäusebreite hw ${W} mm`) : `Bezugsmaß ${W} × ${veGeom().H} mm`}${VE.draft ? ' · <b>lokaler Entwurf</b>' : ''}. Das Herstellerbild bleibt in deinem Browser.${rack && VE.side === 'r' ? ` <label>hw <input type="number" id="veHw" step="1" value="${VE.E.hw || 442}" style="width:70px"></label>` : ''}</p>
+      </div>
+      <div class="ve-panel">
+        <section><h3 class="subh">Element</h3>${props}
+          <div class="row" style="align-items:flex-end"><div class="field" style="flex:1"><label for="veAddT">Neues Element</label><select id="veAddT">${VE_TYPES.map(t => `<option>${t}</option>`).join('')}</select></div><button type="button" class="btn sm" data-veact="add">Hinzufügen</button></div>
+        </section>
+        <section><h3 class="subh">Freigabe</h3>${okBox('f', 'Vorderseite geprüft')}${okBox('r', 'Rückseite geprüft')}${okBox('data', 'Gerätedaten geprüft (HE, Tiefe, Gewicht, Anschlüsse)')}</section>
+        <section><h3 class="subh">Ergebnis</h3>
+          <textarea id="veJson" readonly aria-label="Ansicht als JSON"></textarea>
+          <div class="actions"><button type="button" class="btn sm" data-veact="apply">In der App zeigen</button><button type="button" class="btn sm" data-veact="copy">JSON kopieren</button><button type="button" class="btn sm" data-veact="file">Als Datei</button></div>
+          <div class="actions"><button type="button" class="btn sm primary" data-veact="all" ${drafts.length ? '' : 'disabled'}>Alle Entwürfe speichern (${drafts.length})</button>${VE.draft ? '<button type="button" class="btn sm danger" data-veact="discard">Entwurf verwerfen</button>' : ''}</div>
+          <p class="hint">Übernehmen ins Repository: <code>node scripts/daten.mjs import --pruefung &lt;datei&gt;</code></p>
+        </section>
+      </div>
+    </div>`;
+  veStage();
+}
+function veStage() {
+  const box = $('#veStage'); if (!box) return;
+  const { d, rack, W, H } = veGeom(), f = v => (+v).toFixed(2), m = 12;
+  let g = `<rect x="0" y="0" width="${f(W)}" height="${f(H)}" rx="1" class="${d.col === 'silver' ? 'dev-silver' : 'dev-black'}"/>`;
+  if (rack && VE.side === 'f') for (let u = 0; u < d.he; u++) [6.35, 38.1].forEach(o => [8, W - 8].forEach(x => { g += `<rect x="${f(x - 4)}" y="${f(u * HE + o - 1.6)}" width="8" height="3.2" rx="1.6" class="pg-hole"/>`; }));
+  if (VE.img.url) g += `<image href="${VE.img.url}" x="${f(VE.img.x)}" y="${f(VE.img.y)}" width="${f(VE.img.w || W)}" preserveAspectRatio="xMinYMin meet" opacity="${VE.img.op}" pointer-events="none"/>`;
+  if (VE.grid) { let gl = ''; for (let x = 10; x < W; x += 10) gl += `<line x1="${x}" y1="0" x2="${x}" y2="${f(H)}"/>`; for (let y = 10; y < H; y += 10) gl += `<line x1="0" y1="${y}" x2="${f(W)}" y2="${y}"/>`; g += `<g class="vegrid" pointer-events="none">${gl}</g>`; }
+  veList().forEach((el, i) => { const [cx, cy] = veCenter(el); g += `<g data-vei="${i}">${veElSvg(d, el)}<circle cx="${f(cx)}" cy="${f(cy)}" r="${f(veHitR(el))}" class="vehit"><title>${esc(el.t)} · ${el.x} / ${el.y} mm</title></circle></g>`; });
+  const s = veList()[VE.sel];
+  if (s) { const [cx, cy] = veCenter(s), r = veHitR(s); g += `<rect x="${f(cx - r)}" y="${f(cy - r)}" width="${f(2 * r)}" height="${f(2 * r)}" class="vesel"/>`; }
+  box.innerHTML = `<svg viewBox="${-m} ${-m} ${f(W + 2 * m)} ${f(H + 2 * m)}" style="width:${VE.zoom * 100}%" role="img" aria-label="Ansicht ${esc(d.n)} ${VE.side === 'f' ? 'vorn' : 'hinten'}"><rect x="${-m}" y="${-m}" width="${f(W + 2 * m)}" height="${f(H + 2 * m)}" class="vebg"/>${g}</svg>`;
+  const ta = $('#veJson'); if (ta) ta.value = JSON.stringify(veCurrent(), null, 1);
+}
+function veP(svg, e) { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); }
+document.addEventListener('pointerdown', e => {
+  const svg = e.target.closest && e.target.closest('#veStage svg'); if (!svg) return;
+  const p = veP(svg, e), gi = e.target.closest('[data-vei]');
+  if (gi) { const i = +gi.dataset.vei, el = veList()[i]; VE.sel = i; VE.drag = { i, p0: p, x0: el.x, y0: el.y }; e.preventDefault(); veStage(); return; }
+  if (VE.moveImg && VE.img.url) { VE.drag = { img: true, p0: p, x0: VE.img.x, y0: VE.img.y }; e.preventDefault(); return; }
+  if (VE.sel !== -1) { VE.sel = -1; renderVE(); }
+});
+document.addEventListener('pointermove', e => {
+  if (!VE.drag) return; const svg = $('#veStage svg'); if (!svg) return;
+  const p = veP(svg, e), dx = p.x - VE.drag.p0.x, dy = p.y - VE.drag.p0.y, k = e.shiftKey ? 2 : 10, q = v => Math.round(v * k) / k;
+  if (VE.drag.img) { VE.img.x = q(VE.drag.x0 + dx); VE.img.y = q(VE.drag.y0 + dy); }
+  else { const el = veList()[VE.drag.i]; if (!el) return; el.x = q(VE.drag.x0 + dx); el.y = q(VE.drag.y0 + dy); VE.drag.moved = true; }
+  veStage();
+});
+document.addEventListener('pointerup', () => { if (!VE.drag) return; const d = VE.drag; VE.drag = null; if (d.moved) veSave(); renderVE(); });
+document.addEventListener('keydown', e => {
+  if (!$('#veDlg').open || VE.sel < 0 || /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '')) return;
+  const el = veList()[VE.sel]; if (!el) return;
+  const st = e.shiftKey ? 1 : .1, mv = { ArrowLeft: [-st, 0], ArrowRight: [st, 0], ArrowUp: [0, -st], ArrowDown: [0, st] }[e.key];
+  if (mv) { el.x = Math.round((el.x + mv[0]) * 10) / 10; el.y = Math.round((el.y + mv[1]) * 10) / 10; veSave(); veStage(); e.preventDefault(); return; }
+  if (e.key === 'Delete' || e.key === 'Backspace') { veList().splice(VE.sel, 1); VE.sel = -1; veSave(); renderVE(); e.preventDefault(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target; if (!t.closest || !t.closest('#veDlg')) return;
+  if (t.id === 'veDev') { openVE(t.value); return; }
+  if (t.dataset.vep) {
+    const el = veList()[VE.sel]; if (!el) return; const p = t.dataset.vep;
+    if (p === 't') { el.t = t.value; Object.entries(VE_DEF(el.t)).forEach(([k, v]) => { if (el[k] == null) el[k] = v; }); }
+    else if (['v', 'a', 'c'].includes(p)) { if (t.value === '') delete el[p]; else el[p] = t.value; }
+    else { const n = veNum(t.value); if (n == null) { if (p !== 'x' && p !== 'y') delete el[p]; } else el[p] = n; }
+    veSave(); renderVE(); return;
+  }
+  if (t.dataset.veok) { if (t.checked) VE.ok[t.dataset.veok] = veToday(); else delete VE.ok[t.dataset.veok]; veSave(); renderVE(); return; }
+  if (t.id === 'veImg' && t.files[0]) { if (VE.img.url) URL.revokeObjectURL(VE.img.url); VE.img = { url: URL.createObjectURL(t.files[0]), x: 0, y: 0, w: veGeom().W, op: VE.img.op }; renderVE(); return; }
+  if (t.id === 'veIx' || t.id === 'veIy' || t.id === 'veIw') { const n = veNum(t.value); if (n != null) VE.img[{ veIx: 'x', veIy: 'y', veIw: 'w' }[t.id]] = n; veStage(); return; }
+  if (t.id === 'veHw') { const n = veNum(t.value); if (n) { VE.E.hw = n; veSave(); renderVE(); } return; }
+  if (t.id === 'veMoveImg') { VE.moveImg = t.checked; return; }
+  if (t.id === 'veGrid') { VE.grid = t.checked; veStage(); return; }
+  if (t.id === 'veZoom') { VE.zoom = +t.value; veStage(); return; }
+});
+document.addEventListener('input', e => { if (e.target.id === 'veOp') { VE.img.op = +e.target.value / 100; veStage(); } });
+document.addEventListener('click', e => {
+  const t = e.target;
+  const ed = t.closest && t.closest('[data-vedit]'); if (ed) { if (t.closest('#projDlg')) closeProjects(); openVE(ed.dataset.vedit); return; }
+  if (!t.closest || !t.closest('#veDlg')) return;
+  if (t.id === 'veDlg' || t.closest('[data-veclose]')) { closeVE(); return; }
+  const sd = t.closest('[data-veside]'); if (sd) { VE.side = sd.dataset.veside; VE.sel = -1; if (VE.side === 'r' && DEVDB[VE.key].fit === 'rack' && !VE.E.hw) VE.E.hw = 442; renderVE(); return; }
+  const b = t.closest('[data-veact]'); if (!b) return;
+  const a = b.dataset.veact, { W, H } = veGeom();
+  if (a === 'add') { const ty = $('#veAddT').value; veList().push({ t: ty, x: Math.round(W / 2 * 10) / 10, y: Math.round(H / 2 * 10) / 10, ...VE_DEF(ty) }); VE.sel = veList().length - 1; veSave(); renderVE(); }
+  else if (a === 'dup') { const el = veList()[VE.sel]; if (el) { veList().push({ ...el, x: Math.round((el.x + 5) * 10) / 10 }); VE.sel = veList().length - 1; veSave(); renderVE(); } }
+  else if (a === 'del') { veList().splice(VE.sel, 1); VE.sel = -1; veSave(); renderVE(); }
+  else if (a === 'apply') { EXACT[VE.key] = veClean(VE.E); render(); toast('Ansicht in der App übernommen (nur in diesem Browser)'); }
+  else if (a === 'copy') { const txt = JSON.stringify(veCurrent(), null, 1); (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => toast('JSON kopiert'), () => { const ta = $('#veJson'); ta.select(); toast('Text markiert – mit Strg/Cmd+C kopieren'); }); }
+  else if (a === 'file') saveFile(`ansicht-${VE.key}.json`, new Blob([JSON.stringify(veCurrent(), null, 1)], { type: 'application/json' }), 'Ansicht');
+  else if (a === 'all') { const all = veExportAll(); saveFile(`ansichten-pruefung-${veToday()}.json`, new Blob([JSON.stringify(all, null, 1)], { type: 'application/json' }), `${Object.keys(all).length} Ansichten`); }
+  else if (a === 'discard') { try { localStorage.removeItem(veStoreKey(VE.key)); } catch (e) {} openVE(VE.key); toast('Entwurf verworfen'); }
+});
+window.RM = { weightCatalog };
+if (/^#pruefen/.test(location.hash)) setTimeout(() => openVE(decodeURIComponent(location.hash.split('=')[1] || '')), 0);
+
+Object.keys(EXACT_JSON).forEach(k => { EXACT[k] = EXACT_JSON[k]; });   // data/ansichten.json hat Vorrang
 
 render();
 LIB.init();

@@ -5,6 +5,8 @@
 //   node scripts/daten.mjs import --csv  zusätzlich data/geraete.csv übernehmen (Spalten wie beim Export)
 //   node scripts/daten.mjs import --gewichte data/gewichte.csv
 //                                        Gewichte-Liste aus der App (Stufe 3) übernehmen
+//   node scripts/daten.mjs import --pruefung ~/Downloads/ansichten-pruefung-2026-11-16.json
+//                                        Ansichten und Freigaben aus der Prüfansicht übernehmen
 //   node scripts/daten.mjs check         nur prüfen
 //
 // Datenblöcke in index.html (reines JSON zwischen den Markern):
@@ -118,6 +120,21 @@ if (cmd === 'export') {
   const load = k => existsSync(new URL(F[k], ROOT)) && cmd === 'import' ? JSON.parse(readFileSync(new URL(F[k], ROOT), 'utf8')) : readBlock(src, k);
   let devdb = load('DEVDB'); const kg = load('KG'), exact = load('EXACT');
   if (process.argv.includes('--csv')) devdb = mergeCsv(devdb, parseCsv(readFileSync(new URL('data/geraete.csv', ROOT), 'utf8')));
+  // Prüfdatei aus der App (Ansicht prüfen → „Alle Entwürfe speichern“): { gerät: { ansicht, ok } }
+  const pi = process.argv.indexOf('--pruefung');
+  if (pi > 0) {
+    const file = process.argv[pi + 1]; if (!file) throw new Error('--pruefung <datei> fehlt');
+    const P = JSON.parse(readFileSync(new URL(file, new URL(process.cwd() + '/', 'file://')), 'utf8'));
+    let nA = 0, nO = 0;
+    for (const [k, x] of Object.entries(P)) {
+      if (!devdb[k]) throw new Error(`Prüfdatei: Gerät ${k} unbekannt`);
+      if (x.ansicht && (x.ansicht.f || x.ansicht.r)) { exact[k] = x.ansicht; nA++; }
+      const ok = Object.fromEntries(Object.entries(x.ok || {}).filter(([, v]) => v));
+      if (Object.keys(ok).length) { devdb[k].ok = { ...(devdb[k].ok || {}), ...ok }; nO++; if (ok.data) { delete devdb[k].chk; delete devdb[k].ph; } }
+    }
+    console.log(`Prüfdatei: ${nA} Ansichten, ${nO} Freigaben übernommen`);
+    if (cmd === 'import') { writeFileSync(new URL(F.DEVDB, ROOT), JSON.stringify(devdb, null, 1) + '\n'); writeFileSync(new URL(F.EXACT, ROOT), JSON.stringify(exact, null, 1) + '\n'); }
+  }
   // Gewichte-Liste aus der App (Stufe 3 → „Gewichte-Liste (CSV)“), Spalten schluessel;name;art_nr;kg
   const gi = process.argv.indexOf('--gewichte');
   if (gi > 0) {
