@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-16 – Version 23 · Examples
+
+- First visit: four more example projects in the project list besides the connector rack – Shure wireless rack (antenna distribution, Shure rack kit with front antennas, in-ear, BNC rear panel), lighting network (Swisson to scale, MA rack kit with front panel, DMX panel), Blackmagic video control (switcher, router, BMD shelf, short drawer, 2 U SDI rear panel) and FOH audio (WING RACK, DL16, d&b D20 as placeholder, label panel, speakON rear).
+- Examples are marked in the project list and are only written to a project folder once edited.
+
 ## 2026-11-16 – Version 22 · Source and version reference
 
 - Footer links the source code on GitHub and the deployed commit ("Version <sha> · <date>"); `scripts/deploy.sh` writes the revision into the uploaded page (`+` = uncommitted changes in `public/`).

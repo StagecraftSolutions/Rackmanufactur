@@ -924,6 +924,7 @@ document.documentElement.lang = LANG;
   "Auswahl": "Selection",
   "Bedarf {0} Stk.{1} → {2} Pack": "Need {0} pcs{1} → {2} pack",
   "bei {0} mm hinter der Frontschiene": "at {0} mm behind the front rail",
+  "Beispiel": "Example",
   "Beispiel · Anschlussrack": "Example · connector rack",
   "Beispiel als neues Projekt": "Example as new project",
   "Beispiel als neues Projekt angelegt": "Example created as new project",
@@ -1015,6 +1016,7 @@ document.documentElement.lang = LANG;
   "Gewicht (kg)": "Weight (kg)",
   "Gewichte-Liste ({0} offen)": "Weight list ({0} open)",
   "Gewichte-Liste (CSV)": "Weight list (CSV)",
+  "Git-Commit, aus dem diese Seite gebaut wurde": "Git commit this page was built from",
   "Gitterblende": "Vent panel",
   "Größer als die Lücke: folgende Module rutschen nach unten": "Larger than the gap: following modules move down",
   "HALBE BREITE FREI": "HALF WIDTH FREE",
@@ -1172,6 +1174,7 @@ document.documentElement.lang = LANG;
   "Projektordner:": "Project folder:",
   "Projektverwaltung": "Project management",
   "prüfen": "check",
+  "Quellcode (GitHub)": "Source code (GitHub)",
   "Quelle": "Source",
   "Rack Manufaktur": "Rack Manufaktur",
   "Rack Manufaktur Konfigurator": "Rack Manufaktur configurator",
@@ -1286,8 +1289,6 @@ document.documentElement.lang = LANG;
   "Funktion (englisch)": "Function (English)",
   "z. B. Input CH1": "e.g. Input CH1",
   "Das Herstellerbild bleibt in deinem Browser.": "The manufacturer image stays in your browser.",
-  "Quellcode (GitHub)": "Source code (GitHub)",
-  "Git-Commit, aus dem diese Seite gebaut wurde": "Git commit this page was built from",
   "12G-Eignung prüfen": "check 12G suitability",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
   "210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.": "210 mm outer depth, inside 401 × 74 × 200 mm, 25 kg, full extension, lockable.",
@@ -2132,6 +2133,72 @@ function example() {
     ov: {}, pack: 48,
   };
 }
+// Weitere Beispiele für den ersten Besuch (zeigen verschiedene Möglichkeiten der App)
+function examples() {
+  const en = LANG === 'en', T = (de, e) => en ? e : de;
+  const base = (name, note, type, he, items) => ({ v: 5, step: 2, project: { name, client: '', note }, case: makeCase(type, he), items, acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 });
+  const panel = (o, slots) => { const p = makeItem('dpanel', o); p.slots = slots; return p; };
+  // 1) Funk: Antennenverteilung, Shure-Rackkit mit Antennen vorn, In-Ear-Strecke, BNC-Steckerfeld hinten
+  const funk = base(T('Beispiel · Funk-Rack Shure', 'Example · Shure wireless rack'),
+    T('Thon-Case mit hinterer Schiene: Antennenverteilung, Empfänger, Shure-Rackkit (zwei Geräte halber Breite, Antennen nach vorn), In-Ear-Sender mit Combiner. Hinten Steckerfeld mit Strom, Antennen (BNC), Audio und Netzwerk.',
+      'Thon case with rear rail: antenna distribution, receivers, Shure rack kit (two half-width devices, antennas to the front), in-ear transmitter with combiner. Rear connector panel with power, antennas (BNC), audio and network.'),
+    'thL63rr', 8, [
+      makeItem('device', { dev: 'ua845uwb', pos: 0 }),
+      makeItem('device', { dev: 'ad4q', pos: 1 }),
+      makeItem('device', { dev: 'ulxd4q', pos: 2 }),
+      makeItem('shelf', { shelf: 'shure_kit', pos: 3, antFront: true, devs: [{ dev: 'ulxd4', x: 0 }, { dev: 'qlxd4', x: 1 }] }),
+      makeItem('device', { dev: 'psm1000_p10t', pos: 4 }),
+      makeItem('device', { dev: 'pa821b', pos: 5 }),
+      makeItem('vent', { he: 1, pos: 6 }),
+      makeItem('drawer', { he: 1, pos: 7 }),
+      panel({ pos: 0, side: 'rear', variant: 'd12tb' }, ['pc_in', 'pc_out', 'bnc', 'bnc', 'bnc', 'bnc', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'rj45', 'rj45']),
+    ]);
+  // 2) Lichtnetz: Swisson maßstäblich, MA-Rackkit mit Frontblende, DMX-Steckerfeld vorn
+  const licht = base(T('Beispiel · Lichtnetz Swisson & MA', 'Example · lighting network Swisson & MA'),
+    T('QSD-Rack 6 HE: DMX- und Ethernet-Steckerfeld vorn, Gigabit-Switch, Art-Net-Node, MA-Rackkit mit 4Port Node (Anschlüsse über die Frontblende nach vorn) und 2Port Node, DMX-Splitter.',
+      'QSD rack 6 U: DMX and Ethernet connector panel at the front, gigabit switch, Art-Net node, MA rack kit with 4Port Node (connectors to the front via the front panel) and 2Port Node, DMX splitters.'),
+    'qsd600', 6, [
+      panel({ pos: 0 }, ['dmx5m', 'dmx5m', 'dmx5f', 'dmx5f', 'dmx5f', 'dmx5f', 'dmx5f', 'dmx5f', 'rj45', 'rj45', 'rj45', 'rj45']),
+      makeItem('device', { dev: 'swisson_xes2t6', pos: 1 }),
+      makeItem('device', { dev: 'swisson_xnd8', pos: 2 }),
+      makeItem('shelf', { shelf: 'ma_kit', pos: 3, devs: [{ dev: 'ma3_4port', x: 0, fp: true }, { dev: 'ma3_2port', x: 1 }] }),
+      makeItem('device', { dev: 'swisson_xpd28', pos: 4 }),
+      makeItem('device', { dev: 'swisson_xsp5r5r', pos: 5 }),
+      panel({ pos: 0, side: 'rear', variant: 'd12tb', outD: true }, ['pc_in', 'pc_out_d', 'rj45', 'rj45', 'dmx5m', 'dmx5f', 'blank', 'blank', 'blank', 'blank', 'blank', 'blank']),
+    ]);
+  // 3) Video: Blackmagic-Regie, BMD-Wanne, kurze Schublade, 2-HE-Steckerfeld hinten
+  const video = base(T('Beispiel · Videoregie Blackmagic', 'Example · Blackmagic video control'),
+    T('ProCase 10 HE: Bildmischer, Kreuzschiene, Universal Rack Shelf mit Recorder, Streaming Encoder und Konverter, Recorder, Audio-Monitor, Switch. Kurze Schublade (210 mm), dahinter ein 2-HE-Steckerfeld mit SDI.',
+      'ProCase 10 U: switcher, router, Universal Rack Shelf with recorder, streaming encoder and converter, recorder, audio monitor, switch. Short drawer (210 mm) with a 2 U SDI connector panel behind it.'),
+    'pro560', 10, [
+      makeItem('device', { dev: 'atemc_2me_hd', pos: 0 }),
+      makeItem('device', { dev: 'bm_vh_20', pos: 1 }),
+      makeItem('shelf', { shelf: 'bmd_urs', pos: 2, devs: [{ dev: 'hd_mini', x: 0 }, { dev: 'bm_stream_hd', x: 2 }, { dev: 'tm_sdi_hdmi', x: 4 }] }),
+      makeItem('device', { dev: 'hd_pro', pos: 3 }),
+      makeItem('device', { dev: 'bm_audiomon', pos: 4 }),
+      makeItem('device', { dev: 'bm_cleanswitch', pos: 5 }),
+      makeItem('device', { dev: 'usw_pro_max_24_poe', pos: 6 }),
+      makeItem('drawer', { he: 2, pos: 7, dw: 'ah_2s' }),
+      makeItem('brush', { pos: 9 }),
+      panel({ pos: 7, side: 'rear', variant: 'd24' }, ['pc_in', 'pc_out', 'rj45', 'rj45', 'rj45', 'hdmi', 'hdmi', 'usb', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', ...Array(12).fill('sdi')]),
+    ]);
+  // 4) Audio: Mischpult, Stagebox, Endstufe (Platzhalter-Ansicht), Beschriftung, speakON hinten
+  const lb = makeItem('label', { pos: 0, div: 16, lines: 2 });
+  lb.cells = [['Mic 1', 'XLR'], ['Mic 2', 'XLR'], ['Mic 3', 'XLR'], ['Mic 4', 'XLR'], ['Mic 5', 'XLR'], ['Mic 6', 'XLR'], ['Mic 7', 'XLR'], ['Mic 8', 'XLR'], ['Out L', 'XLR'], ['Out R', 'XLR'], ['Mon 1', 'XLR'], ['Mon 2', 'XLR'], ['AES50', 'A'], ['AES50', 'B'], ['USB', ''], ['', '']];
+  const audio = base(T('Beispiel · FOH-Audio WING', 'Example · FOH audio WING'),
+    T('Thon Live 63 RR mit 600 mm Einbautiefe: Beschriftung und 16-fach-Steckerfeld, Mischpult WING RACK, Stagebox DL16, Endstufe d&b D20 (noch ohne maßstäbliche Ansicht, als Platzhalter). Hinten Strom, speakON, AES50 und Audio.',
+      'Thon Live 63 RR with 600 mm mounting depth: label and 16-way connector panel, WING RACK mixer, DL16 stagebox, d&b D20 amplifier (no scale view yet, shown as placeholder). Rear power, speakON, AES50 and audio.'),
+    'thL63rr', 10, [
+      lb,
+      panel({ pos: 0.5, variant: 'd16tb' }, ['xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'rj45', 'rj45', 'usb', 'blank']),
+      makeItem('vent', { he: 0.5, pos: 1.5 }),
+      makeItem('device', { dev: 'wing_rack', pos: 2 }),
+      makeItem('device', { dev: 'midas_dl16', pos: 6 }),
+      makeItem('device', { dev: 'db_d20', pos: 8 }),
+      panel({ pos: 0, side: 'rear', variant: 'd12tb', outD: true }, ['pc_in', 'pc_out_d', 'nl4', 'nl4', 'nl4', 'nl4', 'rj45', 'rj45', 'xlr3f', 'xlr3f', 'xlr3m', 'xlr3m']),
+    ]);
+  return [funk, licht, video, audio];
+}
 function empty() {
   return { v: 5, step: 1, project: { name: '', client: '', note: '' }, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
 }
@@ -2161,7 +2228,7 @@ const LIB = (() => {
   L.rec = (d, file) => ({ id: d.id, name: d.project.name || '', client: d.project.client || '', caseName: (CASES[d.case.type] || {}).short || (CASES[d.case.type] || {}).n || d.case.name || 'Case', he: d.case.he, n: d.items.length, updated: d.updated, file: file || '', data: d });
   L.fname = d => `${slugOf(d)}_${d.id.slice(0, 6)}.json`;
   async function writeFile(rec) {
-    if (!L.dir || !L.dirOk) return;
+    if (!L.dir || !L.dirOk || rec.data.example) return;   // unveränderte Beispiele nicht in den Projektordner
     const name = L.fname(rec.data);
     if (rec.file && rec.file !== name) { try { await L.dir.removeEntry(rec.file); } catch (e) {} }
     const fh = await L.dir.getFileHandle(name, { create: true }), w = await fh.createWritable();
@@ -2182,6 +2249,7 @@ const LIB = (() => {
   L.flush = async () => {
     clearTimeout(timer); if (L.off) return;
     const d = stripped(); if (L.sig[d.id] === sigOf(d)) return;
+    if (d.example) { delete d.example; delete state.example; }   // bearbeitetes Beispiel wird ein eigenes Projekt
     state.updated = d.updated = now();
     try { localStorage.setItem(KEY, JSON.stringify(d)); } catch (e) {}
     try { await store(d); } catch (e) {}
@@ -2234,6 +2302,10 @@ const LIB = (() => {
   L.init = async () => {
     try {
       await open();
+      if (FRESH && !(await rq('projects', 'readonly', s => s.count()))) {   // erster Besuch: weitere Beispiele in die Liste
+        const t0 = Date.now();
+        for (const [i, ex] of examples().entries()) { const s = normalize(ex); s.id = newId(); s.example = true; s.created = s.updated = new Date(t0 - (i + 1) * 60000).toISOString(); await put(L.rec(s, '')); }
+      }
       const d = stripped(), old = await L.get(d.id);   // Arbeitskopie im Browser ist immer die neueste
       if (!old || sigOf(old.data) !== sigOf(d)) { if (old) state.updated = d.updated = now(); await store(d, { quiet: true }); } else L.mark(d);
       L.count = await rq('projects', 'readonly', s => s.count());
@@ -2322,7 +2394,7 @@ async function renderProjects() {
     const list = all.filter(r => !q || `${r.name} ${r.client} ${r.caseName}`.toLowerCase().includes(q));
     rows = list.map(r => {
       const nm = r.name || 'Projekt ohne Namen', cur = r.id === state.id, armed = projDlg.arm === r.id;
-      return `<li class="prow${cur ? ' cur' : ''}"><div class="pinfo"><b>${esc(nm)}</b>${cur ? ' <span class="badge">geöffnet</span>' : ''}<small>${esc([r.client, `${r.caseName} · ${r.he} HE`, `${r.n} Elemente`, `geändert ${fmtDate(r.updated)}`].filter(Boolean).join(' · '))}${r.file && LIB.dirOk ? ` · Datei ${esc(r.file)}` : ''}</small></div>`
+      return `<li class="prow${cur ? ' cur' : ''}"><div class="pinfo"><b>${esc(nm)}</b>${r.data && r.data.example ? ' <span class="badge">Beispiel</span>' : ''}${cur ? ' <span class="badge">geöffnet</span>' : ''}<small>${esc([r.client, `${r.caseName} · ${r.he} HE`, `${r.n} Elemente`, `geändert ${fmtDate(r.updated)}`].filter(Boolean).join(' · '))}${r.file && LIB.dirOk ? ` · Datei ${esc(r.file)}` : ''}</small></div>`
         + `<div class="pbtns">${cur ? '' : `<button type="button" class="btn sm primary" data-popen="${r.id}" aria-label="${esc(nm)} öffnen">Öffnen</button>`}<button type="button" class="btn sm" data-pdup="${r.id}" aria-label="${esc(nm)} duplizieren">Duplizieren</button><button type="button" class="btn sm danger" data-pdel="${r.id}" aria-label="${esc(nm)} ${armed ? 'endgültig löschen' : 'löschen'}">${armed ? 'Wirklich löschen?' : 'Löschen'}</button></div></li>`;
     }).join('');
     rows = list.length ? `<ul class="plist">${rows}</ul>` : `<p class="hint">${all.length ? 'Kein Projekt passt zur Suche.' : 'Noch keine Projekte gespeichert.'}</p>`;
@@ -2423,7 +2495,8 @@ function fixCells(it) {
   it.cells = Array.from({ length: it.div }, (_, i) => { const r = Array.isArray(c[i]) ? c[i].slice(0, it.lines) : []; while (r.length < it.lines) r.push(''); return r; });
 }
 
-let state = load() || example();
+const FRESH = (() => { try { return !localStorage.getItem(KEY); } catch (e) { return false; } })();   // erster Besuch: Beispiele anlegen
+let state = load() || Object.assign(example(), { example: true });
 if (!state.id) { state.id = uid() + uid(); state.created = state.updated = new Date().toISOString(); }
 let sel = state.items[0]?.id ?? null;
 let selSlot = null;
@@ -4767,7 +4840,7 @@ $('#jsonLoad').onclick = () => {
   try { const s = normalize(JSON.parse($('#json').value)); if (!s.items || !s.case) throw 0; s.id = state.id; s.created = state.created; state = s; sel = state.items[0]?.id ?? null; selSlot = null; render(); toast('Konfiguration übernommen'); }
   catch (e) { toast('JSON ist ungültig. Bitte den kompletten Text einfügen.'); }
 };
-$('#btnExample').onclick = () => newProject(example(), 'Beispiel als neues Projekt angelegt');
+$('#btnExample').onclick = () => newProject(Object.assign(example(), { example: true }), 'Beispiel als neues Projekt angelegt');
 const reset = $('#btnReset');
 reset.onclick = () => {
   if (LIB.off && !reset.dataset.arm) { reset.dataset.arm = '1'; reset.textContent = 'Wirklich alles leeren?'; setTimeout(() => { delete reset.dataset.arm; reset.textContent = 'Neues Projekt'; }, 3000); return; }
