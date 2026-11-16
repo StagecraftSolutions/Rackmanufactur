@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Rack Manufaktur – SFTP-Zugang einrichten.
-# Fragt Server, Pfad und Zugangsdaten im Terminal ab und schreibt sie in .env (nur für dich lesbar, nicht im Git).
-# Prüft den Host-Schlüssel des Servers und testet die Verbindung.
+# Rack Manufaktur – set up SFTP access.
+# Asks for server, path and credentials in the terminal and writes them to .env (readable only by you, not in git).
+# Checks the server's host key and tests the connection.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -10,80 +10,80 @@ KH_DIR="$ROOT/.deploy"
 KH_FILE="$KH_DIR/known_hosts"
 
 say()  { printf '%s\n' "$*"; }
-ask()  { # ask VAR "Frage" "Vorgabe"
+ask()  { # ask VAR "Question" "Default"
   local __v="$1" __q="$2" __d="${3:-}" __a
   if [[ -n "$__d" ]]; then read -r -p "$__q [$__d]: " __a || true; __a="${__a:-$__d}"
   else read -r -p "$__q: " __a || true; fi
   printf -v "$__v" '%s' "$__a"
 }
-yes_no() { local a; read -r -p "$1 [j/N]: " a || true; [[ "$a" =~ ^[jJyY] ]]; }
-q() { # Wert für .env in einfache Anführungszeichen setzen
+yes_no() { local a; read -r -p "$1 [y/N]: " a || true; [[ "$a" =~ ^[jJyY] ]]; }
+q() { # single-quote a value for .env
   local s="${1//\'/\'\\\'\'}"; printf "'%s'" "$s"
 }
 
-say "Rack Manufaktur · SFTP-Zugang einrichten"
-say "Die Angaben landen in $ENV_FILE (Rechte 600, steht in .gitignore)."
+say "Rack Manufaktur · set up SFTP access"
+say "The values are stored in $ENV_FILE (mode 600, listed in .gitignore)."
 say ""
 
 if [[ -f "$ENV_FILE" ]]; then
-  yes_no ".env gibt es schon. Überschreiben?" || { say "Abgebrochen, nichts geändert."; exit 0; }
-  # bisherige Werte als Vorgabe
+  yes_no ".env already exists. Overwrite?" || { say "Cancelled, nothing changed."; exit 0; }
+  # previous values as defaults
   # shellcheck disable=SC1090
   set -a; source "$ENV_FILE"; set +a
 fi
 
-# Server abfragen und gleich prüfen – bei Tippfehler nochmal fragen, ohne alles neu einzugeben
+# ask for the server and check it right away – on a typo ask again without re-entering everything
 mkdir -p "$KH_DIR"; chmod 700 "$KH_DIR"
 tmp_kh="$(mktemp)"; trap 'rm -f "$tmp_kh"' EXIT
 while true; do
-  ask SFTP_HOST "Server (Host, z. B. ssh.example.de)" "${SFTP_HOST:-}"
-  [[ -n "$SFTP_HOST" ]] || { say "Server fehlt."; exit 1; }
+  ask SFTP_HOST "Server (host, e.g. ssh.example.com)" "${SFTP_HOST:-}"
+  [[ -n "$SFTP_HOST" ]] || { say "Server missing."; exit 1; }
   ask SFTP_PORT "Port" "${SFTP_PORT:-22}"
-  [[ "$SFTP_PORT" =~ ^[0-9]+$ ]] || { say "Port muss eine Zahl sein."; SFTP_PORT=22; continue; }
-  say "Prüfe $SFTP_HOST:$SFTP_PORT …"
+  [[ "$SFTP_PORT" =~ ^[0-9]+$ ]] || { say "Port must be a number."; SFTP_PORT=22; continue; }
+  say "Checking $SFTP_HOST:$SFTP_PORT …"
   if ssh-keyscan -p "$SFTP_PORT" -T 10 "$SFTP_HOST" 2>/dev/null >"$tmp_kh" && [[ -s "$tmp_kh" ]]; then break; fi
-  say "Server nicht erreichbar oder kein SSH auf Port $SFTP_PORT. Bitte Host und Port prüfen."
+  say "Server not reachable or no SSH on port $SFTP_PORT. Please check host and port."
   yes_no "Nochmal eingeben?" || exit 1
 done
-say "Fingerprints des Servers:"
+say "Server fingerprints:"
 ssh-keygen -lf "$tmp_kh" | sed 's/^/  /'
-say "Vergleiche sie mit den Angaben deines Hosters (Kundenmenü oder Support)."
-yes_no "Stimmen die Fingerprints?" || { say "Abgebrochen. Nichts gespeichert."; exit 1; }
+say "Compare them with the information from your hosting provider (customer area or support)."
+yes_no "Do the fingerprints match?" || { say "Cancelled. Nothing saved."; exit 1; }
 say ""
-ask SFTP_USER "Benutzername" "${SFTP_USER:-}"
-[[ -n "$SFTP_USER" ]] || { say "Benutzername fehlt."; exit 1; }
-ask SFTP_REMOTE_PATH "Zielordner auf dem Server (z. B. /html/rackwerk oder rackwerk)" "${SFTP_REMOTE_PATH:-}"
-[[ -n "$SFTP_REMOTE_PATH" ]] || { say "Zielordner fehlt."; exit 1; }
+ask SFTP_USER "User name" "${SFTP_USER:-}"
+[[ -n "$SFTP_USER" ]] || { say "User name missing."; exit 1; }
+ask SFTP_REMOTE_PATH "Target folder on the server (e.g. /html/rackwerk or rackwerk)" "${SFTP_REMOTE_PATH:-}"
+[[ -n "$SFTP_REMOTE_PATH" ]] || { say "Target folder missing."; exit 1; }
 SFTP_REMOTE_PATH="${SFTP_REMOTE_PATH%/}"
-ask SITE_URL "Adresse der Seite (optional, z. B. https://rackwerk.example.de)" "${SITE_URL:-}"
+ask SITE_URL "Site URL (optional, e.g. https://rackwerk.example.com)" "${SITE_URL:-}"
 
 say ""
-say "Anmeldung:"
-say "  1) Passwort"
-say "  2) SSH-Schlüssel (empfohlen)"
-ask auth_choice "Auswahl" "$([[ "${SFTP_AUTH:-password}" == key ]] && echo 2 || echo 1)"
+say "Login:"
+say "  1) Password"
+say "  2) SSH key (recommended)"
+ask auth_choice "Choice" "$([[ "${SFTP_AUTH:-password}" == key ]] && echo 2 || echo 1)"
 SFTP_PASSWORD=""; SFTP_KEY=""
 if [[ "$auth_choice" == 2 ]]; then
   SFTP_AUTH=key
-  ask SFTP_KEY "Pfad zum privaten Schlüssel" "${SFTP_KEY:-$HOME/.ssh/id_ed25519}"
+  ask SFTP_KEY "Path to the private key" "${SFTP_KEY:-$HOME/.ssh/id_ed25519}"
   SFTP_KEY="${SFTP_KEY/#\~/$HOME}"
-  [[ -f "$SFTP_KEY" ]] || { say "Schlüssel $SFTP_KEY nicht gefunden. Erzeugen mit: ssh-keygen -t ed25519"; exit 1; }
+  [[ -f "$SFTP_KEY" ]] || { say "Key $SFTP_KEY not found. Create one with: ssh-keygen -t ed25519"; exit 1; }
 else
   SFTP_AUTH=password
-  read -r -s -p "Passwort (Eingabe unsichtbar): " SFTP_PASSWORD || true; echo
-  [[ -n "$SFTP_PASSWORD" ]] || { say "Passwort fehlt."; exit 1; }
+  read -r -s -p "Password (input hidden): " SFTP_PASSWORD || true; echo
+  [[ -n "$SFTP_PASSWORD" ]] || { say "Password missing."; exit 1; }
   if ! command -v sshpass >/dev/null && ! command -v expect >/dev/null; then
-    say "Für Passwort-Anmeldung wird sshpass oder expect gebraucht (brew install hudochenkov/sshpass/sshpass)."; exit 1
+    say "Password login needs sshpass or expect (brew install hudochenkov/sshpass/sshpass)."; exit 1
   fi
 fi
 
 cp "$tmp_kh" "$KH_FILE"; chmod 600 "$KH_FILE"
 
-# .env schreiben
+# write .env
 umask 077
 {
-  echo "# Rack Manufaktur – SFTP-Zugang. Nicht einchecken, nicht weitergeben."
-  echo "# Erstellt mit scripts/deploy-setup.sh am $(date '+%Y-%m-%d %H:%M')"
+  echo "# Rack Manufaktur – SFTP access. Do not commit, do not share."
+  echo "# Created with scripts/deploy-setup.sh on $(date '+%Y-%m-%d %H:%M')"
   echo "SFTP_HOST=$(q "$SFTP_HOST")"
   echo "SFTP_PORT=$(q "$SFTP_PORT")"
   echo "SFTP_USER=$(q "$SFTP_USER")"
@@ -94,41 +94,41 @@ umask 077
   echo "SITE_URL=$(q "$SITE_URL")"
 } >"$ENV_FILE"
 chmod 600 "$ENV_FILE"
-say "Gespeichert in $ENV_FILE."
+say "Saved to $ENV_FILE."
 
 # Verbindung testen
 say ""
-say "Teste die Verbindung …"
+say "Testing the connection …"
 if "$ROOT/scripts/deploy.sh" --check; then
-  say "Verbindung klappt."
+  say "Connection works."
 else
-  say "Verbindung fehlgeschlagen. Angaben prüfen und dieses Skript erneut starten."; exit 1
+  say "Connection failed. Check the values and run this script again."; exit 1
 fi
 
-# Optional: automatisch bei git push auf main hochladen
+# Optional: upload automatically on git push to main
 HOOK="$ROOT/.git/hooks/pre-push"
 if [[ -d "$ROOT/.git" ]]; then
   say ""
-  if yes_no "Bei jedem 'git push' auf main automatisch hochladen?"; then
+  if yes_no "Upload automatically on every 'git push' to main?"; then
     cat >"$HOOK" <<'HOOK'
 #!/usr/bin/env bash
-# Rack Manufaktur: lädt public/ per SFTP hoch, wenn main gepusht wird (eingerichtet von scripts/deploy-setup.sh).
-# Ein fehlgeschlagener Upload hält den Push nicht auf.
+# Rack Manufaktur: uploads public/ via SFTP when main is pushed (installed by scripts/deploy-setup.sh).
+# A failed upload does not stop the push.
 ROOT="$(git rev-parse --show-toplevel)"
 while read -r local_ref local_sha remote_ref remote_sha; do
   if [[ "$remote_ref" == "refs/heads/main" && "$local_sha" != 0000000000000000000000000000000000000000 ]]; then
-    echo "Rack Manufaktur: lade public/ auf den Server …"
-    "$ROOT/scripts/deploy.sh" --yes || echo "Rack Manufaktur: Upload fehlgeschlagen – später mit scripts/deploy.sh wiederholen." >&2
+    echo "Rack Manufaktur: uploading public/ to the server …"
+    "$ROOT/scripts/deploy.sh" --yes || echo "Rack Manufaktur: upload failed – retry later with scripts/deploy.sh." >&2
   fi
 done
 exit 0
 HOOK
     chmod +x "$HOOK"
-    say "Eingerichtet: .git/hooks/pre-push"
-  elif [[ -f "$HOOK" ]] && grep -q 'Rack Manufaktur: lädt public/' "$HOOK"; then
-    rm -f "$HOOK"; say "Automatischen Upload entfernt."
+    say "Installed: .git/hooks/pre-push"
+  elif [[ -f "$HOOK" ]] && grep -qE 'Rack Manufaktur: (lädt|uploads) public/' "$HOOK"; then
+    rm -f "$HOOK"; say "Automatic upload removed."
   fi
 fi
 
 say ""
-say "Fertig. Hochladen mit: scripts/deploy.sh"
+say "Done. Upload with: scripts/deploy.sh"

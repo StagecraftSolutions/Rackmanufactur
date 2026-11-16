@@ -10,8 +10,8 @@
   "price": 639,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; xlr:4 Audio Out (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; xlr:4 Audio Out (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_hdmi_sdi": {
@@ -25,8 +25,8 @@
   "price": 655,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "hdmi:1 HDMI 2.0 In; bnc:2 12G-SDI Out; xlr:4 Audio In (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "hdmi:1 HDMI 2.0 In; bnc:2 12G-SDI Out; xlr:4 Audio In (2 analog, 4 Kan. AES); rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_sdi_analog": {
@@ -40,8 +40,8 @@
   "price": 645,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:6 SDI In/Loop, Analog-Video Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:6 SDI In/Loop, Analog-Video Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_analog_sdi": {
@@ -55,8 +55,8 @@
   "price": 655,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:6 Analog-Video In, SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:6 Analog-Video In, SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_sdi_audio": {
@@ -70,8 +70,8 @@
   "price": 639,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:2 12G-SDI In + Loop; xlr:4 Audio Out (2 analog, 4 Kan. AES); opt:1 TOSLINK Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:2 12G-SDI In + Loop; xlr:4 Audio Out (2 analog, 4 Kan. AES); opt:1 TOSLINK Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_audio_sdi": {
@@ -85,8 +85,8 @@
   "price": 645,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:2 12G-SDI In/Out; xlr:4 Audio In (2 analog, 4 Kan. AES); opt:1 TOSLINK In; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:2 12G-SDI In/Out; xlr:4 Audio In (2 analog, 4 Kan. AES); opt:1 TOSLINK In; usb:1 USB; iec:1 Power"
   }
  },
  "tm_opt_hdmi": {
@@ -100,8 +100,8 @@
   "price": 625,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "sfp:1 Glasfaser (SFP); bnc:1 SDI Loop; hdmi:1 HDMI Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "sfp:1 Glasfaser (SFP); bnc:1 SDI Loop; hdmi:1 HDMI Out; xlr:4 Audio Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_hdmi_opt": {
@@ -115,8 +115,8 @@
   "price": 609,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "hdmi:1 HDMI In; sfp:1 Glasfaser (SFP); bnc:1 SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "hdmi:1 HDMI In; sfp:1 Glasfaser (SFP); bnc:1 SDI Out; xlr:4 Audio In; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_sdi_quad": {
@@ -130,8 +130,8 @@
   "price": 639,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:6 12G-SDI In + Loop, 4× 3G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:6 12G-SDI In + Loop, 4× 3G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_quad_sdi": {
@@ -145,8 +145,8 @@
   "price": 649,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:6 4× 3G-SDI In, 12G-SDI Out + Loop; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:6 4× 3G-SDI In, 12G-SDI Out + Loop; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_sdi_dist": {
@@ -160,8 +160,8 @@
   "price": 615,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:9 1× 12G-SDI In, 8× 12G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:9 1× 12G-SDI In, 8× 12G-SDI Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "tm_ip_video": {
@@ -175,8 +175,8 @@
   "price": 605,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "btn:1 Bedienfeld",
-   "r": "bnc:3 SDI In, 2× SDI Out; rj45:1 Video über Gigabit-Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "btn:1 Control panel",
+   "r": "bnc:3 SDI In, 2× SDI Out; rj45:1 Video over Gigabit Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "bmd_2110_sdi_hdmi": {
@@ -190,7 +190,7 @@
   "price": 949,
   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
   "io": {
-   "f": "jack:1 Kopfhörer; usbc:1 USB-C (Webcam)",
+   "f": "jack:1 Headphones; usbc:1 USB-C (Webcam)",
    "r": "bnc:2 12G-SDI In + Loop; hdmi:1 HDMI 2.0 Out; rj45:1 10G-Ethernet (ST 2110); xlr:2 Analog-Audio Out; dc:1 12 V"
   }
  },
@@ -204,8 +204,8 @@
   "price": 615,
   "url": "https://www.blackmagicdesign.com/de/products/hyperdeckstudio",
   "io": {
-   "f": "lcd:1 2,2″-LCD; sd:2 SD-Karten; btn:1 Transport",
-   "r": "bnc:6 SDI In/Out, Timecode In/Out, Referenz In/Out; hdmi:1 HDMI Out; rj45:1 Ethernet; usbc:1 USB-C; dc:1 12 V"
+   "f": "lcd:1 2,2″-LCD; sd:2 SD cards; btn:1 Transport",
+   "r": "bnc:6 SDI In/Out, Timecode In/Out, Reference In/Out; hdmi:1 HDMI Out; rj45:1 Ethernet; usbc:1 USB-C; dc:1 12 V"
   }
  },
  "hd_plus": {
@@ -219,8 +219,8 @@
   "price": 745,
   "url": "https://www.blackmagicdesign.com/de/products/hyperdeckstudio",
   "io": {
-   "f": "lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport",
-   "r": "bnc:8 SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Referenz In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 2,2″-LCD; sd:2 SD cards; jack:1 Headphones; btn:1 Transport",
+   "r": "bnc:8 SDI In, 2× SDI Out, SDI Monitor, Timecode In/Out, Reference In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "hd_pro": {
@@ -232,8 +232,8 @@
   "d": 236,
   "url": "https://www.blackmagicdesign.com/de/products/hyperdeckstudio",
   "io": {
-   "f": "lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport",
-   "r": "bnc:6 SDI In, 2× SDI Out, SDI Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 2,2″-LCD; sd:2 SD cards; jack:1 Headphones; btn:1 Transport",
+   "r": "bnc:6 SDI In, 2× SDI Out, SDI Monitor, Reference In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "hd_4kpro": {
@@ -246,8 +246,8 @@
   "chk": 1,
   "url": "https://www.blackmagicdesign.com/de/products/hyperdeckstudio",
   "io": {
-   "f": "lcd:1 2,2″-LCD; sd:2 SD-Karten; jack:1 Kopfhörer; btn:1 Transport",
-   "r": "bnc:6 12G-SDI In, 2× Out, Monitor, Referenz In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI 2.0 In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 2,2″-LCD; sd:2 SD cards; jack:1 Headphones; btn:1 Transport",
+   "r": "bnc:6 12G-SDI In, 2× Out, Monitor, Reference In/Out; xlr:2 Timecode In/Out; hdmi:2 HDMI 2.0 In/Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atem_hd8": {
@@ -261,8 +261,8 @@
   "note": "Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)",
   "url": "https://www.blackmagicdesign.com/de/products/atemtelevisionstudio",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atem_hd8iso": {
@@ -276,8 +276,8 @@
   "note": "Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)",
   "url": "https://www.blackmagicdesign.com/de/products/atemtelevisionstudio",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C (Aufnahme); iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:21 8× SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C (Aufnahme); iec:1 Power"
   }
  },
  "atem_4k8": {
@@ -291,8 +291,8 @@
   "note": "Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)",
   "url": "https://www.blackmagicdesign.com/de/products/atemtelevisionstudio",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:21 8× 12G-SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:21 8× 12G-SDI In, 12× SDI Out, MADI; hdmi:1 HDMI Out; xlr:3 2× Analog-Audio In, Talkback; rj45:2 Ethernet, Talkback; usbc:2 USB-C; iec:1 Power"
   }
  },
  "atem_mic": {
@@ -321,8 +321,8 @@
   "price": 549,
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_stream_4k": {
@@ -335,8 +335,8 @@
   "price": 709,
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:3 12G-SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_decoder_4k": {
@@ -349,8 +349,8 @@
   "price": 709,
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:3 12G-SDI Out, Referenz In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:3 12G-SDI Out, Reference In/Out; hdmi:1 HDMI 2.0 Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_audiomon": {
@@ -362,8 +362,8 @@
   "d": 242,
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicaudiomonitor",
   "io": {
-   "f": "lcd:1 Pegelanzeige; jack:1 Kopfhörer; knob:2 Lautstärke, Auswahl",
-   "r": "bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 Level meter; jack:1 Headphones; knob:2 Volume, Select",
+   "r": "bnc:2 12G-SDI In + Loop; xlr:4 Analog/AES In; jack:2 Line In; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_vh_20": {
@@ -375,8 +375,8 @@
   "d": 236,
   "url": "https://www.blackmagicdesign.com/de/products/smartvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:40 20× SDI In, 20× SDI Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_cleanswitch": {
@@ -389,8 +389,8 @@
   "col": "silver",
   "url": "https://www.blackmagicdesign.com/de/products/smartvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:26 12× SDI In, 12× SDI Out, Referenz In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:26 12× SDI In, 12× SDI Out, Reference In/Out; rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "ma3_2port": {
@@ -406,7 +406,7 @@
   "art": "4010515",
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
    "r": "xlr5:2 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1"
   },
   "kg": 2
@@ -424,7 +424,7 @@
   "art": "4010516",
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
    "r": "xlr5:4 DMX (In/Out konfigurierbar); rj45:1 etherCON; powercon:1 powerCON TRUE1"
   },
   "kg": 2
@@ -442,7 +442,7 @@
   "chk": 1,
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
    "r": "xlr5:4 DMX (In/Out konfigurierbar); rj45:1 etherCON (PoE)"
   },
   "kg": 2
@@ -457,8 +457,8 @@
   "art": "4010517",
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
-   "r": "xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1"
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
+   "r": "xlr5:8 DMX Out (5-pin female); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1"
   },
   "kg": 2
  },
@@ -472,8 +472,8 @@
   "chk": 1,
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
-   "r": "xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON (PoE); usba:1 USB 2.0"
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
+   "r": "xlr5:8 DMX Out (5-pin female); rj45:1 etherCON (PoE); usba:1 USB 2.0"
   },
   "kg": 2
  },
@@ -487,8 +487,8 @@
   "art": "4010514",
   "url": "https://www.malighting.com",
   "io": {
-   "f": "lcd:1 3,9″-Farbdisplay; knob:1 MENU-Drehgeber",
-   "r": "xlr5:8 DMX Out (5-pol Buchse); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1"
+   "f": "lcd:1 3,9″-colour display; knob:1 MENU-Drehgeber",
+   "r": "xlr5:8 DMX Out (5-pin female); rj45:1 etherCON; usba:1 USB 2.0; powercon:1 powerCON TRUE1"
   },
   "kg": 2
  },
@@ -501,8 +501,8 @@
   "d": 176,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:18 10× SDI In, 6× SDI Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz"
+   "f": "btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:18 10× SDI In, 6× SDI Out, Multiview, Reference; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atemc_2me_hd": {
@@ -514,8 +514,8 @@
   "d": 182,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "xlr:1 Talkback-Headset; btn:1 2×10 Quelltasten, CUT/AUTO, Funktionstasten; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:35 20× SDI In, 12× SDI Out, 2× Multiview, Referenz In; rj45:2 Ethernet (Control), Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz"
+   "f": "xlr:1 Talkback-Headset; btn:1 2×10 Quelltasten, CUT/AUTO, function buttons; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:35 20× SDI In, 12× SDI Out, 2× Multiview, Reference In; rj45:2 Ethernet (Control), Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atemc_4me_hd": {
@@ -527,8 +527,8 @@
   "d": 231,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:68 40× SDI In, 24× SDI Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:2 Netz (redundant)"
+   "f": "xlr:1 Talkback-Headset; btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:68 40× SDI In, 24× SDI Out, Multiview, Reference; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:2 Power (redundant)"
   }
  },
  "atemc_1me_4k": {
@@ -540,8 +540,8 @@
   "d": 176,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:18 12G-SDI In/Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz"
+   "f": "btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:18 12G-SDI In/Out, Multiview, Reference; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atemc_2me_4k": {
@@ -553,8 +553,8 @@
   "d": 234,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:35 12G-SDI In/Out, Multiview, Referenz; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Netz"
+   "f": "xlr:1 Talkback-Headset; btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:35 12G-SDI In/Out, Multiview, Reference; rj45:2 Ethernet, Talkback; jack:2 Analog-Audio In; usbc:1 USB-C; iec:1 Power"
   }
  },
  "atemc_4me_4k": {
@@ -566,8 +566,8 @@
   "d": 231,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:70 40× 12G-SDI In, 28× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)"
+   "f": "xlr:1 Talkback-Headset; btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:70 40× 12G-SDI In, 28× SDI Out, Reference; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Power (redundant)"
   }
  },
  "atemc_4me_4kplus": {
@@ -580,8 +580,8 @@
   "chk": 1,
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellation",
   "io": {
-   "f": "xlr:1 Talkback-Headset; btn:1 Bedienfeld; lcd:1 LCD; knob:1 Regler",
-   "r": "bnc:134 80× 12G-SDI In, 52× SDI Out, Referenz; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Netz (redundant)"
+   "f": "xlr:1 Talkback-Headset; btn:1 Control panel; lcd:1 LCD; knob:1 knobs",
+   "r": "bnc:134 80× 12G-SDI In, 52× SDI Out, Reference; rj45:2 Ethernet, Talkback; usbc:1 USB-C; iec:2 Power (redundant)"
   }
  },
  "ucg_max": {
@@ -610,7 +610,7 @@
   "url": "https://store.ui.com/eu/en/products/usw-pro-max-24-poe",
   "io": {
    "f": "lcd:1 1,3″-Touchscreen; rj45:24 8× GbE PoE+, 8× GbE PoE++, 8× 2,5GbE PoE++; sfp:2 10G SFP+",
-   "r": "iec:1 Netz; dc:1 USP-RPS-Backup"
+   "r": "iec:1 Power; dc:1 USP-RPS-Backup"
   }
  },
  "usw_24_poe": {
@@ -624,8 +624,8 @@
   "col": "silver",
   "url": "https://store.ui.com/eu/en/products/usw-24-poe",
   "io": {
-   "f": "lcd:1 Display; rj45:24 GbE, davon 16× PoE+; sfp:2 1G SFP",
-   "r": "iec:1 Netz"
+   "f": "lcd:1 Display; rj45:24 GbE, of which 16× PoE+; sfp:2 1G SFP",
+   "r": "iec:1 Power"
   }
  },
  "ulxd4": {
@@ -640,8 +640,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=ULXD4",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "bnc:2 Antenna A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V"
   }
  },
  "qlxd4": {
@@ -656,8 +656,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=QLXD4",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "bnc:2 Antenna A/B; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 15 V"
   }
  },
  "slxd4": {
@@ -672,8 +672,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=SLXD4",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "bnc:2 Antenne A/B; xlr:1 Audio Out; jack:1 Audio Out; dc:1 12–18 V"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "bnc:2 Antenna A/B; xlr:1 Audio Out; jack:1 Audio Out; dc:1 12–18 V"
   }
  },
  "psm900_p9t": {
@@ -688,8 +688,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=P9T",
   "io": {
-   "f": "lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten",
-   "r": "bnc:1 Antenne; xlr:2 Audio In (Kombi XLR/Klinke); jack:2 Loop Out; dc:1 15 V"
+   "f": "lcd:1 Display; jack:1 Headphones; btn:1 Buttons",
+   "r": "bnc:1 Antenna; xlr:2 Audio In (Kombi XLR/Klinke); jack:2 Loop Out; dc:1 15 V"
   }
  },
  "ulxd4d": {
@@ -702,8 +702,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=ULXD4D",
   "io": {
-   "f": "lcd:2 Displays; btn:1 Tasten; jack:1 Kopfhörer",
-   "r": "bnc:4 Antenne A/B In, Kaskade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Netz In/Thru"
+   "f": "lcd:2 Displays; btn:1 Buttons; jack:1 Headphones",
+   "r": "bnc:4 Antenna A/B In, Cascade Out; xlr:2 Audio Out; jack:2 Audio Out; rj45:2 Dante/Ethernet; iec:2 Power In/Thru"
   }
  },
  "ulxd4q": {
@@ -716,8 +716,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=ULXD4Q",
   "io": {
-   "f": "lcd:1 LCD; btn:1 4 Empfängerblöcke, ENTER/EXIT/SCAN; knob:1 Steuerung",
-   "r": "iec:1 Netz; bnc:4 Antenne A/B In, Kaskade Out; xlr:4 Audio Out (line/mic); rj45:2 Dante primary/secondary"
+   "f": "lcd:1 LCD; btn:1 4 receiver blocks, ENTER/EXIT/SCAN; knob:1 Control",
+   "r": "iec:1 Power; bnc:4 Antenna A/B In, Cascade Out; xlr:4 Audio Out (line/mic); rj45:2 Dante primary/secondary"
   }
  },
  "psm1000_p10t": {
@@ -730,8 +730,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=P10T",
   "io": {
-   "f": "lcd:1 Display; jack:1 Kopfhörer; btn:1 Tasten",
-   "r": "bnc:1 Antenne; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Netz"
+   "f": "lcd:1 Display; jack:1 Headphones; btn:1 Buttons",
+   "r": "bnc:1 Antenna; xlr:4 Audio In (Kombi XLR/Klinke); jack:4 Loop Out; rj45:1 Ethernet; iec:1 Power"
   }
  },
  "ad4d": {
@@ -744,8 +744,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=AD4D",
   "io": {
-   "f": "lcd:1 LCD; jack:1 Kopfhörer; btn:1 2 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung",
-   "r": "iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D; xlr:3 AES3, 2× Audio Out; jack:2 Audio Out"
+   "f": "lcd:1 LCD; jack:1 Headphones; btn:1 2 receiver blocks, function buttons; knob:2 Headphones, Control",
+   "r": "iec:2 Power In/Thru; rj45:4 2× Control, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenna A–D; xlr:3 AES3, 2× Audio Out; jack:2 Audio Out"
   }
  },
  "ad4q": {
@@ -758,8 +758,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=AD4Q",
   "io": {
-   "f": "lcd:1 LCD; jack:1 Kopfhörer; btn:1 4 Empfängerblöcke, Funktionstasten; knob:2 Kopfhörer, Steuerung",
-   "r": "iec:2 Netz In/Thru; rj45:4 2× Steuerung, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenne A–D (Quadversity/Kaskade); xlr:4 Audio Out (AES3 1&2, 3&4); jack:4 Audio Out"
+   "f": "lcd:1 LCD; jack:1 Headphones; btn:1 4 receiver blocks, function buttons; knob:2 Headphones, Control",
+   "r": "iec:2 Power In/Thru; rj45:4 2× Control, 2× Dante; bnc:6 Wordclock In/Thru, 4× Antenna A–D (Quadversity/Cascade); xlr:4 Audio Out (AES3 1&2, 3&4); jack:4 Audio Out"
   }
  },
  "ad600": {
@@ -772,8 +772,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=AD600",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "bnc:4 Antenne In/Out; rj45:2 Ethernet; iec:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "bnc:4 Antenna In/Out; rj45:2 Ethernet; iec:1 Power"
   }
  },
  "ua845uwb": {
@@ -786,8 +786,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=UA845UWB",
   "io": {
-   "f": "btn:1 Netzschalter",
-   "r": "bnc:12 Antenne A/B In, 10× Out (5 Empfänger); bnc:2 Kaskade; dc:5 Strom für Empfänger; iec:1 Netz"
+   "f": "btn:1 Power switch",
+   "r": "bnc:12 Antenna A/B In, 10× Out (5 receivers); bnc:2 Cascade; dc:5 DC power for receivers; iec:1 Power"
   }
  },
  "pa821b": {
@@ -800,8 +800,8 @@
   "chk": 1,
   "url": "https://www.shure.com/de-DE/search?q=PA821B",
   "io": {
-   "f": "bnc:1 Antenne Out (vorn)",
-   "r": "bnc:8 8× Sender In; iec:1 Netz"
+   "f": "bnc:1 Antenna Out (front)",
+   "r": "bnc:8 8× Transmitter In; iec:1 Power"
   }
  },
  "wing_rack": {
@@ -813,8 +813,8 @@
   "d": 326,
   "url": "https://www.behringer.com/en/products/0604-AAE",
   "io": {
-   "f": "lcd:1 10,1″-Touchscreen; btn:1 Tasten; knob:6 Encoder/Regler; usba:1 USB; jack:1 Kopfhörer",
-   "r": "xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Kopfhörer, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/Audio-Netzwerk; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Netz"
+   "f": "lcd:1 10,1″-Touchscreen; btn:1 Buttons; knob:6 Encoder/knobs; usba:1 USB; jack:1 Headphones",
+   "r": "xlr:8 Line Out; combo:24 Mic/Line In (Midas PRO); jack:6 4× Headphones, 2× GPIO; din:2 MIDI In/Out; rj45:2 Control/audio network; usb:1 USB-Audio; ethercon:3 AES50 A/B/C; xlr:3 StageConnect, AES/EBU Out/In; sd:2 WING-LIVE-Karte; iec:1 Power"
   }
  },
  "midas_dl32": {
@@ -828,7 +828,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ACR",
   "io": {
    "f": "xlrf:32 Mic In (Midas PRO); xlr:16 Line Out; btn:1 Mute All",
-   "r": "iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out"
+   "r": "iec:1 Power with switch; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; xlr:2 AES/EBU Out; din:2 MIDI In/Out"
   }
  },
  "midas_dl16": {
@@ -841,8 +841,8 @@
   "chk": 1,
   "url": "https://www.midasconsoles.com/en/products/0606-ACJ",
   "io": {
-   "f": "xlrf:16 Mic In (Midas PRO); xlr:8 Line Out; lcd:1 Anzeige; btn:1 GAIN/HPF/CONFIG; knob:2 Head Amp, Level; jack:1 Kopfhörer",
-   "r": "iec:1 Netz mit Schalter; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; din:2 MIDI In/Out"
+   "f": "xlrf:16 Mic In (Midas PRO); xlr:8 Line Out; lcd:1 Display; btn:1 GAIN/HPF/CONFIG; knob:2 Head Amp, Level; jack:1 Headphones",
+   "r": "iec:1 Power with switch; usb:1 USB; ethercon:3 AES50 A/B, ULTRANET; opt:2 ADAT Out; din:2 MIDI In/Out"
   }
  },
  "midas_dn4816i": {
@@ -856,7 +856,7 @@
   "url": "https://www.midasconsoles.com/search?q=DN4816",
   "io": {
    "f": "xlrf:16 16× Line In",
-   "r": "xlr:2 StageConnect In/Thru; dc:1 Netzteil"
+   "r": "xlr:2 StageConnect In/Thru; dc:1 power supply"
   }
  },
  "midas_dn4816o": {
@@ -870,7 +870,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ADB",
   "io": {
    "f": "xlr:16 16× Line Out",
-   "r": "xlr:2 StageConnect In/Thru; rj45:1 ULTRANET; dc:1 Netzteil"
+   "r": "xlr:2 StageConnect In/Thru; rj45:1 ULTRANET; dc:1 power supply"
   }
  },
  "midas_dn4888": {
@@ -897,8 +897,8 @@
   "chk": 1,
   "url": "https://www.midasconsoles.com/search?q=HUB4",
   "io": {
-   "f": "rj45:4 DP48 (PoE); jack:1 Kopfhörer",
-   "r": "rj45:2 ULTRANET In/Thru; iec:1 Netz"
+   "f": "rj45:4 DP48 (PoE); jack:1 Headphones",
+   "r": "rj45:2 ULTRANET In/Thru; iec:1 Power"
   }
  },
  "swisson_xnd8": {
@@ -910,8 +910,8 @@
   "d": 136,
   "url": "https://www.swisson.com/produkte/data-distribution/ethernet-dmx-node/",
   "io": {
-   "f": "lcd:1 OLED; knob:1 Encoder; btn:11 select/cancel, link, 8× Port; ethercon:1 Ethernet; xlrf:8 DMX 1–8 (5-pol Buchse)",
-   "r": "powercon:2 Netz In/Thru"
+   "f": "lcd:1 OLED; knob:1 Encoder; btn:11 select/cancel, link, 8× Port; ethercon:1 Ethernet; xlrf:8 DMX 1–8 (5-pin female)",
+   "r": "powercon:2 Power In/Thru"
   },
   "kg": 1.8,
   "art": "10 48 31"
@@ -926,7 +926,7 @@
   "url": "https://www.swisson.com/produkte/data-distribution/dmx-splitter-booster-xsp/",
   "io": {
    "f": "xlr5:1 DMX In; xlrf:6 Thru, 5× Out; btn:1 Terminierung",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   },
   "kg": 1.5,
   "art": "10 11 72",
@@ -942,8 +942,8 @@
   "chk": 1,
   "url": "https://www.novastar.tech",
   "io": {
-   "f": "btn:1 Ein/Standby; lcd:1 2″-TFT; knob:1 Drehregler, BACK; usba:1 USB 2.0",
-   "r": "rj45:3 2× Ethernet (Steuerung), AUX; opt:1 S/PDIF Out; bnc:4 Genlock In/Loop, 3G-SDI In/Loop; hdmi:4 2× HDMI 1.3 In + Loop; ethercon:6 LED-Ausgänge 1–6; sfp:2 OPT 1/2 (10G); iec:1 Netz"
+   "f": "btn:1 On/Standby; lcd:1 2″-TFT; knob:1 Rotary knob, BACK; usba:1 USB 2.0",
+   "r": "rj45:3 2× Ethernet (Control), AUX; opt:1 S/PDIF Out; bnc:4 Genlock In/Loop, 3G-SDI In/Loop; hdmi:4 2× HDMI 1.3 In + Loop; ethercon:6 LED outputs 1–6; sfp:2 OPT 1/2 (10G); iec:1 Power"
   }
  },
  "eurolite_sb1100": {
@@ -957,8 +957,8 @@
   "note": "abgekündigt, Nachfolger SB-1100B (No. 30248376)",
   "url": "https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html",
   "io": {
-   "f": "rcd:1 FI 40 A/30 mA 4-polig; brk:9 2× LS C16 3-polig, 3× LS C16 1-polig; cee16f:2 CEE 16 A Out 5-polig (abgesichert)",
-   "r": "schuko:6 Schutzkontakt mit Klappdeckel (abgesichert); cee32f:1 CEE 32 A Out (Durchgang); gland:1 Zuleitung fest mit CEE 32 A Stecker"
+   "f": "rcd:1 FI 40 A/30 mA 4-pin; brk:9 2× LS C16 3-pin, 3× LS C16 1-pin; cee16f:2 CEE 16 A Out 5-pin (fused)",
+   "r": "schuko:6 Schuko with hinged lid (fused); cee32f:1 CEE 32 A Out (through); gland:1 fixed supply cable with CEE 32 A male"
   }
  },
  "bm_vhmini_4x2": {
@@ -974,8 +974,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini",
   "io": {
-   "f": "btn:1 Tastenfeld; bnc:1 SDI Notfall-In; usbc:1 Webcam Out",
-   "r": "bnc:10 4× SDI In + Loop, 2× SDI Out; iec:1 Netz"
+   "f": "btn:1 Button panel; bnc:1 SDI emergency-In; usbc:1 Webcam Out",
+   "r": "bnc:10 4× SDI In + Loop, 2× SDI Out; iec:1 Power"
   }
  },
  "bm_vhmini_6x2": {
@@ -991,8 +991,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini",
   "io": {
-   "f": "btn:1 Tastenfeld; bnc:2 SDI Notfall In/Out; usbc:1 Webcam Out",
-   "r": "bnc:15 6× SDI In + Loop, 2× SDI Out, Referenz; iec:1 Netz"
+   "f": "btn:1 Button panel; bnc:2 SDI emergency In/Out; usbc:1 Webcam Out",
+   "r": "bnc:15 6× SDI In + Loop, 2× SDI Out, Reference; iec:1 Power"
   }
  },
  "bm_vhmini_8x4": {
@@ -1008,8 +1008,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohubmini",
   "io": {
-   "f": "btn:1 Tastenfeld; bnc:2 SDI Notfall In/Out; usbc:1 Webcam Out",
-   "r": "bnc:21 8× SDI In + Loop, 4× SDI Out, Referenz; iec:1 Netz"
+   "f": "btn:1 Button panel; bnc:2 SDI emergency In/Out; usbc:1 Webcam Out",
+   "r": "bnc:21 8× SDI In + Loop, 4× SDI Out, Reference; iec:1 Power"
   }
  },
  "bm_vh12g_10": {
@@ -1024,8 +1024,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:21 10× SDI In, 10× SDI Out, Referenz; rj45:1 Ethernet; usbc:1 USB; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:21 10× SDI In, 10× SDI Out, Reference; rj45:1 Ethernet; usbc:1 USB; iec:1 Power"
   }
  },
  "bm_vh12g_40": {
@@ -1040,8 +1040,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:81 40× SDI In, 40× SDI Out, Referenz; rj45:1 Ethernet; usbc:1 USB; iec:2 Netz redundant"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:81 40× SDI In, 40× SDI Out, Reference; rj45:1 Ethernet; usbc:1 USB; iec:2 Power redundant"
   }
  },
  "bm_vh12g_80": {
@@ -1056,8 +1056,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:161 80× SDI In, 80× SDI Out, Referenz; rj45:1 Ethernet; iec:2 Netz redundant"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:161 80× SDI In, 80× SDI Out, Reference; rj45:1 Ethernet; iec:2 Power redundant"
   }
  },
  "bm_vh12g_120": {
@@ -1072,8 +1072,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagicvideohub",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Tasten",
-   "r": "bnc:241 120× SDI In, 120× SDI Out, Referenz; rj45:1 Ethernet; iec:2 Netz redundant"
+   "f": "lcd:1 LCD; btn:1 Buttons",
+   "r": "bnc:241 120× SDI In, 120× SDI Out, Reference; rj45:1 Ethernet; iec:2 Power redundant"
   }
  },
  "bm_teranex_express": {
@@ -1089,8 +1089,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/teranex",
   "io": {
-   "f": "lcd:1 LCD; btn:1 beleuchtete Tasten",
-   "r": "bnc:7 SDI In A/B, Loop A/B, Out A/B, Referenz; sfp:1 SFP (optional); rj45:1 Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 illuminated Buttons",
+   "r": "bnc:7 SDI In A/B, Loop A/B, Out A/B, Reference; sfp:1 SFP (optional); rj45:1 Ethernet; usb:1 USB; iec:1 Power"
   }
  },
  "bm_teranex_av": {
@@ -1106,8 +1106,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/teranex",
   "io": {
-   "f": "lcd:1 LCD; btn:1 beleuchtete Tasten",
-   "r": "bnc:12 SDI In/Loop/Out A/B, 4× Quad-SDI Out, Referenz In/Out; hdmi:3 HDMI In/Loop/Out; xlr:4 2× Analog In, 2× AES/EBU; sfp:1 SFP (optional); rj45:1 Ethernet; usbc:1 USB-C; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 illuminated Buttons",
+   "r": "bnc:12 SDI In/Loop/Out A/B, 4× Quad-SDI Out, Reference In/Out; hdmi:3 HDMI In/Loop/Out; xlr:4 2× Analog In, 2× AES/EBU; sfp:1 SFP (optional); rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "bm_2110_4x12g": {
@@ -1123,8 +1123,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:9 4× SDI In, 4× SDI Out, Program Return; rj45:4 10G-Ethernet mit Kamerastrom; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:9 4× SDI In, 4× SDI Out, Program Return; rj45:4 10G-Ethernet with camera power; iec:1 Power"
   }
  },
  "bm_2110_8x12g": {
@@ -1140,8 +1140,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
-   "f": "lcd:1 LCD; btn:1 Bedienfeld",
-   "r": "bnc:17 8× SDI In, 8× SDI Out, Program Return; sfp:8 10G SFP; iec:1 Netz"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:17 8× SDI In, 8× SDI Out, Program Return; sfp:8 10G SFP; iec:1 Power"
   }
  },
  "bm_2110_3x3g": {
@@ -1158,7 +1158,7 @@
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "bnc:7 3× SDI In/Out, Referenz Out; rj45:1 10G-Ethernet; iec:1 Netz"
+   "r": "bnc:7 3× SDI In/Out, Reference Out; rj45:1 10G-Ethernet; iec:1 Power"
   }
  },
  "bm_udc_12g": {
@@ -1174,8 +1174,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
-   "f": "lcd:1 LCD; jack:1 Kopfhörer; usbc:1 Webcam",
-   "r": "bnc:3 12G-SDI, Referenz; hdmi:1 HDMI; rj45:1 2110-IP; iec:1 Netz"
+   "f": "lcd:1 LCD; jack:1 Headphones; usbc:1 Webcam",
+   "r": "bnc:3 12G-SDI, Reference; hdmi:1 HDMI; rj45:1 2110-IP; iec:1 Power"
   }
  },
  "bm_udc_100g": {
@@ -1192,7 +1192,7 @@
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
    "f": "lcd:1 Status",
-   "r": "sfp:2 100G Ethernet redundant; rj45:1 NMOS-Steuerung; iec:2 Netz redundant"
+   "r": "sfp:2 100G Ethernet redundant; rj45:1 NMOS-Control; iec:2 Power redundant"
   }
  },
  "bm_sdiexp_8x12g": {
@@ -1209,7 +1209,7 @@
   "url": "https://www.blackmagicdesign.com/de/products/blackmagic2110ipconverter",
   "io": {
    "f": "lcd:1 Status",
-   "r": "bnc:16 8× SDI In, 8× SDI Out; sfp:2 100G Ethernet; rj45:1 NMOS-Steuerung; iec:2 Netz redundant"
+   "r": "bnc:16 8× SDI In, 8× SDI Out; sfp:2 100G Ethernet; rj45:1 NMOS-Control; iec:2 Power redundant"
   }
  },
  "bm_us4kmini": {
@@ -1225,8 +1225,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.blackmagicdesign.com/de/products/ultrastudio",
   "io": {
-   "f": "lcd:1 LCD; sd:1 SD-Karte; jack:2 Mikrofon, Kopfhörer",
-   "r": "bnc:4 12G-SDI In/Out, Referenz; hdmi:2 HDMI In/Out; usbc:1 Thunderbolt; iec:1 Netz"
+   "f": "lcd:1 LCD; sd:1 SD card; jack:2 Microphone, Headphones",
+   "r": "bnc:4 12G-SDI In/Out, Reference; hdmi:2 HDMI In/Out; usbc:1 Thunderbolt; iec:1 Power"
   }
  },
  "atem_mrp20": {
@@ -1243,7 +1243,7 @@
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellationip",
   "io": {
    "f": "btn:20 Eingangstasten; btn:1 Talkback",
-   "r": "sfp:2 10G-Ethernet (2110) redundant; bnc:1 12G-SDI; hdmi:1 HDMI; xlr:1 Talkback; iec:1 Netz"
+   "r": "sfp:2 10G-Ethernet (2110) redundant; bnc:1 12G-SDI; hdmi:1 HDMI; xlr:1 Talkback; iec:1 Power"
   }
  },
  "atem_mrp40": {
@@ -1260,7 +1260,7 @@
   "url": "https://www.blackmagicdesign.com/de/products/atemconstellationip",
   "io": {
    "f": "btn:40 Eingangstasten; btn:1 Talkback",
-   "r": "sfp:2 10G-Ethernet (2110) redundant; bnc:1 12G-SDI; hdmi:1 HDMI; xlr:1 Talkback; iec:1 Netz"
+   "r": "sfp:2 10G-Ethernet (2110) redundant; bnc:1 12G-SDI; hdmi:1 HDMI; xlr:1 Talkback; iec:1 Power"
   }
  },
  "ef_core": {
@@ -1311,7 +1311,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/cloud-gateways-large-scale/products/udm-beast",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:10 2× GbE, 8× 10GbE; sfp:4 2× 10G SFP+, 2× 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "udm_pro_max": {
@@ -1328,7 +1328,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/cloud-gateways-large-scale/products/udm-pro-max",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:9 8× GbE, 1× 2,5GbE WAN; sfp:2 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "udm_se": {
@@ -1345,7 +1345,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/cloud-gateways-large-scale/products/udm-se",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:9 8× GbE PoE, 1× 2,5GbE WAN; sfp:2 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "udm_pro": {
@@ -1362,7 +1362,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/cloud-gateways-large-scale/products/udm-pro",
   "io": {
    "f": "lcd:1 Display; rj45:9 GbE; sfp:2 10G SFP+",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   }
  },
  "usw_pro_max_48_poe": {
@@ -1378,8 +1378,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-max-48-poe",
   "io": {
-   "f": "lcd:1 1,3″-Touch; rj45:48 32× GbE, 16× 2,5GbE, alle PoE; sfp:4 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "f": "lcd:1 1,3″-Touch; rj45:48 32× GbE, 16× 2,5GbE, all PoE; sfp:4 10G SFP+",
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_max_48": {
@@ -1396,7 +1396,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-max-48",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:48 32× GbE, 16× 2,5GbE; sfp:4 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_max_24": {
@@ -1413,7 +1413,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-max-24",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:24 16× GbE, 8× 2,5GbE; sfp:2 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_48_poe": {
@@ -1430,7 +1430,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-xg-48-poe",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:48 16× 2,5GbE, 32× 10GbE, PoE+++; sfp:4 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_48": {
@@ -1447,7 +1447,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-xg-48",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:48 16× 2,5GbE, 32× 10GbE; sfp:4 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_24_poe": {
@@ -1464,7 +1464,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-xg-24-poe",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:24 8× 2,5GbE, 16× 10GbE, PoE+++; sfp:2 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_24": {
@@ -1481,7 +1481,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-xg-24",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:24 8× 2,5GbE, 16× 10GbE; sfp:2 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_10_poe": {
@@ -1498,7 +1498,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-xg-10-poe",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:10 10GbE PoE+++; sfp:2 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_hd_24_poe": {
@@ -1515,7 +1515,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-hd-24-poe",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:24 22× 2,5GbE, 2× 10GbE, PoE++; sfp:4 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_hd_24": {
@@ -1532,7 +1532,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-professional-max-xg/products/usw-pro-hd-24",
   "io": {
    "f": "lcd:1 1,3″-Touch; rj45:24 22× 2,5GbE, 2× 10GbE; sfp:4 10G SFP+",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_xg_agg": {
@@ -1549,7 +1549,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-aggregation/products/usw-pro-xg-aggregation",
   "io": {
    "f": "lcd:1 1,3″-Touch; sfp:32 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_pro_agg": {
@@ -1566,7 +1566,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-aggregation/products/usw-pro-aggregation",
   "io": {
    "f": "lcd:1 1,3″-Touch; sfp:32 28× 10G SFP+, 4× 25G SFP28",
-   "r": "iec:1 Netz; dc:1 RPS"
+   "r": "iec:1 Power; dc:1 RPS"
   }
  },
  "usw_agg": {
@@ -1583,7 +1583,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-aggregation/products/usw-aggregation",
   "io": {
    "f": "lcd:1 1,3″-Display; sfp:8 10G SFP+",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   }
  },
  "ecs_24_poe": {
@@ -1667,8 +1667,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/switching-standard/products/usw-48-poe",
   "io": {
-   "f": "lcd:1 1,3″-Display; rj45:48 GbE, davon 32× PoE+; sfp:4 1G SFP",
-   "r": "iec:1 Netz"
+   "f": "lcd:1 1,3″-Display; rj45:48 GbE, of which 32× PoE+; sfp:4 1G SFP",
+   "r": "iec:1 Power"
   }
  },
  "usw_48": {
@@ -1685,7 +1685,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-standard/products/usw-48",
   "io": {
    "f": "lcd:1 1,3″-Display; rj45:48 GbE; sfp:4 1G SFP",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   }
  },
  "usw_24": {
@@ -1702,7 +1702,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/switching-standard/products/usw-24",
   "io": {
    "f": "lcd:1 1,3″-Display; rj45:24 GbE; sfp:2 1G SFP",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   }
  },
  "usw_16_poe": {
@@ -1718,8 +1718,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/switching-standard/products/usw-16-poe",
   "io": {
-   "f": "lcd:1 1,3″-Display; rj45:16 GbE, davon 8× PoE+; sfp:2 1G SFP",
-   "r": "iec:1 Netz"
+   "f": "lcd:1 1,3″-Display; rj45:16 GbE, of which 8× PoE+; sfp:2 1G SFP",
+   "r": "iec:1 Power"
   }
  },
  "unas_pro_8": {
@@ -1735,7 +1735,7 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/network-storage/products/unas-pro-8",
   "io": {
-   "f": "sd:8 Laufwerksschächte 3,5″",
+   "f": "sd:8 drive bays 3,5″",
    "r": "rj45:1 10GbE; sfp:2 10G SFP+; iec:2 Netzteile Hot-Swap"
   }
  },
@@ -1752,8 +1752,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/network-storage/products/unas-pro",
   "io": {
-   "f": "lcd:1 1,3″-Touch; sd:7 Laufwerksschächte 3,5″",
-   "r": "rj45:1 GbE; sfp:1 10G SFP+; iec:1 Netz; dc:1 RPS"
+   "f": "lcd:1 1,3″-Touch; sd:7 drive bays 3,5″",
+   "r": "rj45:1 GbE; sfp:1 10G SFP+; iec:1 Power; dc:1 RPS"
   }
  },
  "unas_pro_4": {
@@ -1769,8 +1769,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://eu.store.ui.com/eu/en/category/network-storage/products/unas-pro-4",
   "io": {
-   "f": "sd:4 Laufwerksschächte 3,5″",
-   "r": "rj45:1 GbE; sfp:2 10G SFP+; iec:1 Netz; dc:1 RPS"
+   "f": "sd:4 drive bays 3,5″",
+   "r": "rj45:1 GbE; sfp:2 10G SFP+; iec:1 Power; dc:1 RPS"
   }
  },
  "unvr_pro": {
@@ -1785,8 +1785,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://techspecs.ui.com/unifi/physical-security/unvr-pro",
   "io": {
-   "f": "lcd:1 1,3″-Touch; sd:7 Laufwerksschächte 3,5″",
-   "r": "rj45:1 GbE; sfp:1 10G SFP+; iec:1 Netz; dc:1 RPS"
+   "f": "lcd:1 1,3″-Touch; sd:7 drive bays 3,5″",
+   "r": "rj45:1 GbE; sfp:1 10G SFP+; iec:1 Power; dc:1 RPS"
   }
  },
  "ups_2u": {
@@ -1803,7 +1803,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/integrations-power-tech/collections/unifi-power-tech-ups/products/ups-2u-eu",
   "io": {
    "f": "lcd:1 Status",
-   "r": "schuko:4 Ausgänge (EU-Ausführung prüfen); iec:1 Netz"
+   "r": "schuko:4 Outputs (check EU version); iec:1 Power"
   }
  },
  "ups_2u_pro": {
@@ -1820,7 +1820,7 @@
   "url": "https://eu.store.ui.com/eu/en/category/integrations-power-tech/collections/unifi-power-tech-ups/products/ups-2u-pro-eu",
   "io": {
    "f": "lcd:1 3,7″-Touch",
-   "r": "schuko:9 Ausgänge (EU-Ausführung prüfen); iec:1 Netz"
+   "r": "schuko:9 Outputs (check EU version); iec:1 Power"
   }
  },
  "slxd4d": {
@@ -1835,8 +1835,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.shure.com/de-DE/search?q=SLXD4D",
   "io": {
-   "f": "lcd:2 Displays; btn:1 Tasten",
-   "r": "bnc:2 Antenne A/B; xlr:2 Audio Out; jack:2 Audio Out; rj45:1 Ethernet; iec:1 Netz"
+   "f": "lcd:2 Displays; btn:1 Buttons",
+   "r": "bnc:2 Antenna A/B; xlr:2 Audio Out; jack:2 Audio Out; rj45:1 Ethernet; iec:1 Power"
   }
  },
  "glxd4r": {
@@ -1851,8 +1851,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.shure.com/de-DE/search?q=GLXD4R",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "sma:2 Antenne; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 Netzteil"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "sma:2 Antenna; xlr:1 Audio Out; jack:1 Audio Out; rj45:1 Ethernet; dc:1 power supply"
   }
  },
  "anx4": {
@@ -1867,8 +1867,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.shure.com/de-DE/produkte/funkmikrofon-systeme/anx/anx4",
   "io": {
-   "f": "lcd:1 6,6″-Farbdisplay; jack:1 Kopfhörer",
-   "r": "bnc:4 Antenne; rj45:4 Netzwerk/Dante; iec:1 Netz"
+   "f": "lcd:1 6,6″-colour display; jack:1 Headphones",
+   "r": "bnc:4 Antenna; rj45:4 network/Dante; iec:1 Power"
   }
  },
  "adtq": {
@@ -1883,8 +1883,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.shure.com/de-DE/produkte/in-ear-monitoring/adpsm/adtq",
   "io": {
-   "f": "lcd:1 6,6″-Farbdisplay; jack:1 Kopfhörer",
-   "r": "combo:8 Audio In (analog/AES3); rj45:4 Netzwerk/Dante; bnc:4 Antenne Out; iec:2 Netz In/Thru"
+   "f": "lcd:1 6,6″-colour display; jack:1 Headphones",
+   "r": "combo:8 Audio In (analog/AES3); rj45:4 network/Dante; bnc:4 Antenna Out; iec:2 Power In/Thru"
   }
  },
  "adtd": {
@@ -1899,8 +1899,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.shure.com/de-DE/produkte/in-ear-monitoring/adpsm/adtd",
   "io": {
-   "f": "lcd:1 6,6″-Farbdisplay; jack:1 Kopfhörer",
-   "r": "combo:4 Audio In (analog/AES3); rj45:4 Netzwerk/Dante; bnc:2 Antenne Out; iec:2 Netz In/Thru"
+   "f": "lcd:1 6,6″-colour display; jack:1 Headphones",
+   "r": "combo:4 Audio In (analog/AES3); rj45:4 network/Dante; bnc:2 Antenna Out; iec:2 Power In/Thru"
   }
  },
  "ad8c": {
@@ -1916,7 +1916,7 @@
   "url": "https://www.shure.com/de-DE/produkte/zubehoer/ad8c",
   "io": {
    "f": "lcd:1 Status",
-   "r": "bnc:9 8× In, Out; rj45:1 Ethernet; iec:2 Netz In/Thru"
+   "r": "bnc:9 8× In, Out; rj45:1 Ethernet; iec:2 Power In/Thru"
   }
  },
  "beh_x32_rack": {
@@ -1931,8 +1931,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.behringer.com/en/products/0604-AAA",
   "io": {
-   "f": "lcd:1 5″-Farbdisplay; usba:1 USB; jack:1 Kopfhörer; knob:6 Regler; btn:1 Tasten",
-   "r": "xlrf:17 16× Mic In, Talkback; xlr:8 Out; jack:8 6× Aux In/Out, 2× Monitor; rca:4 Cinch In/Out; ethercon:3 2× AES50, Ultranet; rj45:1 Ethernet; din:2 MIDI In/Out; iec:1 Netz"
+   "f": "lcd:1 5″-colour display; usba:1 USB; jack:1 Headphones; knob:6 knobs; btn:1 Buttons",
+   "r": "xlrf:17 16× Mic In, Talkback; xlr:8 Out; jack:8 6× Aux In/Out, 2× Monitor; rca:4 Cinch In/Out; ethercon:3 2× AES50, Ultranet; rj45:1 Ethernet; din:2 MIDI In/Out; iec:1 Power"
   }
  },
  "beh_s32": {
@@ -1948,7 +1948,7 @@
   "url": "https://www.behringer.com/en/products/0606-ACQ",
   "io": {
    "f": "xlrf:32 Mic In (Midas); btn:1 Mute All; din:2 MIDI In/Out",
-   "r": "xlr:18 16× Line Out, 2× AES/EBU; ethercon:2 AES50; rj45:1 Ultranet; opt:2 ADAT; usb:1 USB; iec:1 Netz"
+   "r": "xlr:18 16× Line Out, 2× AES/EBU; ethercon:2 AES50; rj45:1 Ultranet; opt:2 ADAT; usb:1 USB; iec:1 Power"
   }
  },
  "beh_s16": {
@@ -1964,7 +1964,7 @@
   "url": "https://www.behringer.com/en/products/0606-ABC",
   "io": {
    "f": "xlrf:16 Mic In (Midas); xlr:8 Line Out",
-   "r": "ethercon:2 AES50; rj45:1 Ultranet; opt:1 ADAT Out; iec:1 Netz"
+   "r": "ethercon:2 AES50; rj45:1 Ultranet; opt:1 ADAT Out; iec:1 Power"
   }
  },
  "beh_sd16": {
@@ -1980,7 +1980,7 @@
   "url": "https://www.behringer.com/en/products/0606-ACO",
   "io": {
    "f": "xlrf:16 Mic In (Midas); xlr:8 Out",
-   "r": "ethercon:2 AES50; rj45:2 Ultranet; iec:1 Netz"
+   "r": "ethercon:2 AES50; rj45:2 Ultranet; iec:1 Power"
   }
  },
  "beh_sd8": {
@@ -1996,7 +1996,7 @@
   "url": "https://www.behringer.com/en/products/0606-ACP",
   "io": {
    "f": "xlrf:8 Mic In (Midas); xlr:8 Out",
-   "r": "ethercon:2 AES50; rj45:2 Ultranet; iec:1 Netz"
+   "r": "ethercon:2 AES50; rj45:2 Ultranet; iec:1 Power"
   }
  },
  "beh_dcx2496": {
@@ -2011,8 +2011,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.behringer.com/en/products/0825-AAA",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten; knob:1 Encoder",
-   "r": "xlrf:3 In; xlr:6 Out; din:3 MIDI; iec:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons; knob:1 Encoder",
+   "r": "xlrf:3 In; xlr:6 Out; din:3 MIDI; iec:1 Power"
   }
  },
  "beh_deq2496": {
@@ -2027,8 +2027,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.behringer.com/en/products/0821-AAD",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten; knob:1 Encoder",
-   "r": "xlrf:3 2× In, AES/EBU In; xlr:3 2× Out, AES/EBU Out; opt:2 Optisch In/Out; din:3 MIDI; iec:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons; knob:1 Encoder",
+   "r": "xlrf:3 2× In, AES/EBU In; xlr:3 2× Out, AES/EBU Out; opt:2 Optisch In/Out; din:3 MIDI; iec:1 Power"
   }
  },
  "beh_fbq6200hd": {
@@ -2043,8 +2043,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.behringer.com/en/products/0821-ABD",
   "io": {
-   "f": "btn:1 Tasten; knob:2 Regler",
-   "r": "xlrf:2 In; xlr:3 Out, Sub Out; jack:4 In/Out; iec:1 Netz"
+   "f": "btn:1 Buttons; knob:2 knobs",
+   "r": "xlrf:2 In; xlr:3 Out, Sub Out; jack:4 In/Out; iec:1 Power"
   }
  },
  "beh_fx2000": {
@@ -2059,8 +2059,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.behringer.com/en/products/0828-AAG",
   "io": {
-   "f": "lcd:1 Display; knob:2 Regler; btn:1 Tasten",
-   "r": "jack:6 In/Out, Fußschalter; din:3 MIDI; dc:1 Netz"
+   "f": "lcd:1 Display; knob:2 knobs; btn:1 Buttons",
+   "r": "jack:6 In/Out, Footswitch; din:3 MIDI; dc:1 Power"
   }
  },
  "midas_m32c": {
@@ -2076,7 +2076,7 @@
   "url": "https://www.midasconsoles.com/en/products/0604-AAC",
   "io": {
    "f": "usba:1 USB; lcd:1 Status",
-   "r": "ethercon:3 2× AES50, Ultranet; din:2 MIDI In/Out; usb:1 USB-Audio; iec:1 Netz"
+   "r": "ethercon:3 2× AES50, Ultranet; din:2 MIDI In/Out; usb:1 USB-Audio; iec:1 Power"
   }
  },
  "midas_dl251": {
@@ -2123,7 +2123,7 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.midasconsoles.com/en/products/0606-ABT",
   "io": {
-   "f": "xlrf:24 Mic In mit Split",
+   "f": "xlrf:24 Mic In with Split",
    "r": "xlr:24 Split Out; ethercon:3 AES50; iec:2 Netzteile redundant"
   }
  },
@@ -2140,7 +2140,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ABO",
   "io": {
    "f": "xlrf:24 Mic In (Midas PRO)",
-   "r": "ethercon:2 AES50; iec:1 Netz"
+   "r": "ethercon:2 AES50; iec:1 Power"
   }
  },
  "midas_dl153": {
@@ -2156,7 +2156,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ABQ",
   "io": {
    "f": "xlrf:8 Mic In; xlr:16 Line Out",
-   "r": "ethercon:2 AES50; iec:1 Netz"
+   "r": "ethercon:2 AES50; iec:1 Power"
   }
  },
  "midas_dl154": {
@@ -2172,7 +2172,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ABR",
   "io": {
    "f": "xlrf:16 Mic In; xlr:8 Line Out",
-   "r": "ethercon:2 AES50; iec:1 Netz"
+   "r": "ethercon:2 AES50; iec:1 Power"
   }
  },
  "midas_dl155": {
@@ -2188,7 +2188,7 @@
   "url": "https://www.midasconsoles.com/en/products/0606-ABS",
   "io": {
    "f": "xlrf:16 Mic In; xlr:8 Line Out",
-   "r": "xlr:16 Split Out; ethercon:2 AES50; iec:1 Netz"
+   "r": "xlr:16 Split Out; ethercon:2 AES50; iec:1 Power"
   }
  },
  "midas_as88": {
@@ -2220,7 +2220,7 @@
   "url": "https://www.midasconsoles.com/en/products/0609-AAO",
   "io": {
    "f": "lcd:1 Status",
-   "r": "rj45:4 PoE für Monitor-Mixer; ethercon:2 AES50 In/Thru; xlr:16 Analog Out; iec:1 Netz"
+   "r": "rj45:4 PoE for monitor mixers; ethercon:2 AES50 In/Thru; xlr:16 Analog Out; iec:1 Power"
   }
  },
  "ma3_pu_xl": {
@@ -2236,7 +2236,7 @@
   "url": "https://www.malighting.com/product/grandma3-processing-unit-xl-4010508/",
   "io": {
    "f": "lcd:1 Touchscreen; usba:1 USB",
-   "r": "powercon:1 Netz (TRUE1); ethercon:2 Netzwerk; xlr5:8 DMX Out; usba:2 USB"
+   "r": "powercon:1 Power (TRUE1); ethercon:2 network; xlr5:8 DMX Out; usba:2 USB"
   }
  },
  "ma3_pu_l": {
@@ -2252,7 +2252,7 @@
   "url": "https://www.malighting.com/product/grandma3-processing-unit-l-4010509/",
   "io": {
    "f": "lcd:1 Touchscreen; usba:1 USB",
-   "r": "powercon:1 Netz (TRUE1); ethercon:2 Netzwerk; xlr5:8 DMX Out; usba:2 USB"
+   "r": "powercon:1 Power (TRUE1); ethercon:2 network; xlr5:8 DMX Out; usba:2 USB"
   }
  },
  "ma3_pu_m": {
@@ -2268,7 +2268,7 @@
   "url": "https://www.malighting.com/product/grandma3-processing-unit-m-4010510/",
   "io": {
    "f": "lcd:1 Touchscreen; usba:1 USB",
-   "r": "powercon:1 Netz (TRUE1); ethercon:2 Netzwerk; xlr5:8 DMX Out; usba:2 USB"
+   "r": "powercon:1 Power (TRUE1); ethercon:2 network; xlr5:8 DMX Out; usba:2 USB"
   }
  },
  "ma3_onpc_rack": {
@@ -2284,7 +2284,7 @@
   "url": "https://www.malighting.com/product/grandma3-onpc-rack-unit-4023806/",
   "io": {
    "f": "lcd:1 Touchscreen; usba:2 USB",
-   "r": "iec:1 Netz; rj45:2 Netzwerk; xlr5:3 2× DMX Out, DMX In; din:2 MIDI In/Out; xlr:1 LTC; jack:2 Audio In/Out; hdmi:2 DisplayPort; usba:4 USB"
+   "r": "iec:1 Power; rj45:2 network; xlr5:3 2× DMX Out, DMX In; din:2 MIDI In/Out; xlr:1 LTC; jack:2 Audio In/Out; hdmi:2 DisplayPort; usba:4 USB"
   }
  },
  "ma_switch": {
@@ -2300,7 +2300,7 @@
   "url": "https://www.malighting.com/product-archive/product/ma-network-switch-130600/",
   "io": {
    "f": "lcd:1 Port-Status",
-   "r": "ethercon:9 Netzwerk; sfp:4 SFP; powercon:1 Netz; usb:1 USB"
+   "r": "ethercon:9 network; sfp:4 SFP; powercon:1 Power; usb:1 USB"
   }
  },
  "swisson_xnd4": {
@@ -2312,8 +2312,8 @@
   "d": 136,
   "url": "https://www.swisson.com/produkte/data-distribution/ethernet-dmx-node/",
   "io": {
-   "f": "lcd:1 OLED; knob:1 Encoder; btn:7 select/cancel, link, 4× Port; ethercon:1 Ethernet; xlrf:4 DMX 1–4 (5-pol Buchse)",
-   "r": "powercon:2 Netz In/Thru"
+   "f": "lcd:1 OLED; knob:1 Encoder; btn:7 select/cancel, link, 4× Port; ethercon:1 Ethernet; xlrf:4 DMX 1–4 (5-pin female)",
+   "r": "powercon:2 Power In/Thru"
   },
   "kg": 1.6,
   "art": "10 48 21"
@@ -2327,8 +2327,8 @@
   "d": 136,
   "url": "https://www.swisson.com/produkte/data-distribution/8-port-gigabit-ethernet-switch/",
   "io": {
-   "f": "ethercon:8 Gigabit-Ethernet; lcd:1 Status-LED-Feld",
-   "r": "powercon:4 Primär In/Thru, Reserve In/Thru"
+   "f": "ethercon:8 Gigabit-Ethernet; lcd:1 status LED panel",
+   "r": "powercon:4 Primary In/Thru, Backup In/Thru"
   },
   "kg": 1.7,
   "art": "10 42 18"
@@ -2343,7 +2343,7 @@
   "url": "https://www.swisson.com/produkte/data-distribution/premanaged-gigabit-ethernet-switch/",
   "io": {
    "f": "lcd:1 OLED; knob:1 Encoder; btn:7 cancel, 6× Port; ethercon:8 2× Trunk, 6× Port",
-   "r": "powercon:4 Primär In/Thru, Reserve In/Thru"
+   "r": "powercon:4 Primary In/Thru, Backup In/Thru"
   },
   "kg": 1.7,
   "art": "10 42 20"
@@ -2357,8 +2357,8 @@
   "d": 136,
   "url": "https://www.swisson.com/produkte/data-distribution/xpd-28-de/",
   "io": {
-   "f": "lcd:1 OLED; knob:1 Encoder; btn:11 Tasten; xlr5:2 DMX In A/B (Stecker); xlrf:8 DMX Out 1–8",
-   "r": "powercon:2 Netz In/Thru"
+   "f": "lcd:1 OLED; knob:1 Encoder; btn:11 Buttons; xlr5:2 DMX In A/B (male); xlrf:8 DMX Out 1–8",
+   "r": "powercon:2 Power In/Thru"
   },
   "kg": 1.7,
   "art": "10 40 10"
@@ -2373,7 +2373,7 @@
   "url": "https://www.swisson.com/produkte/data-distribution/dmx-rdm-splitter/",
   "io": {
    "f": "xlr5:1 DMX In; xlrf:6 Thru, 5× Out; btn:2 Terminierung",
-   "r": "iec:1 Netz"
+   "r": "iec:1 Power"
   },
   "kg": 1.5,
   "art": "10 12 21",
@@ -2389,7 +2389,7 @@
   "url": "https://www.swisson.com/produkte/data-distribution/dmx-splitter-booster-xsp/",
   "io": {
    "f": "xlr5:2 DMX In; xlrf:12 2× Thru, 10× Out; btn:2 Terminierung",
-   "r": "iec:2 Netz"
+   "r": "iec:2 Power"
   },
   "kg": 1.8,
   "art": "10 11 82",
@@ -2407,8 +2407,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.novastar.tech/product/detail.html?catid=3&id=34",
   "io": {
-   "f": "lcd:1 Display; knob:1 Drehregler; btn:1 Tasten",
-   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:4 LED-Ausgänge; rj45:2 Steuerung; usba:1 USB 3.0; iec:1 Netz"
+   "f": "lcd:1 Display; knob:1 Rotary knob; btn:1 Buttons",
+   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:4 LED outputs; rj45:2 Control; usba:1 USB 3.0; iec:1 Power"
   }
  },
  "novastar_vx600p": {
@@ -2423,8 +2423,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.novastar.tech/product/detail.html?catid=3&id=34",
   "io": {
-   "f": "lcd:1 Display; knob:1 Drehregler; btn:1 Tasten",
-   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:6 LED-Ausgänge; rj45:2 Steuerung; usba:1 USB 3.0; iec:1 Netz"
+   "f": "lcd:1 Display; knob:1 Rotary knob; btn:1 Buttons",
+   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:6 LED outputs; rj45:2 Control; usba:1 USB 3.0; iec:1 Power"
   }
  },
  "novastar_vx1000p": {
@@ -2439,8 +2439,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.novastar.tech/product/detail.html?catid=3&id=34",
   "io": {
-   "f": "lcd:1 Display; knob:1 Drehregler; btn:1 Tasten",
-   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:10 LED-Ausgänge; rj45:2 Steuerung; usba:1 USB 3.0; iec:1 Netz"
+   "f": "lcd:1 Display; knob:1 Rotary knob; btn:1 Buttons",
+   "r": "hdmi:5 3× In, 2× Out/Loop; bnc:2 3G-SDI In/Loop; sfp:3 OPT; ethercon:10 LED outputs; rj45:2 Control; usba:1 USB 3.0; iec:1 Power"
   }
  },
  "novastar_vx2000p": {
@@ -2455,8 +2455,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.novastar.tech/product/detail.html?catid=3&id=34",
   "io": {
-   "f": "lcd:1 Display; knob:1 Drehregler; btn:1 Tasten",
-   "r": "bnc:2 12G-SDI In/Loop; hdmi:7 DP, 6× HDMI In, Monitor; sfp:6 OPT; ethercon:20 LED-Ausgänge; rj45:2 Steuerung; iec:1 Netz"
+   "f": "lcd:1 Display; knob:1 Rotary knob; btn:1 Buttons",
+   "r": "bnc:2 12G-SDI In/Loop; hdmi:7 DP, 6× HDMI In, Monitor; sfp:6 OPT; ethercon:20 LED outputs; rj45:2 Control; iec:1 Power"
   }
  },
  "novastar_uhdjr": {
@@ -2471,8 +2471,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen",
   "url": "https://www.novastar.tech/product/detail.html?catid=3&id=36",
   "io": {
-   "f": "lcd:1 Display; knob:1 Drehregler; btn:1 Tasten",
-   "r": "hdmi:6 4× DVI, DP, HDMI 2.0 In; bnc:4 12G-SDI In/Loop; ethercon:16 LED-Ausgänge; sfp:4 10G OPT; rj45:1 Steuerung; iec:1 Netz"
+   "f": "lcd:1 Display; knob:1 Rotary knob; btn:1 Buttons",
+   "r": "hdmi:6 4× DVI, DP, HDMI 2.0 In; bnc:4 12G-SDI In/Loop; ethercon:16 LED outputs; sfp:4 10G OPT; rj45:1 Control; iec:1 Power"
   }
  },
  "eurolite_sb1100b": {
@@ -2488,8 +2488,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.steinigke.de/mpn30248376-eurolite-sb-1100b-stromverteiler.html",
   "io": {
-   "f": "rcd:1 FI Typ B 40 A/30 mA 4-polig; brk:9 2× LS C16 3-polig, 3× LS C16 1-polig; cee16f:2 CEE 16 A Out",
-   "r": "schuko:6 Schutzkontakt mit Klappdeckel; cee32f:1 CEE 32 A Out (Durchgang); gland:1 Zuleitung CEE 32 A"
+   "f": "rcd:1 FI Typ B 40 A/30 mA 4-pin; brk:9 2× LS C16 3-pin, 3× LS C16 1-pin; cee16f:2 CEE 16 A Out",
+   "r": "schuko:6 Schuko with hinged lid; cee32f:1 CEE 32 A Out (through); gland:1 supply cable CEE 32 A"
   }
  },
  "eurolite_sb1200b": {
@@ -2505,8 +2505,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.steinigke.de/mpn30248381-eurolite-sb-1200b-stromverteiler.html",
   "io": {
-   "f": "rcd:1 FI Typ B 63 A/30 mA 4-polig; brk:12 2× LS C16 3-polig, 2× LS C32 3-polig; cee16f:2 CEE 16 A Out",
-   "r": "cee32f:2 CEE 32 A Out; gland:1 Zuleitung 1 m CEE 63 A"
+   "f": "rcd:1 FI Typ B 63 A/30 mA 4-pin; brk:12 2× LS C16 3-pin, 2× LS C32 3-pin; cee16f:2 CEE 16 A Out",
+   "r": "cee32f:2 CEE 32 A Out; gland:1 supply cable 1 m CEE 63 A"
   }
  },
  "eurolite_sbm32b": {
@@ -2522,8 +2522,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.steinigke.de/mpn30248401-eurolite-sbm-32b-stromverteiler.html",
   "io": {
-   "f": "lcd:1 LED-Anzeige V/A/Hz; rcd:1 FI Typ B 63 A/30 mA; brk:6 6× LS C16 1-polig",
-   "r": "schuko:6 Schutzkontakt mit Klappdeckel; cee32f:1 CEE 32 A Out; gland:1 Zuleitung CEE 32 A"
+   "f": "lcd:1 LED-Display V/A/Hz; rcd:1 FI Typ B 63 A/30 mA; brk:6 6× LS C16 1-pin",
+   "r": "schuko:6 Schuko with hinged lid; cee32f:1 CEE 32 A Out; gland:1 supply cable CEE 32 A"
   }
  },
  "eurolite_sb65": {
@@ -2539,8 +2539,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.steinigke.de/mpn30248305-eurolite-sb-65-19-stromverteiler.html",
   "io": {
-   "f": "schuko:6 Schutzkontakt mit Klappdeckel",
-   "r": "gland:1 Zuleitung CEE 16 A"
+   "f": "schuko:6 Schuko with hinged lid",
+   "r": "gland:1 supply cable CEE 16 A"
   }
  },
  "eurolite_r19_8": {
@@ -2556,8 +2556,8 @@
   "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
   "url": "https://www.steinigke.de/mpn30240215-eurolite-steckdosenleiste-r19-8-1he-sw-27m.html",
   "io": {
-   "f": "schuko:8 Schutzkontakt",
-   "r": "gland:1 Zuleitung 2,7 m Schuko"
+   "f": "schuko:8 Schuko",
+   "r": "gland:1 supply cable 2,7 m Schuko"
   }
  },
  "db_d80": {
@@ -2570,8 +2570,8 @@
   "kg": 19,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d80/",
   "io": {
-   "f": "lcd:1 3,5″-Touchscreen; knob:1 Encoder; btn:1 Netzschalter",
-   "r": "xlr:9 4× Analog In, 4× Link, AES3 In; nl4:4 Ausgänge A–D; nl8:1 4-Kanal-Ausgang; rj45:2 CAN; ethercon:2 Ethernet/OCA; powercon:1 powerCON HC"
+   "f": "lcd:1 3,5″-Touchscreen; knob:1 Encoder; btn:1 Power switch",
+   "r": "xlr:9 4× Analog In, 4× Link, AES3 In; nl4:4 Outputs A–D; nl8:1 4-channel-Output; rj45:2 CAN; ethercon:2 Ethernet/OCA; powercon:1 powerCON HC"
   }
  },
  "db_d40": {
@@ -2584,8 +2584,8 @@
   "kg": 13.8,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d40/",
   "io": {
-   "f": "lcd:1 4,35″-Touchscreen; knob:1 Encoder; btn:1 Netzschalter",
-   "r": "xlr:11 4× Analog In, 4× Link, 2× AES3 In, AES Link; ethercon:5 Milan/AVB-Switch; nl4:4 Ausgänge; nl8:1 4-Kanal-Ausgang; rj45:2 Ethernet; powercon:1 powerCON TRUE1 TOP"
+   "f": "lcd:1 4,35″-Touchscreen; knob:1 Encoder; btn:1 Power switch",
+   "r": "xlr:11 4× Analog In, 4× Link, 2× AES3 In, AES Link; ethercon:5 Milan/AVB-Switch; nl4:4 Outputs; nl8:1 4-channel-Output; rj45:2 Ethernet; powercon:1 powerCON TRUE1 TOP"
   }
  },
  "db_40d": {
@@ -2599,7 +2599,7 @@
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/40d/",
   "io": {
    "f": "lcd:1 4,3″-Touchscreen",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Ausgänge, GPIO, Fault; ethercon:5 Milan/AVB-Switch; rj45:2 Ethernet; powercon:1 powerCON TRUE1 TOP"
+   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; ethercon:5 Milan/AVB-Switch; rj45:2 Ethernet; powercon:1 powerCON TRUE1 TOP"
   }
  },
  "db_30d": {
@@ -2612,8 +2612,8 @@
   "kg": 10.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/30d/",
   "io": {
-   "f": "btn:1 Status-LEDs",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Ausgänge, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Netz"
+   "f": "btn:1 status LEDs",
+   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Power"
   },
   "note": "Heritage-Produkt"
  },
@@ -2627,8 +2627,8 @@
   "kg": 10.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/10d/",
   "io": {
-   "f": "btn:1 Status-LEDs",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Ausgänge, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Netz"
+   "f": "btn:1 status LEDs",
+   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Power"
   },
   "note": "Heritage-Produkt"
  },
@@ -2643,7 +2643,7 @@
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d20/",
   "io": {
    "f": "lcd:1 3,5″-Touchscreen; knob:1 Encoder",
-   "r": "xlr:11 4× Analog In, 4× Link, 2× AES3 In, AES Link; nl4:4 Ausgänge; nl8:1 4-Kanal-Ausgang; rj45:2 CAN; ethercon:2 Ethernet; powercon:1 Netz"
+   "r": "xlr:11 4× Analog In, 4× Link, 2× AES3 In, AES Link; nl4:4 Outputs; nl8:1 4-channel-Output; rj45:2 CAN; ethercon:2 Ethernet; powercon:1 Power"
   },
   "note": "Heritage-Produkt"
  },
@@ -2657,8 +2657,8 @@
   "kg": 4.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/5d/",
   "io": {
-   "f": "btn:1 Status-LEDs",
-   "r": "euroblock:6 Analog In/Link, GPI, Fault, 2× Ausgang; rj45:2 Dante, OCA; iec:1 Netz"
+   "f": "btn:1 status LEDs",
+   "r": "euroblock:6 Analog In/Link, GPI, Fault, 2× Output; rj45:2 Dante, OCA; iec:1 Power"
   }
  },
  "db_ds10": {
@@ -2672,7 +2672,7 @@
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds10/",
   "io": {
    "f": "btn:1 Bypass/Network",
-   "r": "xlrf:4 AES3 In; xlr:16 AES3 Out; ethercon:5 Netzwerk-Switch; powercon:1 Netz"
+   "r": "xlrf:4 AES3 In; xlr:16 AES3 Out; ethercon:5 network-Switch; powercon:1 Power"
   }
  },
  "db_ds20": {
@@ -2686,7 +2686,7 @@
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds20/",
   "io": {
    "f": "btn:1 Mode",
-   "r": "xlrf:2 AES3 In; xlr:8 AES3 Out; ethercon:5 AVB-Switch; powercon:1 Netz"
+   "r": "xlrf:2 AES3 In; xlr:8 AES3 Out; ethercon:5 AVB-Switch; powercon:1 Power"
   }
  },
  "db_ds100": {
@@ -2699,8 +2699,8 @@
   "kg": 11.2,
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100/",
   "io": {
-   "f": "btn:1 Netztaster",
-   "r": "rj45:3 LAN, Dante primär/sekundär; iec:1 Netz"
+   "f": "btn:1 Power button",
+   "r": "rj45:3 LAN, Dante primary/secondary; iec:1 Power"
   },
   "note": "Nachfolger DS110"
  },
@@ -2714,8 +2714,8 @@
   "kg": 11,
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100m/",
   "io": {
-   "f": "btn:1 Netztaster",
-   "r": "rj45:3 LAN, Milan primär/sekundär; usba:2 USB; iec:1 Netz"
+   "f": "btn:1 Power button",
+   "r": "rj45:3 LAN, Milan primary/secondary; usba:2 USB; iec:1 Power"
   }
  },
  "la_la12x": {
@@ -2728,7 +2728,7 @@
   "url": "https://www.l-acoustics.com/products/la12x/",
   "io": {
    "f": "lcd:1 Display; knob:1 Encoder",
-   "r": "xlr:8 4× Analog In, 4× AES/EBU; ethercon:2 Milan-AVB; nl4:4 Ausgänge; nl8:1 Ausgang; powercon:1 Netz 32 A"
+   "r": "xlr:8 4× Analog In, 4× AES/EBU; ethercon:2 Milan-AVB; nl4:4 Outputs; nl8:1 Output; powercon:1 Power 32 A"
   },
   "chk": 1,
   "ph": 1,
@@ -2744,7 +2744,7 @@
   "url": "https://www.l-acoustics.com/products/la7-16/",
   "io": {
    "f": "lcd:1 Display; knob:1 Encoder",
-   "r": "xlr:4 Analog/AES In; ethercon:2 Milan-AVB; nl8:4 Ausgänge (16 Kanäle); powercon:1 Netz"
+   "r": "xlr:4 Analog/AES In; ethercon:2 Milan-AVB; nl8:4 Outputs (16 channels); powercon:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2760,7 +2760,7 @@
   "url": "https://www.l-acoustics.com/products/la7-16i/",
   "io": {
    "f": "lcd:1 Display",
-   "r": "euroblock:20 Analog/AES In, 16 Ausgänge; rj45:2 Milan-AVB/AES67; iec:1 Netz"
+   "r": "euroblock:20 Analog/AES In, 16 Outputs; rj45:2 Milan-AVB/AES67; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2776,7 +2776,7 @@
   "url": "https://www.l-acoustics.com/products/la4x/",
   "io": {
    "f": "lcd:1 Display; knob:1 Encoder",
-   "r": "xlr:8 4× Analog In, AES/EBU; ethercon:2 Milan-AVB; nl4:4 Ausgänge; powercon:1 Netz"
+   "r": "xlr:8 4× Analog In, AES/EBU; ethercon:2 Milan-AVB; nl4:4 Outputs; powercon:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2791,8 +2791,8 @@
   "d": 400,
   "url": "https://www.l-acoustics.com/products/la2xi/",
   "io": {
-   "f": "lcd:1 Status-LEDs",
-   "r": "euroblock:8 Analog/AES In, 4 Ausgänge; rj45:2 Milan-AVB/AES67; iec:1 Netz"
+   "f": "lcd:1 status LEDs",
+   "r": "euroblock:8 Analog/AES In, 4 Outputs; rj45:2 Milan-AVB/AES67; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2807,8 +2807,8 @@
   "d": 300,
   "url": "https://www.l-acoustics.com/products/p1/",
   "io": {
-   "f": "lcd:1 Display; jack:1 Kopfhörer",
-   "r": "xlr:12 4× Line, 4× AES, 4× Mic/Line; ethercon:2 Milan-AVB; iec:1 Netz"
+   "f": "lcd:1 Display; jack:1 Headphones",
+   "r": "xlr:12 4× Line, 4× AES, 4× Mic/Line; ethercon:2 Milan-AVB; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2824,8 +2824,8 @@
   "kg": 24,
   "url": "https://www.powersoft.com/en/products/touring-amps/x-series/x8",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:12 8× Analog In, 4× AES3; rj45:2 Ethernet/Dante; nl8:2 Ausgänge; powercon:1 Netz 32 A"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:12 8× Analog In, 4× AES3; rj45:2 Ethernet/Dante; nl8:2 Outputs; powercon:1 Power 32 A"
   }
  },
  "ps_x4": {
@@ -2837,8 +2837,8 @@
   "d": 450,
   "url": "https://www.powersoft.com/en/products/touring-amps/x-series/x4",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 4× Analog In, 2× AES3; rj45:2 Ethernet/Dante; nl4:2 Ausgänge; powercon:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 4× Analog In, 2× AES3; rj45:2 Ethernet/Dante; nl4:2 Outputs; powercon:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2853,8 +2853,8 @@
   "d": 450,
   "url": "https://www.powersoft.com/en/products/touring-amps/x-series/x4l",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 4× Analog In, 2× AES3; rj45:2 Ethernet/Dante; nl4:2 Ausgänge; powercon:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 4× Analog In, 2× AES3; rj45:2 Ethernet/Dante; nl4:2 Outputs; powercon:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -2870,8 +2870,8 @@
   "kg": 6.7,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t302",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2886,8 +2886,8 @@
   "kg": 7.5,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t602",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2902,8 +2902,8 @@
   "kg": 7.8,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t902",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 2× Analog In, 2× Link, AES3 In/Link; nl4:2 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2918,8 +2918,8 @@
   "kg": 7.1,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t304",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2934,8 +2934,8 @@
   "kg": 7.5,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t604",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2950,8 +2950,8 @@
   "kg": 7.8,
   "url": "https://www.powersoft.com/en/products/touring-amps/t-series/t904",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Ausgänge; rj45:2 Ethernet/Dante; iec:1 Netz (IEC C20)"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:6 4× Analog In, AES3 In/Link; nl4:4 Outputs; rj45:2 Ethernet/Dante; iec:1 Power (IEC C20)"
   },
   "chk": 1,
   "note": "Gewicht laut Datenblatt-Tabelle, Zuordnung prüfen"
@@ -2967,7 +2967,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/quattrocanali-series/quattrocanali-1204-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -2984,7 +2984,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/quattrocanali-series/quattrocanali-2404-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3001,7 +3001,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/quattrocanali-series/quattrocanali-4804-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3018,7 +3018,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/quattrocanali-series/quattrocanali-8804-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:10 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3035,7 +3035,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/duecanali-series/duecanali-804-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3052,7 +3052,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/duecanali-series/duecanali-1604-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3069,7 +3069,7 @@
   "url": "https://www.powersoft.com/en/products/install-amps/duecanali-series/duecanali-4804-dsp",
   "io": {
    "f": "lcd:1 LCD",
-   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Netz (IEC C19)"
+   "r": "euroblock:6 Analog In/Out, Aux, GPIO; rj45:2 Ethernet; iec:1 Power (IEC C19)"
   },
   "chk": 1,
   "ph": 1,
@@ -3084,8 +3084,8 @@
   "d": 200,
   "url": "https://www.dbtechnologies.com/en/products/controllers/control-8",
   "io": {
-   "f": "lcd:1 Status-LEDs",
-   "r": "rj45:9 8× RDNet-Port (oder XLR), Ethernet; usb:1 USB; iec:1 Netz"
+   "f": "lcd:1 status LEDs",
+   "r": "rj45:9 8× RDNet-Port (or XLR), Ethernet; usb:1 USB; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -3100,8 +3100,8 @@
   "d": 250,
   "url": "https://www.dbtechnologies.com/en/products/controllers/ac26n",
   "io": {
-   "f": "lcd:1 Display; btn:1 Tasten",
-   "r": "xlr:12 2× Analog In, 6× Analog Out, 2× AES In, 2× AES Out; rj45:1 RDNet; iec:1 Netz"
+   "f": "lcd:1 Display; btn:1 Buttons",
+   "r": "xlr:12 2× Analog In, 6× Analog Out, 2× AES In, 2× AES Out; rj45:1 RDNet; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -3116,8 +3116,8 @@
   "d": 380,
   "url": "https://www.dbtechnologies.com/en/products/ia-amplifiers/ia3204-r",
   "io": {
-   "f": "lcd:1 Status-LEDs",
-   "r": "euroblock:8 4× In, 4× Out; rj45:1 RDNet; iec:1 Netz"
+   "f": "lcd:1 status LEDs",
+   "r": "euroblock:8 4× In, 4× Out; rj45:1 RDNet; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,
@@ -3132,8 +3132,8 @@
   "d": 380,
   "url": "https://www.dbtechnologies.com/en/products/ia-amplifiers/ia3204-d",
   "io": {
-   "f": "lcd:1 Status-LEDs",
-   "r": "euroblock:8 4× In, 4× Out; rj45:2 Dante; iec:1 Netz"
+   "f": "lcd:1 status LEDs",
+   "r": "euroblock:8 4× In, 4× Out; rj45:2 Dante; iec:1 Power"
   },
   "chk": 1,
   "ph": 1,

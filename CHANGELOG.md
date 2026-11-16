@@ -1,163 +1,164 @@
 # Changelog
 
-## 2026-11-16 – Stand 20 · Ansichten prüfen
+## 2026-11-16 – Version 21 · English and German, connector labels
 
-- **Prüfansicht mit Editor:** Gerät wählen, Herstellerbild (lokal, wird nicht hochgeladen) halbtransparent unterlegen und ausrichten, Elemente per Ziehen, Pfeiltasten oder Eingabe korrigieren, neue Elemente setzen. Freigabe je Vorderseite, Rückseite und Gerätedaten. Entwürfe bleiben im Browser; „Alle Entwürfe speichern“ liefert eine Prüfdatei für `node scripts/daten.mjs import --pruefung`.
-- Einstieg über Projekte → „Geräteansichten prüfen“, die Geräte-Infobox oder `#pruefen=<gerät>`; Geräteliste mit ✓ geprüft / ◐ Ansicht / ○ Platzhalter.
-- Ansichten aus `data/ansichten.json` haben Vorrang vor den Ansichten im Code und lassen sich damit für alle Geräte korrigieren.
-- `data/gewichte-katalog.csv` im Repository (alle 360 Artikel mit Gewichts-Schlüssel), neu erzeugen mit `node scripts/gewichte-katalog.mjs`.
-- KI-Regeln: Erfassen (KI) und Freigeben (Mensch) getrennt; erste KI-Ansicht ATEM 4 M/E Constellation 4K Plus (ungeprüft).
+- **Bilingual UI:** language switch DE/EN in the header (default from the browser language, saved per browser). In English mode a dictionary translates every rendered text, attributes, PDF and PNG exports; numbers and prices use the English format.
+- **Connector function labels:** every connector in the scale views has an English label (field `l`, e.g. "SDI In 1", "Headphones", "Power In"), shown as a tooltip and editable in the review editor. 1,178 labels assigned automatically from the printed labels and the device data – to be reviewed.
+- **Connector descriptions (`io`) in English** for all 200 devices.
+- All scale views now live in `data/views.json` (authoritative over the views in the code).
+- **Project language English:** documentation, file names, script names and messages. Renamed: `scripts/data.mjs` (was `daten.mjs`, options `--weights`, `--review`), `scripts/manufacturers.mjs`, `scripts/weight-catalog.mjs`, `data/devices.json`, `weights.json`, `views.json`, `devices.csv`, `weight-catalog.csv`, `docs/TASKS.md`, `adding-items.md`, `data-sources.md`, `manufacturers.md`, `ai-workflow.md`; data block markers `DATA:…`.
+- New: `scripts/i18n-extract.mjs`, dictionary in `data/i18n/`.
 
-## 2026-11-16 – Stand 19 · Platzhalter, Gewichte, neue Hersteller
+## 2026-11-16 – Version 20 · Review views
 
-- **Platzhalter-Ansicht:** Geräte ohne maßstäbliche Ansicht erscheinen wie „Eigene Elemente“ – Name, Hersteller, Höhe bzw. Größe und Tiefe aus der Datenbank, gestrichelt umrandet, Kennzeichen „PLATZHALTER“. Die schematische Anschlussdarstellung entfällt.
-- **Swisson maßstäblich** nach Datenblatt-Zeichnungen und Herstellerfotos: XND-8R5, XND-4R5, XPD-28-5R, XES-8G, XES-2T6, XSP-5R, XSR-5R, XSP-5R-5R (vorn und hinten), Tiefen und Gewichte belegt.
-- **MA-Rackkit:** je Node „Anschlüsse nach vorn“ mit Frontblende MA 130285 (2Port) bzw. 130282 (4Port) und Adapterkabelsatz; freie Hälfte mit Leerblende 130281 in der Stückliste.
-- **Neue Hersteller:** d&b audiotechnik (D80, D40, D20, 40D, 30D, 10D, 5D, DS10, DS20, DS100, DS100M mit Maßen und Gewicht), L-Acoustics (LA12X, LA7.16, LA7.16i, LA4X, LA2Xi, P1), Powersoft (X8, X4, X4L, T-Serie, Quattrocanali, Duecanali), dBTechnologies (Control 8, AC26N, IA3204). Datenbank jetzt 200 Geräte.
-- **Gewicht:** Feld `kg` für Geräte, Gewichtstabelle für alle anderen Artikel. Gesamtgewicht in Stückliste, Fertigung, Übersicht und PDF, mit Anzahl der Positionen ohne Gewicht. „Gewichte-Liste (CSV)“ in der Fertigung; Gewicht bei eigenen Elementen eintragbar.
-- **Produktdaten als JSON** (`data/`), gepflegt mit `node scripts/daten.mjs` (export, import mit Prüfung, CSV, Gewichte-Liste). Anleitung für ChatGPT/Codex: `AGENTS.md`, `docs/ki-workflow.md`.
+- **Review editor:** choose a device, overlay a manufacturer image (local, not uploaded) semi-transparently and align it, correct elements by dragging, arrow keys or input, add new elements. Approval per front, rear and device data. Drafts stay in the browser; "Save all drafts" produces a review file for `node scripts/data.mjs import --review`.
+- Entry via Projects → "Review device views", the device info box or `#pruefen=<device>`; device list with ✓ approved / ◐ view / ○ placeholder.
+- Views from the JSON file take precedence over the views in the code.
+- Weight catalog CSV in the repository (all 360 items with weight key).
+- AI rules: capturing (AI) and approving (human) separated; first AI view ATEM 4 M/E Constellation 4K Plus (unchecked).
 
-## 2026-11-16 – Stand 18 · Mehrere Projekte
+## 2026-11-16 – Version 19 · Placeholders, weights, new manufacturers
 
-- **Fenster „Projekte“** (Knopf in der Kopfzeile und „Alle Projekte“ in Stufe 1): alle Cases mit Name, Kunde, Case, HE, Anzahl Elemente und Änderungsdatum; Neu, Öffnen, Duplizieren, Löschen (mit Rückfrage), Suche.
-- Projekte liegen in der Browser-Datenbank (IndexedDB) und werden automatisch gespeichert. „Neues Projekt“ und „Beispiel laden“ legen ein neues Projekt an, statt das offene zu überschreiben.
-- **Projektordner** (Chrome/Edge): Ordner wählen, z. B. in Nextcloud – jedes Projekt als eigene .json-Datei, automatisch geschrieben; neuere Fassungen aus dem Ordner (anderer Rechner) werden übernommen. Nach dem Neuladen einmal „Wieder verbinden“.
-- **Alle Projekte sichern** als Paketdatei; Projektdateien und Pakete lassen sich importieren. Alte Projektdateien ohne ID werden zu neuen Projekten.
-- Datenschutzerklärung um IndexedDB und Projektordner ergänzt.
-- **Kopfzeile = Projektverwaltung:** Die Summenleiste oben entfällt (HE-Belegung/Kollisionen stehen in Stufe 2, die Summe in Stufe 3). Stattdessen: Projekt wechseln, Neues Projekt, Alle Projekte, Ordnerstatus (verbinden/wieder verbinden mit einem Klick).
+- **Placeholder view:** devices without a scale view look like "custom elements" – name, manufacturer, height or size and depth from the database, dashed outline, "PLACEHOLDER" mark. The schematic connector rendering was removed.
+- **Swisson to scale** from datasheet drawings and manufacturer photos: XND-8R5, XND-4R5, XPD-28-5R, XES-8G, XES-2T6, XSP-5R, XSR-5R, XSP-5R-5R (front and rear), depths and weights confirmed.
+- **MA rack kit:** per node "connectors to the front" with front panel MA 130285 (2Port) or 130282 (4Port) and adapter cable set; free half with blank panel 130281 in the BOM.
+- **New manufacturers:** d&b audiotechnik (D80, D40, D20, 40D, 30D, 10D, 5D, DS10, DS20, DS100, DS100M with dimensions and weight), L-Acoustics (LA12X, LA7.16, LA7.16i, LA4X, LA2Xi, P1), Powersoft (X8, X4, X4L, T series, Quattrocanali, Duecanali), dBTechnologies (Control 8, AC26N, IA3204). Database now 200 devices.
+- **Weight:** field `kg` for devices, weight table for all other items. Total weight in BOM, build notes, overview and PDF, with the number of items without weight. "Weight list (CSV)" in the build notes; weight can be entered for custom elements.
+- **Product data as JSON** (`data/`) with a data script (export, validated import, CSV, weight list). Guide for ChatGPT/Codex: `AGENTS.md`.
 
-## 2026-11-16 – Stand 17 · Bedienung, kurze Schubladen
+## 2026-11-16 – Version 18 · Multiple projects
 
-- Liste „Im Rack“: × zum Entfernen; Vorder-/Rückseite nur noch für Screenreader (aria-label).
-- Geräte-Popup kompakter, Suche bleibt oben; Platzhalter und „Eigenes Gerät“ unter „Eigene Elemente“.
-- Stecker im Steckerfeld per Ziehen tauschen (Ansicht und Lochliste).
-- Seetronic SAC3FPX20 nur von vorn einbaubar.
-- Rackwanne kürzbar (Checkbox + neue Tiefe), Fertigungshinweis mit Winkelschleifer.
-- Geräte kommen mit Preis in die Bestellung; „vorhanden“ je Gerät umschaltbar, eigene Preise werden in der Projektdatei gespeichert.
-- **Herstellerlisten:** 19″-Sortiment von Blackmagic, Ubiquiti, Shure, Behringer, Midas, MA Lighting, Swisson, NovaStar und Eurolite in `docs/hersteller-19zoll.md`; 97 fehlende Geräte als Platzhalter in der Datenbank (schematisch, im Popup als „Platzhalter“ markiert). Gerätedatenbank jetzt 163 Geräte.
-- Fix: Geräte aus der Datenbank behalten beim Einsetzen ihren Namen (statt „Gerät 1 HE“).
-- Swisson XND-8 und XSP-5R: Tiefe nach Datenblatt (136 / 112 mm).
-- **Kurze Schubladen:** Adam Hall 87402 S (210 mm), Thon Rack Drawer 2U Short (210 mm), Flyht Pro 2U/3U 28 cm; Modell im Inspektor umschaltbar.
+- **"Projects" window** (header button and "All projects" in step 1): all cases with name, client, case, U, number of elements and date changed; new, open, duplicate, delete (with confirmation), search.
+- Projects are stored in the browser database (IndexedDB) and saved automatically. "New project" and "Load example" create a new project instead of overwriting the open one.
+- **Project folder** (Chrome/Edge): choose a folder, e.g. in Nextcloud – each project as its own .json file, written automatically; newer versions from the folder (other computer) are imported. After reloading, "Reconnect" once.
+- **Back up all projects** as a package file; project files and packages can be imported. Old project files without an ID become new projects.
+- Privacy policy extended with IndexedDB and project folder.
+- **Header = project management:** the summary bar was removed (U usage/collisions are in step 2, the total in step 3). Instead: switch project, new project, all projects, folder status.
 
-## 2026-11-16 – Stand 16 · 54 von 66 Geräten maßstäblich
+## 2026-11-16 – Version 17 · Usability, short drawers
 
-- Maßstäblich nach Maßzeichnung/Herstellerfoto: Teranex-Mini-Rückseiten, Streaming Encoder HD/4K und Decoder 4K, Videohub 20x20 12G, CleanSwitch 12x12, Audio Monitor 12G G3, ATEM Constellation 1/2/4 M/E (HD und 4K), HyperDeck Studio (4 Modelle), UniFi Pro Max 24 PoE und Cloud Gateway Max, Shure ULXD4/4D/4Q, QLXD4, AD4D/AD4Q, P9T, P10T (hinten), UA845UWB, PA821B, Behringer WING RACK, Midas DL32/DL16/DN4816, NovaStar MX20.
-- Datenkorrekturen: WING RACK 4 HE, DL16 2 HE, ATEM Television Studio HD8/ISO/4K8 sind Tischpulte, ATEM Microphone Converter ist eine Box (200 × 125 × 41 mm), UCG Max 142 × 30 × 128 mm.
-- Aufgabenliste `docs/AUFGABEN.md`.
+- "In the rack" list: × to remove; front/rear only for screen readers (aria-label).
+- More compact device popup, search stays on top; placeholders and "custom device" under "Custom elements".
+- Swap connectors in a connector panel by dragging (view and hole list).
+- Seetronic SAC3FPX20 front mounting only.
+- Rack shelf can be shortened (checkbox + new depth), build note with angle grinder.
+- Devices go into the order with price; "owned" switchable per device, own prices are saved in the project file.
+- **Manufacturer lists:** 19″ range of Blackmagic, Ubiquiti, Shure, Behringer, Midas, MA Lighting, Swisson, NovaStar and Eurolite; 97 missing devices as placeholders. Device database 163 devices.
+- Fix: devices from the database keep their name when inserted.
+- Swisson XND-8 and XSP-5R: depth per datasheet (136 / 112 mm).
+- **Short drawers:** Adam Hall 87402 S (210 mm), Thon Rack Drawer 2U Short (210 mm), Flyht Pro 2U/3U 28 cm; model switchable in the inspector.
 
-## 2026-11-16 – Stand 15
+## 2026-11-16 – Version 16 · 54 of 66 devices to scale
 
-- **Blende vor Rackwanne:** Gitter- und Rackblenden dürfen auf derselben HE wie eine Rackwanne liegen (einzige erlaubte Überlappung). Die Blende liegt davor, Geräte in der Wanne bleiben sichtbar, auswählbar und verschiebbar; die Blende wird an den Rackohren angefasst. Die frühere Option „Rackwanne dahinter verschrauben“ entfällt; gespeicherte Projekte werden automatisch umgewandelt.
-- Export: keine gelbe Hervorhebung mehr an Gitterblenden.
-- Maßstäblich: Shure ULXD4D (vorn/hinten), Behringer WING RACK (vorn/hinten, 4 HE, 326 mm).
-- Guideline für neue Artikel: `docs/neue-artikel.md`.
+- To scale from dimensional drawings/manufacturer photos: Teranex Mini rears, Streaming Encoder HD/4K and Decoder 4K, Videohub 20x20 12G, CleanSwitch 12x12, Audio Monitor 12G G3, ATEM Constellation 1/2/4 M/E (HD and 4K), HyperDeck Studio (4 models), UniFi Pro Max 24 PoE and Cloud Gateway Max, Shure ULXD4/4D/4Q, QLXD4, AD4D/AD4Q, P9T, P10T (rear), UA845UWB, PA821B, Behringer WING RACK, Midas DL32/DL16/DN4816, NovaStar MX20.
+- Data corrections: WING RACK 4 U, DL16 2 U, ATEM Television Studio HD8/ISO/4K8 are desk consoles, ATEM Microphone Converter is a box (200 × 125 × 41 mm), UCG Max 142 × 30 × 128 mm.
+- Task list.
 
-## 2026-11-15 – Stand 14 · Maßstäbliche Geräte
+## 2026-11-16 – Version 15
 
-- Maßstäbliche Ansichten nach Herstellerzeichnung/-foto: **Teranex Mini** (Front aller Modelle, Rückseite SDI to HDMI), **UniFi USW-24-PoE** (vorn/hinten), **ATEM 2 M/E Constellation HD** (vorn/hinten), **grandMA3 2Port/4Port/8Port Node** (vorn).
-- Neu im Katalog: **grandMA3 Nodes** (2Port, 4Port, 4Port PoE, 8Port, 8Port PoE, onPC 8Port Node 4k) und **ATEM Constellation** (1/2/4 M/E HD, 1/2/4 M/E 4K, 4 M/E 4K Plus).
-- **MA-Rackkit** (130283) für zwei Nodes halber Breite; Shure- und MA-Geräte werden nicht gemischt.
-- BMD-Raster kennt 2/3 Rackbreite (ATEM 1 M/E Constellation).
-- Inspektor nennt, welche Seite maßstäblich ist.
+- **Panel in front of a rack shelf:** vent and blank panels may share the U with a rack shelf (the only allowed overlap). The panel sits in front, devices in the shelf stay visible, selectable and movable; the panel is grabbed by its rack ears. The former option "rack shelf screwed behind" was removed; saved projects are converted automatically.
+- Export: no more yellow highlight on vent panels.
+- To scale: Shure ULXD4D (front/rear), Behringer WING RACK (front/rear, 4 U, 326 mm).
+- Guide for adding items.
 
-## 2026-11-15 – Stand 13 · Gerätedarstellung
+## 2026-11-15 – Version 14 · Devices to scale
 
-- Rackwannen ohne perspektivische Linien; leere Bereiche schwarz.
-- Neue Gerätedarstellung: Hersteller und Modell, Displays, Tasten, Regler, Anschlüsse in beschrifteten Gruppen (z. B. „RJ45 24“, „SDI 9“), viele Ports zweireihig, Netz hinten rechts, Status-LED.
-- **Maßstäbliche Fronten** (Positionen in mm nach Herstellerfoto/Datenblatt), zuerst **Eurolite SB-1100**: vorn Phasenlampen, FI 40 A, 2 × LS C16 3-polig, 3 × LS C16 1-polig, 2 × CEE-16-Kupplung; hinten 6 × Schuko mit Klappdeckel, CEE-32-Kupplung, Zuleitung. Daten korrigiert (295 mm tief, abgekündigt, Nachfolger SB-1100B).
-- CEE-Stecker und -Kupplungen 16/32 A, LS- und FI-Schalter als Symbole.
-- Inspektor zeigt, ob ein Gerät maßstäblich oder schematisch dargestellt ist.
+- Scale views from manufacturer drawings/photos: **Teranex Mini** (front of all models, rear of SDI to HDMI), **UniFi USW-24-PoE** (front/rear), **ATEM 2 M/E Constellation HD** (front/rear), **grandMA3 2Port/4Port/8Port Node** (front).
+- New in the catalog: **grandMA3 nodes** (2Port, 4Port, 4Port PoE, 8Port, 8Port PoE, onPC 8Port Node 4k) and **ATEM Constellation** (1/2/4 M/E HD, 1/2/4 M/E 4K, 4 M/E 4K Plus).
+- **MA rack kit** (130283) for two half-width nodes; Shure and MA devices are not mixed.
+- The BMD grid knows 2/3 rack width (ATEM 1 M/E Constellation).
+- The inspector shows which side is to scale.
 
-## 2026-11-15 – Stand 12
+## 2026-11-15 – Version 13 · Device rendering
 
-- Popup „Module“ gegliedert: Steckerfelder, Blenden, Rackwannen, Schubladen, Sonstiges (Bürstenblende). Reiter „Zubehör“ entfällt, lose Teile gibt es in Stufe 3.
-- Popup „Geräte“ gegliedert: 19″-Rackgeräte, halbe Rackbreite (Shure-Rackkit), Blackmagic 1/3 und 1/2, nicht 19″ (Rackwanne).
-- Jede Rackwanne nimmt Geräte auf (Adam Hall 87551/87552, Thon, BMD); die BMD-Wanne hat feste Verschraubungspunkte. Leere Bereiche bleiben schwarz, Wanne perspektivisch.
-- Shure-Rackkit: zwei Geräte halber Breite (ULXD4, QLXD4, SLXD4, PSM900 P9T) mittig nebeneinander, optional Antennen nach vorn mit BNC an den Seitenteilen.
-- **+** auch waagerecht in Rackwannen: freie Plätze zeigen beim Überfahren ein Plus, das Popup listet nur die Geräte, die genau dort passen.
-- Alte Rackwannen in gespeicherten Projekten werden zu Wannen mit Geräten.
+- Rack shelves without perspective lines; empty areas black.
+- New device rendering: manufacturer and model, displays, buttons, knobs, connectors in labelled groups, power at the rear right, status LED.
+- **Scale fronts** (positions in mm from manufacturer photo/datasheet), first the **Eurolite SB-1100**: front phase lamps, RCD 40 A, 2 × MCB C16 3-pole, 3 × MCB C16 1-pole, 2 × CEE 16 coupler; rear 6 × Schuko with hinged lid, CEE 32 coupler, supply cable. Data corrected (295 mm deep, discontinued, successor SB-1100B).
+- CEE plugs and couplers 16/32 A, MCB and RCD as symbols.
+- The inspector shows whether a device is drawn to scale or schematically.
 
-## 2026-11-15 – Stand 11
+## 2026-11-15 – Version 12
 
-- Neue Stecker: powerCON In blau / Out weiß (D-Format), opticalCON DUO, SDI (BNC 75 Ω isoliert), Cinch/RCA (D-Format), Klinke 6,3 mm TRS/TS (D-Format).
-- Einsätze in **gebohrter Blindplatte**: Cinch (Ø 8 mm), Klinke (Ø 9,5 mm), SMA-Antenne (Ø 6,5 mm); Blindplatte kommt in die Stückliste, Bohrmaß in die Fertigung.
-- Geräte in BMD- und Thomann-Wanne per **Ziehen nach links/rechts** verschieben (BMD im Sechstel-Raster, Thomann millimeterweise bis ans Nachbargerät).
-- Popup-Überschrift nur noch „Steckerfelder“.
+- "Modules" popup structured: connector panels, panels, rack shelves, drawers, other (brush panel). The "Accessories" tab was removed; loose parts are in step 3.
+- "Devices" popup structured: 19″ rack devices, half rack width (Shure rack kit), Blackmagic 1/3 and 1/2, not 19″ (rack shelf).
+- Every rack shelf takes devices (Adam Hall 87551/87552, Thon, BMD); the BMD shelf has fixed mounting points.
+- Shure rack kit: two half-width devices (ULXD4, QLXD4, SLXD4, PSM900 P9T) side by side, optional antennas to the front with BNC on the side brackets.
+- **+** also horizontally in rack shelves: free spots show a plus on hover, the popup lists only devices that fit exactly there.
+- Old rack shelves in saved projects become shelves with devices.
 
-## 2026-11-15 – Stand 10 · Rack Manufaktur
+## 2026-11-15 – Version 11
 
-- Projekt heißt jetzt **Rack Manufaktur** (Titel, Kopf, PDF, Dateinamen, rechtliche Seiten).
-- **Gerätedatenbank** mit 50 Geräten: Bauform, Tiefe, Anschlüsse vorn/hinten, Links zu Hersteller und Thomann; Gerätefronten und -rückseiten mit Anschlüssen gezeichnet.
-- Neues Modul **Rackwanne mit Geräten**: Blackmagic Universal Rack Shelf (Raster 1/3 + 1/2, z. B. 3 × Teranex Mini) und Thon Rackwanne 1 HE (frei, bündig zur Vorderkante).
-- Popup „Geräte“ mit Suche; Stufe 3 mit Liste **Geräte & Anschlüsse**; Stückliste, Fertigung und Warnungen kennen die Wannen.
-- Beispiel nutzt ULXD4D, USW-24-PoE und eine BMD-Wanne mit drei Teranex Mini.
-- MIT-Lizenz.
+- New connectors: powerCON In blue / Out white (D size), opticalCON DUO, SDI (BNC 75 Ω insulated), RCA (D size), 6.3 mm jack TRS/TS (D size).
+- Inserts in a **drilled blank plate**: RCA (Ø 8 mm), jack (Ø 9.5 mm), SMA antenna (Ø 6.5 mm); the plate goes into the BOM, the hole size into the build notes.
+- Move devices in BMD and Thomann shelves by **dragging left/right** (BMD in the sixth grid, Thomann by millimetres up to the neighbouring device).
 
-## 2026-11-15 – Stand 9
+## 2026-11-15 – Version 10 · Rack Manufaktur
 
-- Beispiel passt ins Case: vorn 7 HE, hinten 1 HE (Steckerfeld B in HE 8), Name „Beispiel · Anschlussrack“ ohne Ortsbezug; Platzhalter „z. B. Anschlussrack 8 HE“.
-- Module der anderen Seite sind in Vorder- und Rückansicht nicht mehr auswählbar; in der Rückansicht ist die Vorderseite abgedunkelt.
-- Deckende Fläche hinter jedem Modul: nichts von der anderen Seite scheint mehr durch die Fugen (auch im PNG).
-- Rackwanne hinter Gitter-/Rackblende in der Vorderansicht perspektivisch (Boden als Trapez, Rückwand).
-- Setup-Skript prüft den Server direkt nach der Host-Eingabe.
+- The project is now called **Rack Manufaktur** (title, header, PDF, file names, legal pages).
+- **Device database** with 50 devices: form factor, depth, connectors front/rear, links to manufacturer and Thomann; device fronts and rears drawn with connectors.
+- New module **rack shelf with devices**: Blackmagic Universal Rack Shelf (grid 1/3 + 1/2, e.g. 3 × Teranex Mini) and Thon rack shelf 1 U (free, flush with the front edge).
+- "Devices" popup with search; step 3 with **Devices & connectors** list; BOM, build notes and warnings know the shelves.
+- MIT license.
 
-## 2026-11-15 – Stand 8 · Online stellen
+## 2026-11-15 – Version 9
 
-- Seite liegt jetzt in `public/`; nur dieser Ordner wird hochgeladen.
-- Schriften (Barlow Condensed, IBM Plex) und jsPDF lokal eingebunden – keine Verbindung zu Google Fonts oder cdnjs mehr.
-- **Impressum** (TD Media / Bachmann, Schmidt & Seerig GbR) und **Datenschutzerklärung** (Hoster STRATO), Fuß mit Hinweisen und Links in der App. Offene Platzhalter `⟦…⟧` blockieren den Upload.
-- `.htaccess` mit Sicherheits-Headern und Content-Security-Policy.
-- `scripts/deploy-setup.sh`: SFTP-Zugang im Terminal abfragen, nach `.env` schreiben, Host-Schlüssel prüfen, optional Upload bei `git push`.
-- `scripts/deploy.sh`: prüft Platzhalter und externe Quellen, lädt `public/` per SFTP hoch (Passwort oder SSH-Schlüssel).
+- The example fits the case (front 7 U, rear 1 U), named without a location.
+- Modules of the other side are no longer selectable in front and rear view; in the rear view the front side is dimmed.
+- Opaque area behind every module: nothing from the other side shows through the gaps (also in the PNG).
+- The setup script checks the server right after entering the host.
 
-## 2026-11-15 – Stand 7
+## 2026-11-15 – Version 8 · Going online
 
-- „Projektdatei laden“ in Stufe 1 (neben Beispiel und Neues Projekt sowie bei der Projektdatei).
-- Alle Löcher eines Steckerfelds frei belegbar, auch Loch 1 und 2; powerCON TRUE1 In/Out/D-Norm stehen in der Palette. Standard: hinten montierte Steckerfelder bekommen Loch 1/2 = TRUE1 In/Out, vorne montierte starten mit Blindplatten. Knopf „Loch 1/2 = TRUE1 In/Out“.
-- Lochbeschriftung abgeschaltet (müsste gelasert werden); Löcher sitzen mittig in der HE. Schalter `HOLE_LABELS` im Code.
-- Einbau der D-Einsätze je Loch **von hinten** (Standard) oder **von vorn**. Von hinten eingebaut zeigt die Vorderansicht nur Lochrand und Schrauben, die Rückansicht den Flansch; von vorn umgekehrt. Fertigungshinweis nennt die Einbaurichtung.
-- Steckertypen per **Drag & Drop** aus der Palette rechts auf ein Loch in der Ansicht oder auf eine Zeile der Lochliste ziehen.
-- **Projekt als PDF** (jsPDF): Deckblatt mit Vorder- und Rückansicht, Hinweise, Stückliste, Bestellung nach Lieferant, Fertigung, Seitenzahlen. Ersetzt „Drucken“.
-- **PNG-Export** der Vorder- und Rückansicht (Stufe 3) und der aktuellen Ansicht (Stufe 2).
+- The site now lives in `public/`; only this folder is uploaded.
+- Fonts (Barlow Condensed, IBM Plex) and jsPDF hosted locally – no connection to Google Fonts or cdnjs.
+- **Legal notice** and **privacy policy** (host STRATO), footer with notes and links. Open placeholders `⟦…⟧` block the upload.
+- `.htaccess` with security headers and content security policy.
+- `scripts/deploy-setup.sh`: asks for SFTP access in the terminal, writes `.env`, checks the host key, optional upload on `git push`.
+- `scripts/deploy.sh`: checks placeholders and external sources, uploads `public/` via SFTP (password or SSH key).
 
-## 2026-11-15 – Stand 6
+## 2026-11-15 – Version 7
 
-- Konfigurator in drei Stufen: **1 Projekt & Case**, **2 Konfigurator**, **3 Bestellen & Fertigen**.
-- Projektname, Kunde und Notiz; Projektname erscheint im Kopf, in Dateinamen und im Beschriftungs-PDF.
-- Case-Auswahl als Karten mit Filter (ProCase, Thomann, mit Schiene hinten). Neu: **ProCase QSD-Rack 2.0** (600 und 800 mm) und **Thon**-Serien von Thomann (Live 45 BK RR, Live 63 RR, Profi 48 RR, SD System Rack 600, Eco II 35, Live 40, Live 50) mit Art.-Nr. und Webpreis je Höhe.
-- Hinzufügen über ein **Popup** mit den Reitern Module, Zubehör, Geräte und Eigene Elemente. In Vorder- und Rückansicht erscheint beim Überfahren freier Plätze ein **+**, das das Popup genau an dieser Stelle öffnet.
-- Geräte-Vorlagen mit typischen Maßen; eigene Geräte als Platzhalter.
-- **Eigene Elemente** mit Art.-Nr., Preis und Lieferant; sie kommen in die Stückliste und lassen sich als „Meine Elemente“ im Browser merken.
-- Liste „Im Rack“ zum schnellen Auswählen.
-- Stufe 3: Übersicht mit Vorder- und Rückansicht (druckbar), Stückliste mit Spalte **Lieferant**, **Bestelllisten je Lieferant** zum Kopieren, Fertigung, lose Teile.
-- Schraubenvorschlag passend zur Schiene (RSS, Stahl/Käfigmutter, stufenlose Aluschiene); QSD bringt 24 Geräteschrauben mit.
-- Projektdatei als JSON speichern. Gespeicherte Stände v1–v4 werden übernommen.
+- "Load project file" in step 1.
+- All holes of a connector panel can be assigned freely; powerCON TRUE1 In/Out/D size in the palette. Default: rear-mounted panels get hole 1/2 = TRUE1 In/Out, front-mounted ones start with blank plates.
+- Hole labels switched off (would need laser engraving); switch `HOLE_LABELS` in the code.
+- D inserts mounted **from the rear** (default) or **from the front** per hole; the build notes name the mounting direction.
+- Connector types by **drag & drop** from the palette onto a hole in the view or a row of the hole list.
+- **Project as PDF** (jsPDF): cover with front and rear view, notes, BOM, orders by supplier, build notes, page numbers.
+- **PNG export** of the front and rear view.
 
-## 2026-11-15 – Stand 5
+## 2026-11-15 – Version 6
 
-- Live-Ansicht mit Umschalter Vorderansicht / Seitenansicht / Rückansicht.
-- Widget „Belegung“ entfällt: Module werden direkt in der Ansicht per Klicken und Ziehen verschoben (0,5-HE-Raster, Nachrutschen bei Überlappung).
-- Module sind der Vorder- oder Rückseite zuweisbar; freie Positionen statt lückenloser Liste. „Leer (Abstand)“ entfällt.
-- Seitenansicht erkennt Kollisionen zwischen vorn und hinten montierten Modulen.
-- Rackwanne als eigenes Modul.
-- Beschriftungsblende mit Teilungen, mehreren Zeilen, Raster vom Steckerfeld und PDF-Export.
-- Neue Steckerfelder: 872213 (12 D), 872225 (16 D + Zugentlastung), 872214 (2 HE, 24 D).
-- TRUE1-Out wahlweise ohne Bohren (Seetronic SAC3FPX20, D-Norm).
+- Configurator in three steps: **1 Project & case**, **2 Configurator**, **3 Order & build**.
+- Project name, client and note.
+- Case selection as cards with filter. New: **ProCase QSD-Rack 2.0** (600 and 800 mm) and **Thon** series from Thomann with part number and web price per height.
+- Add elements via a **popup**; hovering over free spots shows a **+** that opens the popup exactly there.
+- Device templates with typical dimensions; **custom elements** with part no., price and supplier, can be kept as "My elements".
+- Step 3: overview, BOM with **supplier** column, **order lists per supplier**, build notes, loose parts.
+- Screw suggestion matching the rail; QSD includes 24 device screws.
+- Save the project file as JSON. Saved states v1–v4 are migrated.
 
-## 2026-11-15 – Stand 4
+## 2026-11-15 – Version 5
 
-- Cases auf ProCase Pro Rackmodule (560 mm und 715 mm) umgestellt; „Anderes Case“ für eigene Bauformen. Alte gespeicherte Bauformen werden automatisch übernommen.
-- Rackschienen hinten (ProCase 11910) mit einstellbarer Lage; Geräte lassen sich hinten verschrauben.
-- Deckel vorne und hinten als Option für das 560-mm-Modul.
-- Stufenlose RSS-Schiene dargestellt; Schraubenvorschlag nutzt jetzt Geräteschrauben-Sätze, 4 liegen dem Modul bei.
-- Gitterblende 0,5 HE (Adam Hall 872205 VR) ergänzt.
-- „Frontansicht“ heißt jetzt „Live-Ansicht“; neue Rückansicht, seitenverkehrt, mit Steckerrückseiten und Abständen zur Rückwand.
-- Seitenansicht zeigt die hintere Schiene.
+- Live view with front / side / rear view switch.
+- Modules are moved directly in the view by click and drag (0.5 U grid, pushing down on overlap).
+- Modules can be assigned to the front or rear side.
+- The side view detects collisions between front and rear mounted modules.
+- Rack shelf as its own module; label panel with divisions, lines and PDF export.
+- New connector panels: 872213 (12 D), 872225 (16 D + strain relief), 872214 (2 U, 24 D).
+- TRUE1 Out optionally without drilling (Seetronic SAC3FPX20, D size).
 
-## Stand 3
+## 2026-11-15 – Version 4
 
-- Artikelnummern und Händlerpreise recherchiert; Thon-M3-Pack auf 48 Stk. korrigiert; Rackwannen 375 mm.
+- Cases switched to ProCase Pro rack modules (560 mm and 715 mm); "other case" for custom forms.
+- Rear rack rails (ProCase 11910) with adjustable position; devices can be fixed at the rear.
+- Front and rear lids as options for the 560 mm module.
+- Vent panel 0.5 U (Adam Hall 872205 VR).
+- New mirrored rear view with connector rears and distances to the rear wall.
 
-## Stand 1–2
+## Version 3
 
-- Erster Konfigurator: Steckerfelder mit festem powerCON TRUE1 In/Out, Bohrmarkierung Loch 2, Gitter-/Rackblenden mit Rackwanne, Schubladen, Geräte-Platzhalter, Stückliste, Fertigungshinweise, JSON-Export.
+- Part numbers and dealer prices researched; Thon M3 pack corrected to 48 pcs; rack shelves 375 mm.
+
+## Versions 1–2
+
+- First configurator: connector panels with fixed powerCON TRUE1 In/Out, drill mark on hole 2, vent/blank panels with rack shelf, drawers, device placeholders, BOM, build notes, JSON export.

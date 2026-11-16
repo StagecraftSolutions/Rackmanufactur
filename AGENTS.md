@@ -1,69 +1,74 @@
-# Hinweise für KI-Assistenten (ChatGPT/Codex, Claude)
+# Notes for AI assistants (ChatGPT/Codex, Claude)
 
-Rack Manufaktur ist ein 19″-Rack-Konfigurator als **eine Datei**: `public/index.html`. Die Produktdaten liegen zusätzlich als JSON in `data/` und werden mit einem Skript in die App übernommen.
+Rack Manufaktur is a 19″ rack configurator in **one file**: `public/index.html`. Product data also lives as JSON in `data/` and is written into the app by a script. Project language is English (the UI is bilingual, see below).
 
-## Woran du arbeiten darfst
+## What you may work on
 
-Nur an den Produktdaten, außer der Auftrag sagt ausdrücklich etwas anderes:
+Only the product data, unless the task explicitly says otherwise:
 
-| Datei | Inhalt |
+| File | Content |
 |---|---|
-| `data/geraete.json` | Gerätedatenbank (Schlüssel → Gerät) |
-| `data/gewichte.json` | Gewichte in kg für Artikel ohne eigenes Feld (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
-| `data/ansichten.json` | maßstäbliche Ansichten (Schlüssel = Geräteschlüssel) |
-| `data/geraete.csv` | dieselben Geräte als Tabelle (Semikolon, UTF-8) |
-| `data/gewichte-katalog.csv` | alle Artikel mit Gewichts-Schlüssel (`schluessel;name;art_nr;kg`), leere kg = fehlt |
+| `data/devices.json` | device database (key → device) |
+| `data/weights.json` | weights in kg for items without their own field (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
+| `data/views.json` | scale views (key = device key), incl. connector function labels `l` |
+| `data/devices.csv` | the same devices as a table (semicolon, UTF-8) |
+| `data/weight-catalog.csv` | all items with their weight key (`key;name;part_no;kg`), empty kg = missing |
+| `data/i18n/ui.json`, `data/i18n/catalog.json` | German → English dictionary (`{0}` placeholders must be kept) |
 
-`public/index.html` **nicht von Hand ändern**. Nach jeder Änderung an `data/`:
+**Never edit `public/index.html` by hand.** After every change in `data/`:
 
 ```bash
-node scripts/daten.mjs import      # prüft und schreibt in public/index.html
-node scripts/herstellerliste.mjs   # aktualisiert docs/hersteller-19zoll.md
+node scripts/data.mjs import          # validates and writes public/index.html
+node scripts/manufacturers.mjs        # updates docs/manufacturers.md
 ```
 
-Bricht `import` mit FEHLER ab, die Daten korrigieren – nichts erzwingen.
+If `import` stops with ERROR, fix the data – do not force anything.
 
-## Regeln
+## Rules
 
-**Erfassen und Freigeben sind getrennt.** Du erfasst: Werte recherchieren, Positionen aus Zeichnungen und Fotos messen und eintragen. Ein Mensch gibt frei – in der App unter „Ansicht prüfen“ (Herstellerbild unterlegen, korrigieren, Haken setzen). Trau dich also, gemessene Werte einzutragen; sie bleiben bis zur Freigabe als ungeprüft markiert.
+**Capturing and approving are separate.** You capture: research values, measure positions from drawings and photos, enter them. A human approves – in the app under "Review view" (overlay the manufacturer image, correct, tick). So do enter measured values; they stay marked as unchecked until approved.
 
-1. **Quellen.** Jede Zahl stammt von Herstellerseite, Datenblatt, Handbuch oder Händlerseite. Quelle in der Pull-Request-Beschreibung nennen (URL + Seite). Gemessene Positionen sind erlaubt; schreib dazu, woraus gemessen wurde.
-2. **Kennzeichnung.** `"chk": 1` bleibt stehen, bis ein Mensch freigibt – entferne `chk` nie selbst. Aus einer Herstellerliste übernommen, Maße offen → `"ph": 1`; sind Maße aus dem Datenblatt belegt, darfst du `ph` entfernen. Das Feld `ok` (Freigaben) nie setzen oder ändern.
-3. **Gewicht** in kg, Punkt als Dezimaltrenner (`"kg": 1.8`). Unbekannt → Feld weglassen, nicht 0.
-4. **Preise** in Euro inkl. MwSt.; Netto-Preise × 1,19. Unbekannt → weglassen.
-5. **Keine Bilder oder Logos** von Herstellern ins Repo legen. Ansichten werden aus Elementen nachgebaut (siehe unten).
-6. Kleine, thematisch geschlossene Änderungen; ein PR pro Aufgabe.
+1. **Sources.** Every number comes from a manufacturer page, datasheet, manual or dealer page. Name the source in the pull request description (URL + page). Measured positions are allowed; say what they were measured from.
+2. **Marking.** `"chk": 1` stays until a human approves – never remove `chk` yourself. Taken from a manufacturer list with open dimensions → `"ph": 1`; once dimensions are confirmed by a datasheet you may remove `ph`. Never set or change the field `ok` (approvals).
+3. **Weight** in kg with a decimal point (`"kg": 1.8`). Unknown → omit the field, never 0.
+4. **Prices** in EUR incl. VAT; net prices × 1.19. Unknown → omit.
+5. **Connector texts in English:** `io` descriptions and function labels `l` (e.g. "SDI In 1", "Headphones", "Power In").
+6. **No images or logos** from manufacturers in the repository. Views are rebuilt from elements (see below).
+7. Small, self-contained changes; one PR per task.
 
-## Gerät (`data/geraete.json`)
+## Device (`data/devices.json`)
 
 ```json
 "swisson_xnd8": { "n": "Swisson XND-8R5 Art-Net-Node 8-fach", "mk": "Swisson", "g": "Licht · Swisson",
   "fit": "rack", "he": 1, "d": 136, "kg": 1.8, "art": "10 48 31",
-  "url": "https://…", "io": { "f": "lcd:1 OLED; xlrf:8 DMX 1–8", "r": "powercon:2 Netz In/Thru" } }
+  "url": "https://…", "io": { "f": "lcd:1 OLED; xlrf:8 DMX 1–8", "r": "powercon:2 Power In/Thru" } }
 ```
 
-- `fit`: `rack` (eigene Rackohren, dann `he`), `bmd` (Blackmagic 1/3·1/2·2/3 Breite, dann `frac`), `half` (halbe Breite mit Rackkit, `frac: 0.5`, `w`, `h`), `free` (Kleingerät für Rackwanne, `w`, `h`), `desk` (Tischgerät, nur Info).
-- `d` = Einbautiefe in mm inkl. Griffe/Stecker, wenn angegeben.
-- `io`: `typ:anzahl Text; …` vorn (`f`) und hinten (`r`). Typen: `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan`.
+- `fit`: `rack` (own rack ears, then `he`), `bmd` (Blackmagic 1/3·1/2·2/3 width, then `frac`), `half` (half width with rack kit, `frac: 0.5`, `w`, `h`), `free` (small device for a rack shelf, `w`, `h`), `desk` (desktop, information only).
+- `d` = mounting depth in mm incl. handles/connectors if stated.
+- `n` and `g` are written in German (the dictionary translates them); `io` is English.
+- `io`: `type:count description; …` front (`f`) and rear (`r`). Types: `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan`.
 
-## Ansicht (`data/ansichten.json`)
+## View (`data/views.json`)
 
-Koordinaten in **mm**, Ursprung oben links.
+Coordinates in **mm**, origin top left.
 
-- Rackgerät vorn: Frontplatte 482,6 mm breit inkl. Rackohren, Höhe `he × 44,45`.
-- Rackgerät hinten: Gehäuse **von hinten gesehen**, Breite `hw` (meist 430–442 mm).
-- Gerät in Wanne/Kit: Bezugsmaß `w`/`h` angeben, Koordinaten relativ dazu.
+- Rack device front: front plate 482.6 mm wide incl. rack ears, height `he × 44.45`.
+- Rack device rear: housing **seen from behind**, width `hw` (usually 430–442 mm).
+- Device in a shelf/kit: give the reference size `w`/`h`, coordinates relative to it.
 
 ```json
 "swisson_xes8g": { "hw": 432,
-  "f": [ { "t": "ethercon", "x": 113.9, "y": 23.7, "s": 12.4 }, { "t": "txt", "x": 113.9, "y": 40.4, "v": "ethernet", "s": 1.5 } ],
-  "r": [ { "t": "powercon", "x": 16.5, "y": 22, "s": 13.6 } ] }
+  "f": [ { "t": "ethercon", "x": 113.9, "y": 23.7, "s": 12.4, "l": "Ethernet 1" }, { "t": "txt", "x": 113.9, "y": 40.4, "v": "ethernet", "s": 1.5 } ],
+  "r": [ { "t": "powercon", "x": 16.5, "y": 22, "s": 13.6, "l": "Backup In" } ] }
 ```
 
-Elemente: Anschlüsse (`t` = io-Typ, `s` = Größe: XLR/etherCON ≈ 12,4, BNC ≈ 11, powerCON ≈ 13,6, IEC ≈ 17), `txt` (`v`, `s`, `a`: start/middle/end, `c`: exorange/exthin/exred), `btn` (`w`, `h`, `v`), `enc` (`r`, `plain`), `rect` (`w`, `h`, `c`: ex-mod/ex-screen/exredline/pg-lcdl), `ledc` (`r`, `c`: exled-r), `lcdl`, `screen`, `cover`, `led`, `fan` (`r`).
+Elements: connectors (`t` = io type, `s` = size: XLR/etherCON ≈ 12.4, BNC ≈ 11, powerCON ≈ 13.6, IEC ≈ 17, `l` = function label in English), `txt` (`v`, `s`, `a`: start/middle/end, `c`: exorange/exthin/exred), `btn` (`w`, `h`, `v`), `enc` (`r`, `plain`), `rect` (`w`, `h`, `c`: ex-mod/ex-screen/exredline/pg-lcdl), `ledc` (`r`, `c`: exled-r), `lcdl`, `screen`, `cover`, `led`, `fan` (`r`).
 
-Vorgehen: Maßstab aus bekannter Breite (482,6 mm Frontplatte) bestimmen, jeden Mittelpunkt messen, Werte auf 0,1 mm runden. Quelle ist eine Maßzeichnung oder ein frontales Foto.
+Measuring: scale the image/PDF to the known width and convert pixels to mm – rather write a small script than guess positions. A missing position is better than a guessed one; state in the PR which values are estimated. Round to 0.1 mm.
 
-Messen: Bild/PDF auf die bekannte Breite skalieren und Pixel in mm umrechnen – lieber ein kleines Skript schreiben, als Positionen zu schätzen. Eine fehlende Position ist besser als eine geratene; gib in der PR an, welche Werte geschätzt sind.
+## Translations (`data/i18n/`)
 
-Weitere Details: `docs/neue-artikel.md`, Ablauf mit ChatGPT: `docs/ki-workflow.md`.
+Keys are the German UI texts, values the English translation. Keep placeholders `{0}`, `{1}` …; keep the tone short and neutral. New texts appear with an empty value after `node scripts/i18n-extract.mjs`.
+
+More details: [docs/adding-items.md](docs/adding-items.md), workflow with ChatGPT: [docs/ai-workflow.md](docs/ai-workflow.md).
