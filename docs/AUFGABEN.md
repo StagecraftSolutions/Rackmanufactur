@@ -28,6 +28,8 @@ Offen:
 ## 2. Veröffentlichen
 
 - [x] Committen, pushen, hochladen (Stand 16)
+- [x] Committen und pushen (Stand 17)
+- [ ] Stand 17 hochladen (Freigabe abwarten)
 
 ## 3. Bedienung
 
@@ -50,5 +52,7 @@ Offen:
 
 ## 6. Katalog erweitern
 
-- [ ] Je Hersteller (Blackmagic Design, Ubiquiti, Shure, Behringer, Midas, MA Lighting, Swisson, NovaStar, Eurolite) Liste der 19″-fähigen Geräte
-- [ ] Fehlende Geräte als schematische Einträge (Platzhalter) in `DEVDB` anlegen, mit `chk: 1`
+- [x] Je Hersteller Liste der 19″-fähigen Geräte: [hersteller-19zoll.md](hersteller-19zoll.md) (erzeugt mit `node scripts/herstellerliste.mjs`)
+- [x] 97 fehlende Geräte als Platzhalter in `DEVDB` (`ph: 1`, `chk: 1`), in der Liste mit „Platzhalter“ markiert
+- [ ] Platzhalter nach und nach prüfen: HE/Tiefe aus Datenblatt, dann `ph` entfernen; „HE prüfen“ zuerst (Videohub 80/120, Behringer S16/S32/SD, Midas DL15x/DL231/DL252, NovaStar VX)
+- [ ] Offene Kandidaten aus „Nicht aufgenommen“ (hersteller-nicht-aufgenommen.md) klären

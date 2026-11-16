@@ -8,6 +8,9 @@
 - Seetronic SAC3FPX20 nur von vorn einbaubar.
 - Rackwanne kürzbar (Checkbox + neue Tiefe), Fertigungshinweis mit Winkelschleifer.
 - Geräte kommen mit Preis in die Bestellung; „vorhanden“ je Gerät umschaltbar, eigene Preise werden in der Projektdatei gespeichert.
+- **Herstellerlisten:** 19″-Sortiment von Blackmagic, Ubiquiti, Shure, Behringer, Midas, MA Lighting, Swisson, NovaStar und Eurolite in `docs/hersteller-19zoll.md`; 97 fehlende Geräte als Platzhalter in der Datenbank (schematisch, im Popup als „Platzhalter“ markiert). Gerätedatenbank jetzt 163 Geräte.
+- Fix: Geräte aus der Datenbank behalten beim Einsetzen ihren Namen (statt „Gerät 1 HE“).
+- Swisson XND-8 und XSP-5R: Tiefe nach Datenblatt (136 / 112 mm).
 - **Kurze Schubladen:** Adam Hall 87402 S (210 mm), Thon Rack Drawer 2U Short (210 mm), Flyht Pro 2U/3U 28 cm; Modell im Inspektor umschaltbar.
 
 ## 2026-11-16 – Stand 16 · 54 von 66 Geräten maßstäblich

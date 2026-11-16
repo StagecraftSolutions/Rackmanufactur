@@ -119,6 +119,8 @@ Nicht aufgenommen: Flyht Pro Rack Drawer 2U 9,5″ (keine 19″-Breite); Gator G
 
 ## Geräte (Gerätedatenbank, Stand 11/2026)
 
+Die 97 Platzhalter aus den Herstellerlisten stehen mit Link in [hersteller-19zoll.md](hersteller-19zoll.md); hier folgen nur die geprüften Geräte.
+
 Bauform: **19″** = eigenes Rackgerät · **1/3, 1/2, 2/3** = Blackmagic-Bauform für das Universal Rack Shelf · **halbe Breite** = Shure- bzw. MA-Rackkit · **frei** = in eine Rackwanne. Maße mit * am Gerät prüfen. **M** = maßstäbliche Ansicht nach Maßzeichnung oder Herstellerfoto (vorn/hinten), sonst schematisch.
 
 ### Blackmagic · Teranex Mini

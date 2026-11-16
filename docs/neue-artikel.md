@@ -27,6 +27,7 @@ mein_geraet: {
   art: '123456',                     // optional: Hersteller-Art.-Nr.
   note: 'abgekündigt, Nachfolger …', // optional
   chk: 1,                            // Maße/Anschlüsse noch nicht belegt
+  ph: 1,                             // Platzhalter aus der Herstellerliste (erscheint als „Platzhalter“)
   url: 'https://hersteller/produkt',
   io: { f: 'lcd:1 Display; rj45:2 Ethernet', r: 'bnc:4 SDI; iec:1 Netz' },
 },
@@ -106,6 +107,7 @@ mein_stecker: { s: 'KURZ', n: 'Name', art: 'Hersteller Art.-Nr.', price: 4.90, s
 
 ## 5. Abschluss
 
+1. `node scripts/herstellerliste.mjs` ausführen (aktualisiert `docs/hersteller-19zoll.md`).
 1. `docs/datenbasis.md`: Gerätetabelle mit dem Skript im Abschnitt „Geräte“ neu erzeugen oder die Zeile von Hand ergänzen, mit Quelle.
 2. `CHANGELOG.md` ergänzen.
 3. Testen:
