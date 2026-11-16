@@ -1,6 +1,6 @@
 # Neue Artikel anlegen
 
-So kommen Geräte, Rackwannen, D-Einsätze und Rackteile in die Rack Manufaktur. Alles steht in `public/index.html`.
+So kommen Geräte, Rackwannen, D-Einsätze und Rackteile in die Rack Manufaktur. Alles steht in `public/index.html`. Geräte, Gewichte und Ansichten liegen zusätzlich als JSON in `data/` und werden mit `node scripts/daten.mjs import` in die App geschrieben (Datenblöcke `DATEN:DEVDB`, `DATEN:KG`, `DATEN:EXACT` nie von Hand ändern). Für KI-Assistenten: `AGENTS.md`.
 
 ## Grundsätze
 
@@ -26,6 +26,7 @@ mein_geraet: {
   price: 499,                        // optional: € inkl. MwSt., Quelle in docs
   art: '123456',                     // optional: Hersteller-Art.-Nr.
   note: 'abgekündigt, Nachfolger …', // optional
+  kg: 1.8,                           // Gewicht in kg (unbekannt: weglassen)
   chk: 1,                            // Maße/Anschlüsse noch nicht belegt
   ph: 1,                             // Platzhalter aus der Herstellerliste (erscheint als „Platzhalter“)
   url: 'https://hersteller/produkt',
@@ -49,6 +50,8 @@ Typen: `rj45 sfp bnc xlr xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee
 Neue Gruppe? In `g` eintragen, sie erscheint automatisch. Eine neue Hersteller-Kurzform kommt in `MK_SHORT`.
 
 ## 2. Maßstäbliche Ansicht (`EXACT`)
+
+Neue Ansichten kommen nach `data/ansichten.json` (gleiches Format wie unten, als JSON). Geräte ohne Ansicht erscheinen als Platzhalter (Name, Höhe, Tiefe).
 
 Vorlage ist eine Maßzeichnung des Herstellers (Blackmagic: „Physical specifications“ in den techn. Daten) oder ein frontales Foto mit bekannter Breite.
 
@@ -78,6 +81,10 @@ EXACT.mein_geraet = {
 Wiederkehrende Fronten als Funktion anlegen, z. B. `TM_FRONT(name)` für alle Teranex Mini.
 
 **Prüfen:** PNG der Vorder- und Rückansicht exportieren und neben die Vorlage legen. Stimmt die Lage, in `docs/datenbasis.md` in der Spalte „Ansicht“ `M` eintragen.
+
+## Gewicht
+
+Geräte: Feld `kg`. Alle anderen Artikel: `data/gewichte.json` mit Schlüssel `art:<ART-Schlüssel>`, `con:<CON>`, `panel:<PANELS>`, `shelf:<SHELVES>`, `case:<Typ>:<HE>`, `acc:<id>`, `x:rail_rear`. Die vollständige Liste aller Schlüssel liefert die App (Stufe 3 → Gewichte-Liste).
 
 ## 3. Rackwanne oder Rackkit (`SHELVES`)
 

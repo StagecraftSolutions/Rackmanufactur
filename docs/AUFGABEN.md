@@ -50,6 +50,15 @@ Offen:
 - [x] Eigener Preis je Gerät in der Stückliste eintragbar
 - [x] Preise/Lieferanten (state.ov) sind Teil der Projektdatei und werden beim Laden übernommen
 
+## 8. Gewichte und Produktdaten
+
+- [x] Gewicht `kg` für Geräte, Gewichtstabelle `KG` für alle übrigen Artikel, Gesamtgewicht in Stückliste/Fertigung/Übersicht/PDF
+- [ ] **Fehlende Gewichte ergänzen** (Geräte: siehe hersteller-19zoll.md „ohne Gewicht“; Cases, Blenden, Einsätze, Wannen: Gewichte-Liste in Stufe 3) – Ablauf in [ki-workflow.md](ki-workflow.md)
+- [ ] Platzhalter (`ph: 1`) gegen Datenblätter prüfen, zuerst L-Acoustics, Powersoft Quattro/Duecanali, dBTechnologies
+- [x] Swisson maßstäblich (8 Geräte); XSP/XSR-Rückseite: Lage der Kaltgerätebuchse geschätzt
+- [x] MA-Rackkit: Frontblenden 130285/130282 + Kabelsatz, Leerblende 130281
+- [ ] Gewicht von MA-Blenden, Kabelsätzen und Rackkit nachtragen (MA nennt keine Werte)
+
 ## 7. Projekte verwalten (ohne Benutzerkonten)
 
 - [x] Stufe 1: Projektbibliothek im Browser (IndexedDB), Fenster „Projekte“, Projektordner per File System Access, Paket sichern/importieren

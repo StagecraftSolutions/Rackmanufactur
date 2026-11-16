@@ -113,6 +113,11 @@ Eine Blende mit fertigem Ausschnitt für **powerCON TRUE1 In + Out plus D-Löche
 | Schublade 2 HE, 280 mm Einbautiefe (außen 300), Schloss | Flyht Pro Rack Drawer 19" 2U 28 cm lock | 55,00 € | [Thomann 429026](https://www.thomann.de/de/flyht_pro_rack_drawer_19_2u_28_cm_lock.htm) |
 | Schublade 3 HE, 280 mm Einbautiefe (außen 295), Schloss | Flyht Pro Rack Drawer 19" 3U 28 cm lock | 55,00 € | [Thomann 429025](https://www.thomann.de/de/flyht_pro_rack_drawer_19_3u_28_cm_lock.htm) |
 
+| MA 2Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende) | MA 130285 | 73,00 € | [MA](https://www.malighting.com/product/ma-2port-node-19-rack-einbau-kit-xlr-anschluesse-130285/), Thomann |
+| MA 4Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende) | MA 130282 | 73,00 € | [MA](https://www.malighting.com/product/ma-4port-node-19-rack-einbau-kit-xlr-anschluesse-130282/), [Thomann 562328](https://www.thomann.de/ma_lighting_4port_node_19_rack_mount_kit.htm) |
+| MA Adapterkabelsatz 2Port / 4Port Node | MA 210650 / 210629 | 119,00 / 185,00 € | Thomann |
+| MA 2Port/4Port Node Rackkit – Leerblende | MA 130281 | 68,00 € | [MA](https://www.malighting.com/product/ma-2port-node-4port-node-19-rack-einbau-kit-leerblende-130281/), Thomann |
+
 Nicht aufgenommen: Flyht Pro Rack Drawer 2U 9,5″ (keine 19″-Breite); Gator GRW-DRWSH2 und Pro Audio RDLS2U (kein deutscher Händler, Maße nicht belegt). Eine kurze 1-HE-Schublade wurde bei keinem Hersteller gefunden.
 | Käfigmuttern M6, 20 Stk. (2-mm-Stahl) | 5653 | 5,50 € | [Thomann](https://www.thomann.de/de/adam_hall_5653_rack_nut_pack.htm) |
 | Rackschrauben M6, 8 Stk. | 5924 BLP | – | prüfen |

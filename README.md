@@ -43,6 +43,8 @@ Cases: **ProCase Pro Rackmodule** und **ProCase QSD-Racks** (procaseshop.de) sow
 - **Steckerfeld bestücken:** Typ per Klick aus der Palette, per Auswahlliste oder per Drag & Drop auf ein Loch in der Ansicht. Einbau je Loch von hinten oder von vorn.
 - **Fertigungshinweise** pro Steckerfeld (Bohrungen, Einbaurichtung), Rackwanne, Beschriftung und hinten verschraubtem Gerät.
 - **Export:** Projekt als PDF (Ansichten, Stückliste, Bestellung, Fertigung), Vorder-/Rückansicht als PNG, Projektdatei (.json) speichern und laden.
+- **Produktdaten:** Geräte, Gewichte und Ansichten als JSON in `data/`, Werkzeug `node scripts/daten.mjs` (export, import mit Prüfung, CSV). Pflege mit ChatGPT/Codex: `AGENTS.md`, `docs/ki-workflow.md`.
+- **Gewicht:** Gesamtgewicht laut Stückliste in Stufe 3, Übersicht und PDF.
 - **Projekte:** Fenster „Projekte“ (Kopfzeile) mit allen Cases: Neu, Öffnen, Duplizieren, Löschen, Suche. Gespeichert in IndexedDB (`rack-manufaktur`), das offene Projekt zusätzlich in `localStorage` (`rackwerk-v1`). Jedes Projekt hat eine feste `id` sowie `created`/`updated`.
 - **Projektordner:** In Chrome/Edge lässt sich ein Ordner verbinden (File System Access API), z. B. in Nextcloud. Jedes Projekt liegt dort als `name_id.json`; Änderungen werden automatisch geschrieben, neuere Dateien aus dem Ordner beim Öffnen des Fensters übernommen (neuerer `updated` gewinnt). Gelöschte Dateien auf anderen Rechnern löschen nichts in der Bibliothek.
 - **Sichern:** „Alle Projekte sichern“ erzeugt ein Paket (`kind: 'rack-manufaktur-projekte'`); Laden einer Projektdatei oder eines Pakets übernimmt die Projekte. Ältere Stände (v1–v4) werden beim Laden migriert.

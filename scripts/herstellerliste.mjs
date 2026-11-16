@@ -10,11 +10,13 @@ const exactKeys = new Set([
   ...[...exactBlock.matchAll(/^  (\w+): \{/gm)].map(m => m[1]),
   ...[...src.matchAll(/EXACT\.(\w+)\s*=/g)].map(m => m[1]),
   ...Object.keys(DEVDB).filter(k => /^tm_|^bmd_2110/.test(k)),   // TM_FRONT-Schleife
+  ...Object.keys(JSON.parse(grab('const EXACT_JSON = {').replace(/^const EXACT_JSON = /, '').replace(/;$/, ''))),
 ]);
 const EXTRA = readFileSync(new URL('../docs/hersteller-nicht-aufgenommen.md', import.meta.url), 'utf8');
 const fit = d => d.fit === 'rack' ? `19″ · ${d.he} HE` : d.fit === 'bmd' ? `${d.frac < .4 ? '1/3' : d.frac < .6 ? '1/2' : '2/3'} Rackbreite` : d.fit === 'half' ? 'halbe Breite (Rackkit)' : d.fit === 'desk' ? 'Tischgerät' : 'in Rackwanne';
 const eur = v => v == null ? '–' : v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-const state = (k, d) => d.ph ? 'Platzhalter' : exactKeys.has(k) ? 'maßstäblich' : 'schematisch';
+const state = (k, d) => exactKeys.has(k) ? 'maßstäblich' : d.ph ? 'Platzhalter' : 'Daten belegt';
+const kgT = v => v == null ? '–' : v.toLocaleString('de-DE') + ' kg';
 const by = {};
 for (const [k, d] of Object.entries(DEVDB)) (by[d.mk] ??= []).push([k, d]);
 let md = `# 19″-Geräte je Hersteller
@@ -22,17 +24,17 @@ let md = `# 19″-Geräte je Hersteller
 Alle Hersteller, deren Geräte in der Rack Manufaktur stehen, mit den 19″-fähigen Geräten aus dem aktuellen Sortiment (Stand 11/2026).
 Erzeugt mit \`node scripts/herstellerliste.mjs\` aus der Gerätedatenbank.
 
-**Stand der Ansicht:** *maßstäblich* = Ansicht nach Maßzeichnung/Foto · *schematisch* = belegte Daten, Anschlüsse nicht maßstäblich · *Platzhalter* = aus der Herstellerliste übernommen, Maße und Anschlüsse noch nicht geprüft (\`ph: 1\`, \`chk: 1\`). Platzhalter mit „HE prüfen“ haben eine geschätzte Höhe.
+**Stand:** *maßstäblich* = Ansicht nach Maßzeichnung/Foto · *Daten belegt* = Maße aus Herstellerdaten, Ansicht als Platzhalter (Name, Höhe, Tiefe) · *Platzhalter* = aus der Herstellerliste übernommen, Maße und Anschlüsse noch nicht geprüft (\`ph: 1\`). „HE prüfen“ = Höhe geschätzt. Fehlende Gewichte (–) werden nachgetragen, siehe [ki-workflow.md](ki-workflow.md).
 
 Preise: UVP bzw. Webpreis inkl. MwSt.; Eurolite nach Steinigke-Liste netto + 19 %. Ohne Preis: Hersteller nennt keinen.
 
 `;
-const order = ['Blackmagic Design', 'Ubiquiti', 'Shure', 'Behringer', 'Midas', 'MA Lighting', 'Swisson', 'NovaStar', 'Eurolite'];
+const order = ['Blackmagic Design', 'Ubiquiti', 'Shure', 'Behringer', 'Midas', 'd&b audiotechnik', 'L-Acoustics', 'Powersoft', 'dBTechnologies', 'MA Lighting', 'Swisson', 'NovaStar', 'Eurolite'];
 for (const mk of [...order, ...Object.keys(by).filter(m => !order.includes(m))]) {
   const list = by[mk]; if (!list) continue;
   const n = s => list.filter(([k, d]) => state(k, d) === s).length;
-  md += `## ${mk}\n\n${list.length} Geräte · ${n('maßstäblich')} maßstäblich · ${n('schematisch')} schematisch · ${n('Platzhalter')} Platzhalter\n\n| Gerät | Bauform | Tiefe | Preis | Ansicht | Link |\n|---|---|---|---|---|---|\n`;
-  for (const [k, d] of list) md += `| ${d.n} | ${fit(d)} | ${d.d ? d.d + ' mm' + (d.chk ? '*' : '') : '–'} | ${eur(d.price)} | ${state(k, d)}${/HE prüfen/.test(d.note || '') ? ' · HE prüfen' : ''}${/abgekündigt/.test(d.note || '') ? ' · abgekündigt' : ''} | [Hersteller](${d.url}) |\n`;
+  md += `## ${mk}\n\n${list.length} Geräte · ${n('maßstäblich')} maßstäblich · ${n('Daten belegt')} Daten belegt · ${n('Platzhalter')} Platzhalter · ${list.filter(([, d]) => d.kg == null).length} ohne Gewicht\n\n| Gerät | Bauform | Tiefe | Gewicht | Preis | Stand | Link |\n|---|---|---|---|---|---|---|\n`;
+  for (const [k, d] of list) md += `| ${d.n} | ${fit(d)} | ${d.d ? d.d + ' mm' + (d.chk ? '*' : '') : '–'} | ${kgT(d.kg)} | ${eur(d.price)} | ${state(k, d)}${/HE prüfen/.test(d.note || '') ? ' · HE prüfen' : ''}${/abgekündigt/.test(d.note || '') ? ' · abgekündigt' : ''} | [Hersteller](${d.url}) |\n`;
   md += '\n';
 }
 md += EXTRA;

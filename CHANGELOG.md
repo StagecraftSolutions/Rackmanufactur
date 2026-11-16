@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-16 – Stand 19 · Platzhalter, Gewichte, neue Hersteller
+
+- **Platzhalter-Ansicht:** Geräte ohne maßstäbliche Ansicht erscheinen wie „Eigene Elemente“ – Name, Hersteller, Höhe bzw. Größe und Tiefe aus der Datenbank, gestrichelt umrandet, Kennzeichen „PLATZHALTER“. Die schematische Anschlussdarstellung entfällt.
+- **Swisson maßstäblich** nach Datenblatt-Zeichnungen und Herstellerfotos: XND-8R5, XND-4R5, XPD-28-5R, XES-8G, XES-2T6, XSP-5R, XSR-5R, XSP-5R-5R (vorn und hinten), Tiefen und Gewichte belegt.
+- **MA-Rackkit:** je Node „Anschlüsse nach vorn“ mit Frontblende MA 130285 (2Port) bzw. 130282 (4Port) und Adapterkabelsatz; freie Hälfte mit Leerblende 130281 in der Stückliste.
+- **Neue Hersteller:** d&b audiotechnik (D80, D40, D20, 40D, 30D, 10D, 5D, DS10, DS20, DS100, DS100M mit Maßen und Gewicht), L-Acoustics (LA12X, LA7.16, LA7.16i, LA4X, LA2Xi, P1), Powersoft (X8, X4, X4L, T-Serie, Quattrocanali, Duecanali), dBTechnologies (Control 8, AC26N, IA3204). Datenbank jetzt 200 Geräte.
+- **Gewicht:** Feld `kg` für Geräte, Gewichtstabelle für alle anderen Artikel. Gesamtgewicht in Stückliste, Fertigung, Übersicht und PDF, mit Anzahl der Positionen ohne Gewicht. „Gewichte-Liste (CSV)“ in der Fertigung; Gewicht bei eigenen Elementen eintragbar.
+- **Produktdaten als JSON** (`data/`), gepflegt mit `node scripts/daten.mjs` (export, import mit Prüfung, CSV, Gewichte-Liste). Anleitung für ChatGPT/Codex: `AGENTS.md`, `docs/ki-workflow.md`.
+
 ## 2026-11-16 – Stand 18 · Mehrere Projekte
 
 - **Fenster „Projekte“** (Knopf in der Kopfzeile und „Alle Projekte“ in Stufe 1): alle Cases mit Name, Kunde, Case, HE, Anzahl Elemente und Änderungsdatum; Neu, Öffnen, Duplizieren, Löschen (mit Rückfrage), Suche.

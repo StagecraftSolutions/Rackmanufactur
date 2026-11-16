@@ -24,3 +24,10 @@ Gefunden, aber (noch) nicht in der Datenbank – mit Grund. Neue Kandidaten hier
 | NovaStar | H-Serie (H2–H20) | modulare Prozessoren, Bestückung frei |
 | Eurolite | SBM-63B, SBM-16, SB-1050, SB-1000 | Datenblatt nicht gelesen, folgt |
 | Gator | GRW-DRWSH2 (kurze Schublade) | kein deutscher Händler, Maße nicht belegt |
+| d&b audiotechnik | 5DM, 25D, D25, D90, DN1, DN2, DS110, DS22 | Produktseiten noch nicht gelesen |
+| L-Acoustics | LA-RAK II AVB, LA-RAK III | komplette Touring-Racks (9 HE inkl. Inhalt), keine Einzelgeräte |
+| L-Acoustics | LS10 AVB-Switch | halbe Breite, Rackkit/Bauform noch nicht belegt |
+| L-Acoustics | LA8, LA1.16i, LC16D, L-ISA Processor II | Altgerät bzw. Seiten nicht gelesen |
+| Powersoft | Mezzo 322/324/602/604 | halbe Breite mit Montagekit, Maße offen |
+| Powersoft | Duecanali 6404, Ottocanali | nicht geprüft bzw. nicht mehr im Sortiment |
+| dBTechnologies | CONTROL 2, CONTROL 24A, IA504 R/D | Bauform (halbe Breite) bzw. Rackfähigkeit offen |
