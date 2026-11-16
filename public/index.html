@@ -528,8 +528,14 @@ td input.shop { min-width: 110px; }
 .devcompact .opt .oa { font-size: 10.5px; }
 .devcompact .subh { margin: 6px 0 4px; }
 .subh { margin: 10px 0 6px; font-size: 12px; font-family: var(--f-mono); font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
-.projbtn { align-self: center; }
-.projbtn .count { font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-left: 4px; }
+.projbar { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-left: auto; }
+.projbar .btn { white-space: nowrap; }
+@media (min-width: 900px) { .projbar { flex-wrap: nowrap; } }
+#projSwitch { max-width: 280px; padding: 5px 8px; font-size: 13px; }
+.folderchip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); margin-right: 6px; vertical-align: 1px; }
+.folderchip[data-st="ok"] .dot { background: var(--ok); }
+.folderchip[data-st="wait"] .dot { background: var(--warn); }
+#btnProjects .count { font-family: var(--f-mono); font-size: 11px; color: var(--muted); margin-left: 4px; }
 #projSearch { margin-left: auto; width: min(320px, 100%); }
 .pfolder { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; }
 .pfolder .hint { margin: 0; }
@@ -560,8 +566,13 @@ td input.shop { min-width: 110px; }
 <body>
 
 <header class="top">
-  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rack Manufaktur</h1><span class="projname" id="projTitle"></span><button type="button" class="btn sm projbtn" id="btnProjects" aria-haspopup="dialog">Projekte<span class="count" id="projCount"></span></button></div>
-  <div class="summary" id="summary"></div>
+  <div class="brand"><span class="stripe" aria-hidden="true"></span><h1>Rack Manufaktur</h1><span class="projname" id="projTitle"></span></div>
+  <div class="projbar" role="group" aria-label="Projektverwaltung">
+    <label for="projSwitch" class="sr">Projekt wechseln</label><select id="projSwitch" hidden></select>
+    <button type="button" class="btn sm" id="btnReset">Neues Projekt</button>
+    <button type="button" class="btn sm" id="btnProjects" aria-haspopup="dialog">Alle Projekte<span class="count" id="projCount"></span></button>
+    <button type="button" class="btn sm folderchip" id="btnFolder" data-st="none" hidden><span class="dot" aria-hidden="true"></span><span id="folderTxt">Kein Projektordner</span></button>
+  </div>
 </header>
 
 <nav class="steps" aria-label="Arbeitsschritte">
@@ -575,7 +586,7 @@ td input.shop { min-width: 110px; }
   <div class="s1">
     <div class="col">
       <section class="card">
-        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" data-openproj aria-haspopup="dialog">Alle Projekte</button><button type="button" class="btn sm" id="btnExample">Beispiel laden</button><button type="button" class="btn sm" id="btnReset">Neues Projekt</button></div></header>
+        <header><h2>Projekt</h2><div class="actions"><button type="button" class="btn sm" id="btnExample">Beispiel laden</button></div></header>
         <div class="body">
           <div class="projfields">
             <div class="field"><label for="pName">Projektname</label><input id="pName" class="bigname" type="text" placeholder="z. B. Anschlussrack 8 HE" data-proj="name"></div>
@@ -1489,14 +1500,44 @@ const LIB = (() => {
   return L;
 })();
 function slugOf(d) { return ((d.project && d.project.name) || 'rack-manufaktur').toLowerCase().replace(/[äöüß]/g, c => ({ ä: 'ae', ö: 'oe', ü: 'ue', ß: 'ss' }[c])).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'rack-manufaktur'; }
-function updateBadge() { const b = $('#projCount'); if (b) b.textContent = LIB.off ? '' : String(Math.max(LIB.count, 1)); }
+function updateBadge() {
+  const b = $('#projCount'); if (b) b.textContent = LIB.off ? '' : ' ' + Math.max(LIB.count, 1);
+  const fb = $('#btnFolder');
+  if (fb) {
+    fb.hidden = LIB.off || !LIB.fs;
+    fb.dataset.st = !LIB.dir ? 'none' : LIB.dirOk ? 'ok' : 'wait';
+    $('#folderTxt').textContent = !LIB.dir ? 'Kein Projektordner' : LIB.dirOk ? `Ordner: ${LIB.dirName}` : 'Ordner wieder verbinden';
+    fb.title = !LIB.dir ? 'Projektordner wählen (z. B. in Nextcloud)' : LIB.dirOk ? 'Projekte werden automatisch in diesen Ordner gespeichert' : 'Nach dem Neuladen einmal den Zugriff bestätigen';
+  }
+  renderSwitch();
+}
+async function renderSwitch() {
+  const el = $('#projSwitch'); if (!el) return;
+  if (LIB.off) { el.hidden = true; return; }
+  let all; try { all = await LIB.all(); } catch (e) { return; }
+  if (!all.some(r => r.id === state.id)) all.unshift({ id: state.id, name: state.project.name, client: state.project.client });
+  el.innerHTML = all.map(r => `<option value="${r.id}" ${r.id === state.id ? 'selected' : ''}>${esc(r.name || 'Projekt ohne Namen')}${r.client ? ' · ' + esc(r.client) : ''}</option>`).join('');
+  el.hidden = false;
+}
+async function folderClick() {
+  try {
+    if (LIB.dir && !LIB.dirOk) {
+      if (await LIB.perm(true)) { const n = await LIB.scan(); await LIB.pushAll(); toast(`Projektordner verbunden${n ? ` · ${n} Projekte aktualisiert` : ''}`); }
+      else toast('Zugriff auf den Ordner wurde nicht erlaubt');
+      updateBadge(); return;
+    }
+    if (!LIB.dir) { const n = await LIB.pick(); toast(`Projektordner „${LIB.dirName}“ verbunden${n ? ` · ${n} Projekte übernommen` : ''}`); updateBadge(); return; }
+    openProjects();
+  } catch (e) { if (!(e && e.name === 'AbortError')) toast(e && e.name === 'SecurityError' ? 'Ordnerzugriff ist hier nicht erlaubt' : 'Aktion fehlgeschlagen'); }
+}
 const newId = () => uid() + uid();
 function stamp(s) { const t = new Date().toISOString(); s.id = newId(); s.created = t; s.updated = t; return s; }
 async function switchTo(s, msg) {
   await LIB.flush();
+  const ae = document.activeElement; if (ae && ae.dataset && ae.dataset.proj) ae.blur();   // sonst bleibt der alte Name im Feld stehen
   state = s; sel = state.items[0]?.id ?? null; selSlot = null; view = 'front';
   try { localStorage.setItem(KEY, JSON.stringify(stripped())); } catch (e) {}
-  render(); await LIB.put(stripped(), { quiet: true });
+  render(); await LIB.put(stripped(), { quiet: true }); renderSwitch();
   if (msg) toast(msg);
 }
 async function newProject(base, msg) { const ov = state.ov; const s = stamp(base); s.ov = ov; s.step = 1; await switchTo(s, msg); }
@@ -1522,6 +1563,7 @@ async function openProjects() {
 }
 function closeProjects() { const d = $('#projDlg'); if (d.open) { if (typeof d.close === 'function') d.close(); else d.removeAttribute('open'); } projDlg.arm = null; }
 async function renderProjects() {
+  updateBadge();
   const body = $('#projBody'), q = projDlg.q.trim().toLowerCase();
   let folder;
   if (LIB.off) folder = '<p class="hint">Die Projektbibliothek ist in diesem Browser nicht verfügbar (z. B. privates Fenster). Projekte weiter über „Projektdatei speichern/laden“ sichern.</p>';
@@ -3123,6 +3165,7 @@ function renderStage(L) {
   $('#tabSide').setAttribute('aria-pressed', view === 'side');
 }
 function renderSummary(L, B) {
+  if (!$('#summary')) return;   // Leiste oben entfällt, dort steht die Projektverwaltung
   const he = state.case.he, over = L.maxEnd > he, coll = collisions().length;
   $('#summary').innerHTML = `
     <span class="pill">${esc(CASES[state.case.type].short)} <b>${he} HE</b></span>
@@ -3632,6 +3675,7 @@ document.addEventListener('click', e => {
   if (t.id === 'projDlg') { closeProjects(); return; }
   if (t.closest('#projDlg')) { projClick(t); return; }
   if (t.closest('#btnProjects,[data-openproj]')) { openProjects(); return; }
+  if (t.closest('#btnFolder')) { folderClick(); return; }
   if (t.closest('#addDlg') && dlgClick(t)) return;
   if (t.id === 'addDlg') { closeAdd(); return; }   // Klick auf den Hintergrund
   const op = t.closest('[data-open]'); if (op) { openAdd(op.dataset.open); return; }
@@ -3710,7 +3754,7 @@ document.addEventListener('input', e => {
     renderSoft(); $('.insp-title .big') && ($('.insp-title .big').textContent = title(it));
     return;
   }
-  if (t.dataset.proj) { state.project[t.dataset.proj] = t.value; renderProject(); save(); return; }
+  if (t.dataset.proj) { state.project[t.dataset.proj] = t.value; renderProject(); save(); const o = $(`#projSwitch option[value="${state.id}"]`); if (o && t.dataset.proj !== 'note') o.textContent = (state.project.name || 'Projekt ohne Namen') + (state.project.client ? ' · ' + state.project.client : ''); return; }
   if (t.dataset.case === 'name') { state.case.name = t.value; renderSoft(); return; }
   if (t.dataset.case === 'depth') { state.case.depth = parseNum(t.value) ?? 0; renderSoft(); return; }
   if (t.dataset.case === 'railRear') { state.case.railRear = parseNum(t.value) ?? 0; renderSoft(); return; }
@@ -3905,6 +3949,7 @@ reset.onclick = () => {
   newProject(empty(), LIB.off ? 'Neues Projekt angelegt' : 'Neues Projekt angelegt – das bisherige liegt unter „Projekte“').then(() => $('#pName').focus());
 };
 $('#projSearch').oninput = e => { projDlg.q = e.target.value; renderProjects(); };
+$('#projSwitch').onchange = e => { if (e.target.value !== state.id) openProject(e.target.value); };
 addEventListener('pagehide', () => { LIB.flush(); });
 const saveJson = () => saveFile(`${slug()}.json`, new Blob([JSON.stringify(stripped(), null, 1)], { type: 'application/json' }), 'Projektdatei');
 $('#jsonSave').onclick = saveJson;

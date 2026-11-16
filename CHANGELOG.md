@@ -7,6 +7,7 @@
 - **Projektordner** (Chrome/Edge): Ordner wählen, z. B. in Nextcloud – jedes Projekt als eigene .json-Datei, automatisch geschrieben; neuere Fassungen aus dem Ordner (anderer Rechner) werden übernommen. Nach dem Neuladen einmal „Wieder verbinden“.
 - **Alle Projekte sichern** als Paketdatei; Projektdateien und Pakete lassen sich importieren. Alte Projektdateien ohne ID werden zu neuen Projekten.
 - Datenschutzerklärung um IndexedDB und Projektordner ergänzt.
+- **Kopfzeile = Projektverwaltung:** Die Summenleiste oben entfällt (HE-Belegung/Kollisionen stehen in Stufe 2, die Summe in Stufe 3). Stattdessen: Projekt wechseln, Neues Projekt, Alle Projekte, Ordnerstatus (verbinden/wieder verbinden mit einem Klick).
 
 ## 2026-11-16 – Stand 17 · Bedienung, kurze Schubladen
 
