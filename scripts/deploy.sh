@@ -42,9 +42,10 @@ check_site() {
     printf '%s\n' "$ph" | sed -E "s|^$PUBLIC/||; s|<[^>]+>||g; s/^/      /" | cut -c1-140
     problems=1
   fi
-  # no third-party services (Google Fonts, CDNs) – otherwise the privacy policy would be wrong
+  # no third-party services (Google Fonts, CDNs) – otherwise the privacy policy would be wrong.
+  # Only embedded resources count (src=, <link href=>, CSS url()/@import); plain <a href> links load nothing.
   local ext
-  ext="$(grep -rnE 'fonts\.googleapis|fonts\.gstatic|cdnjs\.|jsdelivr|unpkg\.com|googletagmanager|google-analytics|(src|href)="(https?:)?//' "$PUBLIC" --include='*.html' --include='*.css' || true)"
+  ext="$(grep -rnE 'fonts\.googleapis|fonts\.gstatic|cdnjs\.|jsdelivr|unpkg\.com|googletagmanager|google-analytics|src="(https?:)?//|<link[^>]*href="(https?:)?//|url\((["'"'"']?)(https?:)?//|@import[^;]*(https?:)?//' "$PUBLIC" --include='*.html' --include='*.css' || true)"
   if [[ -n "$ext" ]]; then
     say "  ✗ External sources found (host locally or update the privacy policy):"
     printf '%s\n' "$ext" | sed -E "s|^$PUBLIC/||; s/^/      /" | cut -c1-140
