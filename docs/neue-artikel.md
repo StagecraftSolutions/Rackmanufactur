@@ -99,6 +99,7 @@ meine_wanne: { n: 'Name', short: 'Kurzname', mk: 'Hersteller', art: 'Art.-Nr.', 
 mein_stecker: { s: 'KURZ', n: 'Name', art: 'Hersteller Art.-Nr.', price: 4.90, src: 'web', q: 'Thomann', g: 'glyphe' },
 ```
 
+- Mit `mount: 'f'` ist der Einsatz nur von vorn einbaubar (z. B. Seetronic SAC3FPX20); die Einbaurichtung ist dann fest.
 - Mit `drill: 8` wird der Einsatz in eine gebohrte Blindplatte gesetzt. Die Blindplatte kommt mit in die Stückliste, das Bohrmaß in die Fertigung.
 - Den Schlüssel in `PICK` an passender Stelle einreihen; sonst fehlt er in der Palette.
 - Für ein neues Symbol `glyph()` (vorn) und `rearGlyph()` (hinten) um den `g`-Wert erweitern.

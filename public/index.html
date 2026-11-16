@@ -389,7 +389,11 @@ input.bigname { font-family: var(--f-display); font-size: 22px; font-weight: 600
 
 /* Stufe 2: Liste im Rack */
 .inrack { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-.inrack li button { width: 100%; display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 8px; align-items: center; padding: 5px 8px; border: 1px solid transparent; border-radius: 6px; background: transparent; cursor: pointer; text-align: left; }
+.inrack li { display: flex; align-items: stretch; gap: 2px; }
+.inrack li button.del { flex: 0 0 28px; width: 28px; display: grid; place-items: center; padding: 0; font-size: 16px; color: var(--muted); }
+.inrack li button.del:hover { color: var(--danger); background: var(--danger-soft); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.inrack li button:not(.del) { flex: 1 1 auto; width: 100%; display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 8px; align-items: center; padding: 5px 8px; border: 1px solid transparent; border-radius: 6px; background: transparent; cursor: pointer; text-align: left; }
 .inrack li button:hover { background: var(--surface-2); }
 .inrack li button.on { border-color: var(--accent); background: var(--accent-soft); }
 .inrack .pos { font-family: var(--f-mono); font-size: 11.5px; color: var(--muted); }
@@ -517,7 +521,12 @@ td input.shop { min-width: 110px; }
 .shlist input, .shlist select { width: 96px; flex: 0 0 auto; }
 .devinfo { font-size: 12.5px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
 .devinfo p { margin: 0 0 4px; }
-#devSearch { width: 100%; margin-bottom: 10px; }
+#devSearch { width: 100%; margin-bottom: 4px; position: sticky; top: -14px; z-index: 2; }
+.devcompact .opts { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 4px; }
+.devcompact .opt { padding: 5px 9px; gap: 1px; border-radius: 6px; }
+.devcompact .opt .on { font-size: 12.5px; font-weight: 500; }
+.devcompact .opt .oa { font-size: 10.5px; }
+.devcompact .subh { margin: 6px 0 4px; }
 .subh { margin: 10px 0 6px; font-size: 12px; font-family: var(--f-mono); font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
 /* Fuß mit Rechtlichem */
 .site-foot {
@@ -738,7 +747,7 @@ const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 const CON = {
   pc_in:    { s: 'TRUE1 IN',  n: 'powerCON TRUE1 In',                          art: 'Seetronic SAC3MPX TR1',    price: 2.90, src: 'cart', g: 'pcin' },
   pc_out:   { s: 'TRUE1 OUT', n: 'powerCON TRUE1 Out (Loch aufbohren)',        art: 'Seetronic SAC3FPX-LY TR1', price: 4.50, src: 'cart', g: 'pcout' },
-  pc_out_d: { s: 'TRUE1 OUT', n: 'TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren)', art: 'Seetronic SAC3FPX20', price: 4.50, src: 'web', q: 'Thomann · Alternative: Neutrik NAC3FPX-D-TRUE1', g: 'pcout' },
+  pc_out_d: { s: 'TRUE1 OUT', n: 'TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren, nur von vorn einbaubar)', art: 'Seetronic SAC3FPX20', price: 4.50, src: 'web', q: 'Thomann · nur von vorn einbaubar · Alternative: Neutrik NAC3FPX-D-TRUE1', g: 'pcout', mount: 'f' },
   blank:    { s: 'Blind',     n: 'Blindplatte D-Format',                       art: 'Millenium Blanking Plate D Format', price: 0.70, src: 'cart', g: 'blank' },
   xlr3f:    { s: 'XLR3 F',    n: 'XLR 3-pol Buchse',                           art: 'Neutrik NC3FD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrf', p: 3 },
   xlr3m:    { s: 'XLR3 M',    n: 'XLR 3-pol Stecker',                          art: 'Neutrik NC3MD-L-1',  price: 4.90, src: 'web', q: 'Thomann', g: 'xlrm', p: 3 },
@@ -1052,7 +1061,7 @@ function shelfGaps(it, min = 30) {   // freie Bereiche [von, bis] in mm
   if (S.innerW - x >= min) out.push([x, S.innerW]);
   return out;
 }
-const shelfDepth = it => Math.max(shelfOf(it).depth, ...(it.devs || []).map(o => devOf(o.dev)?.d || 0));
+const shelfDepth = it => Math.max(it.cut && it.cutLen ? it.cutLen : shelfOf(it).depth, ...(it.devs || []).map(o => devOf(o.dev)?.d || 0));
 
 /* ---------- Gerätefront / -rückseite zeichnen ---------- */
 const MK_SHORT = { 'Blackmagic Design': 'Blackmagicdesign', Ubiquiti: 'UniFi', Shure: 'SHURE', Behringer: 'behringer', Midas: 'MIDAS', Swisson: 'SWISSON', NovaStar: 'NovaStar', Eurolite: 'EUROLITE' };
@@ -1313,6 +1322,7 @@ const clash = (a, b) => ovl(a, b) && !canStack(a, b);
 const coversShelf = it => isCover(it) && sideItems(it.side).some(o => o.kind === 'shelf' && ovl(it, o));
 const sideItems = side => state.items.filter(i => i.side === side).sort((a, b) => a.pos - b.pos);
 function layout() {
+  state.items.forEach(it => { if (it.kind === 'dpanel') forceMount(it); if (it.kind === 'shelf') (it.devs || []).forEach(o => { o.id = o.id || uid(); }); });
   let letter = 0;
   ['front', 'rear'].forEach(side => sideItems(side).forEach(it => { it._letter = it.kind === 'dpanel' ? String.fromCharCode(65 + letter++) : null; }));
   const maxEnd = state.items.reduce((m, it) => Math.max(m, it.pos + it.he), 0);
@@ -2474,11 +2484,11 @@ function bom() {
       case 'shelf': { const Sh = shelfOf(it); if (!Sh.kit) { if (Sh.bom) add(Sh.bom, ART[Sh.bom], 1); else add('shelf_' + it.shelf, { n: Sh.n, art: Sh.art, price: Sh.price, src: Sh.src, q: Sh.q, shop: Sh.shop }, 1); }
         if (Sh.kit && !Sh.price && Sh.kitType === 'ma') add('shelf_ma_kit', { n: Sh.n, art: Sh.art, price: null, src: 'check', q: Sh.q, shop: Sh.shop }, 1);
         if (Sh.kit && it.antFront && it.shelf === 'shure_kit') add('shure_antfront', { n: 'Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)', art: '', src: 'check', q: 'Art.-Nr. je Gerätefamilie prüfen' }, 1);
-        it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + it.id + '_' + o.x, { n: `Gerät: ${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); }); break; }
+        it.devs.forEach(o => { const d = devOf(o.dev); add('sdev_' + (o.id || it.id + '_' + o.x), { n: `${o.owned ? 'Gerät (vorhanden): ' : ''}${d.n} (in ${Sh.short}, ${sideTxt(it)})`, art: d.art ? d.mk + ' ' + d.art : '', price: d.price ?? null, src: d.price != null ? 'web' : 'check', q: d.price != null ? 'UVP/Webpreis Hersteller' : 'Preis eintragen', shop: d.mk, own: !!o.owned }, 1); }); break; }
       case 'label': add('label', ART.label, 1); break;
       case 'brush': add('brush', ART.brush, 1); break;
       case 'drawer': add('drawer' + it.he, ART['drawer' + it.he], 1); if (it.foam) add('foam' + it.he, ART['foam' + it.he], 1); break;
-      case 'device': add('dev_' + it.id, { n: `Gerät: ${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: '', src: 'user', own: true }, 1); break;
+      case 'device': { const d = it.dev && devOf(it.dev); add('dev_' + it.id, { n: `${it.owned ? 'Gerät (vorhanden): ' : ''}${it.name || 'Gerät'} (${fmtHE(it.he)}, ${sideTxt(it)})`, art: d && d.art ? d.mk + ' ' + d.art : '', price: d ? d.price ?? null : null, src: d && d.price != null ? 'web' : 'check', q: d ? (d.price != null ? 'UVP/Webpreis Hersteller' : 'Preis eintragen') : 'Platzhalter · Preis eintragen', shop: d ? d.mk : '', own: !!it.owned }, 1); break; }
       case 'custom': add('cus_' + (it.art ? it.art + '|' + it.name : it.id), { n: `${it.name || 'Eigenes Element'} (${fmtHE(it.he)})`, art: it.art, price: it.price, src: it.price != null ? 'user' : 'check', shop: it.shop }, 1); break;
     }
   });
@@ -2563,7 +2573,7 @@ function renderProject() {
 function renderInrack() {
   const all = [...sideItems('front'), ...sideItems('rear')];
   $('#inrackTag').textContent = `${all.length} Element${all.length === 1 ? '' : 'e'}`;
-  $('#inrack').innerHTML = all.length ? all.map(it => `<li><button type="button" class="${it.id === sel ? 'on' : ''}" data-selid="${it.id}"><span class="pos">${heRange(it)}</span><span class="nm">${esc(title(it))}</span><span class="badge">${sideTxt(it)}</span></button></li>`).join('') : '<li class="hint">Noch leer.</li>';
+  $('#inrack').innerHTML = all.length ? all.map(it => `<li><button type="button" class="${it.id === sel ? 'on' : ''}" data-selid="${it.id}" aria-label="${esc(title(it))}, ${heRange(it)}, ${sideTxt(it)}"${it.id === sel ? ' aria-current="true"' : ''}><span class="pos">${heRange(it)}</span><span class="nm">${esc(title(it))}</span><span class="sr">${sideTxt(it)}</span></button><button type="button" class="del" data-delid="${it.id}" aria-label="${esc(title(it))} (${heRange(it)}, ${sideTxt(it)}) entfernen" title="Entfernen">×</button></li>`).join('') : '<li class="hint">Noch leer.</li>';
 }
 function suggestScrews() {
   const n = state.items.reduce((n, it) => n + (it.he < 1 ? 2 : 4) + (isDev(it) && it.rearFix && state.case.rear && it.side === 'front' ? 4 : 0), 0);
@@ -2610,8 +2620,8 @@ function renderInsp() {
       for (let i = 0; i < n; i++) {
         const t = it.slots[i], on = selSlot === i ? ' on' : '';
         if (P.rows > 1 && i % P.cols === 0) h += `<span class="eyebrow">Reihe ${i / P.cols + 1}</span>`;
-        h += `<div class="slot${on}" data-slotrow="${i}"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select>`
-          + (HOLE_LABELS ? `<input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}">` : `<select data-mount="${i}" aria-label="Einbau Loch ${i + 1}" ${t === 'open' ? 'disabled' : ''}><option value="r" ${it.mounts[i] !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${it.mounts[i] === 'f' ? 'selected' : ''}>von vorn</option></select>`) + `</div>`;
+        h += `<div class="slot${on}" data-slotrow="${i}" draggable="true" data-slotdrag="${i}" title="Zum Tauschen auf ein anderes Loch ziehen"><span class="n" data-pick="${i}">${i + 1}</span><select data-slot="${i}" aria-label="Stecker Loch ${i + 1}">${PICK.map(k => `<option value="${k}" ${k === t ? 'selected' : ''}>${esc(CON[k].n)}</option>`).join('')}</select>`
+          + (HOLE_LABELS ? `<input type="text" placeholder="Beschriftung" value="${esc(it.labels[i])}" data-label="${i}" aria-label="Beschriftung Loch ${i + 1}">` : `<select data-mount="${i}" aria-label="Einbau Loch ${i + 1}${CON[t].mount ? ' (nur von vorn möglich)' : ''}" ${t === 'open' || CON[t].mount ? 'disabled' : ''} ${CON[t].mount ? 'title="Dieser Einsatz ist nur von vorn einbaubar"' : ''}><option value="r" ${it.mounts[i] !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${it.mounts[i] === 'f' ? 'selected' : ''}>von vorn</option></select>`) + `</div>`;
       }
       h += `</div><div class="actions"><button type="button" class="btn sm" data-act="clearslots">Alle auf Blindplatte</button><button type="button" class="btn sm" data-act="pcdefault">Loch 1/2 = TRUE1 In/Out</button></div>`;
       break;
@@ -2632,11 +2642,12 @@ function renderInsp() {
     case 'shelf': {
       const Sh = shelfOf(it), grid = Sh.mode === 'grid';
       h += `<p class="hint">${esc(Sh.art)} · ${Sh.price != null ? EUR.format(Sh.price) : 'Preis offen'} · ${esc(Sh.info)} <a href="${Sh.url}" target="_blank" rel="noopener">Produktseite</a></p>`;
+      if (Sh.mode === 'free') { h += `<label class="check"><input type="checkbox" data-f="cut" ${it.cut ? 'checked' : ''}> Wanne kürzen (Tiefe anpassen)</label>`; if (it.cut) h += `<div class="row"><div class="field"><label for="f_cutLen">Neue Tiefe (mm)</label><input id="f_cutLen" type="number" min="80" max="${Sh.depth}" step="5" value="${it.cutLen}" data-f="cutLen"></div></div><p class="hint">Original ${Sh.depth} mm. In der Fertigung steht: mit Winkelschleifer kürzen.</p>`; }
       if (it.shelf === 'shure_kit') h += `<label class="check"><input type="checkbox" data-f="antFront" ${it.antFront ? 'checked' : ''}> Antennen nach vorn (BNC an den Seitenteilen)</label>`;
       h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">Belegt: ${grid ? `${shelfUsed(it)} von ${Sh.cells} ${Sh.cells === 2 ? 'Hälften' : 'Sechsteln'}` : `${Math.round(shelfUsed(it))} von ${Sh.innerW} mm`}</span>${grid ? '' : '<button type="button" class="btn sm" data-shpack>Links bündig anordnen</button>'}</div>`;
       h += '<ul class="shlist">' + it.devs.map((o, i) => { const d = devOf(o.dev);
         const pos = grid ? `<select data-shx="${i}" aria-label="Position">${[...Array(Sh.cells).keys()].filter(x => x === o.x || shelfFits(it, o.dev, x, i)).map(x => `<option value="${x}" ${x === o.x ? 'selected' : ''}>${Sh.cells === 2 ? (x ? 'rechts' : 'links') : 'ab ' + (x + 1) + '/6'}</option>`).join('')}</select>` : `<input type="number" data-shx="${i}" min="0" max="${Sh.innerW - devW(d)}" step="1" value="${Math.round(o.x)}" aria-label="Abstand links in mm">`;
-        return `<li><span class="nm">${esc(d.n)}<small>${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}</small></span>${pos}<button type="button" class="btn sm danger" data-shdel="${i}" aria-label="${esc(d.n)} entfernen">×</button></li>`; }).join('') + '</ul>';
+        return `<li><span class="nm">${esc(d.n)}<small>${esc(fitTxt(d))}${d.d ? ' · ' + d.d + ' mm tief' : ''}</small><label class="check" style="font-size:11.5px"><input type="checkbox" data-shown="${i}" ${o.owned ? 'checked' : ''}> vorhanden</label></span>${pos}<button type="button" class="btn sm danger" data-shdel="${i}" aria-label="${esc(d.n)} entfernen">×</button></li>`; }).join('') + '</ul>';
       const cand = Object.entries(DEVDB).filter(([, d]) => Sh.acc.includes(d.fit));
       h += `<div class="row" style="align-items:flex-end"><div class="field" style="flex:2 1 200px"><label for="f_shadd">Gerät hinzufügen</label><select id="f_shadd">${cand.map(([k, d]) => `<option value="${k}" ${shelfFree(it, k) == null ? 'disabled' : ''}>${esc(d.n)} · ${esc(fitTxt(d))}</option>`).join('')}</select></div><button type="button" class="btn primary" data-shadd>Hinzufügen</button></div>`;
       if (!grid) h += `<p class="hint">Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.</p>`;
@@ -2651,7 +2662,7 @@ function renderInsp() {
         </div>
         <div class="field"><label for="f_color">Front</label><select id="f_color" data-f="color"><option value="black" ${it.color !== 'silver' ? 'selected' : ''}>schwarz</option><option value="silver" ${it.color === 'silver' ? 'selected' : ''}>silber</option></select></div>`;
       if (it.kind === 'custom') h += `<div class="row"><div class="field"><label for="f_art">Art.-Nr.</label><input id="f_art" type="text" value="${esc(it.art)}" data-f="art"></div><div class="field"><label for="f_price">Preis €</label><input id="f_price" type="text" inputmode="decimal" value="${it.price != null ? String(it.price).replace('.', ',') : ''}" data-f="price"></div></div><div class="field"><label for="f_shop">Lieferant</label><input id="f_shop" type="text" value="${esc(it.shop)}" data-f="shop" placeholder="z. B. Thomann"></div><p class="hint">Eigenes Element: erscheint mit Art.-Nr. und Preis in der Stückliste.</p>`;
-      else h += `<p class="hint">Gerät als Platzhalter: steht nicht in der Bestellung, Tiefe zählt für die Kollisionsprüfung.</p>`;
+      if (it.kind === 'device') h += `<label class="check"><input type="checkbox" data-f="owned" ${it.owned ? 'checked' : ''}> Vorhanden (nicht bestellen)</label><p class="hint">Sonst steht das Gerät mit Herstellerpreis in der Stückliste; den Preis kannst du dort ändern.</p>`;
       if (it.side === 'front') h += `<label class="check"><input type="checkbox" data-f="rearFix" ${it.rearFix ? 'checked' : ''} ${state.case.rear ? '' : 'disabled'}> Zusätzlich hinten an der Rückschiene verschrauben</label>`;
       break;
     case 'label': {
@@ -2755,6 +2766,7 @@ function notesData() {
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
     if (it.kind === 'shelf' && shelfOf(it).kit) { out.push({ h: `${shelfOf(it).short} · ${where}`, t: `${it.devs.map(o => `${devOf(o.dev).n} ${o.x ? 'rechts' : 'links'}`).join(', ') || 'leer'}: mit Verbindungsblech mittig verschrauben, Seitenteile als Rackohren.${it.antFront ? ' Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.' : ''}${it.devs.length < 2 ? ' Freie Hälfte mit Blindblech schließen.' : ''}` }); }
+    if (it.kind === 'shelf' && it.cut && it.cutLen && it.cutLen < shelfOf(it).depth) out.push({ drill: true, h: `${shelfOf(it).short} kürzen · ${where}`, t: `Rackwanne von ${shelfOf(it).depth} mm auf ${it.cutLen} mm Tiefe kürzen: Schnittlinie anreißen, mit Winkelschleifer (Flex, Trennscheibe) trennen, Kante entgraten und mit Lack/Zinkspray schützen.` });
     else if (it.kind === 'shelf') { const Sh = shelfOf(it); out.push({ h: `${Sh.short} · ${where}`, t: Sh.mode === 'grid' ? `${Sh.art}: ${it.devs.map(o => `${devOf(o.dev).n} ab ${o.x + 1}/6`).join(', ') || 'leer'}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.` : `Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern: ${it.devs.map(o => `${devOf(o.dev).n} bei ${Math.round(o.x)} mm von links`).join(', ') || 'noch leer'}.` }); }
     if (it.kind === 'tray') out.push({ h: `Rackwanne ${fmtHE(it.he)} · ${where}`, t: `${ART['tray' + it.he].art} an der ${it.side === 'rear' ? 'Rück' : 'Front'}schiene verschrauben, ${it.depth} mm tief.` });
     if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
@@ -2892,7 +2904,7 @@ function renderDlg() {
     const where = Sh.mode === 'grid' ? (Sh.cells === 2 ? (x ? 'rechte Hälfte' : 'linke Hälfte') : `ab ${x + 1}/6`) : `ab ${x} mm von links`;
     h += `<div class="row" style="align-items:center"><span class="eyebrow" style="flex:1 1 auto">${esc(Sh.short)} · ${heRange(shIt)} · ${esc(where)} · ${list.length} passende Geräte</span><button type="button" class="btn sm" data-shall>Alle Geräte zeigen</button></div>`;
     const groups = [...new Set(list.map(([, d]) => d.g))];
-    h += groups.length ? groups.map(gr => `<div class="cgroup"><h3>${esc(gr)}</h3><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
+    h += groups.length ? groups.map(gr => `<div class="cgroup devcompact"><h3>${esc(gr)}</h3><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
       <button type="button" class="opt" data-insdb="${k}"><span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span></button>`).join('')}</div></div>`).join('') : '<p class="hint">An dieser Stelle passt kein Gerät aus der Datenbank.</p>';
   }
   else if (dlg.tab === 'geraete') {
@@ -2906,20 +2918,20 @@ function renderDlg() {
     ];
     h += SECT.map(([fit, head]) => { const list = Object.entries(DEVDB).filter(([, d]) => d.fit === fit); if (!list.length) return '';
       const groups = [...new Set(list.map(([, d]) => d.g))];
-      return `<div class="cgroup" data-devgroup><h3>${esc(head)}</h3>${groups.map(gr => `<h4 class="subh">${esc(gr)}</h4><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
+      return `<div class="cgroup devcompact" data-devgroup><h3>${esc(head)}</h3>${groups.map(gr => `<h4 class="subh">${esc(gr)}</h4><div class="opts">${list.filter(([, d]) => d.g === gr).map(([k, d]) => `
         ${fit === 'desk' ? '<div class="opt" aria-disabled="true" style="opacity:.6">' : `<button type="button" class="opt" data-insdb="${k}">`}<span class="on">${esc(d.n)}</span><span class="oa">${esc(fitTxt(d))}${d.price != null ? ' · ' + EUR.format(d.price) : ''}</span>${fit === 'desk' ? '</div>' : '</button>'}`).join('')}</div>`).join('')}</div>`; }).join('');
-    h += `<div class="cgroup" data-devgroup><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
+    h += `<p class="dlg-foot">Geräte kommen mit Herstellerpreis in die Bestellung; im Inspektor als „vorhanden“ markieren, wenn sie nicht gekauft werden. Ihre Tiefe zählt für die Kollisionsprüfung. Platzhalter und eigene Geräte: Reiter „Eigene Elemente“. Ist eine Rackwanne ausgewählt und passt das Gerät hinein, landet es dort; sonst wird eine passende Wanne bzw. ein Shure-Rackkit angelegt.</p>`;
+  }
+  if (dlg.tab === 'eigene') {
+    const list = tpls();
+    h += `<div class="cgroup devcompact"><h3>Platzhalter · typische Maße, bitte am Gerät prüfen</h3><div class="opts">${DEVICES.map((d, i) => `
       <button type="button" class="opt" data-insdev="${i}"><span class="on">${esc(d.name)}</span><span class="oa">${fmtHE(d.he)} · ${d.depth} mm tief</span></button>`).join('')}</div></div>
     <div class="cgroup"><h3>Eigenes Gerät</h3><div class="row">
       <div class="field" style="flex:2 1 180px"><label for="dName">Bezeichnung</label><input id="dName" type="text" placeholder="z. B. Shure ULXD4Q"></div>
       <div class="field"><label for="dHe">Höhe</label><select id="dHe">${HE_DEV.map(x => `<option value="${x}" ${x === 1 ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></div>
       <div class="field"><label for="dDepth">Tiefe (mm)</label><input id="dDepth" type="number" min="0" max="1000" step="5" value="250"></div>
       <button type="button" class="btn primary" data-insdevown>Einsetzen</button>
-    </div></div>
-    <p class="dlg-foot">Geräte stehen nicht in der Bestellung, ihre Tiefe zählt für die Kollisionsprüfung. Ist eine Rackwanne ausgewählt und passt das Gerät hinein, landet es dort; sonst wird eine passende Wanne bzw. ein Shure-Rackkit angelegt.</p>`;
-  }
-  if (dlg.tab === 'eigene') {
-    const list = tpls();
+    </div></div>`;
     h += `<div class="cgroup"><h3>Neues eigenes Element · kommt mit Art.-Nr. und Preis in die Stückliste</h3>
       <div class="row">
         <div class="field" style="flex:2 1 200px"><label for="cName">Bezeichnung</label><input id="cName" type="text" placeholder="z. B. Steckdosenleiste 19″ 8-fach"></div>
@@ -3214,15 +3226,25 @@ async function exportProjectPdf() {
 }
 
 /* ---------- Drag & Drop: Steckertyp auf ein Loch ziehen ---------- */
-let dragCon = null;
+let dragCon = null, dragSwap = null;
+function forceMount(it) { if (it.kind === 'dpanel') it.slots.forEach((t, i) => { if (CON[t] && CON[t].mount) it.mounts[i] = CON[t].mount; }); }
+function swapSlots(it, a, b) {
+  if (a === b) return;
+  [it.slots[a], it.slots[b]] = [it.slots[b], it.slots[a]];
+  [it.mounts[a], it.mounts[b]] = [it.mounts[b], it.mounts[a]];
+  [it.labels[a], it.labels[b]] = [it.labels[b], it.labels[a]];
+  forceMount(it);
+}
 document.addEventListener('dragstart', e => {
+  const sr = e.target.closest && e.target.closest('[data-slotdrag]');
+  if (sr && !e.target.closest('select, input')) { dragSwap = { id: sel, i: +sr.dataset.slotdrag }; e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', 'slot'); } catch (x) {} return; }
   const b = e.target.closest && e.target.closest('[data-assign]');
   if (!b) return;
   dragCon = b.dataset.assign;
   e.dataTransfer.effectAllowed = 'copy';
   try { e.dataTransfer.setData('text/plain', dragCon); } catch (x) {}
 });
-document.addEventListener('dragend', () => { dragCon = null; document.querySelectorAll('.dropon').forEach(x => x.classList.remove('dropon')); });
+document.addEventListener('dragend', () => { dragCon = null; dragSwap = null; document.querySelectorAll('.dropon').forEach(x => x.classList.remove('dropon')); });
 function dropTarget(e) {
   const slotEl = e.target.closest && e.target.closest('[data-slot], [data-slotrow]');
   if (!slotEl) return null;
@@ -3233,19 +3255,21 @@ function dropTarget(e) {
   return { it, i: +(slotEl.dataset.slot ?? slotEl.dataset.slotrow), el: slotEl };
 }
 document.addEventListener('dragover', e => {
-  if (!dragCon) return;
+  if (!dragCon && !dragSwap) return;
   const d = dropTarget(e);
+  if (d && dragSwap && d.it.id !== dragSwap.id) return;
   document.querySelectorAll('.dropon').forEach(x => { if (!d || x !== d.el) x.classList.remove('dropon'); });
   if (!d) return;
-  e.preventDefault(); e.dataTransfer.dropEffect = 'copy';
+  e.preventDefault(); e.dataTransfer.dropEffect = dragSwap ? 'move' : 'copy';
   d.el.classList.add('dropon');
 });
 document.addEventListener('drop', e => {
-  if (!dragCon) return;
+  if (!dragCon && !dragSwap) return;
   const d = dropTarget(e);
   if (!d) return;
   e.preventDefault();
-  d.it.slots[d.i] = dragCon; sel = d.it.id; selSlot = d.i; dragCon = null;
+  if (dragSwap) { if (d.it.id === dragSwap.id) { swapSlots(d.it, dragSwap.i, d.i); sel = d.it.id; selSlot = d.i; toast(`Loch ${dragSwap.i + 1} ⇄ Loch ${d.i + 1}`); } dragSwap = null; render(); return; }
+  d.it.slots[d.i] = dragCon; forceMount(d.it); sel = d.it.id; selSlot = d.i; dragCon = null;
   render(); toast(`Loch ${d.i + 1}: ${CON[d.it.slots[d.i]].n}`);
 });
 
@@ -3309,7 +3333,7 @@ document.addEventListener('click', e => {
     if (a === 'del') { state.items.splice(i, 1); sel = null; selSlot = null; }
     if (a === 'clearslots') it.slots = it.slots.map(() => 'blank');
     if (a === 'pcdefault') { it.slots[0] = 'pc_in'; if (it.slots[1] !== 'pc_out_d') it.slots[1] = 'pc_out'; }
-    if (a === 'mountall-r' || a === 'mountall-f') it.mounts = it.mounts.map(() => a.slice(-1));
+    if (a === 'mountall-r' || a === 'mountall-f') { it.mounts = it.mounts.map(() => a.slice(-1)); forceMount(it); }
     if (a === 'lblpitch') it.pitch = defPitch(it.div);
     if (a === 'lblfrom') {
       // nächstgelegenes Steckerfeld derselben Seite (zuerst darunter, sonst darüber)
@@ -3337,7 +3361,7 @@ document.addEventListener('input', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
   if (t.dataset.label != null && it) { it.labels[+t.dataset.label] = t.value; renderSoft(); return; }
   if (t.dataset.cell != null && it) { const [i, k] = t.dataset.cell.split(':').map(Number); it.cells[i][k] = t.value; renderSoft(); return; }
-  if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH', 'art', 'price', 'shop'].includes(t.dataset.f)) {
+  if (t.dataset.f && it && ['name', 'depth', 'traydepth', 'pitch', 'offset', 'stripW', 'stripH', 'art', 'price', 'shop', 'cutLen'].includes(t.dataset.f)) {
     const f = t.dataset.f, v = parseNum(t.value);
     if (f === 'name' || f === 'art' || f === 'shop') it[f] = t.value;
     else if (f === 'price') it.price = parsePrice(t.value);
@@ -3359,7 +3383,7 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
   if (t.dataset.mount != null && it) { it.mounts[+t.dataset.mount] = t.value; selSlot = +t.dataset.mount; renderInsp(); renderSoft(); return; }
-  if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
+  if (t.dataset.slot != null && t.tagName === 'SELECT' && it) { it.slots[+t.dataset.slot] = t.value; forceMount(it); selSlot = +t.dataset.slot; renderInsp(); renderSoft(); return; }
   if (t.dataset.f && it) {
     const f = t.dataset.f;
     if (f === 'he') { it.he = +t.value; if (it.tray && it.he < 1) it.tray = null; else if (it.tray && it.tray.he > it.he) it.tray.he = 1; place(it, it.pos); }
@@ -3370,6 +3394,8 @@ document.addEventListener('change', e => {
     else if (f === 'color') it.color = t.value;
     else if (f === 'rearFix') it.rearFix = t.checked;
     else if (f === 'antFront') it.antFront = t.checked;
+    else if (f === 'cut') { it.cut = t.checked; if (it.cut && !it.cutLen) it.cutLen = Math.max(80, shelfOf(it).depth - 100); }
+    else if (f === 'owned') it.owned = t.checked;
     else if (f === 'variant') {
       const P = PANELS[t.value], n = P.cols * P.rows;
       it.variant = t.value; it.he = P.he;
@@ -3397,6 +3423,16 @@ document.addEventListener('change', e => {
   if (t.dataset.shop) { const o = state.ov[t.dataset.shop] = state.ov[t.dataset.shop] || {}; o.shop = t.value.trim(); renderSoft(); return; }
 });
 
+/* ---------- Liste „Im Rack“: Löschen per × ---------- */
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-delid]'); if (!b) return;
+  const i = state.items.findIndex(x => x.id === b.dataset.delid); if (i < 0) return;
+  const it = state.items[i], name = title(it);
+  state.items.splice(i, 1); if (sel === it.id) { sel = null; selSlot = null; }
+  render(); toast(`${name} entfernt`);
+  const next = document.querySelector('#inrack [data-delid]'); next && next.focus({ preventScroll: true });
+});
+
 /* ---------- Rackwannen mit Geräten ---------- */
 document.addEventListener('click', e => {
   const t = e.target, it = state.items.find(i => i.id === sel);
@@ -3406,7 +3442,9 @@ document.addEventListener('click', e => {
   if (t.closest('[data-shpack]')) { shelfPack(it); render(); }
 });
 document.addEventListener('change', e => {
-  const t = e.target; if (t.dataset.shx == null) return;
+  const t = e.target;
+  if (t.dataset.shown != null) { const it = state.items.find(i => i.id === sel); if (it && it.kind === 'shelf') { it.devs[+t.dataset.shown].owned = t.checked; render(); } return; }
+  if (t.dataset.shx == null) return;
   const it = state.items.find(i => i.id === sel); if (!it || it.kind !== 'shelf') return;
   const i = +t.dataset.shx, v = parseNum(t.value); if (v == null) return;
   if (shelfFits(it, it.devs[i].dev, v, i)) it.devs[i].x = v; else toast('Dort ist kein Platz');
@@ -3427,6 +3465,21 @@ document.addEventListener('input', e => {
 const stage = $('#stage');
 let drag = null;
 function svgX(svg, e) { const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()).x; }
+function slotDragMove(e) {
+  const x = svgX(drag.svg, e), y = svgY(drag.svg, e), dx = x - drag.x0s, dy = y - drag.y0;
+  if (!drag.sm) {
+    if (Math.abs(dx) < 4 && Math.abs(dy) < 4) return true;
+    if (Math.abs(dy) > Math.abs(dx)) { drag.slot = null; return false; }
+    const el = drag.g.querySelector(`[data-slot="${drag.slot}"]`); if (!el) { drag.slot = null; return false; }
+    drag.sm = { el, tgt: null }; drag.moved = true; el.style.pointerEvents = 'none';
+  }
+  e.preventDefault();
+  drag.sm.el.setAttribute('transform', `translate(${dx.toFixed(1)} ${dy.toFixed(1)})`);
+  const hit = document.elementFromPoint(e.clientX, e.clientY), tgt = hit && hit.closest('[data-slot]');
+  drag.g.querySelectorAll('.dropon').forEach(n => { if (n !== tgt) n.classList.remove('dropon'); });
+  if (tgt && tgt !== drag.sm.el && drag.g.contains(tgt)) { tgt.classList.add('dropon'); drag.sm.tgt = +tgt.dataset.slot; } else drag.sm.tgt = null;
+  return true;
+}
 function shelfDragMove(e) {
   const hd = drag.h, dx = svgX(drag.svg, e) - hd.x0;
   if (!drag.moved && Math.abs(dx) < 2) return;
@@ -3451,12 +3504,14 @@ stage.addEventListener('pointerdown', e => {
   const slot = e.target.closest('[data-slot]');
   drag = { it, g, svg, y0: svgY(svg, e), moved: false, slot: slot ? +slot.dataset.slot : null, can: !!draggable(it, g), id: e.pointerId, pos: it.pos };
   const sd = e.target.closest('[data-shdev]');
+  drag.x0s = svgX(svg, e);
   if (sd && it.kind === 'shelf' && drag.can) { const i = +sd.dataset.shdev; drag.h = { i, el: sd, x0: svgX(svg, e), ox: it.devs[i].x, nx: it.devs[i].x }; }
   if (drag.can) { try { svg.setPointerCapture(e.pointerId); } catch (x) {} }
 });
 stage.addEventListener('pointermove', e => {
   if (!drag || !drag.can || e.pointerId !== drag.id) return;
   if (drag.h) { shelfDragMove(e); return; }
+  if (drag.slot != null && drag.it.kind === 'dpanel' && slotDragMove(e)) return;
   const dy = svgY(drag.svg, e) - drag.y0;
   if (!drag.moved && Math.abs(dy) < 3) return;
   drag.moved = true;
@@ -3471,6 +3526,7 @@ stage.addEventListener('pointermove', e => {
 function endDrag(e) {
   if (!drag || (e && e.pointerId !== drag.id)) return;
   const d = drag; drag = null;
+  if (d.sm) { const from = d.slot, to = d.sm.tgt; if (to != null) swapSlots(d.it, from, to); sel = d.it.id; selSlot = to ?? from; render(); if (to != null) toast(`Loch ${from + 1} ⇄ Loch ${to + 1}`); return; }
   if (d.h && d.moved) { const o = d.it.devs[d.h.i]; o.x = d.h.nx; sel = d.it.id; selSlot = null; render(); toast(`${devOf(o.dev).n} → ${shelfOf(d.it).mode === 'grid' ? (shelfOf(d.it).cells === 2 ? (o.x ? 'rechts' : 'links') : 'ab ' + (o.x + 1) + '/6') : Math.round(o.x) + ' mm von links'}`); return; }
   if (d.moved) { place(d.it, d.pos); sel = d.it.id; selSlot = null; render(); toast(`${title(d.it)} → ${heRange(d.it)}`); return; }
   sel = d.it.id; selSlot = d.slot;

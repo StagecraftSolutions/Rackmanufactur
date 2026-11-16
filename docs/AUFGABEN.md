@@ -31,22 +31,22 @@ Offen:
 
 ## 3. Bedienung
 
-- [ ] Geräteliste im Popup schmaler, Suche zuerst
-- [ ] Platzhaltergeräte aus „Geräte“ in den Reiter „Eigene Elemente“ verschieben
-- [ ] Liste „Im Rack“: Kennzeichnung vorn/hinten entfernen, dafür × zum Löschen; Seite bleibt für Screenreader lesbar (aria-label)
-- [ ] Stecker innerhalb eines Steckerfelds per Drag & Drop verschieben/tauschen
-- [ ] Seetronic SAC3FPX20 (TRUE1 Out, D-Norm) nur von vorn einbaubar
+- [x] Geräteliste im Popup schmaler, Suche zuerst (bleibt oben stehen)
+- [x] Platzhaltergeräte in den Reiter „Eigene Elemente“ verschoben
+- [x] Liste „Im Rack“: × zum Löschen, Seite nur noch für Screenreader (aria-label, versteckter Text)
+- [x] Stecker per Ziehen tauschen (Ansicht und Lochliste)
+- [x] Seetronic SAC3FPX20 nur von vorn einbaubar (Einbau fest auf „von vorn“)
 
 ## 4. Rackwannen und Schubladen
 
 - [ ] Kurze Rackschubladen (geringe Einbautiefe) bei Adam Hall und anderen Herstellern recherchieren und aufnehmen
-- [ ] Rackwanne per Checkbox kürzbar (Länge eingeben); Fertigungshinweis „mit Winkelschleifer kürzen“
+- [x] Rackwanne per Checkbox kürzbar; Fertigungshinweis Winkelschleifer
 
 ## 5. Preise und Bestellung
 
-- [ ] Geräte standardmäßig nicht „vorhanden“: umschaltbar, dann in der Bestellung mit Preis
-- [ ] Eigener Preis je Gerät eintragbar (wie bei allen Stücklistenzeilen)
-- [ ] Preise und Lieferanten in der Projektdatei sichern und beim Laden übernehmen
+- [x] Geräte standardmäßig mit Preis in der Bestellung, „vorhanden“ umschaltbar (auch in Wannen)
+- [x] Eigener Preis je Gerät in der Stückliste eintragbar
+- [x] Preise/Lieferanten (state.ov) sind Teil der Projektdatei und werden beim Laden übernommen
 
 ## 6. Katalog erweitern
 
