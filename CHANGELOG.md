@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-17 – Version 26 · Views from product photos, safer project files
+
+- **14 scale views drawn from product photos** (status "not checked yet", like the WING RACK): Behringer X32 RACK, Eurolite SB-1100B, dBTechnologies RDNet Control 8, Botex DPX-620 III (front), Botex CHC-8, Botex PSA 16PT2-TR1, Stairville DMX Splitter 4 MKIII, the t.amp Quadro 500 DSP, Showtec PSA-32A12S, RF Venue DISTRO4, Blackmagic SmartView Duo, ATEM 2 M/E Production Studio 4K, APC Smart-UPS C 1000 (front from an angled photo), Web Presenter HD (taken over from its successor Streaming Encoder HD). These devices are no longer placeholders.
+- Connector lists corrected from the photos (e.g. DMX splitter with 3- and 5-pin per port, CHC-8 with four CEE motor outputs, RDNet Control 8 with powerCON and XLR, DISTRO4 with four DC outputs).
+- **Rotated elements:** view elements accept `rot` (degrees, around x/y) – used for circuit breakers mounted sideways (Botex DPX-620 III, PSA 16PT2-TR1); editable in the review editor.
+- **Project files keep unknown devices:** a project opened in an app version that does not know a device no longer loses the device key – it is kept (`devKey` / `devsUnknown`), shown as a placeholder with a warning and restored automatically once the device exists.
+
 ## 2026-11-16 – Version 25 · Connector database, custom connector panels
 
 - **Connector database** `data/connectors.json` (23 types, 37 parts): each connector has a type, supplier/part, price and a fit – D-size, in a drilled blank plate, or its own footprint (cutouts, screw holes). New parts: Amphenol XLR/DMX, Neutrik powerCON blue/white, TRUE1 Out D-size, etherCON Cat 6A, USB 3.0; for custom panels CEE 16 A socket/inlet (PCE), Schuko panel socket (Mennekes 11081), IEC C14 snap-in (Schurter 1061) – footprints from manufacturer data, cutout diameters marked "check dimensions".

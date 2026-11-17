@@ -9,7 +9,7 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Blackmagic Design
 
-55 devices · 31 scale view · 4 data confirmed · 20 placeholder · 53 without weight
+55 devices · 33 scale view · 4 data confirmed · 18 placeholder · 53 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
@@ -66,8 +66,8 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 | ATEM Monitoring Rack Panel 20 | 19″ · 1 U | 100 mm* | – | 1,069.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/de/products/atemconstellationip) |
 | ATEM Monitoring Rack Panel 40 | 19″ · 2 U | 100 mm* | – | 1,699.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/de/products/atemconstellationip) |
 | Blackmagic SmartView Duo | 19″ · 3 U | 60 mm* | 1.43 kg | 400.00 € | scale view | [Manufacturer](https://www.blackmagicdesign.com/products/smartview) |
-| ATEM 2 M/E Production Studio 4K | 19″ · 2 U | 235 mm* | 4.1 kg | 980.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/products/atem) |
-| Blackmagic Web Presenter HD | 1/3 rack width | 176 mm* | – | 500.00 € | placeholder | [Manufacturer](https://www.blackmagicdesign.com/products/blackmagicwebpresenter) |
+| ATEM 2 M/E Production Studio 4K | 19″ · 2 U | 235 mm* | 4.1 kg | 980.00 € | scale view | [Manufacturer](https://www.blackmagicdesign.com/products/atem) |
+| Blackmagic Web Presenter HD | 1/3 rack width | 176 mm* | – | 500.00 € | scale view | [Manufacturer](https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors) |
 
 ## Ubiquiti
 
@@ -139,12 +139,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Behringer
 
-10 devices · 1 scale view · 0 data confirmed · 9 placeholder · 9 without weight
+10 devices · 2 scale view · 0 data confirmed · 8 placeholder · 9 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | Behringer WING RACK | 19″ · 4 U | 326 mm | – | – | scale view | [Manufacturer](https://www.behringer.com/en/products/0604-AAE) |
-| Behringer X32 RACK | 19″ · 3 U | 250 mm* | 6.2 kg | 800.00 € | placeholder | [Manufacturer](https://www.behringer.com/en/products/0604-AAA) |
+| Behringer X32 RACK | 19″ · 3 U | 250 mm* | 6.2 kg | 800.00 € | scale view | [Manufacturer](https://www.behringer.com/en/products/0604-AAA) |
 | Behringer S32 Stagebox | 19″ · 3 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ACQ) |
 | Behringer S16 Stagebox | 19″ · 3 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ABC) |
 | Behringer SD16 Stagebox | 19″ · 2 U | 250 mm* | – | – | placeholder · check U | [Manufacturer](https://www.behringer.com/en/products/0606-ACO) |
@@ -233,11 +233,11 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## dBTechnologies
 
-4 devices · 0 scale view · 0 data confirmed · 4 placeholder · 4 without weight
+4 devices · 1 scale view · 0 data confirmed · 3 placeholder · 4 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| dBTechnologies RDNet Control 8 | 19″ · 1 U | 200 mm* | – | – | placeholder | [Manufacturer](https://www.dbtechnologies.com/en/products/controllers/control-8) |
+| dBTechnologies RDNet Control 8 | 19″ · 1 U | 200 mm* | – | – | scale view | [Manufacturer](https://www.dbtechnologies.com/en/products/controllers/control-8) |
 | dBTechnologies AC26N Controller | 19″ · 1 U | 250 mm* | – | – | placeholder | [Manufacturer](https://www.dbtechnologies.com/en/products/controllers/ac26n) |
 | dBTechnologies IA3204 R Installationsverstärker | 19″ · 2 U | 380 mm* | – | – | placeholder | [Manufacturer](https://www.dbtechnologies.com/en/products/ia-amplifiers/ia3204-r) |
 | dBTechnologies IA3204 D Installationsverstärker (Dante) | 19″ · 2 U | 380 mm* | – | – | placeholder | [Manufacturer](https://www.dbtechnologies.com/en/products/ia-amplifiers/ia3204-d) |
@@ -290,12 +290,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Eurolite
 
-6 devices · 1 scale view · 0 data confirmed · 5 placeholder · 6 without weight
+6 devices · 2 scale view · 0 data confirmed · 4 placeholder · 6 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | Eurolite SB-1100 Stromverteiler 32 A | 19″ · 3 U | 295 mm | – | 399.00 € | scale view · discontinued | [Manufacturer](https://www.steinigke.de/de/mpn30248375-eurolite-sb-1100-stromverteiler-32a.html) |
-| Eurolite SB-1100B Stromverteiler 32 A | 19″ · 3 U | 295 mm* | – | 474.81 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248376-eurolite-sb-1100b-stromverteiler.html) |
+| Eurolite SB-1100B Stromverteiler 32 A | 19″ · 3 U | 295 mm* | – | 474.81 € | scale view | [Manufacturer](https://www.steinigke.de/mpn30248376-eurolite-sb-1100b-stromverteiler.html) |
 | Eurolite SB-1200B Stromverteiler 63 A | 19″ · 3 U | 310 mm* | – | 593.81 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248381-eurolite-sb-1200b-stromverteiler.html) |
 | Eurolite SBM-32B Stromverteiler mit Messung | 19″ · 3 U | 280 mm* | – | 534.31 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248401-eurolite-sbm-32b-stromverteiler.html) |
 | Eurolite SB-65/19 Stromverteiler 16 A | 19″ · 2 U | 210 mm* | – | 106.98 € | placeholder | [Manufacturer](https://www.steinigke.de/mpn30248305-eurolite-sb-65-19-stromverteiler.html) |
@@ -311,11 +311,11 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## APC
 
-1 devices · 0 scale view · 0 data confirmed · 1 placeholder · 0 without weight
+1 devices · 1 scale view · 0 data confirmed · 0 placeholder · 0 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| APC Smart-UPS C 1000 VA (SMC1000I-2U) | 19″ · 2 U | 406 mm* | 20.5 kg | – | placeholder · discontinued | [Manufacturer](https://www.se.com/de/de/product/SMC1000I-2U/) |
+| APC Smart-UPS C 1000 VA (SMC1000I-2U) | 19″ · 2 U | 406 mm* | 20.5 kg | – | scale view · discontinued | [Manufacturer](https://www.se.com/de/de/product/SMC1000I-2U/) |
 
 ## Stairville
 
@@ -351,12 +351,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Botex
 
-3 devices · 1 scale view · 0 data confirmed · 2 placeholder · 0 without weight
+3 devices · 3 scale view · 0 data confirmed · 0 placeholder · 0 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| Botex CHC-8 Chainhoist Controller | 19″ · 4 U | 278 mm* | 10.3 kg | – | placeholder | [Manufacturer](https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm) |
-| Botex DPX-620 III 6-Ch. Dimmer (Harting) | 19″ · 2 U | 325 mm* | 8 kg | 459.00 € | placeholder | [Manufacturer](https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm) |
+| Botex CHC-8 Chainhoist Controller | 19″ · 4 U | 278 mm* | 10.3 kg | – | scale view | [Manufacturer](https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm) |
+| Botex DPX-620 III 6-Ch. Dimmer (Harting) | 19″ · 2 U | 325 mm* | 8 kg | 459.00 € | scale view | [Manufacturer](https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm) |
 | Botex PSA 16PT2-TR1 Power Distributor | 19″ · 1 U | 200 mm* | 3.5 kg | – | scale view | [Manufacturer](https://www.thomann.de/de/botex_psa_16pt2_tr1.htm) |
 
 ## the t.amp

@@ -20,6 +20,7 @@
  "„{0}“ sitzt um 0,5 HE versetzt zum Lochraster.": "“{0}” is offset by 0.5 U from the hole pattern.",
  "„{0}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.": "“{0}” should be fixed at the rear, but the case has no rear rack rail.",
  "„{0}“ und „{1}“ überlappen {2}.": "“{0}” and “{1}” overlap {2}.",
+ "„{0}“: Gerät „{1}“ ist in dieser Version der Datenbank unbekannt – wird als Platzhalter gezeigt, der Schlüssel bleibt in der Projektdatei erhalten.": "\"{0}\": device \"{1}\" is unknown in this version of the database – shown as a placeholder, the key is kept in the project file.",
  "„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche; vor der Bestellung prüfen. Art.-Nr., Lieferant und leere Preise kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.": "“Cart” = price from your list. “Web price 11/2026” = dealer price from research; check before ordering. You can enter part no., supplier and missing prices directly; they are stored in this browser.",
  "({0} liegen dem Case bei)": "({0} included with the case)",
  "({0} Position{1} ohne Gewicht)": "({0} item(s) without weight)",

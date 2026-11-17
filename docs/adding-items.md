@@ -84,6 +84,8 @@ For devices in shelves or kits add the reference size `w`/`h`; the view is scale
 
 **Check:** open the device in the review editor (Projects → "Review device views" or `#pruefen=<key>`), overlay the source image and approve.
 
+Any element may carry `rot` (degrees) to draw it rotated around its x/y point, e.g. a circuit breaker mounted sideways: `{ "t": "mcb", "x": 104, "y": 25, "n": 1, "h": 43, "rot": 90 }`.
+
 ## Weight
 
 Devices: field `kg`. All other items: `data/weights.json` with keys `art:<ART key>`, `con:<CON>`, `panel:<PANELS>`, `shelf:<SHELVES>`, `case:<type>:<U>`, `acc:<id>`, `x:rail_rear`. All keys: `data/weight-catalog.csv` (regenerate with `node scripts/weight-catalog.mjs`).

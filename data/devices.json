@@ -1933,8 +1933,7 @@
   "he": 3,
   "d": 250,
   "chk": 1,
-  "ph": 1,
-  "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
+  "note": "Daten aus Herstellerliste, Maße noch nicht geprüft. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.behringer.com/en/products/0604-AAA",
   "io": {
    "f": "lcd:1 5″-colour display; usba:1 USB; jack:1 Headphones; knob:6 knobs; btn:1 Buttons",
@@ -2491,9 +2490,8 @@
   "he": 3,
   "d": 295,
   "chk": 1,
-  "ph": 1,
   "price": 474.81,
-  "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft",
+  "note": "Daten aus Herstellerliste, Maße noch nicht geprüft. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.steinigke.de/mpn30248376-eurolite-sb-1100b-stromverteiler.html",
   "io": {
    "f": "rcd:1 FI Typ B 40 A/30 mA 4-pin; brk:9 2× LS C16 3-pin, 3× LS C16 1-pin; cee16f:2 CEE 16 A Out",
@@ -3092,12 +3090,11 @@
   "d": 200,
   "url": "https://www.dbtechnologies.com/en/products/controllers/control-8",
   "io": {
-   "f": "lcd:1 status LEDs",
-   "r": "rj45:9 8× RDNet-Port (or XLR), Ethernet; usb:1 USB; iec:1 Power"
+   "f": "usb:1 USB; lcd:1 Link/channel LEDs, card reader; btn:1 Power switch",
+   "r": "powercon:1 Power In; rj45:1 Ethernet; xlrf:8 RDNet port A; xlr:8 RDNet port B"
   },
   "chk": 1,
-  "ph": 1,
-  "note": "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft"
+  "note": "Daten aus Herstellerliste, Maße noch nicht geprüft. Ansicht nach Produktfotos gezeichnet (ungeprüft)."
  },
  "dbt_ac26n": {
   "n": "dBTechnologies AC26N Controller",
@@ -3173,8 +3170,7 @@
   "d": 406,
   "kg": 20.5,
   "chk": 1,
-  "ph": 1,
-  "note": "Laut Hersteller abgekündigt (02/2024).",
+  "note": "Laut Hersteller abgekündigt (02/2024). Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.se.com/de/de/product/SMC1000I-2U/",
   "io": {
    "f": "lcd:1 LCD; btn:4 Power, menu buttons",
@@ -3190,11 +3186,11 @@
   "d": 130,
   "price": 98,
   "chk": 1,
-  "note": "Tiefe, Gewicht und Netzanschluss nicht angegeben – nachmessen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "note": "Tiefe und Gewicht nicht angegeben – nachmessen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.thomann.de/de/stairville_dmx_splitter_4_mkiii_19.htm",
   "io": {
-   "f": "xlr:1 DMX In (3-pin); xlr5:1 DMX In (5-pin); xlrf:5 DMX Thru, Out 1–4 (3-pin); xlr5:5 DMX Thru, Out 1–4 (5-pin)",
-   "r": "iec:1 Power"
+   "f": "xlr5:1 DMX In (5-pin); xlr:1 DMX In (3-pin); xlr5:5 DMX Thru, Out 1–4 (5-pin); xlrf:5 DMX Thru, Out 1–4 (3-pin); btn:1 Power switch",
+   "r": "gland:1 Power cable with Schuko plug"
   }
  },
  "glp_pdp2s": {
@@ -3223,7 +3219,7 @@
   "kg": 9.8,
   "price": 300,
   "chk": 1,
-  "note": "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "note": "Im Bestand als „Showtec PSA321“ bezeichnet – Modell prüfen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.thomann.de/de/showtec_psa_32a12s_power_distributor.htm",
   "io": {
    "f": "rcd:1 RCD; brk:12 MCB C16; lcd:6 3× voltmeter, 3× ammeter; schuko:1 Schuko Out (front)",
@@ -3242,10 +3238,10 @@
   "chk": 1,
   "url": "https://www.rfvenue.com/distro4",
   "io": {
-   "f": "btn:1 Power switch",
-   "r": "iec:1 AC In; dc:2 DC Out 12 V to receivers; bnc:12 Antenna A/B In, Cascade A/B Out, 4× Out A, 4× Out B"
+   "f": "btn:1 Power switch; lcd:1 Power LED",
+   "r": "iec:1 AC In (fused); dc:4 DC Out 12 V to receivers; bnc:12 Antenna A/B In, Cascade A/B Out, 4× Out A, 4× Out B"
   },
-  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+  "note": "Ansicht nach Produktfotos gezeichnet (ungeprüft)."
  },
  "bm_smartview_duo": {
   "n": "Blackmagic SmartView Duo",
@@ -3257,11 +3253,11 @@
   "kg": 1.43,
   "price": 400,
   "chk": 1,
-  "note": "Abgekündigt, Nachfolger SmartView Duo 2. Tiefe ohne Stecker geschätzt. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "note": "Abgekündigt, Nachfolger SmartView Duo 2. Tiefe ohne Stecker geschätzt. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.blackmagicdesign.com/products/smartview",
   "io": {
-   "f": "lcd:2 8″ LCD; btn:2 Menu buttons",
-   "r": "bnc:4 3G-SDI In 1/2 + Loop Out; rj45:1 Ethernet; db9:1 Tally; usb:1 USB; dc:1 12 V DC"
+   "f": "lcd:2 8″ LCD",
+   "r": "bnc:4 SDI In 1/2 + Loop Out; rj45:2 Ethernet In/Out; db9:1 Tally; usb:1 USB; dc:1 12 V DC"
   }
  },
  "atem_2me_ps4k": {
@@ -3274,12 +3270,11 @@
   "kg": 4.1,
   "price": 980,
   "chk": 1,
-  "ph": 1,
-  "note": "Abgekündigt. Anschlüsse aus Datenblatt, Rückseite nicht gezeichnet.",
+  "note": "Abgekündigt. Anschlussbezeichnungen hinten teils angenommen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.blackmagicdesign.com/products/atem",
   "io": {
-   "f": "btn:1 Power LEDs",
-   "r": "bnc:31 20× 6G-SDI In, Program, Preview, 6× Aux, Multiview, Ref In; hdmi:2 Multiview Out, Aux Out; xlr:2 Analog Audio In; rj45:1 Ethernet; usb:1 USB; iec:2 Power (redundant)"
+   "f": "btn:42 Source, Aux and function buttons; lcd:1 LCD",
+   "r": "bnc:34 20× SDI In, SDI Out, 7× Aux Out, Program/Preview, Multiview, Ref In/Out; hdmi:4 HDMI In, HDMI Out, 2× Multiview Out; xlrf:5 Analog Audio In, Talkback; xlr:5 Analog Audio Out; rca:2 HiFi Audio In; db9:1 RS-422; rj45:1 Ethernet; usb:1 USB; iec:2 Power (redundant)"
   }
  },
  "bm_webpresenter_hd": {
@@ -3290,13 +3285,12 @@
   "frac": 0.3333333333333333,
   "d": 176,
   "chk": 1,
-  "ph": 1,
   "price": 500,
-  "note": "Abgekündigt, ähnlich Streaming Encoder HD. Maße wie Teranex-Mini-Gehäuse angenommen.",
-  "url": "https://www.blackmagicdesign.com/products/blackmagicwebpresenter",
+  "note": "Abgekündigt; Blackmagic führt ihn als Streaming Encoder HD weiter – Ansicht und Anschlüsse von dort übernommen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
+  "url": "https://www.blackmagicdesign.com/de/products/blackmagicstreamingprocessors",
   "io": {
-   "f": "lcd:1 Display; btn:4 Control buttons",
-   "r": "bnc:2 12G-SDI In, SDI Program Out; xlr:2 Audio In; rj45:1 Ethernet; usb:1 USB-C Webcam/Tethering; iec:1 Power"
+   "f": "lcd:1 LCD; btn:1 Control panel",
+   "r": "bnc:3 SDI In, Loop, Monitor; hdmi:1 Monitor Out; rj45:1 Ethernet; usbc:1 USB-C; iec:1 Power"
   }
  },
  "botex_chc8": {
@@ -3308,12 +3302,11 @@
   "d": 278,
   "kg": 10.3,
   "chk": 1,
-  "ph": 1,
-  "note": "Eigene Harting-Belegung von Botex (Nutzerhinweis) – vor Einsatz prüfen.",
+  "note": "Eigene Harting-Belegung von Botex (Nutzerhinweis) – vor Einsatz prüfen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm",
   "io": {
-   "f": "btn:10 8× channel select, Up/Down; btn:2 Emergency stop, key switch",
-   "r": "gland:1 CEE 32 A In; cee16f:2 Harting 16-pin Out (motors 1–4, 5–8)"
+   "f": "btn:8 Motor 1–8 up/off/down; btn:2 Emergency stop, Run; brk:5 Main breaker, control circuit",
+   "r": "gland:1 Power In CEE 32 A (cable); cee16f:4 Motor 1–4 Out (CEE 16 A); cee16f:2 Harting 16-pin Motor 1–4, 5–8"
   }
  },
  "tamp_quadro500dsp": {
@@ -3328,10 +3321,10 @@
   "chk": 1,
   "url": "https://www.thomann.de/de/the_t.amp_quadro_500_dsp.htm",
   "io": {
-   "f": "lcd:1 Display; knob:1 Encoder; btn:4 Channel buttons; usb:1 USB",
-   "r": "xlr:4 Input A–D; nl4:4 Speaker Out A–D; iec:1 Power"
+   "f": "btn:1 Power button; lcd:1 Display; knob:1 Control encoder; usb:1 USB (data)",
+   "r": "xlrf:4 Input A–D; nl4:4 Speaker Out A–D; btn:1 Breaker; iec:1 Power"
   },
-  "note": "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft."
+  "note": "Ansicht nach Produktfotos gezeichnet (ungeprüft)."
  },
  "botex_dpx620": {
   "n": "Botex DPX-620 III 6-Ch. Dimmer (Harting)",
@@ -3343,8 +3336,7 @@
   "kg": 8,
   "price": 459,
   "chk": 1,
-  "ph": 1,
-  "note": "Gewichtsangaben schwanken (8–12 kg); Harting-Variante prüfen.",
+  "note": "Gewichtsangaben schwanken (8–12 kg); Harting-Variante prüfen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm",
   "io": {
    "f": "lcd:1 Display; btn:4 Menu buttons; brk:6 Channel fuses",
@@ -3360,7 +3352,7 @@
   "d": 200,
   "kg": 3.5,
   "chk": 1,
-  "note": "Tiefe nicht angegeben – nachmessen. Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.",
+  "note": "Tiefe nicht angegeben – nachmessen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
   "url": "https://www.thomann.de/de/botex_psa_16pt2_tr1.htm",
   "io": {
    "f": "brk:3 MCB C16; lcd:1 Voltage display per phase",
