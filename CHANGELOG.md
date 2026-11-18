@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-18 – Version 27 · Stepless placement
+
+- **Stepless placement:** new case option next to height and depth, offered for cases with rails without hole pattern (ProCase Pro rack modules with RSS rail, Thon racks with aluminium rails, custom cases). When on, modules no longer snap to the 0.5 U grid: drag, Alt+↑/↓ and the ↑/↓ buttons move in 1 mm steps (Alt+Shift: 10 mm), the inspector shows "from top edge (mm)". Positions on the grid stay exact. Turning it off snaps all modules back to the 0.5 U grid. Saved in the project file (`case.free`).
+
 ## 2026-11-17 – Version 26 · Views from product photos, safer project files
 
 - **14 scale views drawn from product photos** (status "not checked yet", like the WING RACK): Behringer X32 RACK, Eurolite SB-1100B, dBTechnologies RDNet Control 8, Botex DPX-620 III (front), Botex CHC-8, Botex PSA 16PT2-TR1, Stairville DMX Splitter 4 MKIII, the t.amp Quadro 500 DSP, Showtec PSA-32A12S, RF Venue DISTRO4, Blackmagic SmartView Duo, ATEM 2 M/E Production Studio 4K, APC Smart-UPS C 1000 (front from an angled photo), Web Presenter HD (taken over from its successor Streaming Encoder HD). These devices are no longer placeholders.

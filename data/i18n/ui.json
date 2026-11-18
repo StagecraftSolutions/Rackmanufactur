@@ -4,6 +4,7 @@
  ", von vorn": ", from the front",
  "· {0} Projekte aktualisiert": "· {0} projects updated",
  "· {0} Projekte übernommen": "· {0} projects added",
+ "· 1-mm-Schritte statt 0,5-HE-Raster": "· 1 mm steps instead of the 0.5 U grid",
  "· Gewicht fehlt": "· weight missing",
  "· Maße am Gerät prüfen": "· check dimensions on the device",
  "· Maße prüfen": "· check dimensions",
@@ -83,6 +84,7 @@
  "◀ Front": "◀ Front",
  "19″-Rackgeräte · eigene Rackohren": "19″ rack devices · own rack ears",
  "ab {0} mm von links": "from {0} mm from the left",
+ "ab Oberkante (mm)": "from top edge (mm)",
  "Abstand auf D-Raster": "Spacing on D grid",
  "Abstand links in mm": "Distance from left in mm",
  "Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.": "Distance from the left inner edge in mm. Align devices flush with the front edge and secure with cable ties or screws.",
@@ -439,6 +441,7 @@
  "Schiene bei {0} mm": "Rail at {0} mm",
  "Schiene hinten": "Rear rail",
  "Schiene hinten optional": "Rear rail optional",
+ "Schienen ohne Lochraster: Module millimetergenau in der Höhe verschieben statt im 0,5-HE-Raster": "Rails without hole pattern: move modules vertically to the millimetre instead of in the 0.5 U grid",
  "Schließen": "Close",
  "Schrauben, Zubehör": "Screws, accessories",
  "SCHUBLADE {2} · RÜCKWAND": "DRAWER {2} · REAR WALL",
@@ -466,6 +469,8 @@
  "Streifen Höhe (mm)": "Strip height (mm)",
  "Stückliste": "Bill of materials",
  "Stückliste, Lieferanten, Arbeitsschritte": "Bill of materials, suppliers, work steps",
+ "Stufenlos platzieren": "Stepless placement",
+ "Stufenlos: Module in 1-mm-Schritten verschiebbar": "Stepless: modules move in 1 mm steps",
  "Suchen: Name, Kunde, Case": "Search: name, client, case",
  "Summe": "Total",
  "Summe bekannter Preise · {0} Position{1} ohne Preis": "Total of known prices · {0} item(s) without price",
@@ -538,5 +543,7 @@
  "Maße am Gerät prüfen": "check dimensions on the device",
  "Eigenes Steckerfeld {0}": "Custom connector panel {0}",
  "Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten.": "Mark the cutouts from the drill plan – centres in mm from the left panel edge (incl. rack ear) and from the top edge –, drill or punch and deburr.",
- "Bohrschablone 1:1 als PDF im Steckerfeld-Editor.": "Drill template 1:1 as PDF in the connector panel editor."
+ "Bohrschablone 1:1 als PDF im Steckerfeld-Editor.": "Drill template 1:1 as PDF in the connector panel editor.",
+ "Raster 0,5 HE: Positionen eingerastet": "0.5 U grid: positions snapped",
+ "1 mm": "1 mm"
 }

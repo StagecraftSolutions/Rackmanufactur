@@ -830,6 +830,7 @@ document.documentElement.lang = LANG;
   ", von vorn": ", from the front",
   "· {0} Projekte aktualisiert": "· {0} projects updated",
   "· {0} Projekte übernommen": "· {0} projects added",
+  "· 1-mm-Schritte statt 0,5-HE-Raster": "· 1 mm steps instead of the 0.5 U grid",
   "· Gewicht fehlt": "· weight missing",
   "· Maße am Gerät prüfen": "· check dimensions on the device",
   "· Maße prüfen": "· check dimensions",
@@ -908,6 +909,7 @@ document.documentElement.lang = LANG;
   "◀ Front": "◀ Front",
   "19″-Rackgeräte · eigene Rackohren": "19″ rack devices · own rack ears",
   "ab {0} mm von links": "from {0} mm from the left",
+  "ab Oberkante (mm)": "from top edge (mm)",
   "Abstand auf D-Raster": "Spacing on D grid",
   "Abstand links in mm": "Distance from left in mm",
   "Abstand von der linken Innenkante in mm. Geräte bündig zur Vorderkante ausrichten und mit Kabelbinder oder Schrauben sichern.": "Distance from the left inner edge in mm. Align devices flush with the front edge and secure with cable ties or screws.",
@@ -1258,6 +1260,7 @@ document.documentElement.lang = LANG;
   "Schiene bei {0} mm": "Rail at {0} mm",
   "Schiene hinten": "Rear rail",
   "Schiene hinten optional": "Rear rail optional",
+  "Schienen ohne Lochraster: Module millimetergenau in der Höhe verschieben statt im 0,5-HE-Raster": "Rails without hole pattern: move modules vertically to the millimetre instead of in the 0.5 U grid",
   "Schließen": "Close",
   "Schrauben, Zubehör": "Screws, accessories",
   "SCHUBLADE {2} · RÜCKWAND": "DRAWER {2} · REAR WALL",
@@ -1285,6 +1288,8 @@ document.documentElement.lang = LANG;
   "Streifen Höhe (mm)": "Strip height (mm)",
   "Stückliste": "Bill of materials",
   "Stückliste, Lieferanten, Arbeitsschritte": "Bill of materials, suppliers, work steps",
+  "Stufenlos platzieren": "Stepless placement",
+  "Stufenlos: Module in 1-mm-Schritten verschiebbar": "Stepless: modules move in 1 mm steps",
   "Suchen: Name, Kunde, Case": "Search: name, client, case",
   "Summe": "Total",
   "Summe bekannter Preise · {0} Position{1} ohne Preis": "Total of known prices · {0} item(s) without price",
@@ -1354,6 +1359,8 @@ document.documentElement.lang = LANG;
   "Eigenes Steckerfeld {0}": "Custom connector panel {0}",
   "Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten.": "Mark the cutouts from the drill plan – centres in mm from the left panel edge (incl. rack ear) and from the top edge –, drill or punch and deburr.",
   "Bohrschablone 1:1 als PDF im Steckerfeld-Editor.": "Drill template 1:1 as PDF in the connector panel editor.",
+  "Raster 0,5 HE: Positionen eingerastet": "0.5 U grid: positions snapped",
+  "1 mm": "1 mm",
   "12G-Eignung prüfen": "check 12G suitability",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
   "210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.": "210 mm outer depth, inside 401 × 74 × 200 mm, 25 kg, full extension, lockable.",
@@ -1882,6 +1889,15 @@ const CASES = {
 };
 const useOf = (ct, he) => typeof ct.use === 'function' ? ct.use(he) : ct.use;
 const stufenlos = ct => ct.rail === 'rss' || ct.rail === 'alu';
+// Stufenlos platzieren: bei Schienen ohne Lochraster (und eigenem Case) Module in 1-mm-Schritten statt im 0,5-HE-Raster
+const freeOK = c => !!c && !!CASES[c.type] && (stufenlos(CASES[c.type]) || c.type === 'custom');
+const fine = () => !!(state && state.case && state.case.free && freeOK(state.case));
+const snapPos = (v, free = fine()) => { const g = Math.round(v * 2) / 2; if (!free || Math.abs(v - g) * HE < 0.6) return g; return Math.round(Math.round(v * HE) / HE * 1e4) / 1e4; };   // stufenlos: 1 mm, an Rasterpunkten exakt
+const posStep = () => fine() ? 1 / HE : 0.5;
+function snapAll() {   // zurück ins 0,5-HE-Raster, Überlappungen nach unten auflösen
+  state.items.forEach(it => { it.pos = Math.max(0, Math.round(it.pos * 2) / 2); });
+  ['front', 'rear'].forEach(side => { const done = []; sideItems(side).forEach(it => { let moved = true; while (moved) { moved = false; for (const p of done) if (clash(it, p)) { it.pos = p.pos + p.he; moved = true; } } done.push(it); }); });
+}
 const RAIL_REAR = { n: '2. Rackschienenpaar hinten', art: 'ProCase 11910', price: null, src: 'ref', q: 'procaseshop.de · Option am Rackmodul' };
 const DEPTH = { dpanel: 80, cpanel: 80, label: 15, brush: 6, vent: 3, blank: 3, drawer: 392 };
 // auto: zu welchen Schienen der Schraubenvorschlag passt
@@ -2669,7 +2685,7 @@ function normalize(s) {
   const c = s.case;
   if (c.rear == null) c.rear = true;
   if (c.railRear == null) c.railRear = (+c.depth || 450) - 25;
-  c.lidF = !!c.lidF; c.lidR = !!c.lidR;
+  c.lidF = !!c.lidF; c.lidR = !!c.lidR; c.free = !!c.free && freeOK(c);
   if (CASES[c.type].rear === 'none') c.rear = false;
   if (CASES[c.type].rear === 'std') c.rear = true;
   s.project = s.project || { name: c.name || '', client: '', note: '' };
@@ -2685,7 +2701,7 @@ function normalize(s) {
   s.items.forEach(it => {
     it.id = it.id || uid();
     it.side = it.side === 'rear' ? 'rear' : 'front';
-    it.pos = Math.max(0, Math.round((+it.pos || 0) * 2) / 2);
+    it.pos = Math.max(0, snapPos(+it.pos || 0, s.case.free));
     if (it.kind === 'dpanel') {
       if (!PANELS[it.variant]) it.variant = 'd12tb';
       const P = PANELS[it.variant], n = P.cols * P.rows;
@@ -2747,6 +2763,7 @@ const clash = (a, b) => ovl(a, b) && !canStack(a, b);
 const coversShelf = it => isCover(it) && sideItems(it.side).some(o => o.kind === 'shelf' && ovl(it, o));
 const sideItems = side => state.items.filter(i => i.side === side).sort((a, b) => a.pos - b.pos);
 function layout() {
+  if (state.case.free && !freeOK(state.case)) { state.case.free = false; snapAll(); }
   state.items.forEach(it => { if (it.kind === 'dpanel') forceMount(it); if (it.kind === 'shelf') (it.devs || []).forEach(o => { o.id = o.id || uid(); }); });
   let letter = 0;
   ['front', 'rear'].forEach(side => sideItems(side).forEach(it => { it._letter = it.kind === 'dpanel' || it.kind === 'cpanel' ? String.fromCharCode(65 + letter++) : null; }));
@@ -3544,7 +3561,7 @@ function warnings(L) {
 /* ---------- Platzieren ---------- */
 // Setzt ein Modul auf pos; überlappende Module derselben Seite rutschen nach unten.
 function place(it, pos) {
-  it.pos = Math.max(0, Math.round(pos * 2) / 2);
+  it.pos = Math.max(0, snapPos(pos));
   const placed = [it];
   sideItems(it.side).filter(o => o !== it).forEach(o => {
     let moved = true;
@@ -4117,6 +4134,7 @@ function renderCase() {
       <div class="field"><label for="caseHe">Höhe</label><select id="caseHe" data-case="he">${heOpts}</select></div>
       <div class="field"><label for="caseDepth">${own ? 'Einbautiefe' : 'Nutztiefe'} (mm)</label><input id="caseDepth" type="number" min="100" max="1000" step="1" value="${c.depth}" data-case="depth" ${ct.fix ? 'readonly' : ''}></div>
     </div>
+    ${freeOK(c) ? `<label class="check" title="Schienen ohne Lochraster: Module millimetergenau in der Höhe verschieben statt im 0,5-HE-Raster"><input type="checkbox" data-case="free" ${c.free ? 'checked' : ''}> Stufenlos platzieren <small style="color:var(--muted)">· 1-mm-Schritte statt 0,5-HE-Raster</small></label>` : ''}
     <label class="check"><input type="checkbox" data-case="rear" ${c.rear ? 'checked' : ''} ${rearLock ? 'disabled' : ''}> Rackschienen hinten${ct.rear === 'opt' && !own ? ' (ProCase 11910, Option)' : ct.rear === 'std' ? ' (serienmäßig)' : ct.rear === 'none' ? ' (bei diesem Case nicht möglich)' : ''}</label>
     ${c.rear ? `<div class="field"><label for="caseRail">Hintere Schiene ab Frontschiene (mm)${ct.railMin != null && !railFix ? ` · einstellbar ${ct.railMin}–${ct.railMax}` : ''}</label><input id="caseRail" type="number" min="${ct.railMin ?? 50}" max="${ct.railMax ?? 1000}" step="1" value="${c.railRear}" data-case="railRear" ${railFix ? 'readonly' : ''}></div>` : ''}
     ${ct.lids ? `<div class="row"><label class="check"><input type="checkbox" data-case="lidF" ${c.lidF ? 'checked' : ''}> Deckel vorne</label><label class="check"><input type="checkbox" data-case="lidR" ${c.lidR ? 'checked' : ''}> Deckel hinten</label></div>` : ''}
@@ -4164,11 +4182,11 @@ function renderInsp() {
   let h = `<div class="insp-title"><span class="big">${esc(title(it))}</span></div>
     <div class="row" style="align-items:center">
       <span class="seg" role="group" aria-label="Montageseite"><button type="button" data-act="side-front" aria-pressed="${it.side === 'front'}">Vorderseite</button><button type="button" data-act="side-rear" aria-pressed="${it.side === 'rear'}">Rückseite</button></span>
-      <div class="field" style="flex:0 0 96px"><label for="f_pos">Ab HE</label><input id="f_pos" type="number" min="1" step="0.5" value="${it.pos + 1}" data-f="pos"></div>
+      <div class="field" style="flex:0 0 96px"><label for="f_pos">Ab HE</label><input id="f_pos" type="number" min="1" step="${fine() ? 0.01 : 0.5}" value="${+(it.pos + 1).toFixed(3)}" data-f="pos"></div>${fine() ? `<div class="field" style="flex:0 0 110px"><label for="f_posmm">ab Oberkante (mm)</label><input id="f_posmm" type="number" min="0" step="1" value="${Math.round(it.pos * HE)}" data-f="posmm"></div>` : ''}
     </div>
     <div class="actions">
-      <button type="button" class="btn sm" data-act="up" ${it.pos <= 0 ? 'disabled' : ''}>↑ 0,5 HE</button>
-      <button type="button" class="btn sm" data-act="down">↓ 0,5 HE</button>
+      <button type="button" class="btn sm" data-act="up" ${it.pos <= 0 ? 'disabled' : ''}>↑ ${fine() ? '1 mm' : '0,5 HE'}</button>
+      <button type="button" class="btn sm" data-act="down">↓ ${fine() ? '1 mm' : '0,5 HE'}</button>
       <button type="button" class="btn sm" data-act="compact" title="Module dieser Seite ohne Lücken nach oben schieben">Lücken schließen</button>
       <button type="button" class="btn sm" data-act="dup">Duplizieren</button>
       <button type="button" class="btn sm danger" data-act="del">Entfernen</button>
@@ -4453,7 +4471,7 @@ const HE_DEV = [0.5, 1, 2, 3, 4, 5, 6, 7, 8, 10, 12];
 function renderDlg() {
   const gap = gapAt(dlg.side, dlg.pos);
   document.querySelectorAll('[data-tside]').forEach(b => { b.setAttribute('aria-pressed', b.dataset.tside === dlg.side); b.disabled = b.dataset.tside === 'rear' && !state.case.rear; });
-  $('#tPos').value = dlg.pos + 1;
+  $('#tPos').step = fine() ? '0.01' : '0.5'; $('#tPos').value = +(dlg.pos + 1).toFixed(3);
   $('#tGap').textContent = gap ? `${fmtN(gap)} HE frei` : 'belegt · schiebt nach unten';
   document.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === dlg.tab));
   const chip = (kind, he, label, extra = '') => `<button type="button" class="chip${he > gap ? ' tight' : ''}" data-ins="${kind}" data-he="${he}" ${extra} title="${he > gap ? 'Größer als die Lücke: folgende Module rutschen nach unten' : 'Einsetzen'}">${label ?? String(he).replace('.', ',') + ' HE'}</button>`;
@@ -5064,8 +5082,8 @@ document.addEventListener('click', e => {
   if (act) {
     const a = act.dataset.act, i = state.items.findIndex(x => x.id === sel), it = state.items[i];
     if (!it) return;
-    if (a === 'up') place(it, it.pos - 0.5);
-    if (a === 'down') place(it, it.pos + 0.5);
+    if (a === 'up') place(it, it.pos - posStep());
+    if (a === 'down') place(it, it.pos + posStep());
     if (a === 'compact') compact(it.side);
     if (a === 'side-front' || a === 'side-rear') {
       const side = a === 'side-rear' ? 'rear' : 'front';
@@ -5152,6 +5170,7 @@ document.addEventListener('change', e => {
     const f = t.dataset.f;
     if (f === 'he') { it.he = +t.value; if (it.tray && it.he < 1) it.tray = null; else if (it.tray && it.tray.he > it.he) it.tray.he = 1; place(it, it.pos); }
     else if (f === 'pos') { const v = parseNum(t.value); if (v != null) place(it, v - 1); }
+    else if (f === 'posmm') { const v = parseNum(t.value); if (v != null) place(it, v / HE); }
     else if (f === 'tray') it.tray = t.checked ? { he: 1, depth: 375 } : null;
     else if (f === 'trayhe') it.tray.he = +t.value;
     else if (f === 'foam') it.foam = t.checked;
@@ -5177,12 +5196,13 @@ document.addEventListener('change', e => {
     else return;
     render(); return;
   }
-  if (t.id === 'tPos') { const v = parseNum(t.value); if (v != null) { dlg.pos = Math.max(0, Math.round((v - 1) * 2) / 2); renderDlg(); } return; }
+  if (t.id === 'tPos') { const v = parseNum(t.value); if (v != null) { dlg.pos = Math.max(0, snapPos(v - 1)); renderDlg(); } return; }
   if (t.dataset.case === 'he') {
     const c = state.case, ct = CASES[c.type]; c.he = +t.value;
     if (typeof ct.use === 'function') { c.depth = useOf(ct, c.he); c.railRear = railDefault(ct, c.depth); }
     render(); return;
   }
+  if (t.dataset.case === 'free') { state.case.free = t.checked; if (!t.checked) snapAll(); render(); toast(t.checked ? 'Stufenlos: Module in 1-mm-Schritten verschiebbar' : 'Raster 0,5 HE: Positionen eingerastet'); return; }
   if (['rear', 'lidF', 'lidR'].includes(t.dataset.case)) { state.case[t.dataset.case] = t.checked; render(); return; }
   if (t.dataset.price) { const o = state.ov[t.dataset.price] = state.ov[t.dataset.price] || {}; o.price = parsePrice(t.value); renderSoft(); return; }
   if (t.dataset.art) { const o = state.ov[t.dataset.art] = state.ov[t.dataset.art] || {}; o.art = t.value; renderSoft(); return; }
@@ -5285,7 +5305,7 @@ stage.addEventListener('pointermove', e => {
   drag.g.classList.add('dragging');
   drag.g.setAttribute('transform', `translate(0 ${dy.toFixed(1)})`);
   const lim = Math.max(state.case.he, layout().maxEnd + drag.it.he);
-  drag.pos = Math.min(lim - drag.it.he, Math.max(0, Math.round((drag.it.pos * HE + dy) / (HE / 2)) / 2));
+  drag.pos = Math.min(lim - drag.it.he, Math.max(0, snapPos(drag.it.pos + dy / HE)));
   const snap = drag.svg.querySelector('#snap');
   if (snap) { snap.style.display = ''; snap.setAttribute('y', CW + drag.pos * HE); snap.setAttribute('height', drag.it.he * HE); }
 });
@@ -5304,7 +5324,7 @@ stage.addEventListener('pointercancel', () => { if (drag) { drag = null; renderS
 document.addEventListener('keydown', e => {
   if (!sel || !['ArrowUp', 'ArrowDown'].includes(e.key) || !e.altKey) return;
   const it = state.items.find(i => i.id === sel); if (!it) return;
-  e.preventDefault(); place(it, it.pos + (e.key === 'ArrowUp' ? -0.5 : 0.5)); render();
+  e.preventDefault(); const st = fine() && e.shiftKey ? 10 / HE : posStep(); place(it, it.pos + (e.key === 'ArrowUp' ? -st : st)); render();
 });
 
 $('#tabFront').onclick = () => { view = 'front'; renderSoft(); };
