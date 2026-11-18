@@ -179,12 +179,12 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## d&b audiotechnik
 
-11 devices · 0 scale view · 11 data confirmed · 0 placeholder · 0 without weight
+11 devices · 2 scale view · 9 data confirmed · 0 placeholder · 0 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
-| d&b D80 Verstärker | 19″ · 2 U | 530 mm | 19 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d80/) |
-| d&b D40 Verstärker | 19″ · 2 U | 512 mm | 13.8 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d40/) |
+| d&b D80 Verstärker | 19″ · 2 U | 530 mm* | 19 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d80/) |
+| d&b D40 Verstärker | 19″ · 2 U | 512 mm* | 13.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d40/) |
 | d&b 40D Installationsverstärker | 19″ · 2 U | 465 mm | 13.3 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/40d/) |
 | d&b 30D Installationsverstärker | 19″ · 2 U | 435 mm | 10.6 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/30d/) |
 | d&b 10D Installationsverstärker | 19″ · 2 U | 435 mm | 10.6 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/10d/) |

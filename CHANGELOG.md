@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-18 – Version 28 · d&b D80 and D40 views
+
+- Scale views for d&b D80 and D40 drawn from the manufacturer product images (front and rear, status "not checked yet"); connector lists corrected from the images (D40: six speakON incl. A/B and C/D mix outputs, two etherCON, inputs/links/AES3 on XLR).
+
 ## 2026-11-18 – Version 27 · Stepless placement
 
 - **Stepless placement:** new case option next to height and depth, offered for cases with rails without hole pattern (ProCase Pro rack modules with RSS rail, Thon racks with aluminium rails, custom cases). When on, modules no longer snap to the 0.5 U grid: drag, Alt+↑/↓ and the ↑/↓ buttons move in 1 mm steps (Alt+Shift: 10 mm), the inspector shows "from top edge (mm)". Positions on the grid stay exact. Turning it off snaps all modules back to the 0.5 U grid. Saved in the project file (`case.free`).
