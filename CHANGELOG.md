@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-20 – Version 30 · d&b complete, new connector types
+
+- **Scale views for all d&b devices** (status "not checked yet"): 10D, 30D, 40D, D20, 5D, DS10, DS20, DS100, DS100M from the vector dimension drawings in the d&b datasheets (front) and the d&b product photos (rear); D90, D25, 25D, 5DM, DS110, DS22, DN1, DN2 and the touring-rack panels Z5338, Z5566, Z5577, Z5578, Z5604, Z5610 from d&b drawings/photos. Every view checked by overlay against its source.
+- **New d&b devices:** D90, D25, 25D, 5DM (Milan), DS110, DS22, switches DN1 and DN2, touring-rack panels (mains distributor/LS panels with LKA25, I/O panels). New **d&b rack kit** for two half-width devices (5D, 5DM, DN1); the 5D is now a half-width device.
+- **Device data corrected:** DS10/DS20 connectors are on the front; 40D has 2× RJ45 (Milan), not etherCON; D20 has 6× NL4 + NL8; DS100M/DS110 with MADI/word clock BNC and USB; network ports labelled Dante, Milan or Ethernet (control); NLT8 on D40/D80.
+- **New connector types** with their own symbols in mm, centred on the drill pattern (for later drill/mill output): Harting Han 16B/Han E 16 (female/male), multipin LKA25 and LK37, CEE 32/63/125 A 5-pin, CEE 16/32 A 4-pin (motor), Powerlock (L1–L3, N, PE in conductor colours), cPot (equipotential bonding), speakON NL8/NLT8. CEE pins and socket holes follow the IEC 60309-2 plug face (PE at 6 h). New parts in the connector database with flange, cutout and holes from manufacturer drawings: Mennekes 1252A/1688/1461/1983/1387ZA, PCE 325-6/625-6, Mennekes 1797, Harting 09 30 016 0302 + Han E 16 inserts, HICON LK25/LK37, Veam Powerlock NPS, Neutrik NLT8MPXX and CP-PMA.
+- **Dimmers with Harting:** Botex DPX-620 III (now Harting output, DMX 3-pin, 0–10 V), Botex CHC-8 (Harting and CEE 16 A 4-pin motor outputs), new Botex DPX-1210H NET and LSC GenVI (2× Han 16E).
+- Review editor: centre marker of CEE sockets fixed; NL4, NL8 and the new connector types can be placed.
+
 ## 2026-11-19 – Version 29 · Label strip in original size
 
 - **Label strip Adam Hall 872205 LBL** now 430 × 20 mm (was 440 × 15 mm). Projects with the old default sizes (440 × 15 or 430 × 17 mm) are updated on load; manually entered sizes stay.

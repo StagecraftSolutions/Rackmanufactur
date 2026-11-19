@@ -2577,7 +2577,7 @@
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d80/",
   "io": {
    "f": "lcd:1 3.5″ touchscreen; knob:1 Scroll/edit encoder; btn:1 Power switch",
-   "r": "powercon:1 Mains In (powerCON HC); nl4:4 Speaker Out A–D; nl8:1 4-channel Out; xlrf:4 Input 1–4 (analog/AES); xlr:4 Link 1–4; ethercon:2 Ethernet; rj45:1 CAN"
+   "r": "powercon:1 Mains In (powerCON HC); nl4:4 Speaker Out A–D; nl8:1 4-channel Out (NLT8); xlrf:4 Input 1–4 (analog/AES); xlr:4 Link 1–4; ethercon:2 Ethernet; rj45:1 CAN"
   },
   "chk": 1,
   "note": "Ansicht nach Produktfotos gezeichnet (ungeprüft)."
@@ -2593,7 +2593,7 @@
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d40/",
   "io": {
    "f": "lcd:1 4.35″ touchscreen; knob:1 Scroll/edit encoder; btn:1 Power switch",
-   "r": "powercon:1 Mains In (powerCON TRUE1 TOP); nl4:6 Speaker Out A–D, A/B and C/D mix 2-way; nl8:1 4-channel Out; xlrf:6 Input 1–4, AES3 In 1/2, 3/4; xlr:6 Link 1–4, AES3 Link 1/2, 3/4; ethercon:2 Ethernet primary/secondary (Milan)"
+   "r": "powercon:1 Mains In (powerCON TRUE1 TOP); nl4:6 Speaker Out A–D, A/B and C/D mix 2-way; nl8:1 4-channel Out (NLT8); xlrf:6 Input 1–4, AES3 In 1/2, 3/4; xlr:6 Link 1–4, AES3 Link 1/2, 3/4; ethercon:2 Ethernet primary/secondary (Milan)"
   },
   "chk": 1,
   "note": "Ansicht nach Produktfotos gezeichnet (ungeprüft)."
@@ -2608,9 +2608,11 @@
   "kg": 13.3,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/40d/",
   "io": {
-   "f": "lcd:1 4,3″-Touchscreen",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; ethercon:5 Milan/AVB-Switch; rj45:2 Ethernet; powercon:1 powerCON TRUE1 TOP"
-  }
+   "f": "lcd:1 4.3″ touchscreen",
+   "r": "euroblock:13 2× Speaker Out (A/B, C/D), 4× Analog In A1–A4, 2× AES3 In D1/2, D3/4, 2× AES3 Link, GPI 1–8, GPO 1–4, Fault; rj45:2 Ethernet 1 PRI, Ethernet 2 SEC (Milan, OCA); powercon:1 Mains In (powerCON TRUE1 TOP)"
+  },
+  "chk": 1,
+  "note": "Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft)."
  },
  "db_30d": {
   "n": "d&b 30D Installationsverstärker",
@@ -2622,10 +2624,11 @@
   "kg": 10.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/30d/",
   "io": {
-   "f": "btn:1 status LEDs",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Power"
+   "f": "btn:1 Status LEDs",
+   "r": "euroblock:12 2× Speaker Out (A/B, C/D), 4× Analog In A1–A4, 2× AES3 In D1/2, D3/4, 2× AES3 Link, GPIO 1–5, Fault; rj45:4 2× Ethernet (control), 2× CAN; powercon:1 Mains In; btn:1 Power switch"
   },
-  "note": "Heritage-Produkt"
+  "note": "Heritage-Produkt; Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).",
+  "chk": 1
  },
  "db_10d": {
   "n": "d&b 10D Installationsverstärker",
@@ -2637,10 +2640,11 @@
   "kg": 10.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/10d/",
   "io": {
-   "f": "btn:1 status LEDs",
-   "r": "euroblock:13 Analog/AES In + Link, Mix, Outputs, GPIO, Fault; rj45:4 2× CAN, 2× Ethernet; powercon:1 Power"
+   "f": "btn:1 Status LEDs",
+   "r": "euroblock:12 2× Speaker Out (A/B, C/D), 4× Analog In A1–A4, 2× AES3 In D1/2, D3/4, 2× AES3 Link, GPIO 1–5, Fault; rj45:4 2× Ethernet (control), 2× CAN; powercon:1 Mains In; btn:1 Power switch"
   },
-  "note": "Heritage-Produkt"
+  "note": "Heritage-Produkt; Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).",
+  "chk": 1
  },
  "db_d20": {
   "n": "d&b D20 Verstärker",
@@ -2652,24 +2656,30 @@
   "kg": 10.8,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/d20/",
   "io": {
-   "f": "lcd:1 3,5″-Touchscreen; knob:1 Encoder",
-   "r": "xlr:11 4× Analog In, 4× Link, 2× AES3 In, AES Link; nl4:4 Outputs; nl8:1 4-channel-Output; rj45:2 CAN; ethercon:2 Ethernet; powercon:1 Power"
+   "f": "lcd:1 3.5″ touchscreen; knob:1 Scroll/edit encoder; btn:1 Power switch",
+   "r": "powercon:1 Mains In; nl4:6 Speaker Out A–D, A/B and C/D mix 2-way; nl8:1 4-channel Out; ethercon:2 Ethernet (control); xlrf:4 Input 1–4 (analog/AES); xlr:4 Link 1–4; rj45:1 CAN"
   },
-  "note": "Heritage-Produkt"
+  "note": "Heritage-Produkt; Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).",
+  "chk": 1
  },
  "db_5d": {
   "n": "d&b 5D Installationsverstärker",
   "mk": "d&b audiotechnik",
   "g": "Audio · Endstufen · d&b",
-  "fit": "rack",
-  "he": 1,
+  "fit": "half",
   "d": 435,
   "kg": 4.6,
   "url": "https://www.dbaudio.com/global/en/products/amplifiers/5d/",
   "io": {
-   "f": "btn:1 status LEDs",
-   "r": "euroblock:6 Analog In/Link, GPI, Fault, 2× Output; rj45:2 Dante, OCA; iec:1 Power"
-  }
+   "f": "btn:1 Status LEDs",
+   "r": "euroblock:6 2× Speaker Out (A/B, C/D), 2× Analog In/Link A1–A4, GPI 1–4, Fault; rj45:2 ETH1, ETH2 (Dante, OCA); iec:1 Mains In (C14); btn:1 Power switch"
+  },
+  "w": 220,
+  "h": 44,
+  "chk": 1,
+  "note": "Rackkit für 2 Geräte auf 1 HE liegt bei (Handbuch 5D/5DM). Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).",
+  "kitType": "db",
+  "frac": 0.5
  },
  "db_ds10": {
   "n": "d&b DS10 Audio-Netzwerk-Bridge",
@@ -2681,9 +2691,11 @@
   "kg": 3.75,
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds10/",
   "io": {
-   "f": "btn:1 Bypass/Network",
-   "r": "xlrf:4 AES3 In; xlr:16 AES3 Out; ethercon:5 network-Switch; powercon:1 Power"
-  }
+   "f": "xlr:2 AES3 Out 1/2, 3/4; xlrf:2 AES3 In 1/2, 3/4; ethercon:4 Dante ETH 1–4; btn:1 Bypass/Network switch",
+   "r": "powercon:1 Mains In; ethercon:1 Dante ETH 5; xlr:6 AES3 Out 5/6–15/16"
+  },
+  "chk": 1,
+  "note": "Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft)."
  },
  "db_ds20": {
   "n": "d&b DS20 Audio-Netzwerk-Bridge (Milan)",
@@ -2695,9 +2707,11 @@
   "kg": 3.8,
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds20/",
   "io": {
-   "f": "btn:1 Mode",
-   "r": "xlrf:2 AES3 In; xlr:8 AES3 Out; ethercon:5 AVB-Switch; powercon:1 Power"
-  }
+   "f": "xlr:2 AES3 Out 1/2, 3/4; xlrf:2 AES3 In 1/2, 3/4; ethercon:4 Milan ETH 1–4; btn:1 Mode",
+   "r": "powercon:1 Mains In; ethercon:1 Milan ETH 5; xlr:6 AES3 Out 5/6–15/16"
+  },
+  "chk": 1,
+  "note": "Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft)."
  },
  "db_ds100": {
   "n": "d&b DS100 Signal Engine (Soundscape)",
@@ -2710,9 +2724,10 @@
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100/",
   "io": {
    "f": "btn:1 Power button",
-   "r": "rj45:3 LAN, Dante primary/secondary; iec:1 Power"
+   "r": "iec:1 Mains In; rj45:3 Ethernet (control), Dante primary/secondary; usba:1 USB 3.0"
   },
-  "note": "Nachfolger DS110"
+  "note": "Nachfolger DS110; Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).",
+  "chk": 1
  },
  "db_ds100m": {
   "n": "d&b DS100M Signal Engine (Milan)",
@@ -2725,7 +2740,238 @@
   "url": "https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100m/",
   "io": {
    "f": "btn:1 Power button",
-   "r": "rj45:3 LAN, Milan primary/secondary; usba:2 USB; iec:1 Power"
+   "r": "iec:1 Mains In; rj45:4 ETH 1, ETH 2 (control), Milan primary/secondary; usba:2 USB 1, USB 2; bnc:5 MADI In 1–3, Word Clock In/Out"
+  },
+  "chk": 1,
+  "note": "Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft)."
+ },
+ "db_d90": {
+  "n": "d&b D90 Verstärker",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Endstufen · d&b",
+  "fit": "rack",
+  "he": 2,
+  "d": 512,
+  "kg": 18.8,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/global/en/products/amplifiers/d90/",
+  "io": {
+   "f": "lcd:1 4.3″ touchscreen; knob:1 Rotary encoder",
+   "r": "powercon:1 Mains In (powerCON HC); nl4:6 Speaker Out A–D, A/B and C/D mix 2-way; nl8:1 4-channel Out; xlrf:6 Input A1–A4, AES3 In D1/2, D3/4; xlr:6 Link A1–A4, AES3 Out D1/2, D3/4; ethercon:2 ETH1/PRI, ETH2/SEC (Milan)"
+  },
+  "note": "Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft)."
+ },
+ "db_d25": {
+  "n": "d&b D25 Verstärker",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Endstufen · d&b",
+  "fit": "rack",
+  "he": 2,
+  "d": 512,
+  "kg": 13.8,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/global/en/products/amplifiers/d25/",
+  "io": {
+   "f": "lcd:1 4.3″ touchscreen; knob:1 Rotary encoder",
+   "r": "powercon:1 Mains In (powerCON TRUE1 TOP); nl4:6 Speaker Out A–D, A/B and C/D mix 2-way; nl8:1 4-channel Out; xlrf:6 Input A1–A4, AES3 In D1/2, D3/4; xlr:6 Link A1–A4, AES3 Out D1/2, D3/4; ethercon:2 ETH1/PRI, ETH2/SEC (Milan)"
+  },
+  "note": "Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft)."
+ },
+ "db_25d": {
+  "n": "d&b 25D Installationsverstärker",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Endstufen · d&b",
+  "fit": "rack",
+  "he": 2,
+  "d": 465,
+  "kg": 13.3,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/global/en/products/amplifiers/25d/",
+  "io": {
+   "f": "lcd:1 4.3″ touchscreen",
+   "r": "euroblock:13 2× Speaker Out (A/B, C/D), 4× Analog In A1–A4, 2× AES3 In D1/2, D3/4, 2× AES3 Link, GPI 1–8, GPO 1–4, Fault; rj45:2 Ethernet 1 PRI, Ethernet 2 SEC (Milan, OCA); powercon:1 Mains In (powerCON TRUE1 TOP)"
+  },
+  "note": "Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft)."
+ },
+ "db_5dm": {
+  "n": "d&b 5DM Installationsverstärker (Milan)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Endstufen · d&b",
+  "fit": "half",
+  "kitType": "db",
+  "frac": 0.5,
+  "w": 220,
+  "h": 44,
+  "d": 435,
+  "kg": 4.6,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-manual-5d-5dm-1.1-en.pdf",
+  "note": "Euroblocks von DINKLE (nicht Phoenix) laut Handbuch; Rackkit für 2 Geräte auf 1 HE liegt bei. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "btn:1 Status LEDs",
+   "r": "euroblock:6 2× Speaker Out (A/B, C/D), 2× Analog In/Link A1–A4, GPI 1–4, Fault; rj45:2 ETH1, ETH2 (Milan, OCA); iec:1 Mains In (C14); btn:1 Power switch"
+  }
+ },
+ "db_ds110": {
+  "n": "d&b DS110 Processing Engine (Soundscape)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Prozessoren · d&b",
+  "fit": "rack",
+  "he": 3,
+  "d": 481,
+  "kg": 11.2,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-ds110-1.2-en.pdf",
+  "note": "Ansicht nach Produktfotos (Rückseite) und DS100M-Front gezeichnet (ungeprüft).",
+  "io": {
+   "f": "btn:1 Power button",
+   "r": "iec:1 Mains In; rj45:4 ETH 1, ETH 2 (control), Dante primary/secondary; usba:2 USB 1, USB 2; bnc:10 MADI In 1–4, MADI Out 1–4, Word Clock In/Out; btn:1 Power switch"
+  }
+ },
+ "db_ds22": {
+  "n": "d&b DS22 Audio-Netzwerk-Bridge (Milan)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Prozessoren · d&b",
+  "fit": "rack",
+  "he": 1,
+  "d": 232,
+  "kg": 3.8,
+  "chk": 1,
+  "art": "Z4012",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-manual-ds22-1.3-en.pdf",
+  "io": {
+   "f": "xlrf:4 Input 1/2, 3/4 (analog/AES3); ethercon:4 Milan ETH 1–4",
+   "r": "ethercon:1 Milan ETH 5; xlrf:6 AES3 Digital Inputs 5–16; powercon:1 Mains In"
+  },
+  "note": "Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft)."
+ },
+ "db_dn1": {
+  "n": "d&b DN1 Ethernet-Switch (Milan/Dante, PoE)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Netzwerk · d&b",
+  "fit": "half",
+  "kitType": "db",
+  "frac": 0.5,
+  "w": 220,
+  "h": 44,
+  "d": 145,
+  "kg": 1.4,
+  "chk": 1,
+  "art": "Z4001",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-dn1-1.3-en.pdf",
+  "note": "Gehäuse 220 mm breit (Foto, wie DN2); Datenblatt nennt 9,5″ = 241 mm inkl. Montagewinkel. Rackmontage mit Kit Z2624.000 (zwei Geräte nebeneinander) bzw. Z2624.001 (einzeln). PoE 15,4 W pro Port, 25 W gesamt. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "ethercon:3 ETH 9, ETH 10 (PoE), ETH 11 (PoE); btn:1 Mode",
+   "r": "rj45:8 ETH 1–8; powercon:1 Power In (TRUE1 TOP)"
+  }
+ },
+ "db_dn2": {
+  "n": "d&b DN2 PoE++ AVB-Switch",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Netzwerk · d&b",
+  "fit": "free",
+  "w": 220,
+  "h": 44,
+  "d": 292,
+  "kg": 3.4,
+  "chk": 1,
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-dn2-1.1-en.pdf",
+  "note": "Datenblatt vorläufig („preliminary“); Rackmontage-Kit nicht angegeben. Alle 8 Ports PoE++ (802.3bt Klasse 8, 90 W). Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "ethercon:4 ETH 1–4 (PoE++)",
+   "r": "ethercon:4 ETH 5–8 (PoE++); powercon:1 Power In (TRUE1 TOP)"
+  }
+ },
+ "db_z5566": {
+  "n": "d&b Z5566 Netzverteiler und LS-Panel CEE (Touring Rack 3× D80)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 2,
+  "chk": 1,
+  "art": "Z5566.000",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5570-71.000-1.2-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "nl8:3 4 CH Out Amp 1–3; lka25:1 12 CH Output (Amp 1–3); brk:3 Aux Mains L1 Rear, L2 Rear, L3 Front (16 A C); powercon:1 Mains Out L3",
+   "r": "gland:1 Mains In (fixed cord, CEE 32 A plug); cee32f:1 Mains Link (20 A max); powercon:2 Mains Out L1, L2; gland:6 Mains to Amp 1–3, 4 CH Out from Amp 1–3"
+  }
+ },
+ "db_z5338": {
+  "n": "d&b Z5338 I/O-Panel (Touring Rack D80)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 1,
+  "chk": 1,
+  "art": "Z5338",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5570-71.000-1.2-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Höhe aus dem Rackaufbau abgeleitet. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "xlrf:4 Input A1, A2 D1/2, A3, A4 D3/4; xlr:4 Input Link A1, A2 D1/2, A3, A4 D3/4; ethercon:4 Remote ETH1, ETH2, CAN, CAN Link; btn:1 Terminate/Link",
+   "r": ""
+  }
+ },
+ "db_z5577": {
+  "n": "d&b Z5577 Netzverteiler 32 A CEE (Touring Rack 6× D80)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 2,
+  "chk": 1,
+  "ph": 1,
+  "art": "Z5577.000",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5576.000-1.1-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Höhe aus der Zeichnung. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "brk:3 Aux Mains L1–L3 (16 A); powercon:3 Mains Out L1, L2, L3",
+   "r": "gland:1 Mains In (fixed cord, CEE 32 A plug); gland:6 Mains to Amp 1–6; powercon:4 Aux Out L1 PoE, L1 DS10, L2, L3"
+  }
+ },
+ "db_z5578": {
+  "n": "d&b Z5578 LS-Anschlusspanel 6× NL8 / 2× LKA25",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 2,
+  "chk": 1,
+  "ph": 1,
+  "art": "Z5578.000",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5576.000-1.1-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Höhe aus dem Rackaufbau abgeleitet; Z5578.001 für D40/D25/D90. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "ethercon:1 ETH/PoE Inclinometer; nl8:6 4 CH Out Amp 1–6; lka25:2 12 CH Out Amp 1–3, 4–6",
+   "r": ""
+  }
+ },
+ "db_z5610": {
+  "n": "d&b Z5610 Netzverteiler und LS-Panel CEE (Touring Rack D40/D25/D90)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 2,
+  "chk": 1,
+  "art": "Z5610.000",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5600.002-z5600.003-touring-rack-d40-d25-10he-cee-1.4-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "nl8:3 4 CH Out Amp 1–3; lka25:1 12 CH Output (Amp 1–3); brk:6 3× Amplifier mains 16 A (B), 3× Aux mains 16 A (C); powercon:1 Aux Mains Out (TRUE1 TOP)",
+   "r": "gland:1 Mains In (fixed cord, CEE 32 A plug); cee32f:1 Mains Link (20 A); powercon:3 Aux Mains Out (TRUE1 TOP); gland:6 Mains to Amp 1–3 (powerCON HC cords), 4 CH Out from Amp 1–3 (NL8 cords)"
+  }
+ },
+ "db_z5604": {
+  "n": "d&b Z5604 I/O-Panel (Touring Rack D40/D25/D90)",
+  "mk": "d&b audiotechnik",
+  "g": "Audio · Rack-Panels · d&b",
+  "fit": "rack",
+  "he": 1,
+  "chk": 1,
+  "art": "Z5604.000",
+  "url": "https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5600.002-z5600.003-touring-rack-d40-d25-10he-cee-1.4-en.pdf",
+  "note": "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).",
+  "io": {
+   "f": "xlrf:6 Input A1–A4, D1/2, D3/4; xlr:6 Input Link A1–A4, D1/2, D3/4",
+   "r": "xlr:12 Internal wiring to the amplifiers"
   }
  },
  "la_la12x": {
@@ -3310,7 +3556,7 @@
   "url": "https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm",
   "io": {
    "f": "btn:8 Motor 1–8 up/off/down; btn:2 Emergency stop, Run; brk:5 Main breaker, control circuit",
-   "r": "gland:1 Power In CEE 32 A (cable); cee16f:4 Motor 1–4 Out (CEE 16 A); cee16f:2 Harting 16-pin Motor 1–4, 5–8"
+   "r": "gland:1 Power In CEE 32 A (cable); cee16f4:4 Motor 1–4 Out (CEE 16 A 4-pin); han16f:2 Harting 16-pin Motor 1–4, 5–8"
   }
  },
  "tamp_quadro500dsp": {
@@ -3336,15 +3582,15 @@
   "g": "Licht · Dimmer",
   "fit": "rack",
   "he": 2,
-  "d": 325,
-  "kg": 8,
+  "d": 432,
+  "kg": 13,
   "price": 459,
   "chk": 1,
-  "note": "Gewichtsangaben schwanken (8–12 kg); Harting-Variante prüfen. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
-  "url": "https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm",
+  "note": "Harting-Variante (DPX-620 III-H); Maße 483 × 89 × 432 mm und 13 kg nach ProLighting (Thomann: 13,5 kg), DMX-Buchsenzahl nicht angegeben. Ansicht nach Produktfotos gezeichnet (ungeprüft).",
+  "url": "https://www.prolighting.de/en/lighting-effects/lightcontroller/dimmingpacks/6-chanel-dimmingpack/botex-dpx-620-iii-h-digital-dimmerpack-harting.html",
   "io": {
    "f": "lcd:1 Display; btn:4 Menu buttons; brk:6 Channel fuses",
-   "r": "gland:1 CEE 32 A In; cee16f:1 Harting 16-pin Out (6 channels); xlr5:2 DMX In/Out"
+   "r": "han16f:1 Harting 16-pin Out (6 channels); gland:1 Mains In (fixed cable 5 × 4 mm², no plug, max. 3 × 40 A); xlr:1 DMX (3-pin); din:1 Analog 0–10 V"
   }
  },
  "botex_psa16pt2_tr1": {
@@ -3361,6 +3607,40 @@
   "io": {
    "f": "brk:3 MCB C16; lcd:1 Voltage display per phase",
    "r": "powercon:6 TRUE1 Out (2 per phase); gland:1 CEE 16 A In (1.7 m cable)"
+  }
+ },
+ "botex_dpx1210h": {
+  "n": "Botex DPX-1210H NET 12-Kanal-Dimmer (Multipin)",
+  "mk": "Botex",
+  "g": "Licht · Dimmer",
+  "fit": "rack",
+  "he": 2,
+  "d": 380,
+  "kg": 15,
+  "price": 599,
+  "chk": 1,
+  "url": "https://www.thomann.ie/botex_dpx_1210h_net.htm",
+  "note": "Thomann: „2x 16-pin multipin“, Hersteller der Multipins nicht angegeben (Harting-kompatibel angenommen); 12 × 10 A.",
+  "io": {
+   "f": "lcd:1 Display; btn:1 Menu buttons; xlr:2 DMX In/Out (3-pin); xlr5:2 DMX In/Out (5-pin); rj45:1 Art-Net",
+   "r": "han16f:2 Dimmer Out ch 1–6, 7–12 (16-pin multipin); gland:1 Mains In (screw terminals, 3-phase 400 V)"
+  }
+ },
+ "lsc_genvi_h": {
+  "n": "LSC GenVI 12-Kanal-Dimmer 2× Han 16E (RDM)",
+  "mk": "LSC",
+  "g": "Licht · Dimmer",
+  "fit": "rack",
+  "he": 3,
+  "d": 300,
+  "kg": 19,
+  "chk": 1,
+  "ph": 1,
+  "url": "https://www.musicstore.de/en_DE/EUR/LSC-GenVI-12x-16-A-Dimmer-2x-HAN-16-E-RDM-3HE/art-LIG0013764-000",
+  "note": "Platzhalter: 3 HE und Ausgänge nach Händlerseite/Handbuch GenVI V1.0; Tiefe 300 mm und 19 kg von der Socapex-Version (Panavision), Einspeisung nicht angegeben.",
+  "io": {
+   "f": "lcd:1 Touchscreen; xlr5:2 DMX In/Thru (RDM); rcd:12 RCBO per channel; sd:1 SD card",
+   "r": "han16f:2 Dimmer Out ch 1–6, 7–12 (Han 16E); gland:1 Mains In (3-phase)"
   }
  }
 }

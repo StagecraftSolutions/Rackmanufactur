@@ -57,7 +57,7 @@ How devices, scale views, rack shelves, D-size inserts and rack parts get into R
 | `free` | any small device | any free rack shelf, flush at the front |
 | `desk` | desktop device | not rack-mountable, information only |
 
-**io types:** `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan`. Write counts in descriptions as `4× Analog In, 2× AES3 In` – the label generator uses them.
+**io types:** `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan han16f han16m lka25 lk37 cee63m cee63f cee125m cee125f powerlockm powerlockf cpot cee16f4 cee16m4 cee32f4 cee32m4`. Write counts in descriptions as `4× Analog In, 2× AES3 In` – the label generator uses them.
 
 ## 2. Scale view (`data/views.json`)
 

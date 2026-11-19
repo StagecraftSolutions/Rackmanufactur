@@ -85,6 +85,11 @@
    "s": "NL4",
    "def": "nl4"
   },
+  "nl8": {
+   "n": "speakON 8-pol",
+   "s": "NL8",
+   "def": "nlt8mpxx"
+  },
   "cee16f": {
    "n": "CEE 16 A Buchse 5-pol",
    "s": "CEE16 F",
@@ -94,6 +99,71 @@
    "n": "CEE 16 A Stecker 5-pol (Einspeisung)",
    "s": "CEE16 M",
    "def": "cee16m_70"
+  },
+  "cee16f4": {
+   "n": "CEE 16 A Buchse 4-pol (Motor)",
+   "s": "CEE16 F4",
+   "def": "cee16f4_1387za"
+  },
+  "cee32f": {
+   "n": "CEE 32 A Buchse 5-pol",
+   "s": "CEE32 F",
+   "def": "cee32f_70"
+  },
+  "cee32m": {
+   "n": "CEE 32 A Stecker 5-pol (Einspeisung)",
+   "s": "CEE32 M",
+   "def": "cee32m_70"
+  },
+  "cee63f": {
+   "n": "CEE 63 A Buchse 5-pol",
+   "s": "CEE63 F",
+   "def": "cee63f_1252a"
+  },
+  "cee63m": {
+   "n": "CEE 63 A Stecker 5-pol (Einspeisung)",
+   "s": "CEE63 M",
+   "def": "cee63m_1688"
+  },
+  "cee125f": {
+   "n": "CEE 125 A Buchse 5-pol",
+   "s": "CEE125 F",
+   "def": "cee125f_1461"
+  },
+  "cee125m": {
+   "n": "CEE 125 A Stecker 5-pol (Einspeisung)",
+   "s": "CEE125 M",
+   "def": "cee125m_1983"
+  },
+  "powerlockm": {
+   "n": "Powerlock Source (Stecker, 400 A)",
+   "s": "PL M",
+   "def": "pl_nps_l1"
+  },
+  "cpot": {
+   "n": "cPot Potentialausgleich (Stecker)",
+   "s": "cPot",
+   "def": "cpot_pma"
+  },
+  "han16f": {
+   "n": "Harting Han E 16-pol Buchse (Han 16B)",
+   "s": "HAN16 F",
+   "def": "han16f_b"
+  },
+  "han16m": {
+   "n": "Harting Han E 16-pol Stecker (Han 16B)",
+   "s": "HAN16 M",
+   "def": "han16m_b"
+  },
+  "lka25": {
+   "n": "Multipin LKA25 (MIL-C-5015, Shell 24)",
+   "s": "LKA25",
+   "def": "lka25_hicon"
+  },
+  "lk37": {
+   "n": "Multipin LK37 (MIL-C-5015, Shell 28)",
+   "s": "LK37",
+   "def": "lk37_hicon"
   },
   "schuko": {
    "n": "Schuko-Einbausteckdose",
@@ -272,6 +342,55 @@
    "price": null,
    "src": "check",
    "g": "nl4"
+  },
+  "nlt8mpxx": {
+   "type": "nl8",
+   "mk": "Neutrik",
+   "fit": "fp",
+   "s": "NL8",
+   "n": "speakON STX 8-pol, Flansch 38 × 38",
+   "art": "Neutrik NLT8MPXX",
+   "price": null,
+   "src": "check",
+   "q": "Footprint nach Neutrik-Zeichnung ST-NLT8MPXX (Nachfolger NLT8MP), Einbau von vorn oder hinten; Preis prüfen.",
+   "el": {
+    "t": "nl8",
+    "s": 16
+   },
+   "fp": {
+    "w": 38,
+    "h": 38,
+    "cut": [
+     {
+      "t": "c",
+      "d": 31
+     },
+     {
+      "t": "h",
+      "x": -14.6,
+      "y": -14.6,
+      "d": 3.2
+     },
+     {
+      "t": "h",
+      "x": 14.6,
+      "y": -14.6,
+      "d": 3.2
+     },
+     {
+      "t": "h",
+      "x": -14.6,
+      "y": 14.6,
+      "d": 3.2
+     },
+     {
+      "t": "h",
+      "x": 14.6,
+      "y": 14.6,
+      "d": 3.2
+     }
+    ]
+   }
   },
   "pca_in": {
    "type": "pcon_a",
@@ -513,8 +632,8 @@
    "q": "Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.",
    "el": {
     "t": "cee16f",
-    "w": 56,
-    "h": 66
+    "w": 70,
+    "h": 70
    },
    "fp": {
     "w": 70,
@@ -564,8 +683,8 @@
    "q": "Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.",
    "el": {
     "t": "cee16f",
-    "w": 58,
-    "h": 68
+    "w": 75,
+    "h": 75
    },
    "fp": {
     "w": 75,
@@ -615,7 +734,7 @@
    "q": "Footprint nach Herstellerangabe (Flansch, Lochabstand); Ausschnitt-Ø nach Maßblatt prüfen.",
    "el": {
     "t": "cee16m",
-    "s": 14
+    "s": 18.92
    },
    "fp": {
     "w": 70,
@@ -648,6 +767,897 @@
       "x": 28,
       "y": 28,
       "d": 4.5
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "cee16f4_1387za": {
+   "type": "cee16f4",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE16 F4",
+   "n": "CEE-Anbausteckdose 16 A 4-pol (3P+E, 400 V, 6 h), Flansch 65 × 72",
+   "art": "Mennekes 1387ZA",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 65 × 72, Löcher 52 × 52 Ø 5,5, Ausschnitt Ø 52 nach Mennekes-Produktinfo 1387ZA (Zeichnung 1 MB 259); Lochbild mittig zum Ausschnitt angenommen.",
+   "el": {
+    "t": "cee16f4",
+    "w": 65,
+    "h": 72
+   },
+   "fp": {
+    "w": 65,
+    "h": 72,
+    "cut": [
+     {
+      "t": "c",
+      "d": 52
+     },
+     {
+      "t": "h",
+      "x": -26,
+      "y": -26,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 26,
+      "y": -26,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -26,
+      "y": 26,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 26,
+      "y": 26,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "cee32f_70": {
+   "type": "cee32f",
+   "mk": "PCE",
+   "fit": "fp",
+   "s": "CEE32 F",
+   "n": "CEE-Anbausteckdose 32 A 5-pol, Flansch 70 × 70",
+   "art": "PCE 325-6",
+   "price": 11,
+   "src": "web",
+   "q": "Flansch und Lochabstand 56 × 56 nach PCE-Datenblatt; Ausschnitt- und Loch-Ø nicht angegeben (wie CEE 16 A angesetzt) – nach Teil prüfen.",
+   "el": {
+    "t": "cee32f",
+    "w": 70,
+    "h": 70
+   },
+   "fp": {
+    "w": 70,
+    "h": 70,
+    "cut": [
+     {
+      "t": "c",
+      "d": 54
+     },
+     {
+      "t": "h",
+      "x": -28,
+      "y": -28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": 28,
+      "y": -28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": -28,
+      "y": 28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": 28,
+      "y": 28,
+      "d": 4.5
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "cee32f_75": {
+   "type": "cee32f",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE32 F",
+   "n": "CEE-Anbausteckdose 32 A 5-pol, Flansch 75 × 75",
+   "art": "Mennekes 1797",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 75 × 75, Löcher 60 × 60, Ø 5,5 nach Mennekes-Produktinfo; Ausschnitt-Ø nicht bemaßt – nach Teil prüfen.",
+   "el": {
+    "t": "cee32f",
+    "w": 75,
+    "h": 75
+   },
+   "fp": {
+    "w": 75,
+    "h": 75,
+    "cut": [
+     {
+      "t": "c",
+      "d": 56
+     },
+     {
+      "t": "h",
+      "x": -30,
+      "y": -30,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 30,
+      "y": -30,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -30,
+      "y": 30,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 30,
+      "y": 30,
+      "d": 5.5
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "cee32m_70": {
+   "type": "cee32m",
+   "mk": "PCE",
+   "fit": "fp",
+   "s": "CEE32 M",
+   "n": "CEE-Anbaustecker 32 A 5-pol, Flansch 70 × 70",
+   "art": "PCE 625-6",
+   "price": null,
+   "src": "check",
+   "q": "Flansch und Lochabstand 56 × 56 nach PCE-Datenblatt; Ausschnitt- und Loch-Ø nicht angegeben – nach Teil prüfen.",
+   "el": {
+    "t": "cee32m",
+    "s": 15.22
+   },
+   "fp": {
+    "w": 70,
+    "h": 70,
+    "cut": [
+     {
+      "t": "c",
+      "d": 54
+     },
+     {
+      "t": "h",
+      "x": -28,
+      "y": -28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": 28,
+      "y": -28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": -28,
+      "y": 28,
+      "d": 4.5
+     },
+     {
+      "t": "h",
+      "x": 28,
+      "y": 28,
+      "d": 4.5
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "cee63f_1252a": {
+   "type": "cee63f",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE63 F",
+   "n": "CEE-Anbausteckdose 63 A 5-pol, Flansch 100 × 107",
+   "art": "Mennekes 1252A",
+   "price": 157,
+   "src": "web",
+   "q": "Ausschnitt Ø 88, Löcher 77 × 85 Ø 6 nach Mennekes-Produktinfo (Zeichnung 1 MB 211).",
+   "el": {
+    "t": "cee63f",
+    "w": 100,
+    "h": 107
+   },
+   "fp": {
+    "w": 100,
+    "h": 107,
+    "cut": [
+     {
+      "t": "c",
+      "d": 88
+     },
+     {
+      "t": "h",
+      "x": -38.5,
+      "y": -42.5,
+      "d": 6
+     },
+     {
+      "t": "h",
+      "x": 38.5,
+      "y": -42.5,
+      "d": 6
+     },
+     {
+      "t": "h",
+      "x": -38.5,
+      "y": 42.5,
+      "d": 6
+     },
+     {
+      "t": "h",
+      "x": 38.5,
+      "y": 42.5,
+      "d": 6
+     }
+    ]
+   }
+  },
+  "cee63m_1688": {
+   "type": "cee63m",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE63 M",
+   "n": "CEE-Anbaustecker 63 A 5-pol, Flansch 106 × 110",
+   "art": "Mennekes 1688",
+   "price": 291.82,
+   "src": "web",
+   "q": "Ausschnitt Ø 88,5, Löcher 90 × 90 Ø 5,5 nach Mennekes-Produktinfo (Zeichnung 2 MB 155); Rastnase für Kupplungsklappe bauseits montieren.",
+   "el": {
+    "t": "cee63m",
+    "w": 106,
+    "h": 110
+   },
+   "fp": {
+    "w": 106,
+    "h": 110,
+    "cut": [
+     {
+      "t": "c",
+      "d": 88.5
+     },
+     {
+      "t": "h",
+      "x": -45,
+      "y": -45,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 45,
+      "y": -45,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -45,
+      "y": 45,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 45,
+      "y": 45,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "cee125f_1461": {
+   "type": "cee125f",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE125 F",
+   "n": "CEE-Anbausteckdose 125 A 5-pol IP67, Flansch 130 × 130",
+   "art": "Mennekes 1461",
+   "price": null,
+   "src": "check",
+   "q": "Ausschnitt Ø 95, Löcher 104 × 104 Ø 6,5 nach Mennekes-Produktinfo (Zeichnung 1 MB 212/258).",
+   "el": {
+    "t": "cee125f",
+    "w": 130,
+    "h": 130
+   },
+   "fp": {
+    "w": 130,
+    "h": 130,
+    "cut": [
+     {
+      "t": "c",
+      "d": 95
+     },
+     {
+      "t": "h",
+      "x": -52,
+      "y": -52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": 52,
+      "y": -52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": -52,
+      "y": 52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": 52,
+      "y": 52,
+      "d": 6.5
+     }
+    ]
+   }
+  },
+  "cee125m_1983": {
+   "type": "cee125m",
+   "mk": "Mennekes",
+   "fit": "fp",
+   "s": "CEE125 M",
+   "n": "CEE-Anbaustecker 125 A 5-pol IP67, Flansch 130 × 130",
+   "art": "Mennekes 1983",
+   "price": null,
+   "src": "check",
+   "q": "Ausschnitt Ø 95, Löcher 104 × 104 Ø 6,5 nach Mennekes-Produktinfo (Zeichnung 2 MB 166); Frontkörper Ø 132 steht über den Flansch.",
+   "el": {
+    "t": "cee125m",
+    "w": 130,
+    "h": 130
+   },
+   "fp": {
+    "w": 130,
+    "h": 130,
+    "cut": [
+     {
+      "t": "c",
+      "d": 95
+     },
+     {
+      "t": "h",
+      "x": -52,
+      "y": -52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": 52,
+      "y": -52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": -52,
+      "y": 52,
+      "d": 6.5
+     },
+     {
+      "t": "h",
+      "x": 52,
+      "y": 52,
+      "d": 6.5
+     }
+    ]
+   }
+  },
+  "pl_nps_l1": {
+   "type": "powerlockm",
+   "mk": "ITT Cannon (Veam)",
+   "fit": "fp",
+   "s": "PL L1",
+   "n": "Powerlock Panel Source L1 (braun), 400 A",
+   "art": "Veam NPS-1-BN-T4",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 57 × 57, Ausschnitt Ø 44, Löcher 42,5 × 42,5 Ø 5,5 nach ITT-Katalog S. M-7; Einbau von vorn.",
+   "el": {
+    "t": "powerlockm",
+    "s": 57,
+    "c": "L1"
+   },
+   "fp": {
+    "w": 57,
+    "h": 57,
+    "cut": [
+     {
+      "t": "c",
+      "d": 44
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": 21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": 21.25,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "pl_nps_l2": {
+   "type": "powerlockm",
+   "mk": "ITT Cannon (Veam)",
+   "fit": "fp",
+   "s": "PL L2",
+   "n": "Powerlock Panel Source L2 (schwarz), 400 A",
+   "art": "Veam NPS-2-BK-T4",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 57 × 57, Ausschnitt Ø 44, Löcher 42,5 × 42,5 Ø 5,5 nach ITT-Katalog S. M-7; Einbau von vorn.",
+   "el": {
+    "t": "powerlockm",
+    "s": 57,
+    "c": "L2"
+   },
+   "fp": {
+    "w": 57,
+    "h": 57,
+    "cut": [
+     {
+      "t": "c",
+      "d": 44
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": 21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": 21.25,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "pl_nps_l3": {
+   "type": "powerlockm",
+   "mk": "ITT Cannon (Veam)",
+   "fit": "fp",
+   "s": "PL L3",
+   "n": "Powerlock Panel Source L3 (grau), 400 A",
+   "art": "Veam NPS-3-GY-T4",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 57 × 57, Ausschnitt Ø 44, Löcher 42,5 × 42,5 Ø 5,5 nach ITT-Katalog S. M-7; Einbau von vorn.",
+   "el": {
+    "t": "powerlockm",
+    "s": 57,
+    "c": "L3"
+   },
+   "fp": {
+    "w": 57,
+    "h": 57,
+    "cut": [
+     {
+      "t": "c",
+      "d": 44
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": 21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": 21.25,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "pl_nps_n": {
+   "type": "powerlockm",
+   "mk": "ITT Cannon (Veam)",
+   "fit": "fp",
+   "s": "PL N",
+   "n": "Powerlock Panel Source N (blau), 400 A",
+   "art": "Veam NPS-N-BL-T4",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 57 × 57, Ausschnitt Ø 44, Löcher 42,5 × 42,5 Ø 5,5 nach ITT-Katalog S. M-7; Einbau von vorn.",
+   "el": {
+    "t": "powerlockm",
+    "s": 57,
+    "c": "N"
+   },
+   "fp": {
+    "w": 57,
+    "h": 57,
+    "cut": [
+     {
+      "t": "c",
+      "d": 44
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": 21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": 21.25,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "pl_nps_pe": {
+   "type": "powerlockm",
+   "mk": "ITT Cannon (Veam)",
+   "fit": "fp",
+   "s": "PL PE",
+   "n": "Powerlock Panel Source PE (grün), 400 A",
+   "art": "Veam NPS-E-GN-T4",
+   "price": null,
+   "src": "check",
+   "q": "Flansch 57 × 57, Ausschnitt Ø 44, Löcher 42,5 × 42,5 Ø 5,5 nach ITT-Katalog S. M-7; Einbau von vorn.",
+   "el": {
+    "t": "powerlockm",
+    "s": 57,
+    "c": "PE"
+   },
+   "fp": {
+    "w": 57,
+    "h": 57,
+    "cut": [
+     {
+      "t": "c",
+      "d": 44
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": -21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": -21.25,
+      "y": 21.25,
+      "d": 5.5
+     },
+     {
+      "t": "h",
+      "x": 21.25,
+      "y": 21.25,
+      "d": 5.5
+     }
+    ]
+   }
+  },
+  "cpot_pma": {
+   "type": "cpot",
+   "mk": "Neutrik (CONNEX)",
+   "fit": "fp",
+   "s": "cPot",
+   "n": "cPot Einbaustecker Potentialausgleich, Schraubanschluss 10–25 mm²",
+   "art": "Neutrik CP-PMA (1027373)",
+   "price": null,
+   "src": "check",
+   "q": "Ausschnitt 37 × 18, 2 Löcher „M3“ im Abstand 44,1 nach Neutrik-Zeichnung CP-PMA; ob Gewinde oder Durchgang ist nicht angegeben – hier als Durchgang Ø 3,2.",
+   "el": {
+    "t": "cpot",
+    "s": 54
+   },
+   "fp": {
+    "w": 54,
+    "h": 21.8,
+    "cut": [
+     {
+      "t": "r",
+      "w": 37,
+      "h": 18
+     },
+     {
+      "t": "h",
+      "x": -22.05,
+      "y": 0,
+      "d": 3.2
+     },
+     {
+      "t": "h",
+      "x": 22.05,
+      "y": 0,
+      "d": 3.2
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "han16f_b": {
+   "type": "han16f",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN16 F",
+   "n": "Han 16B Anbaugehäuse mit Han E 16 Buchseneinsatz",
+   "art": "Harting 09 30 016 0302 + 09 33 016 2701",
+   "price": null,
+   "src": "check",
+   "q": "Gehäuse von vorn aufgesetzt, Einsatz von hinten; Ausschnitt 82 × 35, Löcher 103 × 32, Ø 4,4 nach Harting-Katalog S. 31.51.",
+   "el": {
+    "t": "han16f",
+    "s": 43
+   },
+   "fp": {
+    "w": 113,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 82,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -51.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 51.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -51.5,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 51.5,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "han16m_b": {
+   "type": "han16m",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN16 M",
+   "n": "Han 16B Anbaugehäuse mit Han E 16 Stifteinsatz",
+   "art": "Harting 09 30 016 0302 + 09 33 016 2601",
+   "price": null,
+   "src": "check",
+   "q": "Gehäuse von vorn aufgesetzt, Einsatz von hinten; Ausschnitt 82 × 35, Löcher 103 × 32, Ø 4,4 nach Harting-Katalog S. 31.51.",
+   "el": {
+    "t": "han16m",
+    "s": 43
+   },
+   "fp": {
+    "w": 113,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 82,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -51.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 51.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -51.5,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 51.5,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "lka25_hicon": {
+   "type": "lka25",
+   "mk": "Sommer Cable (HICON)",
+   "fit": "fp",
+   "s": "LKA25",
+   "n": "Rund-Multipin 25-pol Einbaubuchse (LK, Shell 24)",
+   "art": "HICON HI-LK025FP",
+   "price": null,
+   "src": "check",
+   "q": "Maße vom MIL-C-5015-Gegenstück ITT Cannon CA02COM-E24 übernommen (Flansch 44,5, Löcher 34,9, Ausschnitt Ø 36) – am HICON-Teil prüfen.",
+   "el": {
+    "t": "lka25",
+    "s": 44.5
+   },
+   "fp": {
+    "w": 44.5,
+    "h": 44.5,
+    "cut": [
+     {
+      "t": "c",
+      "d": 36
+     },
+     {
+      "t": "h",
+      "x": -17.45,
+      "y": -17.45,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": 17.45,
+      "y": -17.45,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": -17.45,
+      "y": 17.45,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": 17.45,
+      "y": 17.45,
+      "d": 3.9
+     }
+    ]
+   },
+   "chk": 1
+  },
+  "lk37_hicon": {
+   "type": "lk37",
+   "mk": "Sommer Cable (HICON)",
+   "fit": "fp",
+   "s": "LK37",
+   "n": "Rund-Multipin 37-pol Einbaubuchse (LK, Shell 28)",
+   "art": "HICON HI-LK037FP",
+   "price": 75,
+   "src": "web",
+   "q": "Maße vom MIL-C-5015-Gegenstück ITT Cannon CA02COM-E28-21 übernommen (Flansch 50,8, Löcher 39,7, Ausschnitt Ø 42) – am HICON-Teil prüfen.",
+   "el": {
+    "t": "lk37",
+    "s": 50.8
+   },
+   "fp": {
+    "w": 50.8,
+    "h": 50.8,
+    "cut": [
+     {
+      "t": "c",
+      "d": 42
+     },
+     {
+      "t": "h",
+      "x": -19.85,
+      "y": -19.85,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": 19.85,
+      "y": -19.85,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": -19.85,
+      "y": 19.85,
+      "d": 3.9
+     },
+     {
+      "t": "h",
+      "x": 19.85,
+      "y": 19.85,
+      "d": 3.9
      }
     ]
    },

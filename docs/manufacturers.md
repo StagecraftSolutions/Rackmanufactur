@@ -179,21 +179,35 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## d&b audiotechnik
 
-11 devices · 2 scale view · 9 data confirmed · 0 placeholder · 0 without weight
+25 devices · 25 scale view · 0 data confirmed · 0 placeholder · 6 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | d&b D80 Verstärker | 19″ · 2 U | 530 mm* | 19 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d80/) |
 | d&b D40 Verstärker | 19″ · 2 U | 512 mm* | 13.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d40/) |
-| d&b 40D Installationsverstärker | 19″ · 2 U | 465 mm | 13.3 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/40d/) |
-| d&b 30D Installationsverstärker | 19″ · 2 U | 435 mm | 10.6 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/30d/) |
-| d&b 10D Installationsverstärker | 19″ · 2 U | 435 mm | 10.6 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/10d/) |
-| d&b D20 Verstärker | 19″ · 2 U | 460 mm | 10.8 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d20/) |
-| d&b 5D Installationsverstärker | 19″ · 1 U | 435 mm | 4.6 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/5d/) |
-| d&b DS10 Audio-Netzwerk-Bridge | 19″ · 1 U | 232 mm | 3.75 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds10/) |
-| d&b DS20 Audio-Netzwerk-Bridge (Milan) | 19″ · 1 U | 232 mm | 3.8 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds20/) |
-| d&b DS100 Signal Engine (Soundscape) | 19″ · 3 U | 481 mm | 11.2 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100/) |
-| d&b DS100M Signal Engine (Milan) | 19″ · 3 U | 481 mm | 11 kg | – | data confirmed | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100m/) |
+| d&b 40D Installationsverstärker | 19″ · 2 U | 465 mm* | 13.3 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/40d/) |
+| d&b 30D Installationsverstärker | 19″ · 2 U | 435 mm* | 10.6 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/30d/) |
+| d&b 10D Installationsverstärker | 19″ · 2 U | 435 mm* | 10.6 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/10d/) |
+| d&b D20 Verstärker | 19″ · 2 U | 460 mm* | 10.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d20/) |
+| d&b 5D Installationsverstärker | half width (rack kit) | 435 mm* | 4.6 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/5d/) |
+| d&b DS10 Audio-Netzwerk-Bridge | 19″ · 1 U | 232 mm* | 3.75 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds10/) |
+| d&b DS20 Audio-Netzwerk-Bridge (Milan) | 19″ · 1 U | 232 mm* | 3.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds20/) |
+| d&b DS100 Signal Engine (Soundscape) | 19″ · 3 U | 481 mm* | 11.2 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100/) |
+| d&b DS100M Signal Engine (Milan) | 19″ · 3 U | 481 mm* | 11 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/processing-and-matrix/ds100m/) |
+| d&b D90 Verstärker | 19″ · 2 U | 512 mm* | 18.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d90/) |
+| d&b D25 Verstärker | 19″ · 2 U | 512 mm* | 13.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/d25/) |
+| d&b 25D Installationsverstärker | 19″ · 2 U | 465 mm* | 13.3 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/global/en/products/amplifiers/25d/) |
+| d&b 5DM Installationsverstärker (Milan) | half width (rack kit) | 435 mm* | 4.6 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-manual-5d-5dm-1.1-en.pdf) |
+| d&b DS110 Processing Engine (Soundscape) | 19″ · 3 U | 481 mm* | 11.2 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-ds110-1.2-en.pdf) |
+| d&b DS22 Audio-Netzwerk-Bridge (Milan) | 19″ · 1 U | 232 mm* | 3.8 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-manual-ds22-1.3-en.pdf) |
+| d&b DN1 Ethernet-Switch (Milan/Dante, PoE) | half width (rack kit) | 145 mm* | 1.4 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-dn1-1.3-en.pdf) |
+| d&b DN2 PoE++ AVB-Switch | in rack shelf | 292 mm* | 3.4 kg | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/electronics/dbaudio-datasheet-dn2-1.1-en.pdf) |
+| d&b Z5566 Netzverteiler und LS-Panel CEE (Touring Rack 3× D80) | 19″ · 2 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5570-71.000-1.2-en.pdf) |
+| d&b Z5338 I/O-Panel (Touring Rack D80) | 19″ · 1 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5570-71.000-1.2-en.pdf) |
+| d&b Z5577 Netzverteiler 32 A CEE (Touring Rack 6× D80) | 19″ · 2 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5576.000-1.1-en.pdf) |
+| d&b Z5578 LS-Anschlusspanel 6× NL8 / 2× LKA25 | 19″ · 2 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5576.000-1.1-en.pdf) |
+| d&b Z5610 Netzverteiler und LS-Panel CEE (Touring Rack D40/D25/D90) | 19″ · 2 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5600.002-z5600.003-touring-rack-d40-d25-10he-cee-1.4-en.pdf) |
+| d&b Z5604 I/O-Panel (Touring Rack D40/D25/D90) | 19″ · 1 U | – | – | – | scale view | [Manufacturer](https://www.dbaudio.com/assets/products/downloads/manuals-documentation/accessories/dbaudio-manual-z5600.002-z5600.003-touring-rack-d40-d25-10he-cee-1.4-en.pdf) |
 
 ## L-Acoustics
 
@@ -351,13 +365,14 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 
 ## Botex
 
-3 devices · 3 scale view · 0 data confirmed · 0 placeholder · 0 without weight
+4 devices · 3 scale view · 1 data confirmed · 0 placeholder · 0 without weight
 
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | Botex CHC-8 Chainhoist Controller | 19″ · 4 U | 278 mm* | 10.3 kg | – | scale view | [Manufacturer](https://www.thomann.de/de/botex_chainhoist_controller_chc_8.htm) |
-| Botex DPX-620 III 6-Ch. Dimmer (Harting) | 19″ · 2 U | 325 mm* | 8 kg | 459.00 € | scale view | [Manufacturer](https://www.thomann.de/de/botex_dpx620_iii_6ch_dimmer_inst.htm) |
+| Botex DPX-620 III 6-Ch. Dimmer (Harting) | 19″ · 2 U | 432 mm* | 13 kg | 459.00 € | scale view | [Manufacturer](https://www.prolighting.de/en/lighting-effects/lightcontroller/dimmingpacks/6-chanel-dimmingpack/botex-dpx-620-iii-h-digital-dimmerpack-harting.html) |
 | Botex PSA 16PT2-TR1 Power Distributor | 19″ · 1 U | 200 mm* | 3.5 kg | – | scale view | [Manufacturer](https://www.thomann.de/de/botex_psa_16pt2_tr1.htm) |
+| Botex DPX-1210H NET 12-Kanal-Dimmer (Multipin) | 19″ · 2 U | 380 mm* | 15 kg | 599.00 € | data confirmed | [Manufacturer](https://www.thomann.ie/botex_dpx_1210h_net.htm) |
 
 ## the t.amp
 
@@ -366,6 +381,14 @@ Prices: RRP or web price incl. VAT; Eurolite from the Steinigke list net + 19 %.
 | Device | Form | Depth | Weight | Price | Status | Link |
 |---|---|---|---|---|---|---|
 | the t.amp Quadro 500 DSP | 19″ · 1 U | 460 mm* | 8 kg | 579.00 € | scale view | [Manufacturer](https://www.thomann.de/de/the_t.amp_quadro_500_dsp.htm) |
+
+## LSC
+
+1 devices · 0 scale view · 0 data confirmed · 1 placeholder · 0 without weight
+
+| Device | Form | Depth | Weight | Price | Status | Link |
+|---|---|---|---|---|---|---|
+| LSC GenVI 12-Kanal-Dimmer 2× Han 16E (RDM) | 19″ · 3 U | 300 mm* | 19 kg | – | placeholder | [Manufacturer](https://www.musicstore.de/en_DE/EUR/LSC-GenVI-12x-16-A-Dimmer-2x-HAN-16-E-RDM-3HE/art-LIG0013764-000) |
 
 ## Not included
 

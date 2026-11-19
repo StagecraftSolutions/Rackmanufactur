@@ -48,7 +48,7 @@ If `import` stops with ERROR, fix the data – do not force anything.
 - `fit`: `rack` (own rack ears, then `he`), `bmd` (Blackmagic 1/3·1/2·2/3 width, then `frac`), `half` (half width with rack kit, `frac: 0.5`, `w`, `h`), `free` (small device for a rack shelf, `w`, `h`), `desk` (desktop, information only).
 - `d` = mounting depth in mm incl. handles/connectors if stated.
 - `n` and `g` are written in German (the dictionary translates them); `io` is English.
-- `io`: `type:count description; …` front (`f`) and rear (`r`). Types: `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan`.
+- `io`: `type:count description; …` front (`f`) and rear (`r`). Types: `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan han16f han16m lka25 lk37 cee63m cee63f cee125m cee125f powerlockm powerlockf cpot cee16f4 cee16m4 cee32f4 cee32m4`.
 
 ## View (`data/views.json`)
 

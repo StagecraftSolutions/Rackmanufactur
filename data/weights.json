@@ -2,5 +2,14 @@
  "art:dr_ah2s": 4.8,
  "art:dr_thon2s": 3.4,
  "art:dr_fp2": 4.8,
- "art:dr_fp3": 5.6
+ "art:dr_fp3": 5.6,
+ "con:cee32f_70": 0.206,
+ "con:cee32m_70": 0.165,
+ "con:cee32f_75": 0.213,
+ "con:cee63f_1252a": 0.623,
+ "con:cee63m_1688": 0.538,
+ "con:cee125f_1461": 1.256,
+ "con:cee125m_1983": 1.13,
+ "con:cpot_pma": 0.05,
+ "con:cee16f4_1387za": 0.147
 }

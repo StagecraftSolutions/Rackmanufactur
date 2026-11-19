@@ -26,7 +26,7 @@ const CONF = 'data/connectors.json';
 const CFIT = ['d', 'dblank', 'fp'];
 
 const FIT = ['rack', 'bmd', 'half', 'free', 'desk'];
-const IO = ['rj45', 'sfp', 'bnc', 'xlr', 'xlrf', 'xlr5', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'dc', 'jack', 'opt', 'sd', 'powercon', 'cee32m', 'cee32f', 'cee16m', 'cee16f', 'schuko', 'gland', 'brk', 'rcd', 'lcd', 'btn', 'knob', 'combo', 'ethercon', 'din', 'rca', 'sma', 'ant', 'nl4', 'nl8', 'euroblock', 'db9', 'fan'];
+const IO = ['rj45', 'sfp', 'bnc', 'xlr', 'xlrf', 'xlr5', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'dc', 'jack', 'opt', 'sd', 'powercon', 'cee32m', 'cee32f', 'cee16m', 'cee16f', 'schuko', 'gland', 'brk', 'rcd', 'lcd', 'btn', 'knob', 'combo', 'ethercon', 'din', 'rca', 'sma', 'ant', 'nl4', 'nl8', 'euroblock', 'db9', 'fan', 'han16f', 'han16m', 'lka25', 'lk37', 'cee63m', 'cee63f', 'cee125m', 'cee125f', 'powerlockm', 'powerlockf', 'cpot', 'cee16f4', 'cee16m4', 'cee32f4', 'cee32m4'];
 const EL = ['btn', 'malogo', 'madisp', 'enc', 'rect', 'vline', 'ledc', 'lcdl', 'sw', 'combo', 'ethercon', 'din', 'xlrf', 'fan', 'db9', 'rca', 'cover', 'led', 'reset', 'screen', 'txt', 'logo', 'lamp', 'mcb', 'rcd', 'cee16f', 'cee32f', 'schuko', 'gland', ...IO];
 
 const rx = k => new RegExp(`/\\* DATA:${k} \\*/[\\s\\S]*?/\\* /DATA:${k} \\*/`);
