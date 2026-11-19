@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-19 – Version 29 · Label strip in original size
+
+- **Label strip Adam Hall 872205 LBL** now 430 × 20 mm (was 440 × 15 mm). Projects with the old default sizes (440 × 15 or 430 × 17 mm) are updated on load; manually entered sizes stay.
+- **Label PDF 1:1 on A4:** print scaling set to "None" (actual size) in the PDF, 100 mm control dimension on page 1. The strip is split in two parts of 215 mm at the cell boundary nearest the middle.
+- Edge cells cut by the strip end (12 × 36.38 mm D pitch is wider than 430 mm): text is fitted to the visible width; the "wider than the strip" warning only appears when an edge cell loses more than a quarter.
+- Rack view draws the strip at its full height (no longer capped at 19.2 mm).
+
 ## 2026-11-18 – Version 28 · d&b D80 and D40 views
 
 - Scale views for d&b D80 and D40 drawn from the manufacturer product images (front and rear, status "not checked yet"); connector lists corrected from the images (D40: six speakON incl. A/B and C/D mix outputs, two etherCON, inputs/links/AES3 on XLR).

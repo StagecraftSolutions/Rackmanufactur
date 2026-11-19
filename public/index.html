@@ -2313,7 +2313,7 @@ function devFace(d, x, y, w, h, side = 'f', name) {
 
 
 /* ---------- Zustand ---------- */
-const STRIP = { w: 440, h: 15 };   // Beschriftungsstreifen 872205 LBL – Startwerte, bitte nachmessen
+const STRIP = { w: 430, h: 20 };   // Beschriftungsstreifen 872205 LBL – Originalmaß 430 × 20 mm
 function defPitch(div) { return Math.round(DSPAN / Math.max(1, div) * 100) / 100; }
 function makeItem(kind, o = {}) {
   const it = { id: uid(), kind, he: o.he ?? 1, pos: o.pos ?? 0, side: o.side || 'front' };
@@ -2720,6 +2720,7 @@ function normalize(s) {
       Object.assign(it, { div: 1, lines: 1, pitch: STRIP.w, offset: 0, stripW: STRIP.w, stripH: STRIP.h, cells: [[t]] });
       delete it.text;
     }
+    if (it.kind === 'label' && ((+it.stripW === 440 && +it.stripH === 15) || (+it.stripW === 430 && +it.stripH === 17))) { it.stripW = STRIP.w; it.stripH = STRIP.h; }   // alte Startwerte → Originalmaß
     if (it.kind === 'label') fixCells(it);
     if (it.kind === 'custom') { it.art = it.art || ''; it.price = it.price ?? null; it.shop = it.shop || ''; }
     if (isCover(it) && it.tray) { const th = it.tray.he >= 2 && it.he >= 2 ? 2 : 1; extra.push(makeItem('shelf', { shelf: th === 2 ? 'ah_2u' : 'ah_1u', pos: it.pos + it.he - th, side: it.side })); it.tray = null; }
@@ -3554,7 +3555,7 @@ function warnings(L) {
     if (it.side === 'rear' && c.rear && d > c.railRear) w.push({ err: true, t: `„${title(it)}“ (hinten, ${d} mm) ragt über die Frontschiene hinaus.` });
     if (isDev(it) && it.rearFix && !c.rear && it.side === 'front') w.push({ t: `„${title(it)}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.` });
     if (it.kind === 'shelf') { const Sh = shelfOf(it); if (Sh.mode === 'free' && shelfUsed(it) > Sh.innerW) w.push({ err: true, t: `${Sh.short} ${heRange(it)}: Geräte zusammen ${Math.round(shelfUsed(it))} mm breit, die Wanne hat innen ${Sh.innerW} mm.` }); it.devs.forEach(o => { const d = devOf(o.dev); if (Sh.mode === 'free' && devH(d) > it.he * HE - 3) w.push({ t: `${d.n} ist ${devH(d)} mm hoch und ragt aus der Wanne (${fmtHE(it.he)}).` }); }); }
-    if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + 0.5) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
+    if (it.kind === 'label') { const tot = it.div * it.pitch; if (tot > it.stripW + it.pitch / 2) w.push({ t: `Beschriftung ${heRange(it)}: ${it.div} × ${fmtN(it.pitch)} mm = ${fmtN(tot)} mm ist breiter als der Streifen (${it.stripW} mm).` }); }
   });
   collisions().forEach(k => w.push({ err: true, t: `Kollision ${heRange({ pos: k.top, he: k.bot - k.top })}: „${title(k.a)}“ (vorn, bis ${Math.round(k.to)} mm) trifft „${title(k.b)}“ (hinten, ab ${Math.round(k.from)} mm) – ${Math.round(k.to - k.from)} mm Überdeckung.` }));
   return w;
@@ -3750,7 +3751,7 @@ function faceSVG(it, xL, W, live = false) {
     }
     case 'label': {
       g += panelBase(xL, y, W19, h);
-      const sh = Math.min(it.stripH, h - 3), sx = W / 2 - it.stripW / 2, sy = y + h / 2 - sh / 2;
+      const sh = Math.min(it.stripH, h - 1), sx = W / 2 - it.stripW / 2, sy = y + h / 2 - sh / 2;
       g += `<rect x="${sx}" y="${sy}" width="${it.stripW}" height="${sh}" rx=".6" class="labelstrip"/>`;
       const fs = Math.min(sh / it.lines * .62, 5);
       for (let i = 0; i < it.div; i++) {
@@ -3759,7 +3760,7 @@ function faceSVG(it, xL, W, live = false) {
         it.cells[i].forEach((t, k) => {
           if (!t) return;
           const ty = sy + sh * (k + .5) / it.lines;
-          let f = fs; const est = t.length * f * .5; if (est > it.pitch - 1.5) f = f * (it.pitch - 1.5) / est;
+          let f = fs; const est = t.length * f * .5, avail = 2 * Math.min(it.pitch / 2, cx - sx, sx + it.stripW - cx) - 1.5; if (est > avail) f = f * avail / est;
           g += `<text x="${cx}" y="${ty}" class="lbltxt" style="font-size:${f.toFixed(2)}px">${esc(t)}</text>`;
         });
       }
@@ -4631,6 +4632,7 @@ async function exportLabels(list) {
   try { lib = await loadJsPDF(); } catch (e) { return toast('PDF-Bibliothek konnte nicht geladen werden.'); }
   layout();
   const doc = new lib.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  try { doc.viewerPreferences({ PrintScaling: 'None' }); } catch (e) { /* ältere Viewer ignorieren das */ }   // Druckdialog: 100 %, nicht „an Seite anpassen“
   const PW = 297, PH = 210, M = 10, maxW = PW - 2 * M;
   let y = M + 6, first = true;
   doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
@@ -4674,14 +4676,21 @@ async function exportLabels(list) {
           if (!t) return;
           let pt = Math.min(lineH * 0.7 / 0.3528, 14);
           doc.setFontSize(pt);
-          const tw = doc.getTextWidth(t);
-          if (tw > it.pitch - 1.2) { pt = pt * (it.pitch - 1.2) / tw; doc.setFontSize(pt); }
+          const tw = doc.getTextWidth(t), avail = 2 * Math.min(it.pitch / 2, cx, SW - cx) - 1.2;   // Randfelder vom Streifenende beschnitten
+          if (tw > avail) { pt = pt * avail / tw; doc.setFontSize(pt); }
           doc.text(t, x0 + cx - a, y0 + lineH * (k + .5), { align: 'center', baseline: 'middle' });
         });
       }
       y = y0 + SH + 9;
     }
   });
+  // Kontrollmaß: 100 mm – nach dem Druck nachmessen
+  doc.setPage(1); doc.setDrawColor(0); doc.setLineWidth(0.2); doc.setTextColor(0);
+  const kx = PW - M - 100, ky = PH - M;
+  doc.line(kx, ky, kx + 100, ky);
+  for (let i = 0; i <= 10; i++) doc.line(kx + i * 10, ky, kx + i * 10, ky - (i % 5 ? 1.5 : 3));
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
+  doc.text(tr('Kontrollmaß 100 mm'), kx, ky - 4);
   await saveFile(`${slug()}-${LANG === 'en' ? 'labels' : 'beschriftung'}.pdf`, doc.output('blob'), 'PDF');
 }
 const slug = () => slugOf(state);
