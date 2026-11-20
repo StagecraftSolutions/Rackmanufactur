@@ -16,17 +16,19 @@
 //   /* DATA:CTYPES */ const CTYPES = {...};      <- data/connectors.json (types)
 //   /* DATA:CON */ const CON = {...};            <- data/connectors.json (connectors)
 //   /* DATA:I18N */ const I18N_EN = {...};       <- data/i18n/ui.json + data/i18n/catalog.json (only translated entries)
+//   /* DATA:SBX */ const SBX = {...};            <- data/sysboxx.json (Sommer Cable SYSBOXX housings and front plates)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const ROOT = new URL('..', import.meta.url);
 const HTML = new URL('public/index.html', ROOT);
 const F = { DEVDB: 'data/devices.json', KG: 'data/weights.json', EXACT: 'data/views.json' };
-const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN', CTYPES: 'CTYPES', CON: 'CON' };
+const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN', CTYPES: 'CTYPES', CON: 'CON', SBX: 'SBX' };
+const SBXF = 'data/sysboxx.json';
 const CONF = 'data/connectors.json';
 const CFIT = ['d', 'dblank', 'fp'];
 
 const FIT = ['rack', 'bmd', 'half', 'free', 'desk'];
-const IO = ['rj45', 'sfp', 'bnc', 'xlr', 'xlrf', 'xlr5', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'dc', 'jack', 'opt', 'sd', 'powercon', 'cee32m', 'cee32f', 'cee16m', 'cee16f', 'schuko', 'gland', 'brk', 'rcd', 'lcd', 'btn', 'knob', 'combo', 'ethercon', 'din', 'rca', 'sma', 'ant', 'nl4', 'nl8', 'euroblock', 'db9', 'fan', 'han16f', 'han16m', 'lka25', 'lk37', 'cee63m', 'cee63f', 'cee125m', 'cee125f', 'powerlockm', 'powerlockf', 'cpot', 'cee16f4', 'cee16m4', 'cee32f4', 'cee32m4'];
+const IO = ['rj45', 'sfp', 'bnc', 'xlr', 'xlrf', 'xlr5', 'hdmi', 'usb', 'usba', 'usbc', 'iec', 'dc', 'jack', 'opt', 'sd', 'powercon', 'cee32m', 'cee32f', 'cee16m', 'cee16f', 'schuko', 'gland', 'brk', 'rcd', 'lcd', 'btn', 'knob', 'combo', 'ethercon', 'din', 'rca', 'sma', 'ant', 'nl4', 'nl8', 'euroblock', 'db9', 'fan', 'han16f', 'han16m', 'han10f', 'han10m', 'han6f', 'han6m', 'lka25', 'lk37', 'cee63m', 'cee63f', 'cee125m', 'cee125f', 'powerlockm', 'powerlockf', 'cpot', 'cee16f4', 'cee16m4', 'cee32f4', 'cee32m4'];
 const EL = ['btn', 'malogo', 'madisp', 'enc', 'rect', 'vline', 'ledc', 'lcdl', 'sw', 'combo', 'ethercon', 'din', 'xlrf', 'fan', 'db9', 'rca', 'cover', 'led', 'reset', 'screen', 'txt', 'logo', 'lamp', 'mcb', 'rcd', 'cee16f', 'cee32f', 'schuko', 'gland', ...IO];
 
 const rx = k => new RegExp(`/\\* DATA:${k} \\*/[\\s\\S]*?/\\* /DATA:${k} \\*/`);
@@ -61,9 +63,37 @@ function checkCon(cdb, err) {
     if (c.price != null && typeof c.price !== 'number') err.push(`${at}: price must be a number`);
   }
 }
-function check(devdb, kg, exact, i18n, cdb) {
+// SYSBOXX: housings per depth/height, front plates in BE (1 BE = 35.6 mm, 12 BE per 19″ row, plates 2 U high)
+const SBX_KIND = ['blank', 'd', 'mod', 'cut'];
+function checkSbx(sbx, err, cdb) {
+  if (!sbx) return;
+  if (!(sbx.be > 0)) err.push('sysboxx: be (mm per width unit) missing');
+  for (const [d, hs] of Object.entries(sbx.housings || {})) for (const [he, h] of Object.entries(hs)) {
+    if (!h.art) err.push(`sysboxx housing ${d}/${he}: art missing`);
+    if (h.price != null && typeof h.price !== 'number') err.push(`sysboxx housing ${d}/${he}: price must be a number`);
+    if (+he % 2) err.push(`sysboxx housing ${d}/${he}: height must be a multiple of 2 U`);
+  }
+  for (const [k, x] of Object.entries(sbx.extra || {})) if (!x.n || !x.art) err.push(`sysboxx extra ${k}: n/art missing`);
+  for (const [k, p] of Object.entries(sbx.plates || {})) {
+    const at = `sysboxx plate ${k}`, W = p.be * sbx.be, H = 88.9;
+    if (!/^[a-z0-9_]+$/.test(k)) err.push(`${at}: key may only use a–z, 0–9, _`);
+    for (const f of ['n', 's', 'g', 'art']) if (!p[f]) err.push(`${at}: field ${f} missing`);
+    if (!(Number.isInteger(p.be) && p.be >= 1 && p.be <= 12)) err.push(`${at}: be must be 1–12`);
+    if (!SBX_KIND.includes(p.kind)) err.push(`${at}: kind must be ${SBX_KIND.join(', ')}`);
+    if (p.price != null && typeof p.price !== 'number') err.push(`${at}: price must be a number`);
+    if (!(p.screws > 0)) err.push(`${at}: screws missing`);
+    const inside = (x, y) => x >= 0 && x <= W && y >= 0 && y <= H;
+    if (p.kind === 'd') { if (!Array.isArray(p.holes) || !p.holes.length) err.push(`${at}: holes [[x, y, rot?]] missing`); else p.holes.forEach((h, i) => { if (!inside(h[0], h[1])) err.push(`${at}: hole ${i + 1} outside the plate`); }); }
+    if (p.kind === 'mod') { if (!Array.isArray(p.els) || !p.els.length) err.push(`${at}: els missing`); else p.els.forEach((e, i) => { if (!EL.includes(e.t)) err.push(`${at}: els[${i}] unknown element "${e.t}"`); else if (!inside(e.x, e.y)) err.push(`${at}: els[${i}] outside the plate`); });
+      if (p.io) for (const q of p.io.split(';').map(x => x.trim()).filter(Boolean)) { const m = q.match(/^(\w+):(\d+)/); if (!m || !IO.includes(m[1])) err.push(`${at}: io "${q}" invalid`); } }
+    if (p.acc != null) { if (p.kind !== 'cut' || !Array.isArray(p.acc) || !p.acc.length) err.push(`${at}: acc (connector types for the cutouts) only for kind cut, as a list`); else p.acc.forEach(t => { if (cdb && !(cdb.types || {})[t]) err.push(`${at}: acc "${t}" is not a connector type`); }); }
+    if (p.kind === 'cut') { if (!Array.isArray(p.cut) || !p.cut.length) err.push(`${at}: cut missing`); else p.cut.forEach((c, i) => { if (!['c', 'r'].includes(c.t) || (c.t === 'c' ? !(c.d > 0) : !(c.w > 0 && c.h > 0))) err.push(`${at}: cut[${i}] invalid (c: d · r: w, h)`); else if (!inside(c.x, c.y)) err.push(`${at}: cut[${i}] outside the plate`); }); }
+  }
+}
+function check(devdb, kg, exact, i18n, cdb, sbx) {
   const err = [], warn = [];
   if (cdb) checkCon(cdb, err);
+  checkSbx(sbx, err, cdb);
   for (const [k, d] of Object.entries(devdb)) {
     const at = `device ${k}`;
     if (!/^[a-z0-9_]+$/.test(k)) err.push(`${at}: key may only use a–z, 0–9, _`);
@@ -151,6 +181,7 @@ if (cmd === 'export') {
   const load = k => existsSync(new URL(F[k], ROOT)) ? JSON.parse(readFileSync(new URL(F[k], ROOT), 'utf8')) : readBlock(src, k);
   let devdb = load('DEVDB'); const kg = load('KG'), exact = load('EXACT');
   const cdb = existsSync(new URL(CONF, ROOT)) ? JSON.parse(readFileSync(new URL(CONF, ROOT), 'utf8')) : { types: readBlock(src, 'CTYPES'), connectors: readBlock(src, 'CON') };
+  const sbx = existsSync(new URL(SBXF, ROOT)) ? JSON.parse(readFileSync(new URL(SBXF, ROOT), 'utf8')) : null;
   const i18n = {};
   for (const f of ['data/i18n/ui.json', 'data/i18n/catalog.json']) if (existsSync(new URL(f, ROOT))) for (const [de, en] of Object.entries(JSON.parse(readFileSync(new URL(f, ROOT), 'utf8')))) if (en) i18n[de] = en;
   if (process.argv.includes('--csv')) devdb = mergeCsv(devdb, parseCsv(readFileSync(new URL('data/devices.csv', ROOT), 'utf8')));
@@ -178,7 +209,7 @@ if (cmd === 'export') {
     }
     console.log(`Weight list: ${n} values merged`);
   }
-  const { err, warn } = check(devdb, kg, exact, i18n, cdb);
+  const { err, warn } = check(devdb, kg, exact, i18n, cdb, sbx);
   const missingKg = warn.filter(w => /weight missing/.test(w)).length;
   warn.filter(w => !/weight missing/.test(w)).forEach(w => console.log('Note:', w));
   if (missingKg) console.log(`Note: ${missingKg} devices without weight`);
@@ -186,8 +217,9 @@ if (cmd === 'export') {
   if (cmd === 'import') {
     for (const [k, v] of [['DEVDB', devdb], ['KG', kg], ['EXACT', exact]]) writeFileSync(new URL(F[k], ROOT), JSON.stringify(v, null, 1) + '\n');
     src = writeBlock(src, 'DEVDB', devdb); src = writeBlock(src, 'KG', kg); src = writeBlock(src, 'EXACT', exact); src = writeBlock(src, 'I18N', i18n); src = writeBlock(src, 'CTYPES', cdb.types); src = writeBlock(src, 'CON', cdb.connectors);
+    if (sbx) { const { _source, ...app } = sbx; src = writeBlock(src, 'SBX', app); }   // the source note stays in the data file
     writeFileSync(new URL(CONF, ROOT), JSON.stringify(cdb, null, 1) + '\n');
     writeFileSync(HTML, src);
-    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
+    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${sbx ? Object.keys(sbx.plates).length : 0} SYSBOXX plates, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
   } else console.log(`OK: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations`);
 } else { console.error('Usage: node scripts/data.mjs export|import|check [--csv] [--weights file] [--review file]'); process.exit(2); }

@@ -27,7 +27,7 @@ function fromHtml(frag, area) {
   frag.replace(/<[^>]*>/g, '\u0000').split('\u0000').forEach(seg => add(seg, area, html));
 }
 // Bereiche: Datenblöcke und Katalog-Konstanten zählen als „katalog“
-const KAT_STARTS = ['/* DATA:CON */', '/* DATA:CTYPES */', 'const PANELS = {', 'const ART = {', 'const CASES = {', 'const RAIL_REAR', 'const ACC_DEFAULT', 'const DEVICES = [', 'const SHELVES = {', 'const DRAWERS = {', '/* DATA:DEVDB */'];
+const KAT_STARTS = ['/* DATA:CON */', '/* DATA:CTYPES */', '/* DATA:SBX */', 'const PANELS = {', 'const ART = {', 'const CASES = {', 'const RAIL_REAR', 'const ACC_DEFAULT', 'const DEVICES = [', 'const SHELVES = {', 'const DRAWERS = {', '/* DATA:DEVDB */'];
 const katRanges = KAT_STARTS.map(k => { const a = src.indexOf(k); if (a < 0) return null; const e = k.startsWith('/*') ? src.indexOf(k.replace('/* ', '/* /'), a) : src.indexOf(k.endsWith('[') ? '\n];' : '\n};', a); return [a, e]; }).filter(Boolean);
 const skipRanges = ['DATA:KG', 'DATA:EXACT', 'DATA:I18N'].map(k => [src.indexOf(`/* ${k} */`), src.indexOf(`/* /${k} */`)]).filter(r => r[0] > 0);
 skipRanges.push([src.indexOf('const TERMS_EN = ['), src.indexOf('\n];', src.indexOf('const TERMS_EN = ['))]);

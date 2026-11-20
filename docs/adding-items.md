@@ -3,6 +3,7 @@
 How devices, scale views, rack shelves, D-size inserts and rack parts get into Rack Manufaktur.
 
 - **Devices, weights, views, translations** are JSON files in `data/` and are written into `public/index.html` with `node scripts/data.mjs import` (data blocks `DATA:DEVDB`, `DATA:KG`, `DATA:EXACT`, `DATA:I18N` – never edit them by hand).
+- **SYSBOXX housings and front plates** are in `data/sysboxx.json` (block `DATA:SBX`), see section 5.
 - **Cases, panels, inserts, shelves, drawers** are JavaScript objects in `public/index.html` (`CASES`, `PANELS`, `CON`, `ART`, `SHELVES`, `DRAWERS`).
 - Rules for AI assistants: [AGENTS.md](../AGENTS.md).
 
@@ -57,7 +58,7 @@ How devices, scale views, rack shelves, D-size inserts and rack parts get into R
 | `free` | any small device | any free rack shelf, flush at the front |
 | `desk` | desktop device | not rack-mountable, information only |
 
-**io types:** `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan han16f han16m lka25 lk37 cee63m cee63f cee125m cee125f powerlockm powerlockf cpot cee16f4 cee16m4 cee32f4 cee32m4`. Write counts in descriptions as `4× Analog In, 2× AES3 In` – the label generator uses them.
+**io types:** `rj45 sfp bnc xlr xlrf xlr5 hdmi usb usba usbc iec dc jack opt sd powercon cee32m cee32f cee16m cee16f schuko gland brk rcd lcd btn knob combo ethercon din rca sma ant nl4 nl8 euroblock db9 fan han16f han16m han10f han10m han6f han6m lka25 lk37 cee63m cee63f cee125m cee125f powerlockm powerlockf cpot cee16f4 cee16m4 cee32f4 cee32m4`. Write counts in descriptions as `4× Analog In, 2× AES3 In` – the label generator uses them.
 
 ## 2. Scale view (`data/views.json`)
 
@@ -132,7 +133,31 @@ The connector database has **types** (what the connector is, e.g. XLR 3-pin fema
 
 Weights go into `data/weights.json` as `con:<key>`. `node scripts/data.mjs import` validates types, fits and footprints.
 
-## 5. Finish
+## 5. SYSBOXX front plate (`data/sysboxx.json`)
+
+Sommer Cable SYSBOXX MKII: a 19″ housing kit with one row of 12 width units (BE) per 2 U; 1 BE = 35.6 mm (`be`), 12 BE = 427 mm. Housings are listed per depth and height under `housings` (`"80": { "2": { "art": "SYG12-01-02", "price": 113.00 } }`), extra parts under `extra` (`joint` = connecting profile per additional row, `strip` = thread strip, `screw` = plate screw).
+
+```json
+"syfb23_8d": { "n": "Frontblech 8 × D-Loch, 2 HE, 3 BE", "s": "8× D", "g": "D-Loch-Bleche · Stecker frei wählbar",
+  "art": "SYFB23-8D", "be": 3, "price": 26.80, "kind": "d", "screws": 6, "holes": [[14.1, 25.5], [40.3, 25.5, 90]], "chk": 1 }
+```
+
+| Field | Meaning |
+|---|---|
+| `n`, `s`, `g` | name, short name (chips and select), group in the select – German, translated by the dictionary |
+| `art`, `price`, `kg` | Sommer part number, EUR incl. VAT, weight |
+| `be` | width in BE (1–12); every plate is 2 U high (88.9 mm) |
+| `kind` | `blank` · `d` (D holes, connectors chosen in the app) · `mod` (fitted module, drawn from `els`) · `cut` (cutout, connector not included) |
+| `screws` | M2.5 screws S-M2510 for the plate (catalogue: 4 per 1–2 BE, 6 for 3 BE, 8 for 4 BE …) |
+| `holes` | `d`: D hole centres `[x, y, rot]` in mm from the top left corner of the plate |
+| `els`, `io` | `mod`: drawing elements as in the scale views (`xlr`, `xlrf`, `hdmi`, `usba`, `powercon`, `nl4`, `nl8`, `rca`, `schuko` …) and connector list `type:count text` |
+| `cut`, `fits` | `cut`: cutouts `{ t: 'c', x, y, d }` or `{ t: 'r', x, y, w, h }` and what fits |
+| `acc` | `cut`: connector types (keys from `data/connectors.json`) that can be fitted into each cutout, e.g. `["cee16f", "cee32f"]`; without `acc` the cutout stays empty |
+| `chk` | positions not measured from a drawing – keep until checked |
+
+Leave the blank plates `syfb21_l`, `syfb22_l`, `syfb23_l`, `syfb26_l`, `syfb2x_l` in place: the app fills free BE with them.
+
+## 6. Finish
 
 1. `node scripts/data.mjs import`, then `node scripts/manufacturers.mjs`.
 2. New UI texts: `node scripts/i18n-extract.mjs`, translate the empty entries, import again.

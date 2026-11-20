@@ -134,3 +134,28 @@ Device weights are in `data/devices.json` (field `kg`), all other items in `data
 - Dimensions, weights and connectors come from manufacturer data sheets and dealer pages (Thomann, Schneider Electric, GLP, RF Venue, Netgear, Blackmagic). Where sources disagree or a value is missing, the device has `chk: 1` and a note.
 - Some list prices (new prices) come from the operator's inventory list and are approximate: Netgear GS724T, Showtec PSA-32A12S, RF Venue DISTRO4, SmartView Duo, ATEM 2 M/E Production Studio 4K, Web Presenter HD, t.amp Quadro 500 DSP, Botex DPX-620 III, and the missing prices of Midas DL16/DL32, Behringer X32 RACK, Shure ULXD4D/ULXD4, NovaStar MX20. Weights of Midas DL16 and X32 RACK from the same list.
 - Eight scale views were generated from data sheet values (layout not checked against a photo, see the device note): GS724T, Stairville splitter, GLP PDP-2/S, Showtec PSA-32A12S, DISTRO4, SmartView Duo, Quadro 500 DSP, PSA 16PT2-TR1. Approve or correct them in the review editor.
+
+## SYSBOXX – Sommer Cable housing system
+
+Sources: [sommercable.com › Verteilsysteme › SYSBOXX-Gehäusesystem](https://www.sommercable.com/de-de/Produkte/Verteilsysteme/SYSBOXX-Gehaeusesystem/) (prices incl. VAT, 20 Nov 2026; housing prices from the variants of [SYSBOXX-Gehäuse-Bausatz](https://www.sommercable.com/de-de/SYSBOXX-Gehaeuse-Bausatz/SYG06-02-02)) and the Sommer Cable catalogue V07.1, pages 418–422 (grid, part numbers, plate drawings, screws per plate).
+
+| Item | Value | Source |
+|---|---|---|
+| Width unit | 1 BE = 35.6 mm (= 7 HP), 12 BE = 427 mm = 19″ | catalogue p. 418/420 |
+| Front plates | 2 U high, 1–12 BE wide, mounted front and rear | catalogue p. 420/421 |
+| Housing kit 19″ | SYG12-01-02/04/06/08 (80 mm): 113.00 / 189.40 / 260.00 / 342.59 € · SYG12-02-02/04/06/08 (140 mm): 140.00 / 205.97 / 292.80 / 393.31 € | sommercable.com |
+| Kit contents | 2 standard profiles, 2 side parts with rack ear, 4 thread strips, earthing and screw set | catalogue p. 418 |
+| Connecting profile SYPV-12 | needed between rows; price not found, whether kits from 4 U include it is open | catalogue p. 418 |
+
+Hole, connector and cutout positions of the plates are estimated from the catalogue drawings (`chk`), cutout diameters are approximate.
+
+## Harting Han B housings (Han 6B, 10B, 16B)
+
+Source: Harting catalogue "Han B" (livebook chapter 31, [PDF](https://b2b.harting.com/files/livebooks/de/PRD0200000100016/downloads/livebook.pdf)), standard bulkhead housings, low profile, Han-Easy Lock, IP65.
+
+| Size | Housing | Flange | Panel cutout | Holes | Inserts (F / M, screw) | Page |
+|---|---|---|---|---|---|---|
+| Han 6B | 09 30 006 0301 | 80 × 43 mm | 48 × 35 mm | 70 × 32 mm, Ø 4.4 | 09 33 006 2701 / 2601 | 31·32 |
+| Han 10B | 09 30 010 0301 | 93 × 43 mm | 60 × 35 mm | 83 × 32 mm, Ø 4.4 | 09 33 010 2701 / 2601 | 31·39 |
+
+Insert part numbers confirmed at dealers (e.g. [Bürklin 09330062701](https://www.buerklin.com/en/p/harting/contact-inserts/09330062701/42F102), [Bürklin 09330062601](https://www.buerklin.com/en/p/harting/contact-inserts/09330062601/42F100)). Prices not entered (marked "check").

@@ -155,6 +155,26 @@
    "s": "HAN16 M",
    "def": "han16m_b"
   },
+  "han6f": {
+   "n": "Harting Han E 6-pol Buchse (Han 6B)",
+   "s": "HAN6 F",
+   "def": "han6f_b"
+  },
+  "han6m": {
+   "n": "Harting Han E 6-pol Stecker (Han 6B)",
+   "s": "HAN6 M",
+   "def": "han6m_b"
+  },
+  "han10f": {
+   "n": "Harting Han E 10-pol Buchse (Han 10B)",
+   "s": "HAN10 F",
+   "def": "han10f_b"
+  },
+  "han10m": {
+   "n": "Harting Han E 10-pol Stecker (Han 10B)",
+   "s": "HAN10 M",
+   "def": "han10m_b"
+  },
   "lka25": {
    "n": "Multipin LKA25 (MIL-C-5015, Shell 24)",
    "s": "LKA25",
@@ -1557,6 +1577,206 @@
      {
       "t": "h",
       "x": 51.5,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "han6f_b": {
+   "type": "han6f",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN6 F",
+   "n": "Han 6B Anbaugehäuse mit Han E 6 Buchseneinsatz",
+   "art": "Harting 09 30 006 0301 + 09 33 006 2701",
+   "price": null,
+   "src": "check",
+   "q": "Harting-Katalog Han B (Livebook Kap. 31, S. 31·32), Anbaugehäuse 09 30 006 0301: Flansch 80 × 43, Ausschnitt 48 × 35, Löcher 70 × 32, Ø 4,4. Gehäuse von vorn aufgesetzt, Einsatz von hinten.",
+   "el": {
+    "t": "han6f",
+    "s": 43
+   },
+   "fp": {
+    "w": 80,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 48,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -35,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 35,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -35,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 35,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "han6m_b": {
+   "type": "han6m",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN6 M",
+   "n": "Han 6B Anbaugehäuse mit Han E 6 Stifteinsatz",
+   "art": "Harting 09 30 006 0301 + 09 33 006 2601",
+   "price": null,
+   "src": "check",
+   "q": "Harting-Katalog Han B (Livebook Kap. 31, S. 31·32), Anbaugehäuse 09 30 006 0301: Flansch 80 × 43, Ausschnitt 48 × 35, Löcher 70 × 32, Ø 4,4. Gehäuse von vorn aufgesetzt, Einsatz von hinten.",
+   "el": {
+    "t": "han6m",
+    "s": 43
+   },
+   "fp": {
+    "w": 80,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 48,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -35,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 35,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -35,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 35,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "han10f_b": {
+   "type": "han10f",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN10 F",
+   "n": "Han 10B Anbaugehäuse mit Han E 10 Buchseneinsatz",
+   "art": "Harting 09 30 010 0301 + 09 33 010 2701",
+   "price": null,
+   "src": "check",
+   "q": "Harting-Katalog Han B (Livebook Kap. 31, S. 31·39), Anbaugehäuse 09 30 010 0301: Flansch 93 × 43, Ausschnitt 60 × 35, Löcher 83 × 32, Ø 4,4. Gehäuse von vorn aufgesetzt, Einsatz von hinten.",
+   "el": {
+    "t": "han10f",
+    "s": 43
+   },
+   "fp": {
+    "w": 93,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 60,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -41.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 41.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -41.5,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 41.5,
+      "y": 16,
+      "d": 4.4
+     }
+    ]
+   }
+  },
+  "han10m_b": {
+   "type": "han10m",
+   "mk": "Harting",
+   "fit": "fp",
+   "s": "HAN10 M",
+   "n": "Han 10B Anbaugehäuse mit Han E 10 Stifteinsatz",
+   "art": "Harting 09 30 010 0301 + 09 33 010 2601",
+   "price": null,
+   "src": "check",
+   "q": "Harting-Katalog Han B (Livebook Kap. 31, S. 31·39), Anbaugehäuse 09 30 010 0301: Flansch 93 × 43, Ausschnitt 60 × 35, Löcher 83 × 32, Ø 4,4. Gehäuse von vorn aufgesetzt, Einsatz von hinten.",
+   "el": {
+    "t": "han10m",
+    "s": 43
+   },
+   "fp": {
+    "w": 93,
+    "h": 43,
+    "cut": [
+     {
+      "t": "r",
+      "w": 60,
+      "h": 35
+     },
+     {
+      "t": "h",
+      "x": -41.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 41.5,
+      "y": -16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": -41.5,
+      "y": 16,
+      "d": 4.4
+     },
+     {
+      "t": "h",
+      "x": 41.5,
       "y": 16,
       "d": 4.4
      }
