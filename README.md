@@ -100,7 +100,7 @@ scripts/deploy.sh
 
 Before each upload the script checks that the legal pages exist, that no placeholders `⟦…⟧` are left and that no external sources (fonts, CDNs, tracking) are referenced. It only uploads, never deletes; HTML comes last; with `SITE_URL` set it verifies the pages afterwards. `scripts/deploy.sh --dir redirect/td-media-rackwerk` uploads the redirect for the old address td-media.eu/rackwerk instead.
 
-The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz, hosted at STRATO; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
+The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz, on its own server; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
 
 ## Code structure (`public/index.html`)
 
