@@ -3344,6 +3344,23 @@ function rackSVG(L, mode, opt = {}) {   // mode: 'front' | 'rear' · opt.sfx: ei
   if (!opt.still) s += `<rect id="snap" x="${xL}" y="0" width="${W19}" height="0" class="snap" style="display:none"/>`;
   return s + '</svg>';
 }
+// Seitenansicht: Beschriftungen von Elementen in derselben Höhe (z. B. Rackwanne + Lüftungsblende) übereinander stapeln statt übereinander drucken
+function sideLabelY() {
+  const GAP = 8, out = new Map();
+  ['front', 'rear'].forEach(side => {
+    const labs = state.items.filter(it => (it.side === 'rear' ? 'rear' : 'front') === side && it.he * HE - .8 > 9)
+      .map(it => ({ id: it.id, p: CW + it.pos * HE + .4 + (it.he * HE - .8) / 2 })).sort((a, b) => a.p - b.p);
+    const cl = [];   // Gruppen: { l: [...], top }
+    const place = g => { g.top = g.l.reduce((t, x) => t + x.p, 0) / g.l.length - (g.l.length - 1) * GAP / 2; };
+    labs.forEach(x => {
+      let g = { l: [x] }; place(g);
+      while (cl.length) { const q = cl[cl.length - 1]; if (q.top + q.l.length * GAP <= g.top) break; cl.pop(); g = { l: q.l.concat(g.l) }; place(g); }
+      cl.push(g);
+    });
+    cl.forEach(g => g.l.forEach((x, i) => out.set(x.id, g.top + i * GAP)));
+  });
+  return out;
+}
 function sideSVG(L) {
   const c = state.case, he = c.he, rows = Math.max(he, L.maxEnd), D = +c.depth || 0;
   const maxD = Math.max(D, ...state.items.map(it => span(it)[1]));
@@ -3354,8 +3371,9 @@ function sideSVG(L) {
   s += `<rect x="${X0}" y="${CW}" width="${D}" height="${he * HE}" class="well"/>`;
   s += `<rect x="${X0}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
   if (c.rear) s += `<rect x="${X0 + c.railRear - 1.5}" y="${CW}" width="3" height="${he * HE}" class="rail"/>`;
+  const labY = sideLabelY();
   state.items.forEach(it => {
-    const y = CW + it.pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it), [a, b] = span(it), rear = it.side === 'rear';
+    const y = CW + it.pos * HE + .4, h = it.he * HE - .8, d = itemDepth(it), [a, b] = span(it), rear = it.side === 'rear', ly = labY.get(it.id) ?? y + h / 2;
     let g = `<g class="item dr" data-id="${it.id}">`;
     const cls = rear ? 'side-rear' : isDev(it) ? 'side-dev' : it.kind === 'drawer' ? 'side-drawer' : 'side-body';
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) {
@@ -3372,7 +3390,7 @@ function sideSVG(L) {
     }
     if (h > 9) {
       const lab = `${title(it)}${rear ? ' (hinten)' : ''}${(it.kind === 'vent' || it.kind === 'blank') && it.tray ? ' + Rackwanne' : ''} · ${d} mm`;
-      g += rear ? `<text x="${X0 + b - 6}" y="${y + h / 2}" class="side-txt" text-anchor="end">${esc(lab)}</text>` : `<text x="${X0 + 8}" y="${y + h / 2}" class="side-txt">${esc(lab)}</text>`;
+      g += rear ? `<text x="${X0 + b - 6}" y="${ly}" class="side-txt" text-anchor="end">${esc(lab)}</text>` : `<text x="${X0 + 8}" y="${ly}" class="side-txt">${esc(lab)}</text>`;
     }
     if (!rear && d > D) g += `<rect x="${X0 + D}" y="${y}" width="${d - D}" height="${h}" class="over"/>`;
     if (it.id === sel) g += `<rect x="${X0 + a - 3.5}" y="${y - 1}" width="${Math.max(b - a, 20) + 7}" height="${h + 2}" rx="2" class="selbox"/>`;
