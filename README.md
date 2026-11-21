@@ -52,6 +52,23 @@ node scripts/manufacturers.mjs
 
 More: [docs/adding-items.md](docs/adding-items.md) (data format), [docs/ai-workflow.md](docs/ai-workflow.md) (working with ChatGPT/Codex), [AGENTS.md](AGENTS.md) (rules for AI assistants), [docs/data-sources.md](docs/data-sources.md), [docs/manufacturers.md](docs/manufacturers.md), [docs/TASKS.md](docs/TASKS.md).
 
+## Local variant with the Stagecraft Library
+
+`public/local.html` is the same app **without a built-in product database**. Devices, scale views, connectors, SYSBOXX and weights come from the [Stagecraft Library](https://library.stagecraft.solutions/) (`api/v1/rackmanufaktur/*.json`, same format as `data/*.json`).
+
+- **Catalog:** the last library state is cached in the browser (IndexedDB). With a cache the app starts at once and checks the library in the background (on start, every 5 minutes, when the tab becomes visible or the network returns). Only the first start needs a connection.
+- **Project snapshot:** every project stores the data it uses in the project file (`lib`: used devices and their views, connectors and types, SYSBOXX, weights). The project always draws this snapshot, so it opens and can be edited offline and does not change on its own.
+- **Updates:** when the library has a newer state of a device or a new/changed view, a **↻ icon** appears on the right rack ear (like the SYSBOXX pencil) and a note in the inspector; a click takes it into the project. The **Library** chip in the header shows the connection and the number of updates; its window lists them (also connectors, SYSBOXX, weights) with "Take over" / "Take over all" and "Check now".
+- Other source for testing: `local.html?library=http://localhost:8752/api/v1/` (remembered; `?library=default` resets).
+
+`public/local.html` is generated – never edit it by hand. It is rebuilt by `node scripts/data.mjs import`, or directly:
+
+```bash
+node scripts/build-local.mjs
+```
+
+Sources: `scripts/local/loader.js` (fetch, cache, start), `scripts/local/client.js` (snapshot, update icons, Library window; injected into the app), `scripts/local/local.css`.
+
 ## Translations
 
 UI texts are written in German in the code. In English mode a dictionary translates every rendered text (placeholders `{0}` for inserted values); unknown catalog texts fall back to a term list. After changing UI texts:

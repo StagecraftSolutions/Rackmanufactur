@@ -26,6 +26,8 @@ node scripts/manufacturers.mjs        # updates docs/manufacturers.md
 
 If `import` stops with ERROR, fix the data – do not force anything.
 
+`import` also rebuilds `public/local.html` (local variant that loads its data from the Stagecraft Library, see README). Never edit `public/local.html` by hand either.
+
 ## Rules
 
 **Capturing and approving are separate.** You capture: research values, measure positions from drawings and photos, enter them. A human approves – in the app under "Review view" (overlay the manufacturer image, correct, tick). So do enter measured values; they stay marked as unchecked until approved.

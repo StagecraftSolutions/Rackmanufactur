@@ -221,5 +221,6 @@ if (cmd === 'export') {
     writeFileSync(new URL(CONF, ROOT), JSON.stringify(cdb, null, 1) + '\n');
     writeFileSync(HTML, src);
     console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${sbx ? Object.keys(sbx.plates).length : 0} SYSBOXX plates, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
+    await import('./build-local.mjs');   // keep the local variant public/local.html in step with index.html
   } else console.log(`OK: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations`);
 } else { console.error('Usage: node scripts/data.mjs export|import|check [--csv] [--weights file] [--review file]'); process.exit(2); }
