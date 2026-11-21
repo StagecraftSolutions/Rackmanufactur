@@ -1,6 +1,8 @@
-// Collects the German UI texts from public/index.html for translation.
+// Collects the German texts for translation: UI texts from public/index.html, catalog texts (devices, connectors,
+// SYSBOXX, rack parts) from the Stagecraft Library API.
 //   node scripts/i18n-extract.mjs   → data/i18n/ui.json (interface) and data/i18n/catalog.json (item/device texts)
-// Existing translations are kept; new texts are added with an empty value. Then: node scripts/data.mjs import
+//   node scripts/i18n-extract.mjs --library http://localhost:8752/api/v1/   (other library source)
+// Existing translations are kept; new texts are added with an empty value. Then: node scripts/i18n.mjs import
 // Placeholders {0}, {1} … stand for inserted values and must be kept in the translation.
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 
@@ -26,16 +28,16 @@ function fromHtml(frag, area) {
   for (const m of frag.matchAll(/\b(?:title|aria-label|placeholder|alt|label)="([^"]*)"/g)) add(m[1], area, true);
   frag.replace(/<[^>]*>/g, '\u0000').split('\u0000').forEach(seg => add(seg, area, html));
 }
-// Bereiche: Datenblöcke und Katalog-Konstanten zählen als „katalog“
-const KAT_STARTS = ['/* DATA:PARTS */', '/* DATA:CON */', '/* DATA:CTYPES */', '/* DATA:SBX */', 'const PANELS = {', 'const ART = {', 'const CASES = {', 'const RAIL_REAR', 'const ACC_DEFAULT', 'const DEVICES = [', 'const SHELVES = {', 'const DRAWERS = {', '/* DATA:DEVDB */'];
-const katRanges = KAT_STARTS.map(k => { const a = src.indexOf(k); if (a < 0) return null; const e = k.startsWith('/*') ? src.indexOf(k.replace('/* ', '/* /'), a) : src.indexOf(k.endsWith('[') ? '\n];' : '\n};', a); return [a, e]; }).filter(Boolean);
-const skipRanges = ['DATA:KG', 'DATA:EXACT', 'DATA:I18N'].map(k => [src.indexOf(`/* ${k} */`), src.indexOf(`/* /${k} */`)]).filter(r => r[0] > 0);
+// All texts in the code are UI texts; catalog texts come from the Stagecraft Library (step 3)
+const katRanges = [];
+const skipRanges = ['DATA:I18N'].map(k => [src.indexOf(`/* ${k} */`), src.indexOf(`/* /${k} */`)]).filter(r => r[0] > 0);
 skipRanges.push([src.indexOf('const TERMS_EN = ['), src.indexOf('\n];', src.indexOf('const TERMS_EN = ['))]);
 const areaAt = i => katRanges.some(([a, e]) => i >= a && i <= e) ? 'katalog' : 'ui';
 const skipped = i => skipRanges.some(([a, e]) => i >= a && i <= e);
 
 // 1) Statisches HTML außerhalb von <script>/<style>
-const scriptA = src.indexOf('<script>', src.indexOf('<body')), styleE = src.indexOf('</style>');
+// the app script is <script type="text/plain" id="rmApp">, so match any <script
+const scriptA = src.indexOf('<script', src.indexOf('<body')), styleE = src.indexOf('</style>');
 fromHtml(src.slice(src.indexOf('<body'), scriptA), 'ui');
 fromHtml(src.slice(0, styleE).replace(/<style>[\s\S]*$/, '').replace(/<title>([^<]*)<\/title>/, '<i>$1</i>'), 'ui');
 
@@ -79,7 +81,22 @@ function step(open = () => {}, close = () => {}) {
 }
 while (i < js.length) step();
 
-// 3) Schreiben (vorhandene Übersetzungen behalten)
+// 3) Catalog texts from the Stagecraft Library (views and weights carry no texts to translate)
+const li = process.argv.indexOf('--library');
+let LIB = li > 0 ? process.argv[li + 1] : 'https://library.stagecraft.solutions/api/v1/';
+if (!LIB.endsWith('/')) LIB += '/';
+const walk = v => {
+  if (typeof v === 'string') { /[<>]/.test(v) ? fromHtml(v, 'katalog') : add(v, 'katalog'); return; }
+  if (Array.isArray(v)) v.forEach(walk);
+  else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => { if (k !== 'url' && k !== '_source') walk(x); });
+};
+for (const f of ['devices', 'connectors', 'sysboxx', 'parts']) {
+  const r = await fetch(`${LIB}rackmanufaktur/${f}.json`);
+  if (!r.ok) { console.error(`${LIB}rackmanufaktur/${f}.json: HTTP ${r.status}`); process.exit(1); }
+  walk(await r.json());
+}
+
+// 4) Schreiben (vorhandene Übersetzungen behalten)
 const dir = new URL('data/i18n/', ROOT); if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 const counts = {};
 for (const area of ['ui', 'katalog']) {

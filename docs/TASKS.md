@@ -2,9 +2,12 @@
 
 Open work. Done items are checked off. Whoever continues starts with the first open item.
 
+> Since 2026-11-21 all product data (devices, views, connectors, cases, rack parts, weights) lives in the **Stagecraft Library**. The data tasks below (reviews, weights, placeholders, missing views) are done there; this repository only holds the app and the translations.
+
 ## Review and approve
 
-- [x] Review editor with overlay, approval front/rear/data, import via `--review`
+- [x] Review editor with overlay, approval front/rear/data
+- [ ] Import of the review editor's `views-review-<date>.json` (views + approvals) into the Stagecraft Library (the old `data.mjs import --review` is gone)
 - [ ] **Review all scale views** (0 approved so far): overlay the manufacturer image, correct, approve
 - [ ] ATEM 4 M/E Constellation 4K Plus: review the view created by ChatGPT
 - [ ] Views from product photos (Version 26): check the 14 new views against the real devices, especially APC SMC1000I-2U front (angled photo) and the ATEM 2 M/E Production Studio 4K rear labels
@@ -17,10 +20,10 @@ Open work. Done items are checked off. Whoever continues starts with the first o
 - [ ] Connector database: verify footprints of CEE 16 A (PCE), Schuko (Mennekes 11081) and IEC C14 (Schurter 1061) against the manufacturer drawings; check Amphenol and new Neutrik part numbers and prices; add more suppliers (e.g. Seetronic XLR/etherCON) and weights (`con:` keys)
 
 - [x] Weight `kg` for devices, weight table `KG` for all other items, total weight in BOM/build notes/overview/PDF
-- [ ] **Add missing weights** (devices: "without weight" in [manufacturers.md](manufacturers.md); cases, panels, inserts, shelves: [`data/weight-catalog.csv`](../data/weight-catalog.csv)) – workflow in [ai-workflow.md](ai-workflow.md)
+- [ ] **Add missing weights** in the Stagecraft Library (devices and all other items)
 - [ ] Check placeholders (`ph: 1`) against datasheets, starting with "check U" (Videohub 80/120, Behringer S16/S32/SD, Midas DL15x/DL231/DL252, NovaStar VX), L-Acoustics, Powersoft Quattrocanali/Duecanali, dBTechnologies
 - [ ] Add weights of MA front panels, cable sets and rack kit (MA publishes none)
-- [ ] Clarify open candidates in [manufacturers-excluded.md](manufacturers-excluded.md)
+- [ ] Clarify open candidates in the Library's `docs/rackmanufaktur-manufacturers-excluded.md`
 
 ## Scale views still missing
 

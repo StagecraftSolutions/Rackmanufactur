@@ -5,8 +5,8 @@
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
-  # Nur eigene Dateien laden; nichts von Dritten
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
+  # Nur eigene Dateien laden; Produktdaten von der eigenen Stagecraft Library; nichts von Dritten
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://library.stagecraft.solutions data: blob:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'self'"
 
   # HTML immer neu prüfen, damit Updates sofort ankommen
   <FilesMatch "\.html$">

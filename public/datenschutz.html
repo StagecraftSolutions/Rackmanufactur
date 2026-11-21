@@ -24,6 +24,7 @@
       <li>Kein Konto, keine Formulare, die etwas an uns senden.</li>
       <li>Alles, was du im Konfigurator eingibst, bleibt in deinem Browser.</li>
       <li>Schriften, Programmcode und Daten liegen auf unserem eigenen Server; es werden keine Dienste Dritter (z. B. Google Fonts, CDNs) geladen.</li>
+      <li>Die Produktdaten (Geräte, Stecker, Cases, Rack-Teile) lädt der Konfigurator aus unserer Stagecraft Library (<code>library.stagecraft.solutions</code>), die ebenfalls auf unserem eigenen Server läuft.</li>
       <li>Beim Aufruf der Seite verarbeitet unser Server technisch notwendige Verbindungsdaten (Server-Logfiles).</li>
     </ul>
 
@@ -45,6 +46,7 @@
       <li>Referrer (zuvor besuchte Seite), soweit übermittelt</li>
       <li>Browser und Betriebssystem (User-Agent)</li>
     </ul>
+    <p>Das gilt auch für die Abrufe der Produktdaten von <code>library.stagecraft.solutions</code>: Der Konfigurator prüft dort beim Start und danach etwa alle 5 Minuten, ob es einen neuen Stand gibt, und lädt ihn bei Bedarf. Dabei werden keine Projektdaten übertragen, nur die Anfrage nach den öffentlichen Katalogdateien.</p>
     <p>Zweck ist die Auslieferung der Website sowie die Sicherheit und Stabilität des Betriebs, etwa zur Abwehr von Angriffen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse liegt in einem sicheren und funktionsfähigen Angebot. Die Logfiles werden nicht mit anderen Daten zusammengeführt und nach 14 Tagen automatisch gelöscht, sofern sie nicht zur Aufklärung eines Sicherheitsvorfalls länger benötigt werden.</p>
 
     <h2>3. Speicherung im Browser (Local Storage, IndexedDB)</h2>
@@ -53,10 +55,15 @@
       <li><code>rackwerk-v1</code>: aktuelles Projekt (Projektname, Kunde, Notiz, Case, Module, Preise, Lieferanten)</li>
       <li><code>rackwerk-tpl</code>: deine gemerkten eigenen Elemente</li>
       <li>IndexedDB-Datenbank <code>rack-manufaktur</code>: alle deine Projekte (gleicher Inhalt wie oben) und, falls du einen verbindest, der Verweis auf deinen Projektordner</li>
+      <li>IndexedDB-Datenbank <code>rack-manufaktur-library</code>: zuletzt geladener Stand der Produktdaten aus der Stagecraft Library, damit der Konfigurator auch offline startet</li>
+      <li><code>rm-library-url</code>: nur gesetzt, wenn eine andere Datenquelle zum Testen gewählt wurde</li>
+      <li><code>rm-library-src</code>, <code>rm-library-folder</code> und der Eintrag <code>folder</code> in <code>rack-manufaktur-library</code>: nur gesetzt, wenn du einen lokalen Library-Ordner wählst (Quelle, Ordnername und der Verweis auf den Ordner)</li>
     </ul>
     <p>Diese Daten verlassen dein Gerät nicht und werden nicht an uns übertragen. Die Speicherung ist für die von dir gewünschte Funktion unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG); eine Einwilligung ist daher nicht nötig. Du kannst die Daten jederzeit löschen: im Fenster „Projekte“ des Konfigurators, durch Entfernen der gemerkten Elemente oder über die Einstellungen deines Browsers („Websitedaten löschen“).</p>
 
     <p><strong>Projektordner:</strong> Wenn du im Fenster „Projekte“ einen Ordner auf deinem Rechner wählst (nur Chrome und Edge), schreibt der Browser jedes Projekt als .json-Datei in diesen Ordner und liest von dort neuere Fassungen ein. Der Zugriff gilt nur für diesen Ordner, du bestätigst ihn selbst und kannst ihn jederzeit trennen. Liegt der Ordner in einem Sync-Dienst (z.&nbsp;B. Nextcloud), überträgt dieser Dienst die Dateien nach seinen eigenen Regeln – nicht wir.</p>
+
+    <p><strong>Lokaler Library-Ordner:</strong> Statt die Produktdaten von <code>library.stagecraft.solutions</code> zu laden, kannst du im Fenster „Library“ einen Ordner mit einer Kopie der Stagecraft Library auf deinem Rechner wählen. Der Browser liest ihn nur (Chrome und Edge merken sich den Ordner, andere Browser lesen ihn einmalig); die Daten werden in deinem Browser verarbeitet und nicht an uns übertragen. Solange du diese Quelle nutzt, fragt der Konfigurator <code>library.stagecraft.solutions</code> nicht ab.</p>
 
     <h2>4. Projektdateien, PDF und PNG</h2>
     <p>Beim Laden einer Projektdatei liest dein Browser die Datei lokal ein; sie wird nicht hochgeladen. PDF-, PNG- und JSON-Dateien werden ebenfalls direkt in deinem Browser erzeugt und auf deinem Gerät gespeichert.</p>

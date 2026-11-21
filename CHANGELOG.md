@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-21 – Library from a local folder
+
+- **Fully local use again:** in the Library window (or on the start screen without data) **Choose library folder …** takes a Git checkout of the Stagecraft Library. The app reads `data/` and converts it with the Library's own export code from that folder (`scripts/lib/rackmanufaktur.mjs`, `io.mjs`) – no build, no server, no internet. A folder with the built API (`rackmanufaktur/*.json`) works too. Same result as the online API (checked for all six files).
+- Chrome/Edge keep the folder (read only; "Allow folder" after a reload when the browser asks), "Read folder again" picks up `git pull` and own edits (content signature, commit read from `.git`); Firefox/Safari read the folder once per choice. **Use the online library** switches back.
+- `.htaccess`: `script-src … blob:` so the export code from the folder can run as a module on the hosted instance. Privacy policy: the local folder is only read in the browser.
+- Needs a Library state with `scripts/lib/io.mjs` (export code without Node imports).
+
+## 2026-11-21 – Product data only from the Stagecraft Library
+
+- **`public/index.html` has no built-in product database any more.** Devices, scale views, connectors, SYSBOXX, rack parts and weights are loaded from the official open API `https://library.stagecraft.solutions/api/v1/rackmanufaktur/*.json` (what was `local.html` is now the app). The catalog is cached in IndexedDB, every project keeps a snapshot of the data it uses (`lib`), newer library states are taken over on click.
+- Removed from the repository: `data/devices.json`, `devices.csv`, `views.json`, `connectors.json`, `parts.json`, `sysboxx.json`, `weights.json`, `weight-catalog.csv`, the scale views defined in the code (Teranex Mini, MA nodes, ATEM, HyperDeck, Shure …; all identical in the library), `scripts/data.mjs`, `build-local.mjs`, `weight-catalog.mjs`, `manufacturers.mjs`, `scripts/local/`, `public/local.html`, `docs/manufacturers.md`, `docs/adding-items.md`, `docs/ai-workflow.md`. `docs/data-sources.md` and `docs/manufacturers-excluded.md` moved to the Library.
+- Before the removal the library export was compared with the local data: devices, views, connectors, SYSBOXX, weights and parts were identical (only the key order differed).
+- **Translations:** new `scripts/i18n.mjs import|check` writes the dictionary block; `scripts/i18n-extract.mjs` reads catalog texts from the library API.
+- Fix: the device field `id` (added by the app) no longer shows every device of an older snapshot as "newer in the library".
+- `.htaccess`: the Content-Security-Policy allows `connect-src https://library.stagecraft.solutions`. Privacy policy mentions the library requests and the catalog cache.
+
 ## 2026-11-21 – Rack parts as data
 
 - **Cases, connector panels, blank/vent panels and other parts, shelves and kits, drawers, accessories and the rear rail** moved from the code into `data/parts.json` (same format as the Stagecraft Library's `api/v1/rackmanufaktur/parts.json`). `node scripts/data.mjs import` validates it (required fields, height lists match the tables per height, drawers point to existing parts, shelf modes, rail types) and writes the block `DATA:PARTS`; the app builds `PANELS`, `ART`, `SHELVES`, `DRAWERS`, `CASES`, `ACC_DEFAULT` and `RAIL_REAR` from it. Values per height (case part numbers, prices, outer dimensions, usable depth, drawer parts) are tables per U. The input form for an own case stays in the code.
