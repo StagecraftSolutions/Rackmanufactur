@@ -638,7 +638,7 @@ td input.shop { min-width: 110px; }
 .libnote > div { flex: 1; min-width: 0; }
 .libnote small { display: block; color: var(--muted); }
 .libnote .libico { font-size: 18px; color: var(--accent); }
-dialog.add.lib { width: min(640px, calc(100vw - 32px)); }
+dialog.add.libdlg { width: min(640px, calc(100vw - 32px)); }
 .libinfo { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 0 0 12px; font-size: 13px; }
 .libinfo dt { color: var(--muted); }
 .libinfo dd { margin: 0; overflow-wrap: anywhere; }
@@ -855,7 +855,7 @@ dialog.add.lib { width: min(640px, calc(100vw - 32px)); }
   <div class="dlg-head"><h2 id="cpTitle">Eigenes Steckerfeld</h2><button type="button" class="dlg-close" data-cpclose aria-label="Schließen">×</button></div>
   <div class="dlg-body" id="cpBody"></div>
 </dialog>
-<dialog class="add lib" id="libDlg" aria-labelledby="libTitleH">
+<dialog class="add libdlg" id="libDlg" aria-labelledby="libTitleH">
   <div class="dlg-head"><h2 id="libTitleH">Stagecraft Library</h2><button type="button" class="dlg-close" data-libact="close" aria-label="Schließen">×</button></div>
   <div class="dlg-body" id="libBody"></div>
 </dialog>
