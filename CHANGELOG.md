@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-11-21 – SFTP upload removed
+
+- The public instance now runs as a Docker container on TD Media's own server; the SFTP upload to the old web space is gone.
+- Removed: `scripts/deploy.sh`, `scripts/deploy-setup.sh`, `.env.example`, `redirect/td-media-rackwerk/`. The redirect from td-media.eu/rackwerk and the upload script moved to the td-media.eu website repository.
+
 ## 2026-11-21 – Library from a local folder
 
 - **Fully local use again:** in the Library window (or on the start screen without data) **Choose library folder …** takes a Git checkout of the Stagecraft Library. The app reads `data/` and converts it with the Library's own export code from that folder (`scripts/lib/rackmanufaktur.mjs`, `io.mjs`) – no build, no server, no internet. A folder with the built API (`rackmanufaktur/*.json`) works too. Same result as the online API (checked for all six files).

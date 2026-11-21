@@ -5133,7 +5133,7 @@ Object.keys(EXACT_JSON).forEach(k => { EXACT[k] = EXACT_JSON[k]; });   // Ansich
 { const b = $('#btnLang'); b.textContent = LANG === 'en' ? 'DE' : 'EN'; const t = LANG === 'en' ? 'Auf Deutsch umschalten' : 'Switch to English'; b.setAttribute('aria-label', t); b.title = t;
   b.onclick = () => { try { localStorage.setItem('rm-lang', LANG === 'en' ? 'de' : 'en'); } catch (e) {} LIB.flush().finally(() => location.reload()); }; }
 
-{ const b = $('#buildRef'); if (b && b.getAttribute('href').includes('__GIT_')) b.remove(); }   // Commit nur in der hochgeladenen Fassung (scripts/deploy.sh)
+{ const b = $('#buildRef'); if (b && b.getAttribute('href').includes('__GIT_')) b.remove(); }   // Commit nur, wenn der Deploy die __GIT_-Platzhalter ersetzt
 /* ---------- Stagecraft Library: catalog, project snapshot, updates ----------
    Catalog = last state of library.stagecraft.solutions (window.__RMLIB.cat, cached in IndexedDB).
    Project snapshot state.lib = the data this project uses, so it opens and renders offline:

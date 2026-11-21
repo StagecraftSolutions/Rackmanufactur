@@ -102,27 +102,12 @@ node scripts/i18n.mjs import
 
 | Path | Content |
 |---|---|
-| `public/` | uploaded: `index.html`, `impressum.html`, `datenschutz.html` (German legal pages), `.htaccess`, `assets/` |
+| `public/` | the site: `index.html`, `impressum.html`, `datenschutz.html` (German legal pages), `.htaccess`, `assets/` |
 | `public/assets/fonts/` | Barlow Condensed, IBM Plex Sans/Mono as WOFF2 (OFL 1.1) |
 | `public/assets/vendor/` | jsPDF 2.5.1 (MIT) |
-| `scripts/` | `deploy-setup.sh`, `deploy.sh`, translation tools |
-| `.env`, `.deploy/` | credentials and host key, local only (in `.gitignore`) |
+| `scripts/` | translation tools |
 
-```bash
-scripts/deploy-setup.sh
-```
-
-Asks for server, port, user, target folder, site URL and login (password or SSH key) in the terminal, writes `.env` (mode 600), fetches and shows the host key fingerprint, tests the connection and optionally installs a `pre-push` hook.
-
-```bash
-scripts/deploy.sh --dry-run
-```
-
-```bash
-scripts/deploy.sh
-```
-
-Before each upload the script checks that the legal pages exist, that no placeholders `⟦…⟧` are left and that no external sources (fonts, CDNs, tracking) are referenced. It only uploads, never deletes; HTML comes last; with `SITE_URL` set it verifies the pages afterwards. `scripts/deploy.sh --dir redirect/td-media-rackwerk` uploads the redirect for the old address td-media.eu/rackwerk instead.
+The public instance runs as a Docker container on TD Media's own server; the deployment setup is not part of this repository. The old address td-media.eu/rackwerk redirects (301) to rack.stagecraft.solutions; that redirect lives in the td-media.eu website repository.
 
 The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz, on its own server; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
 
