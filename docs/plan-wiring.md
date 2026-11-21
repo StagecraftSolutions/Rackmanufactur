@@ -46,7 +46,7 @@ connect, filter/search, check (face family + gender via cable ends, `any` faces,
 the connector front: power ↔ signal = does not fit), cable choice from the Library with length estimate (height +
 depth of both ports + 40 cm), label per cable, EN translation. `wiring.json` is loaded (API and local folder,
 optional for older Library states) and kept in the project snapshot as offline fallback.
-Not yet: BOM/cable list/build notes (phase 2), lines in the rear view (phase 3).
+Not yet: lines in the rear view (phase 3).
 
 Original notes:
 
@@ -64,7 +64,15 @@ Original notes:
 - **Length estimate**: vertical distance of the two U positions + depth offset + reserve, rounded up to the next
   length class (0.3 / 0.5 / 1 / 2 / 3 m).
 
-## Phase 2 – Output (current step 4)
+## Phase 2 – Output (current step 4) ✅ done 2026-11-21
+
+Done: BOM lines for patch cables (per type and length), bulk cable (metres summed per type, rounded up) and cable
+plugs for self-made ends; build notes per panel/device with solder ends (standard pinout per face, other end with
+plug part number), a note listing all cables to plug in and label, and a warning note for connections that do not fit
+or point to removed ports (those are left out of the BOM); cable list card in step 4 (copy as table, CSV) and a
+"Kabelliste" section in the project PDF. Not done: printing cable tags, pin assignment for multipin/Harting.
+
+Original notes:
 
 - Cable list (PDF/CSV): number, from, to, type, length, label text for the cable tags.
 - BOM: patch cables per type and length, bulk cable in metres, cable plugs for solder ends, cable ties/labels.

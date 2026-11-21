@@ -842,6 +842,11 @@ dialog.add.libdlg { width: min(640px, calc(100vw - 32px)); }
         <header><h2>Fertigung</h2><div class="actions"><button type="button" class="btn sm" id="labelPdfAll">Beschriftungen als PDF</button><button type="button" class="btn sm" id="copyNotes">Kopieren</button></div></header>
         <div class="body"><ul class="notes" id="notes"></ul></div>
       </section>
+      <section class="card" id="cableCard">
+        <header><h2>Kabelliste</h2><div class="actions"><button type="button" class="btn sm" id="copyCables">Als Tabelle kopieren</button><button type="button" class="btn sm" id="csvCables">CSV</button></div></header>
+        <div class="tablewrap"><table class="wtab" id="cables"></table></div>
+        <div class="body"><p class="hint" id="cablesHint"></p></div>
+      </section>
       <section class="card no-print">
         <header><h2>Lose Teile</h2><span class="eyebrow">Schrauben, Zubehör</span></header>
         <div class="body" data-accbox></div>
@@ -970,6 +975,7 @@ document.documentElement.lang = LANG;
   "{0} HE frei": "{0} U free",
   "{0} hinten, {1} vorn": "{0} rear, {1} front",
   "{0} ist {1} mm hoch und ragt aus der Wanne ({2}).": "{0} is {1} mm high and sticks out of the shelf ({2}).",
+  "{0} m für {1} Kabel, auf volle Meter aufgerundet": "{0} m for {1} cables, rounded up to full metres",
   "{0} Projekte": "{0} projects",
   "{0} Projekte aus dem Ordner aktualisiert": "{0} projects updated from the folder",
   "{0} Schrauben nötig · Pack à {1} Stk.": "{0} screws needed · pack of {1}",
@@ -1038,6 +1044,7 @@ document.documentElement.lang = LANG;
   "An dieser Stelle passt kein Gerät aus der Datenbank.": "No device from the database fits here.",
   "Anderen Ordner wählen …": "Choose another folder …",
   "ändern": "change",
+  "Anschluss fehlt": "Port missing",
   "Anschluss ist schon verbunden": "Port is already connected",
   "Anschluss ist schon verbunden – Verbindung in der Liste rechts löschen, um ihn neu zu verbinden": "Port is already connected – delete its connection in the list to connect it again",
   "Anschlussart unbekannt (fehlt in der Library)": "Termination unknown (missing in the library)",
@@ -1102,6 +1109,8 @@ document.documentElement.lang = LANG;
   "Bürstenblende": "Brush panel",
   "Case": "Case",
   "Case-Artikel / Notiz": "Case part / note",
+  "Cinch: Stift Signal, Hülse Schirm": "RCA: pin signal, sleeve shield",
+  "CSV": "CSV",
   "D-Einsätze {0} einbauen, je 2 × M3.": "Mount D inserts {0}, 2 × M3 each.",
   "Datei ist keine gültige Rack Manufaktur-Projektdatei": "File is not a valid Rack Manufaktur project file",
   "Datei konnte nicht gelesen werden": "File could not be read",
@@ -1118,6 +1127,8 @@ document.documentElement.lang = LANG;
   "Die Lage der hinteren Schiene ist ein Startwert, bitte am Case messen.": "The rear rail position is a starting value, please measure on the case.",
   "Die Projektbibliothek ist in diesem Browser nicht verfügbar (z. B. privates Fenster). Projekte weiter über „Projektdatei speichern/laden“ sichern.": "The project library is not available in this browser (e.g. private window). Keep saving projects via “Save/load project file”.",
   "Die Projektdatei (.json) enthält Case, alle Module, Preise und Notizen und lässt sich hier wieder laden. Alle Projekte liegen außerdem automatisch im Browser und, wenn verbunden, im Projektordner (Fenster „Projekte“).": "The project file (.json) contains the case, all modules, prices and notes and can be loaded here again. All projects are also stored automatically in the browser and, if connected, in the project folder (“Projects” window).",
+  "Diese Verbindungen passen nicht oder verweisen auf entfernte Anschlüsse – in Schritt 3 korrigieren, sie stehen nicht in der Stückliste.": "These connections do not fit or point to removed ports – correct them in step 3; they are not in the bill of materials.",
+  "DMX 5-pol: Pin 1 Schirm, 2 Data -, 3 Data +, 4/5 frei": "DMX 5-pin: pin 1 shield, 2 data -, 3 data +, 4/5 unused",
   "Dort ist kein Platz": "No space there",
   "Download hier nicht möglich": "Download not possible here",
   "Duplizieren": "Duplicate",
@@ -1220,6 +1231,10 @@ document.documentElement.lang = LANG;
   "jsPDF konnte nicht geladen werden": "jsPDF could not be loaded",
   "Kabel · Länge": "Cable · length",
   "Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.": "Fix cables to the strain relief at the rear with cable ties.",
+  "Kabel an die Rückseiten der Stecker anschließen ({0}), Gegenseite konfektionieren. {1}Belegung vor dem Löten mit den Geräten abgleichen.": "Connect the cables to the rear of the connectors ({0}), make up the other end. {1}Check the pinout against the devices before soldering.",
+  "Kabel für selbst konfektionierte Verbindungen (Typ offen)": "Cable for self-made connections (type open)",
+  "Kabel stecken und beschriften · {0} Verbindungen": "Plug in and label cables · {0} connections",
+  "Kabelliste": "Cable list",
   "Kann über eine Rackwanne gelegt werden (gleiche HE) – die Wanne mit Geräten liegt dann dahinter.": "Can be placed over a rack shelf (same U) – the shelf with devices then sits behind it.",
   "kein IndexedDB": "no IndexedDB",
   "Kein Modul ausgewählt. Klicke ein Modul in der Ansicht an oder füge eines hinzu.": "No module selected. Click a module in the view or add one.",
@@ -1236,6 +1251,7 @@ document.documentElement.lang = LANG;
   "keine Schiene": "no rail",
   "Klick auf ein Modul oder Loch wählt es aus.": "Click a module or hole to select it.",
   "klicken. Module per Ziehen verschieben.": ". Drag modules to move them.",
+  "Klinke: Spitze heiß (+), Ring kalt (-), Hülse Schirm": "Jack: tip hot (+), ring cold (-), sleeve shield",
   "Kollision {0}: „{1}“ (vorn, bis {2} mm) trifft „{3}“ (hinten, ab {4} mm) – {5} mm Überdeckung.": "Collision {0}: “{1}” (front, to {2} mm) hits “{3}” (rear, from {4} mm) – {5} mm overlap.",
   "KOLLISION {2} MM": "COLLISION {2} MM",
   "Kollisionen": "Collisions",
@@ -1247,8 +1263,10 @@ document.documentElement.lang = LANG;
   "Kopieren": "Copy",
   "Kunde": "Client",
   "Kunde / Veranstaltung": "Client / event",
+  "Länge (m)": "Length (m)",
   "Länge in m": "Length in m",
   "Längen sind aus den Rackpositionen geschätzt (Höhen- und Tiefenabstand + 40 cm Führung und Reserve) und auf die nächste lieferbare Länge aufgerundet.": "Lengths are estimated from the rack positions (height and depth distance + 40 cm routing and reserve) and rounded up to the next available length.",
+  "Laut Kabelliste stecken. Jedes Kabel an beiden Enden mit Nummer und Bezeichnung beschriften; Kabel an Zugentlastung und Schienen mit Kabelbindern führen.": "Plug in according to the cable list. Label every cable at both ends with number and name; route cables along strain relief and rails with cable ties.",
   "leer": "empty",
   "leer – Stecker separat": "empty – connector separate",
   "Lieferant": "Supplier",
@@ -1289,6 +1307,7 @@ document.documentElement.lang = LANG;
   "nächstes freie Loch": "next free hole",
   "Name / Bemerkung": "Name / note",
   "Name, Rackcase wählen": "Name, choose rack case",
+  "Netz: L braun, N blau, PE grün-gelb": "Mains: L brown, N blue, PE green-yellow",
   "Neue Tiefe (mm)": "New depth (mm)",
   "Neuere Fassung dieses Projekts aus dem Projektordner geladen": "Newer version of this project loaded from the project folder",
   "Neues eigenes Element · kommt mit Art.-Nr. und Preis in die Stückliste": "New custom element · goes into the bill of materials with part no. and price",
@@ -1431,6 +1450,7 @@ document.documentElement.lang = LANG;
   "Sommer Cable SYSBOXX": "Sommer Cable SYSBOXX",
   "Sonst steht das Gerät mit Herstellerpreis in der Stückliste; den Preis kannst du dort ändern.": "Otherwise the device appears in the bill of materials at the manufacturer price; you can change the price there.",
   "Sonstiges": "Other",
+  "speakON 8: 1± … 4± je Weg": "speakON 8: 1± … 4± per way",
   "Speichern abgebrochen": "Saving cancelled",
   "Stand": "Date",
   "Startwerte: Streifen {6} × {7} mm, Teilungsabstand = D-Raster der Zeichnung ({8} mm bei 12 Löchern). Maße bitte am Streifen und an der Blende nachmessen. PDF in 100 % drucken.": "Starting values: strip {6} × {7} mm, division pitch = D grid of the drawing ({8} mm for 12 holes). Please measure on the strip and panel. Print the PDF at 100 %.",
@@ -1473,7 +1493,9 @@ document.documentElement.lang = LANG;
   "unbekannt": "unknown",
   "Verbindung löschen": "Delete connection",
   "Verbindungen": "Connections",
+  "Verbindungen aus Schritt 3 „Verkabelung“. Kabel, Meterware und Kabelstecker stehen in der Stückliste, Lötarbeiten unter Fertigung.": "Connections from step 3 \"Wiring\". Cables, bulk cable and cable plugs are in the bill of materials, soldering under Build.",
   "Verkabelung": "Wiring",
+  "Verkabelung prüfen": "Check wiring",
   "Versatz (mm)": "Offset (mm)",
   "Vertikal mittig": "Centre vertically",
   "Von": "From",
@@ -1497,6 +1519,7 @@ document.documentElement.lang = LANG;
   "Weiter: Verkabelung →": "Next: wiring →",
   "Wieder verbinden": "Reconnect",
   "Wirklich löschen?": "Really delete?",
+  "XLR 3-pol: Pin 1 Schirm, 2 heiß (+), 3 kalt (-)": "XLR 3-pin: pin 1 shield, 2 hot (+), 3 cold (-)",
   "z. B. Anschlussrack 8 HE": "e.g. connector rack 8 U",
   "z. B. Einspeisung, Bühne links": "e.g. mains in, stage left",
   "z. B. Hersteller und Art.-Nr.": "e.g. manufacturer and part no.",
@@ -1586,6 +1609,13 @@ document.documentElement.lang = LANG;
   "Stecker {0}": "Connector {0}",
   "Reihe {0}": "Row {0}",
   "Blech {0}": "Plate {0}",
+  "speakON: 1+/1- Weg 1, 2+/2- Weg 2": "speakON: 1+/1- way 1, 2+/2- way 2",
+  "Belegung: {0}": "Pinout: {0}",
+  "BNC: Innenleiter Signal, Schirm Masse": "BNC: centre conductor signal, shield ground",
+  "Gegenseite": "Other end",
+  "Kabel": "Cable",
+  "Nr.": "No.",
+  "Verkabelung · {0}": "Wiring · {0}",
   "110 Ω, 2 × 0,22 mm², geschirmt, für XLR 5-pol/AES3": "110 Ω, 2 × 0.22 mm², shielded, for XLR 5-pin/AES3",
   "12G-Eignung prüfen": "check 12G suitability",
   "2 × 0,22 mm², geschirmt, für XLR 3-pol": "2 × 0.22 mm², shielded, for XLR 3-pin",
@@ -3683,6 +3713,17 @@ function bom() {
       case 'custom': add('cus_' + (it.art ? it.art + '|' + it.name : it.id), { n: `${it.name || 'Eigenes Element'} (${fmtHE(it.he)})`, art: it.art, price: it.price, src: it.price != null ? 'user' : 'check', shop: it.shop, kg: it.kg ?? null }, 1); break;
     }
   });
+  // Verkabelung (Schritt 3): konfektionierte Kabel je Länge, Meterware und Kabelstecker für selbst konfektionierte Kabel
+  const meters = new Map();
+  wireRows().forEach(r => {
+    if (r.broken || r.ck.st === 'bad') return;
+    if (r.cable) { add(`w_${r.cable.id}_${r.len}`, { n: `${tr(r.cable.n)}, ${fmtN(r.len)} m`, art: r.cable.art || '', price: r.cable.price ?? null, src: r.cable.src || 'check', q: r.cable.q || '' }, 1); return; }
+    if (r.bulk) { const m = meters.get(r.bulk.id) || { c: r.bulk, m: 0, n: 0 }; m.m += r.len || 0; m.n++; meters.set(r.bulk.id, m); }
+    else add('w_open', { n: tr('Kabel für selbst konfektionierte Verbindungen (Typ offen)'), src: 'check' }, 1);
+    r.plugs.forEach(({ P, plug }) => plug ? add('wp_' + plug.id, { n: tr(plug.n), art: plug.art || '', price: plug.price ?? null, src: plug.src || 'check', q: plug.q || '' }, 1)
+      : add('wp_open_' + P.mate.face, { n: tr('Kabelstecker passend zu {0}').replace('{0}', sideName(P.mate)), src: 'check' }, 1));
+  });
+  meters.forEach(({ c, m, n }, id) => add('wm_' + id, { n: tr(c.n), art: c.art || '', price: c.price ?? null, src: c.src || 'check', q: c.q || '' }, Math.ceil(m), tr('{0} m für {1} Kabel, auf volle Meter aufgerundet').replace('{0}', fmtN(Math.round(m * 10) / 10)).replace('{1}', n)));
   if (m3) add('m3', withKg(ART.m3, 'art:m3'), Math.ceil(m3 / (state.pack || 48)), `${m3} Schrauben nötig · Pack à ${state.pack} Stk.`);
   state.acc.forEach(a => { if (a.qty > 0) add('acc_' + a.id, { n: a.n, art: a.art, price: a.price ?? null, src: a.src || 'user', q: a.q, kg: kgv('acc:' + a.id) }, a.qty); });
   return [...rows.values()].map(r => {
@@ -4024,6 +4065,27 @@ function notesData() {
     if (isDev(it) && it.rearFix && state.case.rear && it.side === 'front') out.push({ h: `${it.name || 'Gerät'} · ${where}`, t: `Zusätzlich hinten an der Rackschiene bei ${state.case.railRear} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe ${it.depth} mm.` });
     if (it.kind === 'label' && it.cells.some(r => r.some(Boolean))) out.push({ h: `Beschriftung · ${where}`, t: `${it.div} Teilungen à ${fmtN(it.pitch)} mm, ${it.lines} Zeile${it.lines > 1 ? 'n' : ''}. Streifen ${it.stripW} × ${it.stripH} mm als PDF drucken (100 %), schneiden, einschieben.`, map: it.cells.map((r, i) => `${i + 1} ${r.filter(Boolean).join(' / ') || '–'}`).join(' · ') });
   });
+  // Verkabelung: Lötanschlüsse je Blende/Gerät, Prüfhinweise, Beschriften
+  const wr = wireRows();
+  if (wr.length) {
+    const bad = wr.filter(r => r.broken || r.ck.st === 'bad');
+    if (bad.length) out.push({ drill: true, h: 'Verkabelung prüfen', t: 'Diese Verbindungen passen nicht oder verweisen auf entfernte Anschlüsse – in Schritt 3 korrigieren, sie stehen nicht in der Stückliste.',
+      map: bad.map(r => r.broken ? `${r.no}: ${tr('Anschluss fehlt')}` : `${r.no}: ${wireEndTxt(r.A)} → ${wireEndTxt(r.B)} – ${r.ck.msg}`).join(' · ') });
+    const by = new Map();
+    wr.filter(r => !r.broken && r.ck.st !== 'bad' && !r.cable).forEach(r => [[r.A, r.B], [r.B, r.A]].forEach(([P, O]) => {
+      if (!(P.mate && P.mate.term)) return;
+      const k = P.item.id; if (!by.has(k)) by.set(k, { P, list: [] }); by.get(k).list.push({ r, P, O });
+    }));
+    by.forEach(({ P, list }) => {
+      const pins = [...new Set(list.map(x => W_PINS[x.P.front && x.P.front.face]).filter(Boolean))];
+      out.push({ drill: true, h: `Verkabelung · ${P.owner} · ${P.where}`,
+        t: `Kabel an die Rückseiten der Stecker anschließen (${[...new Set(list.map(x => sideName(x.P.mate)))].join(', ')}), Gegenseite konfektionieren. ${pins.length ? tr('Belegung: {0}').replace('{0}', pins.map(x => tr(x)).join(' · ')) + '. ' : ''}Belegung vor dem Löten mit den Geräten abgleichen.`,
+        map: list.map(({ r, P: Q, O }) => { const pl = r.plugs.find(x => x.P === O); return `${r.no}${r.w.label ? ' „' + r.w.label + '“' : ''}: ${Q.lbl} → ${wireEndTxt(O)} · ${r.bulk ? tr(r.bulk.n) : tr('Kabel')} ${fmtN(r.len)} m${O.mate && O.mate.term ? ', ' + tr('Gegenseite') + ': ' + sideName(O.mate) : pl ? ', ' + tr('Gegenseite') + ': ' + (pl.plug ? tr(pl.plug.n) + (pl.plug.art ? ' (' + pl.plug.art + ')' : '') : sideName(O.mate)) : ''}`; }).join(' · ') });
+    });
+    const ok = wr.filter(r => !r.broken && r.ck.st !== 'bad');
+    if (ok.length) out.push({ h: `Kabel stecken und beschriften · ${ok.length} Verbindungen`, t: 'Laut Kabelliste stecken. Jedes Kabel an beiden Enden mit Nummer und Bezeichnung beschriften; Kabel an Zugentlastung und Schienen mit Kabelbindern führen.',
+      map: ok.map(r => `${r.no}${r.w.label ? ' „' + r.w.label + '“' : ''}: ${wireEndTxt(r.A)} → ${wireEndTxt(r.B)} (${wireName(r)}, ${fmtN(r.len)} m)`).join(' · ') });
+  }
   return out;
 }
 function renderNotes() {
@@ -4185,6 +4247,30 @@ function termCheck(T, O) {
 }
 const W_ICON = { ok: '✓', make: '✎', warn: '!', bad: '✕' };
 const W_ST = { ok: 'passt', make: 'selbst konfektionieren', warn: 'prüfen', bad: 'passt nicht' };
+// Belegung je Steckgesicht für die Lötanweisung (Standardbelegung, vor dem Löten mit dem Gerät abgleichen)
+const W_PINS = {
+  xlr3: 'XLR 3-pol: Pin 1 Schirm, 2 heiß (+), 3 kalt (-)', xlr5: 'DMX 5-pol: Pin 1 Schirm, 2 Data -, 3 Data +, 4/5 frei',
+  speakon4: 'speakON: 1+/1- Weg 1, 2+/2- Weg 2', speakon8: 'speakON 8: 1± … 4± je Weg', rj45: 'RJ45: T568B', ethercon: 'RJ45: T568B',
+  powercon_true1: 'Netz: L braun, N blau, PE grün-gelb', powercon_a: 'Netz: L braun, N blau, PE grün-gelb', powercon_b: 'Netz: L braun, N blau, PE grün-gelb',
+  iec_c14: 'Netz: L braun, N blau, PE grün-gelb', schuko: 'Netz: L braun, N blau, PE grün-gelb', bnc: 'BNC: Innenleiter Signal, Schirm Masse',
+  jack63: 'Klinke: Spitze heiß (+), Ring kalt (-), Hülse Schirm', rca: 'Cinch: Stift Signal, Hülse Schirm',
+};
+// Verbindungen ausgewertet: Kabel, Länge, Meterware und Kabelstecker zum Selbstkonfektionieren (Stückliste, Fertigung, Kabelliste)
+function wireRows() {
+  const idx = new Map(); wireEnds().forEach(g => g.ports.forEach(p => idx.set(p.key, p)));
+  return state.wires.map((w, i) => {
+    const A = idx.get(w.a), B = idx.get(w.b), no = i + 1;
+    if (!A || !B) return { w, no, broken: true };
+    const ck = wireCheck(A, B), cable = w.cable && WIRE.cables && WIRE.cables[w.cable] ? { id: w.cable, ...WIRE.cables[w.cable] } : null;
+    const len = w.len || (cable ? pickLen(cable.lengths, wireLen(A, B)) : roundLen(wireLen(A, B)));
+    const face = P => P.mate && P.mate.face ? P.mate : P.front;
+    const bulk = cable ? null : bulkFor(face(A), face(B));
+    const plugs = cable ? [] : [A, B].filter(P => P.mate && P.mate.face).map(P => ({ P, plug: plugFor(P.mate) }));
+    return { w, no, A, B, ck, cable, len, bulk, plugs };
+  });
+}
+const wireName = r => r.cable ? tr(r.cable.n) : r.bulk ? `${tr(r.bulk.n)} · ${tr('selbst konfektionieren')}` : tr('selbst konfektionieren');
+const wireEndTxt = P => `${P.owner} · ${P.lbl}`;
 let WSEL = null, WFILT = 'all', WQ = '';
 function newWire(A, B) {
   const ck = wireCheck(A, B), m = wireLen(A, B), c = ck.cables[0];
@@ -4274,6 +4360,16 @@ $('#wiring').addEventListener('change', e => {
   if (t.dataset.wf === 'len') w.len = +t.value > 0 ? +t.value : null;
   renderSoft();
 });
+// Kabelliste (Schritt 4): Nummer, Bezeichnung, von, nach, Kabel, Länge, Prüfung
+const W_COLS = ['Nr.', 'Bezeichnung', 'Von', 'Nach', 'Kabel', 'Länge (m)', 'Prüfung'];
+const cableLines = () => wireRows().map(r => r.broken ? [r.no, r.w.label, '', '', '', '', tr('Anschluss fehlt')]
+  : [r.no, r.w.label, `${wireEndTxt(r.A)} (${r.A.where})`, `${wireEndTxt(r.B)} (${r.B.where})`, wireName(r), fmtN(r.len), r.ck.msg || tr(W_ST[r.ck.st])]);
+function renderCables() {
+  const L = cableLines();
+  $('#cableCard').hidden = !L.length;
+  $('#cables').innerHTML = L.length ? `<thead><tr>${W_COLS.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>${L.map(l => `<tr>${l.map((c, i) => `<td${i === 0 || i === 5 ? ' class="num"' : ''}>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody>` : '';
+  $('#cablesHint').textContent = L.length ? 'Verbindungen aus Schritt 3 „Verkabelung“. Kabel, Meterware und Kabelstecker stehen in der Stückliste, Lötarbeiten unter Fertigung.' : '';
+}
 function renderSoft() {
   const L = layout();
   renderProject();
@@ -4282,7 +4378,7 @@ function renderSoft() {
   renderNotes();
   const B = renderBom(); renderSummary(L, B);
   if (state.step === 3) renderWiring();
-  if (state.step === 4) { renderOrders(B.rows); renderOverview(L); renderDevList(); }
+  if (state.step === 4) { renderOrders(B.rows); renderOverview(L); renderDevList(); renderCables(); }
   const it = state.items.find(i => i.id === sel);
   $('#inspTag').textContent = it ? `${heRange(it)} · ${sideTxt(it)}` : '';
   if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
@@ -4688,6 +4784,12 @@ async function exportProjectPdf() {
   if (notes.length) {
     h2('Fertigung');
     notes.forEach(n => { need(12); para(n.h, 9.5, 'bold'); para(n.t, 8.5); if (n.map) { doc.setTextColor(90); para(n.map, 7.5); doc.setTextColor(0); } y += 2.5; });
+  }
+  // Kabelliste
+  const cl = cableLines();
+  if (cl.length) {
+    h2('Kabelliste');
+    cl.forEach(l => { need(10); para(`${l[0]}${l[1] ? ' „' + l[1] + '“' : ''} · ${l[4]}${l[5] ? ', ' + l[5] + ' m' : ''}`, 8.5, 'bold'); para(`${l[2]} → ${l[3]}`, 8); if (l[6] && l[6] !== tr(W_ST.ok)) { doc.setTextColor(90); para(l[6], 7.5); doc.setTextColor(0); } y += 1.5; });
   }
   // Seitenzahlen
   const np = doc.getNumberOfPages();
@@ -5327,6 +5429,12 @@ $('#copyBom').onclick = () => {
   const rows = bom();
   const lines = [['Menge', 'Artikel', 'Art.-Nr.', 'Einzelpreis', 'Summe'].join('\t')].concat(rows.map(r => [r.qty, r.n, r.art, r.price != null ? fmtN(r.price) : '', r.price != null ? fmtN(r.price * r.qty) : ''].join('\t')));
   copy(lines.join('\n'));
+};
+$('#copyCables').onclick = () => copy([W_COLS.map(tr), ...cableLines()].map(l => l.join('\t')).join('\n'));
+$('#csvCables').onclick = () => {
+  const q = v => { const t = String(v ?? ''); return /[;"\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+  const csv = [W_COLS.map(tr), ...cableLines()].map(l => l.map(q).join(';')).join('\r\n');
+  saveFile(`${slug()}-${LANG === 'en' ? 'cable-list' : 'kabelliste'}.csv`, new Blob(['\ufeff' + csv + '\r\n'], { type: 'text/csv' }), 'CSV');
 };
 $('#copyNotes').onclick = () => copy(notesData().map(n => `${n.h}\n${n.t}${n.map ? '\n' + n.map : ''}`).join('\n\n'));
 $('#jsonCopy').onclick = () => copy($('#json').value, $('#json'));
