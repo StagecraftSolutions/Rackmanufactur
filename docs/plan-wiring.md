@@ -38,7 +38,17 @@ Original plan:
    BNC 75 Ω, HDMI, powerCON TRUE1, IEC C13–C14 …) plus bulk cable per metre (mic cable, Cat 6A, 75 Ω coax,
    H07RN-F) and cable plugs (`connector.form: cable`) for solder/screw ends.
 
-## Phase 1 – Rackmanufaktur: step 3 "Wiring"
+## Phase 1 – Rackmanufaktur: step 3 "Wiring" ✅ first version 2026-11-21
+
+Done: step 3 "Verkabelung" (old step 3 is step 4, projects < v6 move along), `state.wires`, endpoints for rack
+devices, devices on shelves, D panels, custom panels and SYSBOXX (rear of panel connectors), click A → B to
+connect, filter/search, check (face family + gender via cable ends, `any` faces, solder/screw ends checked against
+the connector front: power ↔ signal = does not fit), cable choice from the Library with length estimate (height +
+depth of both ports + 40 cm), label per cable, EN translation. `wiring.json` is loaded (API and local folder,
+optional for older Library states) and kept in the project snapshot as offline fallback.
+Not yet: BOM/cable list/build notes (phase 2), lines in the rear view (phase 3).
+
+Original notes:
 
 - **Project data**: `state.links = [{ id, a, b, cable?, len?, label? }]`, endpoint
   `{ item, slot? | con? | plate?+slot? | dev?, side, port }` (stable ids, port = index in the expanded port list).

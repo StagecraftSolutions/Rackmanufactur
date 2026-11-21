@@ -501,6 +501,32 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 .tpl small { color: var(--muted); font-family: var(--f-mono); font-size: 11.5px; display: block; }
 
 /* Stufe 3 */
+.s3w { max-width: 1600px; margin: 0 auto; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: start; }
+@media (max-width: 1100px) { .s3w { grid-template-columns: minmax(0, 1fr); } }
+.wgrp { border-top: 1px solid var(--line); padding: 8px 0 4px; }
+.wgrp:first-child { border-top: 0; padding-top: 0; }
+.wgrp > h3 { margin: 0 0 6px; font-size: 13px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.wgrp > h3 small { color: var(--muted); font-weight: 400; font-family: var(--f-mono); font-size: 11px; }
+.wports { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 5px; }
+.wp { text-align: left; border: 1px solid var(--line); background: var(--surface-2); border-radius: 6px; padding: 5px 8px; cursor: pointer; font: inherit; font-size: 12.5px; color: var(--fg); display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.wp b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wp small { color: var(--muted); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wp:hover { border-color: var(--accent); }
+.wp.on { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 1px var(--accent) inset; }
+.wp.used { background: var(--ok-soft); border-color: transparent; }
+.wp.used small.to { color: var(--ok); }
+.wp.dim { opacity: .38; }
+.wp.fit { border-color: var(--ok); }
+.wbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.wbar input { flex: 1 1 160px; }
+.chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.wtab td { vertical-align: top; }
+.wtab td small { display: block; color: var(--muted); font-size: 11px; }
+.wtab select, .wtab input { max-width: 100%; font-size: 12px; }
+.wst { font-size: 11.5px; padding: 1px 6px; border-radius: 4px; display: inline-block; }
+.wst.ok { background: var(--ok-soft); color: var(--ok); }
+.wst.make, .wst.warn { background: var(--warn-soft); color: var(--warn); }
+.wst.bad { background: var(--danger-soft); color: var(--danger); }
 .s3 { max-width: 1600px; margin: 0 auto; display: grid; gap: 16px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; }
 @media (max-width: 1100px) { .s3 { grid-template-columns: minmax(0, 1fr); } }
 .views2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -670,7 +696,8 @@ dialog.add.libdlg { width: min(640px, calc(100vw - 32px)); }
 <nav class="steps" aria-label="Arbeitsschritte">
   <button type="button" data-step="1"><span class="num">1</span><span class="lbl"><b>Projekt &amp; Case</b><small>Name, Rackcase wählen</small></span></button>
   <button type="button" data-step="2"><span class="num">2</span><span class="lbl"><b>Konfigurator</b><small>Module, Zubehör, Geräte platzieren</small></span></button>
-  <button type="button" data-step="3"><span class="num">3</span><span class="lbl"><b>Bestellen &amp; Fertigen</b><small>Stückliste, Lieferanten, Arbeitsschritte</small></span></button>
+  <button type="button" data-step="3"><span class="num">3</span><span class="lbl"><b>Verkabelung</b><small>Anschlüsse verbinden, Kabel wählen</small></span></button>
+  <button type="button" data-step="4"><span class="num">4</span><span class="lbl"><b>Bestellen &amp; Fertigen</b><small>Stückliste, Lieferanten, Arbeitsschritte</small></span></button>
 </nav>
 
 <!-- Stufe 1: Projekt & Case -->
@@ -779,11 +806,17 @@ dialog.add.libdlg { width: min(640px, calc(100vw - 32px)); }
       </section>
     </div>
   </main>
-  <div class="stepnav"><button type="button" class="btn lg" data-goto="1">← Projekt &amp; Case</button><button type="button" class="btn primary lg" data-goto="3">Weiter: Bestellen &amp; Fertigen →</button></div>
+  <div class="stepnav"><button type="button" class="btn lg" data-goto="1">← Projekt &amp; Case</button><button type="button" class="btn primary lg" data-goto="3">Weiter: Verkabelung →</button></div>
 </div>
 
-<!-- Stufe 3: Bestellen & Fertigen -->
+<!-- Stufe 3: Verkabelung -->
 <div class="step" data-step="3">
+  <div class="s3w" id="wiring"></div>
+  <div class="stepnav"><button type="button" class="btn lg" data-goto="2">← Konfigurator</button><button type="button" class="btn primary lg" data-goto="4">Weiter: Bestellen &amp; Fertigen →</button></div>
+</div>
+
+<!-- Stufe 4: Bestellen & Fertigen -->
+<div class="step" data-step="4">
   <div class="s3">
     <div class="col">
       <section class="card">
@@ -815,7 +848,7 @@ dialog.add.libdlg { width: min(640px, calc(100vw - 32px)); }
       </section>
     </div>
   </div>
-  <div class="stepnav"><button type="button" class="btn lg" data-goto="2">← Konfigurator</button><span></span></div>
+  <div class="stepnav"><button type="button" class="btn lg" data-goto="3">← Verkabelung</button><span></span></div>
 </div>
 
 <footer class="site-foot no-print">
@@ -908,6 +941,7 @@ document.documentElement.lang = LANG;
   "„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche; vor der Bestellung prüfen. Art.-Nr., Lieferant und leere Preise kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.": "“Cart” = price from your list. “Web price 11/2026” = dealer price from research; check before ordering. You can enter part no., supplier and missing prices directly; they are stored in this browser.",
   "({0} liegen dem Case bei)": "({0} included with the case)",
   "({0} Position{1} ohne Gewicht)": "({0} item(s) without weight)",
+  "({2}). Jetzt den zweiten Anschluss antippen – grün umrandet passt direkt, blass passt nicht. Nochmal antippen hebt die Auswahl auf.": "({2}). Now tap the second port – a green outline fits directly, faded ones do not fit. Tap again to clear the selection.",
   "(andere Seite als Platzhalter)": "(other side as placeholder)",
   "(auch im Projektordner)": "(also in the project folder)",
   "(bei diesem Case nicht möglich)": "(not possible with this case)",
@@ -944,6 +978,7 @@ document.documentElement.lang = LANG;
   "{0} und {1} überlappen.": "{0} and {1} overlap.",
   "{0} von {1} mm": "{0} of {1} mm",
   "{0} von {1} Projekten übernommen": "{0} of {1} projects imported",
+  "{0} von {1} verbunden": "{0} of {1} connected",
   "{0}: {1}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.": "{0}: {1}. Close free cells with the blank plates (1/3, 1/6).",
   "{0}{1} ragt über den nutzbaren Bereich der Blende{2}.": "{0}{1} extends beyond the usable area of the panel{2}.",
   "{0}Gehäuse-Bausatz mit Rackohren. Je 2 HE eine Reihe mit 12 BE à {1} mm (12 BE = 19″). Freie BE werden in Ansicht und Stückliste mit Leerblechen gefüllt.": "{0}Housing kit with rack ears. One row of 12 WU per 2 U, {1} mm each (12 WU = 19″). Free WU are filled with blank plates in the view and the parts list.",
@@ -960,12 +995,15 @@ document.documentElement.lang = LANG;
   "{2}RÜCKWAND {3} MM": "{2}REAR WALL {3} MM",
   "{4} – an den Rackohren ziehen": "{4} – drag by the rack ears",
   "{5} · {6} · Verschraubung für BMD-Geräte 1/3 + 1/2": "{5} · {6} · mounting points for BMD devices 1/3 + 1/2",
+  "{6} Kabel": "{6} cables",
   "{7} löschen": "Delete {7}",
   "{8} entfernen": "Remove {8}",
+  "{8} Kabel und Stecker kommen aus der Stagecraft Library.": "{8} Cables and plugs come from the Stagecraft Library.",
   "{9} · {10} mm innen · 255 mm": "{9} · {10} mm inside · 255 mm",
   "← Konfigurator": "← Configurator",
   "← nach links": "← move left",
   "← Projekt & Case": "← Project & case",
+  "← Verkabelung": "← Wiring",
   "↑ Reihe": "↑ row",
   "↓ Reihe": "↓ row",
   "+ {0} offen": "+ {0} open",
@@ -973,6 +1011,7 @@ document.documentElement.lang = LANG;
   "+ Rackwanne": "+ Rack shelf",
   "▼ PASST NICHT INS CASE": "▼ DOES NOT FIT THE CASE",
   "◀ Front": "◀ Front",
+  "✕ Anschluss fehlt": "✕ Port missing",
   "19″-Rackgeräte · eigene Rackohren": "19″ rack devices · own rack ears",
   "ab {0} mm von links": "from {0} mm from the left",
   "ab Oberkante (mm)": "from top edge (mm)",
@@ -999,7 +1038,13 @@ document.documentElement.lang = LANG;
   "An dieser Stelle passt kein Gerät aus der Datenbank.": "No device from the database fits here.",
   "Anderen Ordner wählen …": "Choose another folder …",
   "ändern": "change",
+  "Anschluss ist schon verbunden": "Port is already connected",
+  "Anschluss ist schon verbunden – Verbindung in der Liste rechts löschen, um ihn neu zu verbinden": "Port is already connected – delete its connection in the list to connect it again",
+  "Anschlussart unbekannt (fehlt in der Library)": "Termination unknown (missing in the library)",
+  "Anschlüsse": "Ports",
+  "Anschlüsse durchsuchen": "Search ports",
   "Anschlüsse nach vorn (Frontblende MA {2} + Kabelsatz)": "Connectors to the front (MA front panel {2} + cable set)",
+  "Anschlüsse verbinden, Kabel wählen": "Connect ports, choose cables",
   "Ansicht": "View",
   "Ansicht als JSON": "View as JSON",
   "Ansicht als PNG": "View as PNG",
@@ -1067,6 +1112,7 @@ document.documentElement.lang = LANG;
   "Deckel vorne für Rackmodul {0} HE": "Front lid for rack module {0} U",
   "Deckkraft": "Opacity",
   "Die Belegung reicht bis {0}, das Case hat {1}. Case vergrößern oder Module verschieben.": "The layout reaches {0}, the case has {1}. Enlarge the case or move modules.",
+  "Die geladene Stagecraft Library enthält noch keine Verkabelungsdaten (wiring.json). Library im Fenster „Library“ aktualisieren.": "The loaded Stagecraft Library has no wiring data yet (wiring.json). Update the library in the \"Library\" window.",
   "Die hintere Rackschiene ({0} mm) liegt hinter der Rückwand ({1} mm).": "The rear rack rail ({0} mm) is behind the rear wall ({1} mm).",
   "Die hintere Schiene lässt sich bei {0} nur zwischen {1} und {2} mm einstellen (eingetragen: {3} mm).": "For {0} the rear rail can only be set between {1} and {2} mm (entered: {3} mm).",
   "Die Lage der hinteren Schiene ist ein Startwert, bitte am Case messen.": "The rear rail position is a starting value, please measure on the case.",
@@ -1075,6 +1121,7 @@ document.documentElement.lang = LANG;
   "Dort ist kein Platz": "No space there",
   "Download hier nicht möglich": "Download not possible here",
   "Duplizieren": "Duplicate",
+  "eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)": "own hole, also fits a D hole (drilled blank plate)",
   "Eigene Elemente": "Custom elements",
   "Eigene lose Position": "Custom loose item",
   "Eigenes Element": "Custom element",
@@ -1097,11 +1144,13 @@ document.documentElement.lang = LANG;
   "Einzel €": "Unit €",
   "Element": "Element",
   "Element anklicken zum Bearbeiten, ziehen zum Verschieben (mit Umschalt: 0,5-mm-Raster). Pfeiltasten verschieben das gewählte Element um 0,1 mm, mit Umschalt um 1 mm; Entf löscht.": "Click an element to edit, drag to move (with Shift: 0.5 mm grid). Arrow keys move the selected element by 0.1 mm, with Shift by 1 mm; Del deletes.",
+  "Element oder Stecker wurde entfernt/geändert": "Element or connector was removed/changed",
   "endgültig löschen": "delete permanently",
   "Entfernen": "Remove",
   "Entwurf verwerfen": "Discard draft",
   "Entwurf verworfen": "Draft discarded",
   "Ergebnis": "Result",
+  "Ersten Anschluss antippen, dann den zweiten – daraus wird eine Verbindung. Blendenstecker zeigen ihre Rückseite (Löt-/Schraubanschluss oder Durchführung).": "Tap the first port, then the second – that makes a connection. Panel connectors show their rear side (solder/screw terminal or feed-through).",
   "Fertigung": "Build notes",
   "Filter": "Filter",
   "Freie Hälfte mit Blindblech schließen.": "Close the free half with a blank plate.",
@@ -1129,6 +1178,9 @@ document.documentElement.lang = LANG;
   "Geräte kommen mit Herstellerpreis in die Bestellung; im Inspektor als „vorhanden“ markieren, wenn sie nicht gekauft werden. Ihre Tiefe zählt für die Kollisionsprüfung. Platzhalter und eigene Geräte: Reiter „Eigene Elemente“. Ist eine Rackwanne ausgewählt und passt das Gerät hinein, landet es dort; sonst wird eine passende Wanne bzw. ein Shure-Rackkit angelegt.": "Devices go into the order at the manufacturer price; mark them as “owned” in the inspector if they are not bought. Their depth counts for the collision check. Placeholders and custom devices: “Custom elements” tab. If a rack shelf is selected and the device fits, it goes there; otherwise a matching shelf or Shure rack kit is created.",
   "Geräteansichten prüfen": "Review device views",
   "Gerätedaten geprüft (HE, Tiefe, Gewicht, Anschlüsse)": "Device data checked (U, depth, weight, connectors)",
+  "geschätzt {8} m": "estimated {8} m",
+  "Gewählt:": "Selected:",
+  "gewähltes Kabel passt nicht zu den Anschlüssen": "the chosen cable does not fit the ports",
   "Gewicht": "Weight",
   "Gewicht (kg)": "Weight (kg)",
   "Gewichte-Liste ({0} offen)": "Weight list ({0} open)",
@@ -1142,8 +1194,10 @@ document.documentElement.lang = LANG;
   "Hersteller": "Manufacturer",
   "Herstellerbild laden …": "Load manufacturer image …",
   "Hinten": "Rear",
+  "hinten ·": "rear ·",
   "Hinten an der Rückschiene ({0} mm) montiert, Front zeigt nach hinten. Die Tiefe zählt von der Rückschiene nach vorn.": "Mounted on the rear rail ({0} mm), front facing backwards. Depth counts from the rear rail forward.",
   "Hinter {0} {1} verschrauben, Tiefe {2} mm, bündig zur Unterkante.": "Fix behind {0} {1}, depth {2} mm, flush with the bottom edge.",
+  "Hinweis: beide Anschlüsse am selben Gerät": "Note: both ports are on the same device",
   "Hinzufügen": "Add",
   "Höhe": "Height",
   "Im Rack": "In the rack",
@@ -1164,15 +1218,18 @@ document.documentElement.lang = LANG;
   "JSON kopiert": "JSON copied",
   "jsPDF fehlt": "jsPDF missing",
   "jsPDF konnte nicht geladen werden": "jsPDF could not be loaded",
+  "Kabel · Länge": "Cable · length",
   "Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.": "Fix cables to the strain relief at the rear with cable ties.",
   "Kann über eine Rackwanne gelegt werden (gleiche HE) – die Wanne mit Geräten liegt dann dahinter.": "Can be placed over a rack shelf (same U) – the shelf with devices then sits behind it.",
   "kein IndexedDB": "no IndexedDB",
   "Kein Modul ausgewählt. Klicke ein Modul in der Ansicht an oder füge eines hinzu.": "No module selected. Click a module in the view or add one.",
+  "kein passendes Kabel in der Library – Adapter oder eigenes Kabel": "no matching cable in the library – adapter or own cable",
   "Kein Platz mehr für ein weiteres Blech dieser Breite": "No space left for another plate of this width",
   "Kein Platz mehr in der Wanne": "No more space in the shelf",
   "Kein Projekt passt zur Suche.": "No project matches the search.",
   "Kein Projektordner": "No project folder",
   "Kein Steckerfeld auf dieser Seite gefunden": "No connector panel found on this side",
+  "Keine Anschlüsse für diesen Filter.": "No ports for this filter.",
   "Keine Arbeitsschritte. Steckerfelder, Rackwannen und Beschriftungen erscheinen hier.": "No work steps. Connector panels, rack shelves and labels appear here.",
   "Keine Beschriftungsblende im Rack": "No label panel in the rack",
   "Keine Cases für diesen Filter.": "No cases for this filter.",
@@ -1190,6 +1247,8 @@ document.documentElement.lang = LANG;
   "Kopieren": "Copy",
   "Kunde": "Client",
   "Kunde / Veranstaltung": "Client / event",
+  "Länge in m": "Length in m",
+  "Längen sind aus den Rackpositionen geschätzt (Höhen- und Tiefenabstand + 40 cm Führung und Reserve) und auf die nächste lieferbare Länge aufgerundet.": "Lengths are estimated from the rack positions (height and depth distance + 40 cm routing and reserve) and rounded up to the next available length.",
   "leer": "empty",
   "leer – Stecker separat": "empty – connector separate",
   "Lieferant": "Supplier",
@@ -1222,6 +1281,7 @@ document.documentElement.lang = LANG;
   "Module dieser Seite ohne Lücken nach oben schieben": "Move modules on this side up without gaps",
   "Module, Zubehör, Geräte platzieren": "Place modules, accessories, devices",
   "Montageseite": "Mounting side",
+  "Nach": "To",
   "Nach dem Neuladen einmal den Zugriff bestätigen": "Confirm access once after reloading",
   "nach Lieferant": "by supplier",
   "nach rechts →": "move right →",
@@ -1242,9 +1302,11 @@ document.documentElement.lang = LANG;
   "nicht verbunden. Wähle einen Ordner, z. B. in Nextcloud – jedes Projekt wird dort als eigene .json-Datei gespeichert und über die Synchronisation auf anderen Rechnern sichtbar.": "not connected. Choose a folder, e.g. in Nextcloud – each project is saved there as its own .json file and becomes visible on other computers through syncing.",
   "Noch keine eigenen Elemente gespeichert.": "No custom elements saved yet.",
   "Noch keine Geräte aus der Gerätedatenbank im Rack (Popup → Geräte).": "No devices from the device database in the rack yet (popup → Devices).",
+  "Noch keine Geräte oder Steckerfelder im Rack.": "No devices or connector panels in the rack yet.",
   "Noch keine Projekte gespeichert.": "No projects saved yet.",
   "Noch keine Stecker – im Editor hinzufügen und frei platzieren.": "No connectors yet – add them in the editor and place them freely.",
   "Noch keine Stecker platziert.": "No connectors placed yet.",
+  "Noch keine Verbindungen.": "No connections yet.",
   "Noch leer – unten ein Frontblech wählen oder in der Ansicht auf + klicken.": "Still empty – choose a front plate below or click + in the view.",
   "Noch leer.": "Empty so far.",
   "noch nicht geprüft": "not checked yet",
@@ -1262,7 +1324,9 @@ document.documentElement.lang = LANG;
   "Ordnerzugriff ist hier nicht erlaubt": "Folder access is not allowed here",
   "Original {2} mm. In der Fertigung steht: mit Winkelschleifer kürzen.": "Original {2} mm. The build notes say: shorten with an angle grinder.",
   "passt ins D-Loch": "fits the D hole",
+  "passt nicht": "does not fit",
   "passt nicht zur Schiene dieses Cases": "does not fit this case's rail",
+  "passt nicht: {0} (vorn) ↔ {1} – Strom und Signal": "does not fit: {0} (front) ↔ {1} – power and signal",
   "PDF exportieren": "Export PDF",
   "PDF wird erstellt …": "Creating PDF …",
   "PDF-Bibliothek konnte nicht geladen werden.": "PDF library could not be loaded.",
@@ -1310,6 +1374,7 @@ document.documentElement.lang = LANG;
   "Projektordner:": "Project folder:",
   "Projektverwaltung": "Project management",
   "prüfen": "check",
+  "Prüfung": "Check",
   "Quellcode (GitHub)": "Source code (GitHub)",
   "Quelle": "Source",
   "Rack Manufaktur": "Rack Manufaktur",
@@ -1344,6 +1409,7 @@ document.documentElement.lang = LANG;
   "Rückseite": "Rear",
   "Rückseite (von hinten gesehen)": "Rear (seen from behind)",
   "Rückseite geprüft": "Rear checked",
+  "Rückseite:": "Rear:",
   "RÜCKWAND": "REAR WALL",
   "Schaumstoffeinlage dazu": "Add foam insert",
   "Schiene bei {0} mm": "Rail at {0} mm",
@@ -1372,6 +1438,7 @@ document.documentElement.lang = LANG;
   "Stecker für {0} · antippen oder auf ein Loch in der Ansicht ziehen": "Connector for {0} · tap or drag onto a hole in the view",
   "Stecker hinzufügen": "Add connector",
   "Stecker mit D-Norm passen auch in die fertigen Steckerfelder; CEE, Schuko und Kaltgeräte brauchen einen eigenen Ausschnitt. Die Steckerdatenbank kommt aus der Stagecraft Library.": "D-size connectors also fit the ready-made connector panels; CEE, Schuko and IEC need their own cutout. The connector database comes from the Stagecraft Library.",
+  "Stecker/Buchse am Gerät nicht angegeben – vor dem Bestellen prüfen": "Male/female on the device not specified – check before ordering",
   "Steckerfeld-Editor öffnen": "Open connector panel editor",
   "Steckerfelder": "Connector panels",
   "Streifen Breite (mm)": "Strip width (mm)",
@@ -1380,6 +1447,7 @@ document.documentElement.lang = LANG;
   "Stückliste, Lieferanten, Arbeitsschritte": "Bill of materials, suppliers, work steps",
   "Stufenlos platzieren": "Stepless placement",
   "Stufenlos: Module in 1-mm-Schritten verschiebbar": "Stepless: modules move in 1 mm steps",
+  "Suchen: Gerät, Anschluss, Stecker …": "Search: device, port, connector …",
   "Suchen: Name, Kunde, Case": "Search: name, client, case",
   "Summe": "Total",
   "Summe bekannter Preise · {0} Position{1} ohne Preis": "Total of known prices · {0} item(s) without price",
@@ -1403,8 +1471,12 @@ document.documentElement.lang = LANG;
   "Übernehmen: die Datei in die Stagecraft Library einpflegen.": "Apply: add the file to the Stagecraft Library.",
   "Übersicht": "Overview",
   "unbekannt": "unknown",
+  "Verbindung löschen": "Delete connection",
+  "Verbindungen": "Connections",
+  "Verkabelung": "Wiring",
   "Versatz (mm)": "Offset (mm)",
   "Vertikal mittig": "Centre vertically",
+  "Von": "From",
   "von hinten": "from the rear",
   "Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte sind abgedunkelt und zeigen ihre Rückseite (bearbeiten in der Vorderansicht).": "Seen from behind, mirrored. Drag rear mounted modules to move them; front mounted ones are dimmed and show their rear (edit in the front view).",
   "von vorn": "from the front",
@@ -1415,18 +1487,21 @@ document.documentElement.lang = LANG;
   "vorhanden": "owned",
   "Vorhanden (nicht bestellen)": "Owned (do not order)",
   "Vorn": "Front",
+  "vorn ·": "front ·",
   "vorn {0} HE · hinten {1} HE": "front {0} U · rear {1} U",
   "Vorschau": "Preview",
   "Während der SYSBOXX-Bearbeitung sind Rack-Elemente gesperrt": "Rack items are locked while editing the SYSBOXX",
   "Wanne kürzen (Tiefe anpassen)": "Shorten shelf (adjust depth)",
   "Weiter zum Konfigurator →": "Continue to configurator →",
   "Weiter: Bestellen & Fertigen →": "Next: Order & build →",
+  "Weiter: Verkabelung →": "Next: wiring →",
   "Wieder verbinden": "Reconnect",
   "Wirklich löschen?": "Really delete?",
   "z. B. Anschlussrack 8 HE": "e.g. connector rack 8 U",
   "z. B. Einspeisung, Bühne links": "e.g. mains in, stage left",
   "z. B. Hersteller und Art.-Nr.": "e.g. manufacturer and part no.",
   "z. B. Inventarnummer, Einsatzort, Termin": "e.g. inventory number, location, date",
+  "z. B. Mic 1": "e.g. Mic 1",
   "z. B. Mic 1, Strom Bühne": "e.g. Mic 1, stage power",
   "z. B. Rackleuchte, Kabel": "e.g. rack light, cable",
   "z. B. Shure ULXD4Q": "e.g. Shure ULXD4Q",
@@ -1439,6 +1514,8 @@ document.documentElement.lang = LANG;
   "Zulieferer · Artikel": "Supplier · part",
   "Zusätzlich hinten an der Rackschiene bei {0} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe {1} mm.": "Also fix at the rear rack rail at {0} mm (rack ears or support brackets). Device depth {1} mm.",
   "Zusätzlich hinten an der Rückschiene verschrauben": "Also fix at the rear rail",
+  "zwei Ausgänge verbunden": "two outputs connected",
+  "zwei Eingänge verbunden": "two inputs connected",
   "Löcher · antippen zum Bearbeiten": "Holes · tap to edit",
   "Stecker für {0} · antippen": "Connector for {0} · tap",
   "(nur von vorn möglich)": "(front mounting only)",
@@ -1491,8 +1568,27 @@ document.documentElement.lang = LANG;
   "SYSBOXX {0}": "SYSBOXX {0}",
   "2 Stück je Profil": "2 pcs per profile",
   "Preis je Stück, VPE 50 prüfen": "price per piece, check pack of 50",
-  "eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)": "own hole, also fits a D hole (drilled blank plate)",
+  "passt": "fits",
+  "selbst konfektionieren": "make up yourself",
+  "selbst konfektionieren ({0})": "make up yourself ({0})",
+  "Alle": "All",
+  "Frei": "Free",
+  "Verbunden": "Connected",
+  "Kabel konfektionieren: {0} + {1}": "Make up cable: {0} + {1}",
+  "Leitung direkt anschließen: {0} ↔ {1}": "Wire directly: {0} ↔ {1}",
+  "Signal prüfen: {0} (vorn) ↔ {1}": "Check signal: {0} (front) ↔ {1}",
+  "passt nicht: {0} ↔ {1}": "does not fit: {0} ↔ {1}",
+  "Kabelstecker passend zu {0}": "cable plug matching {0}",
+  "Verbunden, aber: {0}": "Connected, but: {0}",
+  "Eingang": "Input",
+  "Ausgang": "Output",
+  "Ein/Aus": "In/out",
+  "Stecker {0}": "Connector {0}",
+  "Reihe {0}": "Row {0}",
+  "Blech {0}": "Plate {0}",
+  "110 Ω, 2 × 0,22 mm², geschirmt, für XLR 5-pol/AES3": "110 Ω, 2 × 0.22 mm², shielded, for XLR 5-pin/AES3",
   "12G-Eignung prüfen": "check 12G suitability",
+  "2 × 0,22 mm², geschirmt, für XLR 3-pol": "2 × 0.22 mm², shielded, for XLR 3-pin",
   "2 × Keystone-Modul": "2 × keystone module",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
   "210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.": "210 mm outer depth, inside 401 × 74 × 200 mm, 25 kg, full extension, lockable.",
@@ -1500,12 +1596,16 @@ document.documentElement.lang = LANG;
   "280 mm Einbautiefe (außen 300 / 295 mm), innen 410 × 70 × 270 mm (2 HE) bzw. 411 × 115 × 273 mm (3 HE), 20 kg, Vollauszug, abschließbar.": "280 mm mounting depth (outside 300 / 295 mm), inside 410 × 70 × 270 mm (2 U) or 411 × 115 × 273 mm (3 U), 20 kg, full extension, lockable.",
   "3 × Keystone-Modul": "3 × keystone module",
   "392 mm Außentiefe, Innentiefe 373 mm, 25 kg Traglast.": "392 mm outer depth, inner depth 373 mm, 25 kg load.",
+  "3G1,5 mm², für powerCON/Kaltgeräte/Schuko zum Selbstanschluss": "3G1.5 mm², for rewireable powerCON/IEC/Schuko plugs",
+  "4 × 2,5 mm², für speakON": "4 × 2.5 mm², for speakON",
+  "5-pol, Geschlecht offen (DMX In meist m) – Buchsen als xlr5f eintragen": "5-pin, gender open (DMX in usually male) – enter sockets as xlr5f",
   "5D/5DM: im Lieferumfang · DN1: Z2624.000": "5D/5DM: included · DN1: Z2624.000",
   "7 mm Doppelsteg-Kunststoff, stufenlose Rackschiene vorn, 2 Deckel mit Schnappschlössern. Keine hintere Rackschiene.": "7 mm twin-wall plastic, stepless front rack rail, 2 lids with snap latches. No rear rack rail.",
   "7 mm Multiplex, schwarz. Stufenlose Rackschienen vorn und hinten, 45 cm zwischen den Schienen, 2 Deckel. Für Endstufen mit hoher Einbautiefe.": "7 mm plywood, black. Stepless rack rails front and rear, 45 cm between the rails, 2 lids. For amplifiers with large mounting depth.",
   "7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten, ab 10 HE mit Rollen. Keine hintere Rackschiene.": "7 mm plywood, stepless aluminium rail with rubber seal at the front, front and rear lids, castors from 10 U. No rear rack rail.",
   "7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten. Keine hintere Rackschiene.": "7 mm plywood, stepless aluminium rail with rubber seal at the front, front and rear lids. No rear rack rail.",
   "7 mm Multiplex. Einbautiefe 600 mm, stufenlos verstellbare Rackschienen vorn und hinten mit Gummikeder, 2 Deckel. Ab 8 HE mit Rollen. Verstellbereich der hinteren Schiene nicht angegeben.": "7 mm plywood. Mounting depth 600 mm, stepless adjustable rack rails front and rear with rubber seal, 2 lids. Castors from 8 U. Adjustment range of the rear rail not specified.",
+  "75 Ω, für BNC-Crimpstecker": "75 Ω, for BNC crimp plugs",
   "9 mm Multiplex, Shockmount-Innenrack. Versetzbare Rackschienen vorn und hinten, variable Einbautiefe 40–50 cm. Außen ca. 615 × 605 mm.": "9 mm plywood, shock-mount inner rack. Movable rack rails front and rear, variable mounting depth 40–50 cm. Outside approx. 615 × 605 mm.",
   "9 mm Multiplex. Stufenlose Rackschienen vorn und hinten, 42 cm (5 HE) bzw. 45 cm (8 HE) von Schiene zu Schiene.": "9 mm plywood. Stepless rack rails front and rear, 42 cm (5 U) or 45 cm (8 U) rail to rail.",
   "abgekündigt, Nachfolger SB-1100B (No. 30248376)": "discontinued, successor SB-1100B (No. 30248376)",
@@ -1513,11 +1613,13 @@ document.documentElement.lang = LANG;
   "Abgekündigt; Blackmagic führt ihn als Streaming Encoder HD weiter – Ansicht und Anschlüsse von dort übernommen. Ansicht nach Produktfotos gezeichnet (ungeprüft).": "Discontinued; Blackmagic continues it as Streaming Encoder HD – view and connectors taken from there. View drawn from product photos (unchecked).",
   "Abgekündigt. Anschlussbezeichnungen hinten teils angenommen. Ansicht nach Produktfotos gezeichnet (ungeprüft).": "Discontinued. Rear connector labels partly assumed. View drawn from product photos (unchecked).",
   "adamhall.com · Preis nur mit Login": "adamhall.com · price with login only",
+  "am Gerät Stiftleiste, Kabel mit Schraubklemm-Stecker": "pin header on the device, cable with screw-terminal plug",
   "Ansicht aus Datenblattangaben erzeugt, Anordnung nicht nach Foto geprüft.": "View generated from data sheet values, layout not checked against a photo.",
   "Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).": "View drawn from the d&b dimension drawing (datasheet, front) and product photos (rear) (not checked yet).",
   "Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).": "View drawn from d&b drawings/product photos (not checked yet).",
   "Ansicht nach Produktfotos (Rückseite) und DS100M-Front gezeichnet (ungeprüft).": "View drawn from product photos (rear) and the DS100M front (not checked yet).",
   "Ansicht nach Produktfotos gezeichnet (ungeprüft).": "View drawn from product photos (unchecked).",
+  "auf Geräten meist Ausgänge (Stecker); Eingänge sind xlrf": "on devices mostly outputs (male); inputs are xlrf",
   "Ausschnitt 28,8 × 19,4 mm für 0,8–1,5 mm Blech (29,6 × 19,4 mm für 1,6–2 mm)": "Cutout 28.8 × 19.4 mm for 0.8–1.5 mm sheet (29.6 × 19.4 mm for 1.6–2 mm)",
   "Ausschnitt 37 × 18, 2 Löcher „M3“ im Abstand 44,1 nach Neutrik-Zeichnung CP-PMA; ob Gewinde oder Durchgang ist nicht angegeben – hier als Durchgang Ø 3,2.": "Cutout 37 × 18, 2 holes “M3” 44.1 apart per Neutrik drawing CP-PMA; thread or clearance not stated – taken as clearance Ø 3.2.",
   "Ausschnitt Ø 88, Löcher 77 × 85 Ø 6 nach Mennekes-Produktinfo (Zeichnung 1 MB 211).": "Cutout Ø 88, holes 77 × 85 Ø 6 per Mennekes product info (drawing 1 MB 211).",
@@ -1526,9 +1628,10 @@ document.documentElement.lang = LANG;
   "Ausschnitt Ø 95, Löcher 104 × 104 Ø 6,5 nach Mennekes-Produktinfo (Zeichnung 2 MB 166); Frontkörper Ø 132 steht über den Flansch.": "Cutout Ø 95, holes 104 × 104 Ø 6.5 per Mennekes product info (drawing 2 MB 166); front body Ø 132 protrudes beyond the flange.",
   "Behringer FX2000 Effektgerät": "Behringer FX2000 effects processor",
   "Bleche mit Ausschnitt · Stecker separat": "Plates with cutout · connector separate",
-  "Blindplatte D wird mitbestellt": "D blank plate is ordered as well",
+  "BNC-Crimpstecker 75 Ω passend zum Koaxkabel": "BNC crimp plug 75 Ω matching the coax cable",
   "BNC-Durchführung": "BNC feed-through",
   "Box 200 × 125 × 40,65 mm, XLR-Seite nach vorn": "Box 200 × 125 × 40.65 mm, XLR side to the front",
+  "C14 (Eingang) oder C13 (Ausgang) – je Anschluss in ports angeben": "C14 (input) or C13 (output) – specify per port in ports",
   "CEE 16 A Anbaudose (3-pol; im Konfigurator CEE 16 A 5-/4-pol als Stellvertreter)": "CEE 16 A panel socket (3-pin; the configurator uses CEE 16 A 5/4-pin as a stand-in)",
   "Cinch-Einbaubuchse isoliert, Bohrung Ø 8 mm": "RCA panel socket insulated, hole Ø 8 mm",
   "Cinch/RCA-Durchführung (D-Format)": "RCA feed-through (D-size)",
@@ -1554,6 +1657,10 @@ document.documentElement.lang = LANG;
   "dBTechnologies IA3204 D Installationsverstärker (Dante)": "dBTechnologies IA3204 D installation amplifier (Dante)",
   "dBTechnologies IA3204 R Installationsverstärker": "dBTechnologies IA3204 R installation amplifier",
   "Eigene Harting-Belegung von Botex (Nutzerhinweis) – vor Einsatz prüfen. Ansicht nach Produktfotos gezeichnet (ungeprüft).": "Botex uses its own Harting pinout (user report) – check before use. View drawn from product photos (unchecked).",
+  "Einbaubuchse am Gerät = Stifte (m), Kabelstecker NL4FX = f": "chassis socket on the device = pins (m), cable plug NL4FX = f",
+  "Einbaustecker mit eigener Bohrung Ø 6,5 mm; Flanschmaß 10 × 10 geschätzt (Sechskantmutter).": "Panel connector with its own hole Ø 6.5 mm; flange 10 × 10 estimated (hex nut).",
+  "Einbaustecker mit eigener Bohrung Ø 8 mm; Flanschmaß 12 × 12 geschätzt (Mutter/Scheibe).": "Panel connector with its own hole Ø 8 mm; flange 12 × 12 estimated (nut/washer).",
+  "Einbaustecker mit eigener Bohrung Ø 9,5 mm; Flanschmaß 16 × 16 geschätzt (Mutter/Frontplatte).": "Panel connector with its own hole Ø 9.5 mm; flange 16 × 16 estimated (nut/front plate).",
   "Einzel-Node: Kit mit Blindblech 130281": "Single node: kit with blank plate 130281",
   "Euroblocks von DINKLE (nicht Phoenix) laut Handbuch; Rackkit für 2 Geräte auf 1 HE liegt bei. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).": "Euroblocks by DINKLE (not Phoenix) according to the manual; rack kit for 2 units in 1 U included. View drawn from d&b drawings/product photos (not checked yet).",
   "Eurolite SBM-32B Stromverteiler mit Messung": "Eurolite SBM-32B power distributor with metering",
@@ -1608,29 +1715,40 @@ document.documentElement.lang = LANG;
   "Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite": "Cable lacing bar 1 U, rear",
   "Kabelbinder für Zugentlastung (Pack)": "Cable ties for strain relief (pack)",
   "Käfigmuttern M6, 20 Stk. (für 2-mm-Stahlschienen)": "M6 cage nuts, 20 pcs (for 2 mm steel rails)",
+  "Kaltgeräte (C13/C14, Typ offen)": "IEC (C13/C14, type open)",
+  "Kaltgeräte C13/C14": "IEC C13/C14",
   "Kaltgeräte-Einbaustecker C14": "IEC C14 panel inlet",
   "Kaltgeräte-Einbaustecker C14, Snap-in": "IEC C14 panel inlet, snap-in",
+  "Kaltgeräte-Kupplung C13, Schraubanschluss": "IEC C13 connector, screw terminals",
+  "Kaltgerätedose C13 zum Selbstanschluss": "Rewireable IEC C13 connector",
+  "Kaltgerätekabel Schuko/C13": "Power cord Schuko/C13",
+  "Kaltgeräteverlängerung C14/C13": "IEC extension C14/C13",
   "Katalog S. 418 · Preis nicht gefunden · ob der Bausatz ab 4 HE schon Verbindungsprofile enthält, bei Sommer prüfen": "Catalogue p. 418 · price not found · check with Sommer whether kits from 4 U already include connecting profiles",
   "kein Adam-Hall-Artikel gefunden": "no Adam Hall item found",
   "kein Euro-Preis gefunden": "no euro price found",
   "kein Preis gefunden": "no price found",
+  "Klinken-Einbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm",
   "Klinkeneinbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm (z. B. Neutrik NMJ6HCD2)": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm (e.g. Neutrik NMJ6HCD2)",
   "Laut Hersteller abgekündigt (02/2024). Ansicht nach Produktfotos gezeichnet (ungeprüft).": "Discontinued according to the manufacturer (02/2024). View drawn from product photos (unchecked).",
   "liegt 5D/5DM bei; für DN1 als Z2624.000 (einzeln Z2624.001)": "included with 5D/5DM; for DN1 as Z2624.000 (single unit Z2624.001)",
   "liegt Shure-Empfängern/-Sendern halber Breite bei": "included with Shure half-width receivers/transmitters",
   "Loch offen": "Hole open",
   "Loch offen (ohne Einsatz)": "Hole open (no insert)",
+  "Lötanschluss (Lötkelche/-ösen)": "Solder terminals (cups/lugs)",
+  "Lüfter": "Fan",
   "MA 2Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)": "MA 2Port Node 19″ rack kit – XLR connectors (front panel)",
   "MA 4Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)": "MA 4Port Node 19″ rack kit – XLR connectors (front panel)",
   "MA Rackmontage-Kit für zwei Nodes (130283)": "MA rack mounting kit for two nodes (130283)",
   "Maße vom MIL-C-5015-Gegenstück ITT Cannon CA02COM-E24 übernommen (Flansch 44,5, Löcher 34,9, Ausschnitt Ø 36) – am HICON-Teil prüfen.": "Dimensions taken from the MIL-C-5015 equivalent ITT Cannon CA02COM-E24 (flange 44.5, holes 34.9, cutout Ø 36) – check against the HICON part.",
   "Maße vom MIL-C-5015-Gegenstück ITT Cannon CA02COM-E28-21 übernommen (Flansch 50,8, Löcher 39,7, Ausschnitt Ø 42) – am HICON-Teil prüfen.": "Dimensions taken from the MIL-C-5015 equivalent ITT Cannon CA02COM-E28-21 (flange 50.8, holes 39.7, cutout Ø 42) – check against the HICON part.",
+  "Meterware, Preis je m": "Sold by the metre, price per m",
   "Midas DL155 Stagebox 16/8 mit Split": "Midas DL155 stagebox 16/8 with split",
   "Mikro-Schaumstoffeinlage für Schublade 2 HE": "Micro foam insert for drawer 2 U",
   "Music Store / Thomann (dort als 872005 VR)": "Music Store / Thomann (listed there as 872005 VR)",
   "Nachfolger DS110; Ansicht nach d&b-Maßzeichnung (Datenblatt, Front) und Produktfotos (Rückseite) gezeichnet (ungeprüft).": "Successor DS110; view drawn from the d&b dimension drawing (datasheet, front) and product photos (rear) (not checked yet).",
   "Netzanschluss hinten (Kaltgeräte laut Handbuch), Lage geschätzt": "Power inlet at the rear (IEC per manual), position estimated",
   "Netzanschlüsse hinten (Kaltgeräte laut Handbuch), Lage geschätzt": "Power inlets at the rear (IEC per manual), position estimated",
+  "Netzkabel powerCON TRUE1 auf Kaltgeräte C13": "Power cord powerCON TRUE1 to IEC C13",
   "Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante.": "Open shelf, approx. 435 mm inside, 255 mm deep. Fix devices with cable ties or screws, flush with the front edge.",
   "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).": "Panel from the d&b touring rack (hard-wired in the rack, not sold separately); depth and weight not stated. View drawn from d&b drawings/product photos (not checked yet).",
   "Panel aus dem d&b Touring Rack (im Rack fest verkabelt, nicht einzeln erhältlich); Tiefe und Gewicht nicht angegeben. Höhe aus dem Rackaufbau abgeleitet; Z5578.001 für D40/D25/D90. Ansicht nach d&b-Zeichnungen/Produktfotos gezeichnet (ungeprüft).": "Panel from the d&b touring rack (hard-wired in the rack, not sold separately); depth and weight not stated. Height derived from the rack layout; Z5578.001 for D40/D25/D90. View drawn from d&b drawings/product photos (not checked yet).",
@@ -1641,10 +1759,13 @@ document.documentElement.lang = LANG;
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet",
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; abgekündigt": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet; discontinued",
   "Platzhalter: Daten aus Herstellerliste, Maße/Anschlüsse noch nicht geprüft; HE prüfen": "Placeholder: data from manufacturer list, dimensions/connectors not checked yet; check U",
+  "powerCON B (weiß, Abgang)": "powerCON B (white, power out)",
   "powerCON Out weiß": "powerCON Out white",
   "powerCON Out weiß (D-Format)": "powerCON Out white (D format)",
   "powerCON TRUE1 Out (Loch aufbohren)": "powerCON TRUE1 Out (drill out hole)",
   "powerCON TRUE1 Out, D-Norm (nur von vorn einbaubar)": "powerCON TRUE1 Out, D-size (front mounting only)",
+  "powerCON TRUE1 TOP Kabelbuchse (zum Geräteeingang)": "powerCON TRUE1 TOP cable connector female (to device inlet)",
+  "powerCON TRUE1 Verlängerung": "powerCON TRUE1 extension",
   "Powerlock Panel Source PE (grün), 400 A": "Powerlock panel source PE (green), 400 A",
   "Powersoft T302 Verstärker 2-Kanal": "Powersoft T302 amplifier, 2 channels",
   "Powersoft T304 Verstärker 4-Kanal": "Powersoft T304 amplifier, 4 channels",
@@ -1655,6 +1776,7 @@ document.documentElement.lang = LANG;
   "Powersoft X4 Verstärker 4-Kanal": "Powersoft X4 amplifier, 4 channels",
   "Powersoft X4L Verstärker 4-Kanal": "Powersoft X4L amplifier, 4 channels",
   "Powersoft X8 Verstärker 8-Kanal": "Powersoft X8 amplifier, 8 channels",
+  "Preis je Länge beim Händler": "Price per length at the dealer",
   "Preis und Bezeichnung prüfen": "check price and designation",
   "Preis und D-Ausschnitt prüfen": "check price and D cut-out",
   "procaseshop.de · auch 4er (11920) und 100er (11924)": "procaseshop.de · also 4-pack (11920) and 100-pack (11924)",
@@ -1676,12 +1798,15 @@ document.documentElement.lang = LANG;
   "Rackwanne mit festen Verschraubungspunkten für Blackmagic-Geräte: Raster in Sechsteln, 1/3 (2/6) und 1/2 (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte.": "Rack shelf with fixed mounting points for Blackmagic devices: grid in sixths, 1/3 (2/6) and 1/2 (3/6) rack width can be combined, e.g. 3 × Teranex Mini. Supplied: 2 × 1/3 and 1 × 1/6 blank plate.",
   "Rackwanne mit Rackohren, 2 HE. Geräte frei anordnen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).": "Rack shelf with rack ears, 2 U. Arrange devices freely, flush with the front edge. Inner width approx. 440 mm (check).",
   "Rackwanne mit Rackohren. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).": "Rack shelf with rack ears. Fix devices with cable ties or screws, flush with the front edge. Inner width approx. 440 mm (check).",
+  "S/FTP AWG 23, für RJ45-Feldstecker": "S/FTP AWG 23, for RJ45 field plugs",
   "Schaumstoffeinlage für Schublade 1 HE": "Foam insert for drawer 1 U",
   "Schaumstoffeinlage für Schublade 3 HE": "Foam insert for drawer 3 U",
   "Schaumstoffeinlage für Schublade 4 HE": "Foam insert for drawer 4 U",
   "Schuko-Einbausteckdose mit Klappdeckel, Flansch 50 × 50": "Schuko panel socket with hinged lid, flange 50 × 50",
+  "Schuko-Stecker zum Selbstanschluss": "Rewireable Schuko plug",
   "SDI-Durchführung BNC 75 Ω, isoliert": "SDI feed-through BNC 75 Ω, insulated",
   "Senkschraube M2,5 × 10 Torx 8 für SYSBOXX-Frontbleche": "Countersunk screw M2.5 × 10 Torx 8 for SYSBOXX front plates",
+  "SFP/SFP+/QSFP-Schacht (Modul nötig)": "SFP/SFP+/QSFP cage (module needed)",
   "Shure ANX4 Netzwerk-Empfänger": "Shure ANX4 network receiver",
   "Shure GLXD4R+ (Rack-Empfänger)": "Shure GLXD4R+ (rack receiver)",
   "Shure PSM900 P9T Sender (halbe Breite)": "Shure PSM900 P9T transmitter (half width)",
@@ -1689,7 +1814,7 @@ document.documentElement.lang = LANG;
   "Shure Rackmontage-Kit für zwei Geräte halber Breite": "Shure rack mounting kit for two half-width devices",
   "Shure SLXD4 (halbe Breite)": "Shure SLXD4 (half width)",
   "Shure ULXD4 (Einkanal, halbe Breite)": "Shure ULXD4 (single channel, half width)",
-  "SMA-Antennendurchführung in gebohrter Blindplatte": "SMA antenna feed-through in drilled blank plate",
+  "SMA-Einbaubuchse (Schottverbinder Buchse/Buchse), Bohrung Ø 6,5 mm": "SMA panel socket (bulkhead female/female), hole Ø 6.5 mm",
   "SMA-Schottverbinder Buchse/Buchse, Bohrung Ø 6,5 mm": "SMA bulkhead connector female/female, hole Ø 6.5 mm",
   "sommercable.com · 2 Stück je Profil": "sommercable.com · 2 pcs per profile",
   "sommercable.com · Preis je Stück, VPE 50 prüfen": "sommercable.com · price per piece, check pack of 50",
@@ -1725,6 +1850,7 @@ document.documentElement.lang = LANG;
   "Tiefe und Gewicht nicht angegeben – nachmessen. Ansicht nach Produktfotos gezeichnet (ungeprüft).": "Depth and weight not stated – measure. View drawn from product photos (unchecked).",
   "Tischpult mit eingebautem Mischer – nicht rackfähig (585 × 375 × 161 mm)": "Desk console with built-in mixer – not rack-mountable (585 × 375 × 161 mm)",
   "TRUE1-kompatible Out-Buchse, D-Norm (ohne Bohren, nur von vorn einbaubar)": "TRUE1-compatible out socket, D size (no drilling, front mounting only)",
+  "TRUE1, A (blau) oder B (weiß) – je Anschluss in ports angeben": "TRUE1, A (blue) or B (white) – specify per port in ports",
   "U-Lüftungsblende 0,5 HE, Rundlochung, Stahl 1,5 mm": "U vent panel 0.5 U, round perforation, steel 1.5 mm",
   "U-Lüftungsblende 1 HE, Rundlochung": "U vent panel 1 U, round perforation",
   "U-Lüftungsblende 2 HE, Rundlochung": "U vent panel 2 U, round perforation",
@@ -1737,6 +1863,8 @@ document.documentElement.lang = LANG;
   "Zwei d&b-Geräte halber Breite (5D, 5DM, DN1) nebeneinander mit Rackohren und 19″-Brückenadapter auf 1 HE.": "Two half-width d&b devices (5D, 5DM, DN1) side by side with rack ears and 19″ bridge adapter in 1 U.",
   "Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen.": "Bolt two half-width devices together in the centre with the joining plate and side brackets (rack ears) – included with the devices. Optional antennas to the front: BNC on the side brackets.",
   "Zwei grandMA3 Nodes halber Breite (2Port/4Port) nebeneinander im 19″-Rack. Für einen einzelnen Node: Rackkit mit Blindblech (130281).": "Two half-width grandMA3 nodes (2Port/4Port) side by side in a 19″ rack. For a single node: rack kit with blank plate (130281).",
+  "Blindplatte D wird mitbestellt": "D blank plate is ordered as well",
+  "SMA-Antennendurchführung in gebohrter Blindplatte": "SMA antenna feed-through in drilled blank plate",
   "Eigene Bauform. Einbautiefe von Frontschiene bis Rückwand eintragen.": "Custom design. Enter the mounting depth from the front rail to the rear wall.",
   "Funkempfänger": "Wireless receiver",
   "Funkempfänger 2-fach": "Wireless receiver, dual",
@@ -1838,11 +1966,74 @@ document.documentElement.lang = LANG;
   "Harting Han E 10-pol Stecker (Han 10B)": "Harting Han E 10-pin male (Han 10B)",
   "Frontblech Rechteck-Ausschnitt MP06 (Harting Han 6B, ILME), 2 HE, 3 BE": "Front plate rectangular cutout MP06 (Harting Han 6B, ILME), 2 U, 3 WU",
   "Frontblech Rechteck-Ausschnitt MP06/MP10 (Harting Han 6B/10B, ILME), 2 HE, 4 BE": "Front plate rectangular cutout MP06/MP10 (Harting Han 6B/10B, ILME), 2 U, 4 WU",
-  "Einbaustecker mit eigener Bohrung Ø 6,5 mm; Flanschmaß 10 × 10 geschätzt (Sechskantmutter).": "Panel connector with its own hole Ø 6.5 mm; flange 10 × 10 estimated (hex nut).",
-  "Einbaustecker mit eigener Bohrung Ø 8 mm; Flanschmaß 12 × 12 geschätzt (Mutter/Scheibe).": "Panel connector with its own hole Ø 8 mm; flange 12 × 12 estimated (nut/washer).",
-  "Einbaustecker mit eigener Bohrung Ø 9,5 mm; Flanschmaß 16 × 16 geschätzt (Mutter/Frontplatte).": "Panel connector with its own hole Ø 9.5 mm; flange 16 × 16 estimated (nut/front plate).",
-  "Klinken-Einbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm",
-  "SMA-Einbaubuchse (Schottverbinder Buchse/Buchse), Bohrung Ø 6,5 mm": "SMA panel socket (bulkhead female/female), hole Ø 6.5 mm"
+  "Schraubklemmen": "Screw terminals",
+  "Federkraftklemmen": "Spring terminals",
+  "Crimpkontakte": "Crimp contacts",
+  "Printstifte (Leiterplatte)": "PCB pins",
+  "Flachstecker (Faston)": "Flat tabs (Faston)",
+  "Schneidklemmen (IDC/LSA)": "Insulation displacement (IDC/LSA)",
+  "Gewindebolzen (Kabelschuh)": "Threaded stud (cable lug)",
+  "XLR 3-pol": "XLR 3-pin",
+  "XLR 5-pol": "XLR 5-pin",
+  "powerCON A (blau, Einspeisung)": "powerCON A (blue, power in)",
+  "CEE 16 A 5-pol": "CEE 16 A 5-pin",
+  "CEE 16 A 4-pol": "CEE 16 A 4-pin",
+  "CEE 32 A 5-pol": "CEE 32 A 5-pin",
+  "CEE 32 A 4-pol": "CEE 32 A 4-pin",
+  "CEE 63 A 5-pol": "CEE 63 A 5-pin",
+  "CEE 125 A 5-pol": "CEE 125 A 5-pin",
+  "Harting Han E 6-pol (Han 6B)": "Harting Han E 6-pin (Han 6B)",
+  "Harting Han E 10-pol (Han 10B)": "Harting Han E 10-pin (Han 10B)",
+  "Harting Han E 16-pol (Han 16B)": "Harting Han E 16-pin (Han 16B)",
+  "Rund-Multipin LK 25-pol (Socapex)": "Circular multipin LK 25-pin (Socapex)",
+  "Rund-Multipin LK 37-pol": "Circular multipin LK 37-pin",
+  "USB (Typ offen)": "USB (type open)",
+  "USB Typ A (2.0)": "USB type A (2.0)",
+  "USB Typ B (2.0)": "USB type B (2.0)",
+  "USB Typ A (3.0)": "USB type A (3.0)",
+  "USB Typ C": "USB type C",
+  "Optisch (TOSLINK/ADAT/Glasfaser, Typ offen)": "Optical (TOSLINK/ADAT/fibre, type open)",
+  "Antennenanschluss (BNC/TNC/SMA, Typ offen)": "Antenna connector (BNC/TNC/SMA, type open)",
+  "D-Sub 9-pol": "D-sub 9-pin",
+  "XLR/Klinke-Combobuchse": "XLR/jack combo socket",
+  "DIN 5-pol (MIDI)": "DIN 5-pin (MIDI)",
+  "Euroblock (Phoenix-Schraubklemme)": "Euroblock (Phoenix screw terminal)",
+  "DC-Versorgung (Bauform offen)": "DC supply (type open)",
+  "powerCON (TRUE1/A/B offen)": "powerCON (TRUE1/A/B open)",
+  "LC Duplex (Glasfaser)": "LC duplex (fibre)",
+  "etherCON (RJ45 verriegelt)": "etherCON (locking RJ45)",
+  "cPot Potentialausgleich": "cPot equipotential bonding",
+  "Schuko (CEE 7/3)": "Schuko (CEE 7/3)",
+  "HDMI Typ A": "HDMI type A",
+  "powerCON TRUE1 TOP Kabelstecker (in TRUE1-Ausgang)": "powerCON TRUE1 TOP cable connector male (into TRUE1 outlet)",
+  "Mikrofonkabel (Meterware)": "Microphone cable (by the metre)",
+  "DMX/AES-Kabel 110 Ω (Meterware)": "DMX/AES cable 110 Ω (by the metre)",
+  "Netzwerk-Verlegekabel Cat 6A (Meterware)": "Network installation cable Cat 6A (by the metre)",
+  "Koaxkabel 75 Ω 12G-SDI (Meterware)": "Coax cable 75 Ω 12G-SDI (by the metre)",
+  "Gummischlauchleitung H07RN-F 3G1,5 (Meterware)": "Rubber cable H07RN-F 3G1.5 (by the metre)",
+  "Lautsprecherkabel 4 × 2,5 mm² (Meterware)": "Speaker cable 4 × 2.5 mm² (by the metre)",
+  "Mikrofonkabel XLR 3-pol Buchse/Stecker": "Microphone cable XLR 3-pin female/male",
+  "DMX-Kabel XLR 5-pol Stecker/Buchse": "DMX cable XLR 5-pin male/female",
+  "Patchkabel RJ45 Cat 6A": "Patch cable RJ45 Cat 6A",
+  "SDI-Kabel BNC 75 Ω (12G)": "SDI cable BNC 75 Ω (12G)",
+  "HDMI-Kabel": "HDMI cable",
+  "Lautsprecherkabel speakON 4-pol": "Speaker cable speakON 4-pole",
+  "XLR 3-pol Kabelbuchse": "XLR 3-pin cable connector female",
+  "XLR 3-pol Kabelstecker": "XLR 3-pin cable connector male",
+  "XLR 5-pol Kabelbuchse (DMX)": "XLR 5-pin cable connector female (DMX)",
+  "XLR 5-pol Kabelstecker (DMX)": "XLR 5-pin cable connector male (DMX)",
+  "speakON 4-pol Kabelstecker": "speakON 4-pole cable connector",
+  "RJ45-Stecker Cat 6A, feldkonfektionierbar": "RJ45 plug Cat 6A, field-installable",
+  "BNC-Crimpstecker 75 Ω (12G-SDI)": "BNC crimp plug 75 Ω (12G-SDI)",
+  "S/FTP, passt auch in etherCON-Buchsen": "S/FTP, also fits etherCON sockets",
+  "75 Ω, 12G-SDI-tauglich": "75 Ω, 12G-SDI capable",
+  "HDMI 2.0, 18 Gbit/s": "HDMI 2.0, 18 Gbit/s",
+  "Anzeige": "Display",
+  "Bedienelement": "Control",
+  "Speicherkarte/Laufwerk": "Memory card/drive",
+  "Sicherungsautomat": "Circuit breaker",
+  "FI-Schalter": "RCD",
+  "fest angeschlossenes Kabel (Kabelverschraubung)": "hard-wired cable (cable gland)"
 };
 /* /DATA:I18N */
 const TERMS_EN = [
@@ -1938,6 +2129,7 @@ const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 // Steckerdatenbank (Stagecraft Library, rackmanufaktur/connectors.json): Typen und Stecker je Zulieferer
 /* CTYPES: Stagecraft Library, see loader at the end */ const CTYPES = window.__RM.CTYPES;
 /* CON: Stagecraft Library, see loader at the end */ const CON = window.__RM.CON;
+/* WIRE: Stagecraft Library (rackmanufaktur/wiring.json), see loader at the end – faces, terminations, ioFaces, cables, plugs */ const WIRE = window.__RM.WIRE || {};
 const conOf = t => Object.keys(CON).filter(k => CON[k].type === t);
 // Einbaustecker mit eigenem Ausschnitt, der auch ins D-Loch passt: genau eine mittige runde Bohrung, keine Schraublöcher,
 // Flansch ≤ 24 × 24 mm (gleiche Regel wie dDrillOf in der Library). Ergebnis: Bohrungs-Ø in der D-Blindplatte, sonst 0.
@@ -2320,7 +2512,7 @@ function example() {
   const rp = makeItem('dpanel', { pos: 7, side: 'rear', variant: 'd12tb', outD: true });
   rp.slots = ['pc_in', 'pc_out_d', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3m', 'xlr3f', 'xlr3f', 'dmx5f', 'dmx5m', 'rj45', 'hdmi'];
   return {
-    v: 5, step: 2,
+    v: 6, step: 2,
     project: { name: LANG === 'en' ? 'Example · connector rack' : 'Beispiel · Anschlussrack', client: '', note: '' },
     case: makeCase('pro560', 8),
     items: [
@@ -2338,7 +2530,7 @@ function example() {
 // Weitere Beispiele für den ersten Besuch (zeigen verschiedene Möglichkeiten der App)
 function examples() {
   const en = LANG === 'en', T = (de, e) => en ? e : de;
-  const base = (name, note, type, he, items) => ({ v: 5, step: 2, project: { name, client: '', note }, case: makeCase(type, he), items, acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 });
+  const base = (name, note, type, he, items) => ({ v: 6, step: 2, project: { name, client: '', note }, case: makeCase(type, he), items, acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 });
   const panel = (o, slots) => { const p = makeItem('dpanel', o); p.slots = slots; return p; };
   // 1) Funk: Antennenverteilung, Shure-Rackkit mit Antennen vorn, In-Ear-Strecke, BNC-Steckerfeld hinten
   const funk = base(T('Beispiel · Funk-Rack Shure', 'Example · Shure wireless rack'),
@@ -2402,7 +2594,7 @@ function examples() {
   return [funk, licht, video, audio];
 }
 function empty() {
-  return { v: 5, step: 1, project: { name: '', client: '', note: '' }, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
+  return { v: 6, step: 1, project: { name: '', client: '', note: '' }, case: makeCase('pro560', 6), items: [makeItem('dpanel')], acc: ACC_DEFAULT.map(a => ({ ...a })), ov: {}, pack: 48 };
 }
 const KEY = 'rackwerk-v1';
 function load() { try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && s.items && s.case) return normalize(s); } catch (e) {} return null; }
@@ -2652,7 +2844,10 @@ function normalize(s) {
   if (CASES[c.type].rear === 'none') c.rear = false;
   if (CASES[c.type].rear === 'std') c.rear = true;
   s.project = s.project || { name: c.name || '', client: '', note: '' };
-  s.step = [1, 2, 3].includes(s.step) ? s.step : 2;
+  if ((s.v || 1) < 6 && s.step === 3) s.step = 4;   // v6: new step 3 "Verkabelung", order & build is step 4
+  s.step = [1, 2, 3, 4].includes(s.step) ? s.step : 2;
+  s.wires = (Array.isArray(s.wires) ? s.wires : []).filter(w => w && typeof w.a === 'string' && typeof w.b === 'string' && w.a !== w.b)
+    .map(w => ({ id: w.id || uid(), a: w.a, b: w.b, cable: typeof w.cable === 'string' ? w.cable : '', len: +w.len > 0 ? +w.len : null, label: String(w.label || '') }));
   // v1–v3: lückenlose Liste mit „gap“-Elementen → feste Positionen, alles vorne
   if ((s.v || 1) < 4) {
     let pos = 0;
@@ -2703,7 +2898,7 @@ function normalize(s) {
     }
   });
   s.items.push(...extra);
-  s.v = 5;
+  s.v = 6;
   return s;
 }
 function fixCells(it) {
@@ -3878,6 +4073,207 @@ function renderDevList() {
   const r = devRows();
   el.innerHTML = r.length ? `<table class="devtab"><thead><tr><th>Gerät</th><th>Vorn</th><th>Hinten</th><th>Links</th></tr></thead><tbody>${r.map(x => `<tr><td><b>${esc(x.name || x.d.n)}</b><small>${esc(x.d.mk)} · ${esc(fitTxt(x.d))}${x.d.d ? ' · ' + x.d.d + ' mm tief' : ''}${x.d.price != null ? ' · ' + EUR.format(x.d.price) : ''}</small><small>${esc(x.where)}${x.d.chk ? ' · Maße prüfen' : ''}</small></td><td>${esc(ioTxt(x.d.io.f))}</td><td>${esc(ioTxt(x.d.io.r))}</td><td><a href="${x.d.url}" target="_blank" rel="noopener">Hersteller</a><br><a href="${thomannQ(x.d)}" target="_blank" rel="noopener">Thomann</a></td></tr>`).join('')}</tbody></table>` : '<p class="hint">Noch keine Geräte aus der Gerätedatenbank im Rack (Popup → Geräte).</p>';
 }
+/* ---------- Schritt 3: Verkabelung ----------
+   state.wires = [{ id, a, b, cable, len, label }]; a/b = Anschluss-Schlüssel:
+     d:<item>:<f|r>:<gruppe>:<n>          Anschluss eines Geräts im Rack (Gruppe = Index in io.f/io.r)
+     s:<item>:<gerät-id>:<f|r>:<gruppe>:<n>  Gerät in einer Rackwanne
+     p:<item>:<loch>                      Stecker im D-Steckerfeld (Rückseite)
+     c:<item>:<stecker-id>                Stecker im eigenen Steckerfeld (Rückseite)
+     x:<item>:<blech-id>:<loch>           Stecker im SYSBOXX-Blech (Rückseite)
+   cable = Kabel-id aus WIRE.cables ('' = selbst konfektionieren), len = Länge in m.
+   Steckgesichter, Anschlussarten und Kabel kommen aus der Library (wiring.json). */
+const WF = () => WIRE.faces || {}, WTM = () => WIRE.terminations || {}, WIO = () => WIRE.ioFaces || {};
+const famOf = f => (WF()[f] || {}).fam || f;
+const faceGeneric = f => !!(WF()[f] || {}).any;   // Typ offen (iec, powercon, usb …): passt zu jedem Steckgesicht der Familie
+// Anschlussseite als Text, gleich in der Sprache der Oberfläche (zusammengesetzte Texte übersetzt tr() sonst nicht)
+const sideName = x => !x ? tr('unbekannt') : x.term ? tr((WTM()[x.term] || {}).n || x.term)
+  : `${tr((WF()[x.face] || {}).n || x.face || '?')}${x.gender ? ' ' + (LANG === 'en' ? (x.gender === 'm' ? 'male' : 'female') : (x.gender === 'm' ? 'Stecker' : 'Buchse')) : ''}`;
+const ioGroups = s => (s || '').split('; ').filter(Boolean).map(p => { const m = p.match(/^([a-z0-9]+):(\d+)(?: (.*))?$/s); return m ? { type: m[1], count: +m[2], label: m[3] || '' } : null; }).filter(Boolean);
+// Kabelende end {face, gender} steckt in Anschluss port {face, gender}?
+function plugFits(end, port) {
+  if (!end || !port || !port.face || !end.face) return false;
+  const fe = famOf(end.face), fp = famOf(port.face), mates = (WF()[port.face] || {}).mates || [];
+  const face = end.face === port.face || mates.includes(end.face) || mates.includes(fe)
+    || (fe === fp && (faceGeneric(port.face) || faceGeneric(end.face) || fe === 'rj45' || (fe === 'speakon' && end.face === 'speakon4')));
+  return face && !(port.gender && end.gender && port.gender === end.gender);
+}
+const wCables = () => Object.entries(WIRE.cables || {}).map(([id, c]) => ({ id, ...c }));
+const cablesFor = (a, b) => wCables().filter(c => c.kind === 'patch' && ((plugFits(c.a, a) && plugFits(c.b, b)) || (plugFits(c.a, b) && plugFits(c.b, a))));
+const plugFor = port => Object.entries(WIRE.plugs || {}).map(([id, p]) => ({ id, ...p })).find(p => plugFits(p.front, port)) || null;
+// Meterware für selbst konfektionierte Kabel, nach Familie des Steckgesichts
+const BULK_BY_FAM = { xlr: 'meter_mic', rj45: 'meter_cat6a', bnc: 'meter_coax75', powercon: 'meter_h07rnf', iec: 'meter_h07rnf', schuko: 'meter_h07rnf', speakon: 'meter_ls4' };
+const bulkFor = (a, b) => { const f = [a, b].map(x => x && x.face && famOf(x.face)).find(Boolean); const id = f === 'xlr' && [a, b].some(x => x && x.face === 'xlr5') ? 'meter_dmx' : BULK_BY_FAM[f]; return id && WIRE.cables && WIRE.cables[id] ? { id, ...WIRE.cables[id] } : null; };
+
+// z = Abstand des Anschlusses von der vorderen Schiene in mm (für die Kabellänge)
+const railZ = () => +state.case.railRear || (+state.case.depth || 450) - 25;
+const portZ = (it, face, depth) => { const back = face === 'r' ? depth : 0; return it.side === 'rear' ? Math.max(0, railZ() - back) : back; };
+function devPorts(d, base, owner, where, item, depth) {
+  const out = []; if (!d || !d.io) return out;
+  for (const s of ['f', 'r']) ioGroups(d.io[s]).forEach((g, gi) => {
+    const m = WIO()[g.type]; if (m && m.none) return;   // Anzeige, Taster, Sicherung …
+    const det = (d.iox && d.iox[s] && d.iox[s][gi]) || null;
+    for (let n = 0; n < g.count; n++) {
+      const p = (det && det.ports && det.ports[n]) || {}, nm = g.label || g.type;
+      out.push({ key: `${base}:${s}:${gi}:${n}`, item, owner, where, side: s, z: portZ(item, s, depth || +d.d || 200),
+        lbl: p.label || (g.count > 1 ? `${nm} · ${n + 1}/${g.count}` : nm),
+        mate: m ? { face: p.face || m.face, ...((p.gender || m.gender) && { gender: p.gender || m.gender }) } : null,
+        dir: p.dir || (det && det.dir) || null });
+    }
+  });
+  return out;
+}
+function conPort(k, key, owner, where, lbl, item) {
+  const c = CON[k]; if (!c || c.nobom || c.g === 'blank' || c.g === 'open') return null;
+  const sd = c.sides || {};
+  return { key, item, owner, where, lbl: `${lbl} · ${c.s || c.n}`, front: sd.front || null, mate: sd.rear || null, panel: true, z: portZ(item, 'f', 0) };
+}
+// alle Anschlusspunkte, gruppiert nach Rackelement bzw. Gerät
+function wireEnds() {
+  const out = [];
+  [...sideItems('front'), ...sideItems('rear')].forEach(it => {
+    const where = `${heRange(it)} · ${sideTxt(it)}`;
+    if (it.kind === 'device' && it.dev && devOf(it.dev)) { const d = devOf(it.dev), nm = it.name || d.n; out.push({ id: it.id, title: nm, where, ports: devPorts(d, 'd:' + it.id, nm, where, it, itemDepth(it) || +d.d) }); }
+    if (it.kind === 'shelf') (it.devs || []).forEach(o => { const d = devOf(o.dev); if (d && o.id) out.push({ id: it.id + ':' + o.id, title: d.n, where: `${where} · ${shelfOf(it).short}`, ports: devPorts(d, `s:${it.id}:${o.id}`, d.n, `${where} · ${shelfOf(it).short}`, it) }); });
+    const grp = { id: it.id, title: title(it), where, ports: [] };
+    const add = p => { if (p) grp.ports.push(p); };
+    if (it.kind === 'dpanel') it.slots.forEach((k, i) => add(conPort(k, `p:${it.id}:${i}`, title(it), where, tr(`Loch ${i + 1}`) + (it.labels[i] ? ' „' + it.labels[i] + '“' : ''), it)));
+    if (it.kind === 'cpanel') it.cons.forEach((c, i) => add(conPort(c.k, `c:${it.id}:${c.id}`, title(it), where, tr(`Stecker ${i + 1}`) + (c.label ? ' „' + c.label + '“' : ''), it)));
+    if (it.kind === 'sysboxx') it.rows.forEach((row, r) => row.forEach((p, pi) => p.slots.forEach((k, i) => { if (k) add(conPort(k, `x:${it.id}:${p.id}:${i}`, title(it), where, [tr(`Reihe ${r + 1}`), tr(`Blech ${pi + 1}`), tr(`Loch ${i + 1}`)].join(' · ') + (p.labels[i] ? ' „' + p.labels[i] + '“' : ''), it)); })));
+    if (grp.ports.length) out.push(grp);
+  });
+  return out.filter(g => g.ports.length);
+}
+// Kabellänge schätzen: Höhenabstand + Tiefenabstand + 10 cm Führung + 30 cm Reserve (m)
+function wireLen(A, B) {
+  const y = it => (it.pos + it.he / 2) * HE;
+  return (Math.abs(y(A.item) - y(B.item)) + Math.abs((A.z || 0) - (B.z || 0)) + 100 + 300) / 1000;
+}
+const pickLen = (lens, m) => { const l = (lens || []).slice().sort((x, y) => x - y); return l.find(v => v >= m - 1e-9) ?? (l.length ? l[l.length - 1] : null); };
+const roundLen = m => Math.ceil(m * 2) / 2;   // Meterware: auf 0,5 m aufrunden
+// Prüfung einer Verbindung: st = ok | make (selbst konfektionieren) | warn | bad
+function wireCheck(A, B) {
+  const a = A.mate, b = B.mate, notes = [];
+  if (!a || !b) return { st: 'warn', msg: 'Anschlussart unbekannt (fehlt in der Library)', cables: [] };
+  let st = 'ok', msg = '', cables = [];
+  if (a.term && b.term) { st = 'make'; msg = `Leitung direkt anschließen: ${sideName(a)} ↔ ${sideName(b)}`; const tc = termCheck(A, B); if (tc) return { ...tc, cables }; }
+  else if (a.term || b.term) {
+    const tc = termCheck(a.term ? A : B, a.term ? B : A); if (tc && tc.st === 'bad') return { ...tc, cables };
+    const port = a.term ? b : a, plug = plugFor(port);
+    st = 'make'; msg = `Kabel konfektionieren: ${sideName(a.term ? a : b)} + ${plug ? `${tr(plug.n)}${plug.art ? ' (' + plug.art + ')' : ''}` : tr('Kabelstecker passend zu {0}').replace('{0}', sideName(port))}`;
+    if (tc) notes.push(tc.msg);
+  } else {
+    cables = cablesFor(a, b);
+    const fa = famOf(a.face), fb = famOf(b.face), ma = (WF()[a.face] || {}).mates || [], mb = (WF()[b.face] || {}).mates || [];
+    const famOk = fa === fb || ma.includes(fb) || mb.includes(fa) || ma.includes(b.face) || mb.includes(a.face);
+    if (!cables.length) { if (!famOk) return { st: 'bad', msg: `passt nicht: ${sideName(a)} ↔ ${sideName(b)}`, cables }; st = 'make'; msg = 'kein passendes Kabel in der Library – Adapter oder eigenes Kabel'; }
+    if (!a.gender || !b.gender) { if (st === 'ok') st = 'warn'; notes.push('Stecker/Buchse am Gerät nicht angegeben – vor dem Bestellen prüfen'); }
+  }
+  if (A.dir && B.dir && A.dir === B.dir && A.dir !== 'io') { if (st === 'ok') st = 'warn'; notes.push(A.dir === 'out' ? 'zwei Ausgänge verbunden' : 'zwei Eingänge verbunden'); }
+  return { st, msg: [msg, ...notes].filter(Boolean).join(' · '), cables };
+}
+// Signalbereich eines Steckgesichts: Strom darf nie auf Signal, verschiedene Signalbereiche sind zu prüfen
+const W_POWER = new Set(['powercon', 'iec', 'schuko', 'cee16_5', 'cee16_4', 'cee32_5', 'cee32_4', 'cee63_5', 'cee125_5', 'powerlock', 'cpot', 'dc', 'han_e6', 'han_e10', 'han_e16', 'lk25', 'lk37']);
+const W_DOMAIN = { xlr3: 'audio', jack63: 'audio', rca: 'audio', combo: 'audio', euroblock: 'audio', xlr5: 'dmx', rj45: 'net', ethercon: 'net', sfp: 'net', bnc: 'video', hdmi: 'video', speakon4: 'speaker', speakon8: 'speaker' };
+const domainOf = f => !f ? null : W_POWER.has(f) || W_POWER.has(famOf(f)) ? 'power' : W_DOMAIN[f] || famOf(f);
+// Lötanschluss/Klemme: die Vorderseite des Blendensteckers bestimmt, was hinten angeschlossen werden darf
+function termCheck(T, O) {
+  const tf = T.front && T.front.face, of = O.mate && O.mate.face ? O.mate.face : O.front && O.front.face;
+  const dt = domainOf(tf), dd = domainOf(of);
+  if (!dt || !dd || dt === dd) return null;
+  if (dt === 'power' || dd === 'power') return { st: 'bad', msg: `passt nicht: ${sideName(T.front)} (vorn) ↔ ${sideName(O.mate && O.mate.face ? O.mate : O.front)} – Strom und Signal` };
+  return { st: 'warn', msg: `Signal prüfen: ${sideName(T.front)} (vorn) ↔ ${sideName(O.mate && O.mate.face ? O.mate : O.front)}` };
+}
+const W_ICON = { ok: '✓', make: '✎', warn: '!', bad: '✕' };
+const W_ST = { ok: 'passt', make: 'selbst konfektionieren', warn: 'prüfen', bad: 'passt nicht' };
+let WSEL = null, WFILT = 'all', WQ = '';
+function newWire(A, B) {
+  const ck = wireCheck(A, B), m = wireLen(A, B), c = ck.cables[0];
+  return { id: uid(), a: A.key, b: B.key, cable: c ? c.id : '', len: c ? pickLen(c.lengths, m) : roundLen(m), label: '' };
+}
+function wireListHTML(groups, used, idx) {
+  const S = WSEL && idx.get(WSEL), q = WQ.trim().toLowerCase();
+  return groups.map(g => {
+    const ports = g.ports.filter(p => (WFILT === 'all' || (WFILT === 'free') === !used.has(p.key))
+      && (!q || `${g.title} ${g.where} ${p.lbl} ${sideName(p.mate)}`.toLowerCase().includes(q)));
+    if (!ports.length) return '';
+    return `<div class="wgrp"><h3>${esc(g.title)}<small>${esc(g.where)}</small></h3><div class="wports">${ports.map(p => {
+      const w = used.get(p.key), o = w && idx.get(w.a === p.key ? w.b : w.a);
+      let cls = p.key === WSEL ? ' on' : w ? ' used' : '';
+      if (S && p.key !== WSEL && !w) { const st = wireCheck(S, p).st; cls += st === 'bad' ? ' dim' : st === 'ok' ? ' fit' : ''; }
+      return `<button type="button" class="wp${cls}" data-wport="${esc(p.key)}" title="${esc(`${p.lbl} · ${p.panel ? 'Rückseite: ' : ''}${sideName(p.mate)}${p.dir ? ' · ' + ({ in: 'Eingang', out: 'Ausgang', io: 'Ein/Aus' })[p.dir] : ''}`)}"><b>${esc(p.lbl)}</b><small><span>${p.panel ? 'Rückseite:' : p.side === 'f' ? 'vorn ·' : 'hinten ·'}</span> ${esc(sideName(p.mate))}</small>${o ? `<small class="to">→ ${esc(o.owner)} · ${esc(o.lbl)}</small>` : ''}</button>`;
+    }).join('')}</div></div>`;
+  }).join('') || '<p class="hint">Keine Anschlüsse für diesen Filter.</p>';
+}
+function renderWiring() {
+  const el = $('#wiring'); if (!el) return;
+  if (!WIRE.ioFaces || !WIRE.faces) { el.innerHTML = `<section class="card"><header><h2>Verkabelung</h2></header><div class="body"><p class="hint">Die geladene Stagecraft Library enthält noch keine Verkabelungsdaten (wiring.json). Library im Fenster „Library“ aktualisieren.</p></div></section>`; return; }
+  const groups = wireEnds(), idx = new Map(), used = new Map();
+  groups.forEach(g => g.ports.forEach(p => idx.set(p.key, p)));
+  state.wires.forEach(w => { used.set(w.a, w); used.set(w.b, w); });
+  if (WSEL && !idx.has(WSEL)) WSEL = null;
+  const nPorts = idx.size, nUsed = [...idx.keys()].filter(k => used.has(k)).length;
+  const S = WSEL && idx.get(WSEL);
+  const rows = state.wires.map((w, i) => {
+    const A = idx.get(w.a), B = idx.get(w.b);
+    if (!A || !B) return `<tr><td>${i + 1}</td><td colspan="4"><span class="wst bad">✕ Anschluss fehlt</span> <small>Element oder Stecker wurde entfernt/geändert</small></td><td><button type="button" class="btn sm danger" data-wdel="${w.id}" title="Verbindung löschen">✕</button></td></tr>`;
+    const ck = wireCheck(A, B), list = ck.cables, cur = w.cable && WIRE.cables && WIRE.cables[w.cable] ? { id: w.cable, ...WIRE.cables[w.cable] } : null;
+    const opts = [...list, ...(cur && !list.some(c => c.id === cur.id) ? [cur] : [])];
+    const bulk = !cur && bulkFor(A.mate, B.mate);
+    const lens = cur && cur.lengths ? cur.lengths : null;
+    const st = cur && !list.some(c => c.id === cur.id) ? 'warn' : ck.st;
+    const end = (P) => `<b>${esc(P.owner)}</b><small>${esc(P.lbl)} · ${esc(sideName(P.mate))}</small><small>${esc(P.where)}</small>`;
+    return `<tr data-wrow="${w.id}"><td>${i + 1}</td><td>${end(A)}</td><td>${end(B)}</td>
+      <td><select data-wf="cable" data-wid="${w.id}"><option value="">selbst konfektionieren${bulk ? ' (' + esc(bulk.n) + ')' : ''}</option>${opts.map(c => `<option value="${c.id}" ${c.id === w.cable ? 'selected' : ''}>${esc(c.n)}</option>`).join('')}</select>
+        ${lens ? `<select data-wf="len" data-wid="${w.id}">${lens.map(v => `<option value="${v}" ${v === w.len ? 'selected' : ''}>${fmtN(v)} m</option>`).join('')}</select>` : `<input type="number" min="0.1" step="0.1" value="${w.len ?? ''}" data-wf="len" data-wid="${w.id}" style="width:5.5em" aria-label="Länge in m"> m`}
+        <small>geschätzt ${fmtN(Math.round(wireLen(A, B) * 10) / 10)} m</small></td>
+      <td><input type="text" value="${esc(w.label)}" data-wf="label" data-wid="${w.id}" placeholder="z. B. Mic 1"></td>
+      <td><span class="wst ${st}" title="${esc(ck.msg)}"><span aria-hidden="true">${W_ICON[st]}</span> ${W_ST[st]}</span>${ck.msg ? `<small>${esc(ck.msg)}</small>` : ''}${cur && !list.some(c => c.id === cur.id) ? '<small>gewähltes Kabel passt nicht zu den Anschlüssen</small>' : ''}</td>
+      <td><button type="button" class="btn sm danger" data-wdel="${w.id}" title="Verbindung löschen">✕</button></td></tr>`;
+  });
+  el.innerHTML = `<section class="card"><header><h2>Anschlüsse</h2><span class="eyebrow">${nUsed} von ${nPorts} verbunden</span></header>
+      <div class="body">
+        <p class="hint">${S ? `Gewählt: <b>${esc(S.owner)} · ${esc(S.lbl)}</b> (${esc(sideName(S.mate))}). Jetzt den zweiten Anschluss antippen – grün umrandet passt direkt, blass passt nicht. Nochmal antippen hebt die Auswahl auf.` : 'Ersten Anschluss antippen, dann den zweiten – daraus wird eine Verbindung. Blendenstecker zeigen ihre Rückseite (Löt-/Schraubanschluss oder Durchführung).'}</p>
+        <div class="wbar"><div class="chips">${[['all', 'Alle'], ['free', 'Frei'], ['used', 'Verbunden']].map(([k, t]) => `<button type="button" class="chip${WFILT === k ? ' on' : ''}" data-wfilt="${k}">${t}</button>`).join('')}</div>
+          <input type="search" id="wq" value="${esc(WQ)}" placeholder="Suchen: Gerät, Anschluss, Stecker …" aria-label="Anschlüsse durchsuchen"></div>
+        <div id="wlist">${groups.length ? wireListHTML(groups, used, idx) : '<p class="hint">Noch keine Geräte oder Steckerfelder im Rack.</p>'}</div>
+      </div></section>
+    <section class="card"><header><h2>Verbindungen</h2><span class="eyebrow">${state.wires.length} Kabel</span></header>
+      ${state.wires.length ? `<div class="tablewrap"><table class="wtab"><thead><tr><th>#</th><th>Von</th><th>Nach</th><th>Kabel · Länge</th><th>Bezeichnung</th><th>Prüfung</th><th></th></tr></thead><tbody>${rows.join('')}</tbody></table></div>` : ''}
+      <div class="body"><p class="hint">${state.wires.length ? 'Längen sind aus den Rackpositionen geschätzt (Höhen- und Tiefenabstand + 40 cm Führung und Reserve) und auf die nächste lieferbare Länge aufgerundet.' : 'Noch keine Verbindungen.'} Kabel und Stecker kommen aus der Stagecraft Library.</p></div></section>`;
+  el._wctx = { groups, used, idx };
+}
+$('#wiring').addEventListener('click', e => {
+  const t = e.target;
+  const f = t.closest('[data-wfilt]'); if (f) { WFILT = f.dataset.wfilt; renderWiring(); return; }
+  const d = t.closest('[data-wdel]'); if (d) { state.wires = state.wires.filter(w => w.id !== d.dataset.wdel); renderSoft(); return; }
+  const p = t.closest('[data-wport]'); if (!p) return;
+  const k = p.dataset.wport, ctx = $('#wiring')._wctx || {}, idx = ctx.idx || new Map();
+  const w = state.wires.find(x => x.a === k || x.b === k);
+  if (!WSEL) { if (w) { toast('Anschluss ist schon verbunden – Verbindung in der Liste rechts löschen, um ihn neu zu verbinden'); const r = document.querySelector(`[data-wrow="${w.id}"]`); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; } WSEL = k; renderWiring(); return; }
+  if (WSEL === k) { WSEL = null; renderWiring(); return; }
+  if (w) { toast('Anschluss ist schon verbunden'); return; }
+  const A = idx.get(WSEL), B = idx.get(k); WSEL = null;
+  if (!A || !B) { renderWiring(); return; }
+  if (A.item === B.item && A.key.split(':').slice(0, 3).join(':') === B.key.split(':').slice(0, 3).join(':') && !A.panel) toast('Hinweis: beide Anschlüsse am selben Gerät');
+  const nw = newWire(A, B); state.wires.push(nw);
+  const ck = wireCheck(A, B); if (ck.st === 'bad') toast(`Verbunden, aber: ${ck.msg}`);
+  renderSoft();
+});
+$('#wiring').addEventListener('input', e => {
+  if (e.target.id === 'wq') { WQ = e.target.value; const c = $('#wiring')._wctx; if (c) $('#wlist').innerHTML = wireListHTML(c.groups, c.used, c.idx); return; }
+  const t = e.target.closest('[data-wf="label"]'); if (t) { const w = state.wires.find(x => x.id === t.dataset.wid); if (w) { w.label = t.value; save(); } }
+});
+$('#wiring').addEventListener('change', e => {
+  const t = e.target.closest('[data-wf]'); if (!t || t.dataset.wf === 'label') return;
+  const w = state.wires.find(x => x.id === t.dataset.wid); if (!w) return;
+  if (t.dataset.wf === 'cable') {
+    w.cable = t.value; const c = WIRE.cables && WIRE.cables[w.cable], ctx = $('#wiring')._wctx || {}, A = ctx.idx && ctx.idx.get(w.a), B = ctx.idx && ctx.idx.get(w.b);
+    const m = A && B ? wireLen(A, B) : (w.len || 1);
+    w.len = c && c.lengths ? pickLen(c.lengths, m) : roundLen(m);
+  }
+  if (t.dataset.wf === 'len') w.len = +t.value > 0 ? +t.value : null;
+  renderSoft();
+});
 function renderSoft() {
   const L = layout();
   renderProject();
@@ -3885,7 +4281,8 @@ function renderSoft() {
   if (state.step === 2) { renderStage(L); renderWarns(L); renderInrack(); renderCaseMini(); }
   renderNotes();
   const B = renderBom(); renderSummary(L, B);
-  if (state.step === 3) { renderOrders(B.rows); renderOverview(L); renderDevList(); }
+  if (state.step === 3) renderWiring();
+  if (state.step === 4) { renderOrders(B.rows); renderOverview(L); renderDevList(); }
   const it = state.items.find(i => i.id === sel);
   $('#inspTag').textContent = it ? `${heRange(it)} · ${sideTxt(it)}` : '';
   if (document.activeElement !== $('#json')) $('#json').value = JSON.stringify(stripped(), null, 1);
@@ -4631,7 +5028,7 @@ document.addEventListener('input', e => {
   if (t.dataset.acc) {
     const a = state.acc.find(x => x.id === t.dataset.acc); a.qty = Math.max(0, parseInt(t.value, 10) || 0);
     document.querySelectorAll(`[data-acc="${a.id}"]`).forEach(el => { if (el !== t) el.value = a.qty; });
-    const L = layout(); const B = renderBom(); renderSummary(L, B); if (state.step === 3) renderOrders(B.rows); save(); return;
+    const L = layout(); const B = renderBom(); renderSummary(L, B); if (state.step === 4) renderOrders(B.rows); save(); return;
   }
 });
 // Eigenschaften eines Steckers übernehmen (Loch im D-Steckerfeld oder Stecker im eigenen Steckerfeld)
@@ -5213,6 +5610,7 @@ function libApply(s) {
   libRefill(CON, { ...((C.con || {}).connectors || {}), ...(L.con || {}) });
   libRefill(SBX, L.sbx || C.sbx || {});
   libRefill(KG, { ...(C.kg || {}), ...(L.kg || {}) });
+  libRefill(WIRE, C.wire || L.wire || {});   // wiring reference data: newest state wins, the snapshot is only the offline fallback
   const P = RMS.parts = RML.mergeParts(C.part, L.parts);
   libRefill(PANELS, P.panels); libRefill(ART, P.art); libRefill(SHELVES, P.shelves); libRefill(RAIL_REAR, P.railRear);
   libRefill(DRAWERS, Object.fromEntries(Object.entries(P.drawers).map(([k, o]) => [k, partDrawer(o)])));
@@ -5230,6 +5628,7 @@ function libFill(s) {
   Object.entries(L.types || {}).forEach(([k, t]) => { if (!CTYPES[k]) CTYPES[k] = t; });
   Object.entries(L.con || {}).forEach(([k, c]) => { if (!CON[k]) CON[k] = c; });
   if (L.sbx && !Object.keys(SBX).length) Object.assign(SBX, L.sbx);
+  if (L.wire && !Object.keys(WIRE).length) Object.assign(WIRE, L.wire);
 }
 // snapshot ← what the project uses (new devices and connectors are taken as they are drawn now)
 function libCapture(s) {
@@ -5251,6 +5650,7 @@ function libCapture(s) {
     Object.keys(src).forEach(k => { if (!(k in t)) t[k] = libClone(src[k]); });
   }
   if (!L.sbx && Object.keys(SBX).length) { L.sbx = libClone(SBX); rev.sbx = date; }
+  if (C && C.wire && !libSame(L.wire, C.wire)) { L.wire = libClone(C.wire); rev.wire = date; }   // offline fallback for the wiring step
   // rack parts: all sections (about 20 KB), new entries are added; acc and railRear as a whole
   const P = RMS.parts || {}, LP = L.parts = L.parts || {};
   PSECT.forEach(sec => { const t = LP[sec] = LP[sec] || {}; if (!rev['part:' + sec] && date) rev['part:' + sec] = date; Object.keys(P[sec] || {}).forEach(k => { if (!(k in t)) t[k] = libClone(P[sec][k]); }); });
@@ -5459,8 +5859,9 @@ LIB.init();
 (() => {
   'use strict';
   const DEF = 'https://library.stagecraft.solutions/api/v1/';
-  const FILES = { dev: 'rackmanufaktur/devices.json', view: 'rackmanufaktur/views.json', con: 'rackmanufaktur/connectors.json', sbx: 'rackmanufaktur/sysboxx.json', kg: 'rackmanufaktur/weights.json', part: 'rackmanufaktur/parts.json' };
-  const FMT = 2;   // cache format: 2 = with parts
+  const FILES = { dev: 'rackmanufaktur/devices.json', view: 'rackmanufaktur/views.json', con: 'rackmanufaktur/connectors.json', sbx: 'rackmanufaktur/sysboxx.json', kg: 'rackmanufaktur/weights.json', part: 'rackmanufaktur/parts.json', wire: 'rackmanufaktur/wiring.json' };
+  const OPTIONAL = new Set(['wire']);   // wiring.json: Library states before 21.11.2026 do not have it
+  const FMT = 3;   // cache format: 2 = with parts, 3 = with wiring
   const KEY = 'rackwerk-v1', URLKEY = 'rm-library-url', SRCKEY = 'rm-library-src', FNAMEKEY = 'rm-library-folder';
   const ls = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
   const de = (ls.get('rm-lang') || (/^de\b/i.test(navigator.language || '') ? 'de' : 'en')) === 'de';
@@ -5492,7 +5893,7 @@ LIB.init();
   function catalog(d, meta) {
     if (!isObj(d.dev) || !isObj(d.view) || !isObj(d.con) || !isObj(d.con.types) || !isObj(d.con.connectors) || !isObj(d.sbx) || !isObj(d.kg) || !partsOk(d.part)) throw new Error(L('unerwartete Daten aus der Library', 'unexpected data from the library'));
     const { _source, ...sbx } = d.sbx;
-    return { fmt: FMT, ...meta, fetched: new Date().toISOString(), dev: d.dev, view: d.view, con: d.con, sbx, kg: d.kg, part: d.part };
+    return { fmt: FMT, ...meta, fetched: new Date().toISOString(), dev: d.dev, view: d.view, con: d.con, sbx, kg: d.kg, part: d.part, wire: isObj(d.wire) ? d.wire : null };
   }
 
   // ---------- Source: Library API ----------
@@ -5508,7 +5909,7 @@ LIB.init();
     const idx = await getJSON('index.json', ms);
     const commit = idx.commitFull || idx.commit || idx.generatedAt;
     if (cat && cat.fmt === FMT && cat.src === BASE && cat.commit === commit) return { cat, changed: false };
-    const keys = Object.keys(FILES), got = await Promise.all(keys.map(k => getJSON(FILES[k], Math.max(ms, 30000))));
+    const keys = Object.keys(FILES), got = await Promise.all(keys.map(k => getJSON(FILES[k], Math.max(ms, 30000)).catch(e => { if (OPTIONAL.has(k)) return null; throw e; })));
     const nc = catalog(Object.fromEntries(keys.map((k, i) => [k, got[i]])), { src: BASE, commit, short: idx.commit || String(commit).slice(0, 7), date: idx.commitDate || idx.generatedAt || new Date().toISOString() });
     await cachePut(nc);
     return { cat: nc, changed: true };
@@ -5574,13 +5975,15 @@ LIB.init();
       const walk = async dir => { for (const e of sorted(await rd.list(dir))) { const p = `${dir}/${e.name}`; if (e.dir) await walk(p); else if (e.name.endsWith('.json')) articles.push(await json(p)); } };
       await walk('data/articles');
       for (const e of sorted(await rd.list('data/views'))) if (!e.dir && e.name.endsWith('.json')) views.push({ id: e.name.slice(0, -5), data: await json('data/views/' + e.name) });
-      const rm = exportRM(articles, { connectorTypes: await json('data/meta/connector-types.json'), sysboxxMeta: await json('data/meta/sysboxx.json'), views, rmDrawers: await json('data/meta/rackmanufaktur-drawers.json') });
-      d = { dev: rm.devices, view: rm.views, con: rm.connectors, sbx: rm.sysboxx, kg: rm.weights, part: rm.parts };
+      const opt = async path => { const t = await text(path); if (t == null) return undefined; try { return JSON.parse(t); } catch (e) { throw new Error(`${path}: ${e.message}`); } };
+      const rm = exportRM(articles, { connectorTypes: await json('data/meta/connector-types.json'), sysboxxMeta: await json('data/meta/sysboxx.json'), views, rmDrawers: await json('data/meta/rackmanufaktur-drawers.json'),
+        connectorFaces: await opt('data/meta/connector-faces.json'), terminations: await opt('data/meta/terminations.json'), ioFaces: await opt('data/meta/io-faces.json') });
+      d = { dev: rm.devices, view: rm.views, con: rm.connectors, sbx: rm.sysboxx, kg: rm.weights, part: rm.parts, wire: rm.wiring || null };
     } else {
       // built API in the folder (api/v1 itself or a checkout after `node scripts/build.mjs`)
       const pre = await rd.file(FILES.dev) ? '' : await rd.file('public/api/v1/' + FILES.dev) ? 'public/api/v1/' : null;
       if (pre == null) throw new Error(L('Das ist kein Library-Ordner. Gewählt werden muss der Git-Checkout der Stagecraft Library (mit data/articles/ und scripts/) oder ein API-Ordner (rackmanufaktur/*.json).', 'This is not a library folder. Choose the Git checkout of the Stagecraft Library (with data/articles/ and scripts/) or an API folder (rackmanufaktur/*.json).'));
-      d = {}; for (const k of Object.keys(FILES)) d[k] = await json(pre + FILES[k]);
+      d = {}; for (const k of Object.keys(FILES)) d[k] = OPTIONAL.has(k) && !(await rd.file(pre + FILES[k])) ? null : await json(pre + FILES[k]);
       const idx = await text(pre + 'index.json'); if (idx && !git) try { const o = JSON.parse(idx); git = o.commitFull || o.commit || null; } catch (e) {}
     }
     return catalog(d, { src: 'folder:' + rd.name, commit: 'local-' + hash(seen.join('\u0000')), short: git ? String(git).slice(0, 7) : L('lokal', 'local'), date: new Date(latest || Date.now()).toISOString(), git: git || null });
@@ -5656,6 +6059,7 @@ LIB.init();
       SBX: S.sbx || C.sbx || {},
       KG: { ...(C.kg || {}), ...(S.kg || {}) },
       PARTS: mergeParts(C.part, S.parts),
+      WIRE: C.wire || S.wire || {},
     };
     const sp = document.getElementById('rmSplash'); if (sp) sp.remove();
     const s = document.createElement('script');

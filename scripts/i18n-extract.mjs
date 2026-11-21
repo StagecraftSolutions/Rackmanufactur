@@ -90,8 +90,9 @@ const walk = v => {
   if (Array.isArray(v)) v.forEach(walk);
   else if (v && typeof v === 'object') Object.entries(v).forEach(([k, x]) => { if (k !== 'url' && k !== '_source') walk(x); });
 };
-for (const f of ['devices', 'connectors', 'sysboxx', 'parts']) {
+for (const f of ['devices', 'connectors', 'sysboxx', 'parts', 'wiring']) {
   const r = await fetch(`${LIB}rackmanufaktur/${f}.json`);
+  if (!r.ok && f === 'wiring') continue;   // optional: Library states before 21.11.2026
   if (!r.ok) { console.error(`${LIB}rackmanufaktur/${f}.json: HTTP ${r.status}`); process.exit(1); }
   walk(await r.json());
 }
