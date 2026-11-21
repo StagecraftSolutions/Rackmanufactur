@@ -17,7 +17,17 @@ terminals) and build notes (what to solder where). Current step 3 "Order & build
 | io types ↔ connector faces | ❌ two vocabularies: devices use `io-types.json` (`xlr`, `ethercon`, `iec` …), panel connectors use `connector-faces.json` (`xlr3`, `ethercon`, `iec_c14` …) |
 | Cables as articles | ❌ Library category `kabel` is empty |
 
-## Phase 0 – Library preparation
+## Phase 0 – Library preparation ✅ done 2026-11-21
+
+Done in the Library (branch `steckverbinder-seiten`): `data/meta/io-faces.json` (every io type → face + gender or
+`none`), `fam`/`mates` on faces, optional `dir`/`ports` on device io groups (exported as `iox`), category `kabel`
+with 10 patch cables and 6 bulk cables, 11 cable plugs (`connector.form: cable`), export
+`api/v1/rackmanufaktur/wiring.json` = `{ faces, terminations, ioFaces, cables, plugs }`.
+Still open: single ports (`ports`) are filled in for no device yet – the app expands groups by `count`.
+For Phase 1: the local-folder loader must pass `connectorFaces`, `terminations`, `ioFaces` (read from
+`data/meta/`) to `exportRM`, and the API loader must fetch `wiring.json`.
+
+Original plan:
 
 1. **`data/meta/io-faces.json`**: io type → `{ face, gender? }` or `{ none: true }` for non-connectors (`btn`, `lcd`,
    `knob`, `fan`, `sd`, `brk`, `rcd`). Unknown gender stays empty → wiring check only by face family.
