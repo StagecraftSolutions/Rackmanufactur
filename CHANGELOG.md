@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-21 – Rack parts as data
+
+- **Cases, connector panels, blank/vent panels and other parts, shelves and kits, drawers, accessories and the rear rail** moved from the code into `data/parts.json` (same format as the Stagecraft Library's `api/v1/rackmanufaktur/parts.json`). `node scripts/data.mjs import` validates it (required fields, height lists match the tables per height, drawers point to existing parts, shelf modes, rail types) and writes the block `DATA:PARTS`; the app builds `PANELS`, `ART`, `SHELVES`, `DRAWERS`, `CASES`, `ACC_DEFAULT` and `RAIL_REAR` from it. Values per height (case part numbers, prices, outer dimensions, usable depth, drawer parts) are tables per U. The input form for an own case stays in the code.
+- No change in behaviour: every case and height, the example projects, BOM, orders and build notes give the same output as before. Only ProCase part numbers for heights that are not sold (never selectable) are no longer made up.
+- **Local variant:** `local.html` also loads `parts.json` from the library, caches it and stores it in the project snapshot. A changed case price or part number in the library no longer changes a project by itself; it appears in the Library window (Cases, Panels and parts, Shelves and kits, Drawers, Accessories, Rear rail) and is taken over on click.
+- `scripts/i18n-extract.mjs` no longer lists texts that a translated pattern with `{0}` already covers (e.g. case dimensions per height).
+
 ## 2026-11-21 – Local variant with the Stagecraft Library
 
 - **New `public/local.html`:** the app without a built-in product database. Devices, views, connectors, SYSBOXX and weights are loaded from library.stagecraft.solutions (`api/v1/rackmanufaktur/*.json`) and cached in the browser; without a cache and without a connection the open project starts from its own data.

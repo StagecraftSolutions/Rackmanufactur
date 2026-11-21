@@ -2,8 +2,8 @@
 //
 //   node scripts/build-local.mjs
 //
-// The local variant has no built-in product database: devices, views, connectors, SYSBOXX and weights are
-// loaded from the Stagecraft Library (https://library.stagecraft.solutions/api/v1/rackmanufaktur/*.json),
+// The local variant has no built-in product database: devices, views, connectors, SYSBOXX, rack parts and weights
+// are loaded from the Stagecraft Library (https://library.stagecraft.solutions/api/v1/rackmanufaktur/*.json),
 // cached in the browser and stored per project in the project file (state.lib), so projects open offline.
 // Newer library states show a refresh icon on the device and in the "Library" window.
 //
@@ -23,7 +23,7 @@ function once(label, find, repl) {
 }
 
 // 1. data blocks → filled by the loader
-const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', CTYPES: 'CTYPES', CON: 'CON', SBX: 'SBX' };
+const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', CTYPES: 'CTYPES', CON: 'CON', SBX: 'SBX', PARTS: 'PARTS' };
 for (const [k, v] of Object.entries(VAR)) {
   once(`data block ${k}`, new RegExp(`/\\* DATA:${k} \\*/[\\s\\S]*?/\\* /DATA:${k} \\*/`), `/* DATA:${k} – local variant: from the Stagecraft Library */ const ${v} = window.__RM.${k === 'EXACT' ? 'EXACT' : k};`);
 }

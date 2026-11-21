@@ -27,7 +27,7 @@ function fromHtml(frag, area) {
   frag.replace(/<[^>]*>/g, '\u0000').split('\u0000').forEach(seg => add(seg, area, html));
 }
 // Bereiche: Datenblöcke und Katalog-Konstanten zählen als „katalog“
-const KAT_STARTS = ['/* DATA:CON */', '/* DATA:CTYPES */', '/* DATA:SBX */', 'const PANELS = {', 'const ART = {', 'const CASES = {', 'const RAIL_REAR', 'const ACC_DEFAULT', 'const DEVICES = [', 'const SHELVES = {', 'const DRAWERS = {', '/* DATA:DEVDB */'];
+const KAT_STARTS = ['/* DATA:PARTS */', '/* DATA:CON */', '/* DATA:CTYPES */', '/* DATA:SBX */', 'const PANELS = {', 'const ART = {', 'const CASES = {', 'const RAIL_REAR', 'const ACC_DEFAULT', 'const DEVICES = [', 'const SHELVES = {', 'const DRAWERS = {', '/* DATA:DEVDB */'];
 const katRanges = KAT_STARTS.map(k => { const a = src.indexOf(k); if (a < 0) return null; const e = k.startsWith('/*') ? src.indexOf(k.replace('/* ', '/* /'), a) : src.indexOf(k.endsWith('[') ? '\n];' : '\n};', a); return [a, e]; }).filter(Boolean);
 const skipRanges = ['DATA:KG', 'DATA:EXACT', 'DATA:I18N'].map(k => [src.indexOf(`/* ${k} */`), src.indexOf(`/* /${k} */`)]).filter(r => r[0] > 0);
 skipRanges.push([src.indexOf('const TERMS_EN = ['), src.indexOf('\n];', src.indexOf('const TERMS_EN = ['))]);
@@ -85,7 +85,10 @@ const counts = {};
 for (const area of ['ui', 'katalog']) {
   const file = new URL(`data/i18n/${area === 'katalog' ? 'catalog' : area}.json`, ROOT);
   const old = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')) : {};
-  const keys = [...found].filter(([, a]) => a === area).map(([k]) => k).sort((a, b) => a.localeCompare(b, 'de'));
+  // texts from data tables that a translated pattern with {n} already covers (e.g. case dimensions per height) are not listed again
+  const pats = Object.entries(old).filter(([k, v]) => v && /\{\d+\}/.test(k)).map(([k]) => new RegExp('^' + k.split(/\{\d+\}/).map(x => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('.+?') + '$', 's'));
+  const covered = k => !/\{\d+\}/.test(k) && !old[k] && pats.some(rx => rx.test(k));
+  const keys = [...found].filter(([k, a]) => a === area && !covered(k)).map(([k]) => k).sort((a, b) => a.localeCompare(b, 'de'));
   const out = {}; keys.forEach(k => { out[k] = old[k] ?? ''; });
   Object.keys(old).forEach(k => { if (!(k in out) && old[k]) out[k] = old[k]; });   // nicht mehr gefundene, aber übersetzte behalten
   writeFileSync(file, JSON.stringify(out, null, 1) + '\n');

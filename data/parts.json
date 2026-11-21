@@ -1,0 +1,1185 @@
+{
+ "panels": {
+  "d12tb": {
+   "n": "U-Rackblende 1 HE · 12× D · Zugentlastung",
+   "short": "1 HE · 12 D · Zugentlastung",
+   "art": "Adam Hall 872215",
+   "he": 1,
+   "price": 9.5,
+   "src": "cart",
+   "cols": 12,
+   "rows": 1
+  },
+  "d12": {
+   "n": "U-Rackblende 1 HE · 12× D",
+   "short": "1 HE · 12 D",
+   "art": "Adam Hall 872213",
+   "he": 1,
+   "price": null,
+   "src": "ref",
+   "q": "adamhall.com · Preis nur mit Login",
+   "cols": 12,
+   "rows": 1
+  },
+  "d16tb": {
+   "n": "U-Rackblende 1 HE · 16× D · Zugentlastung",
+   "short": "1 HE · 16 D · Zugentlastung",
+   "art": "Adam Hall 872225",
+   "he": 1,
+   "price": null,
+   "src": "ref",
+   "q": "adamhall.com · Preis nur mit Login",
+   "cols": 16,
+   "rows": 1
+  },
+  "d24": {
+   "n": "U-Rackblende 2 HE · 24× D in 2 Reihen",
+   "short": "2 HE · 24 D (2 Reihen)",
+   "art": "Adam Hall 872214",
+   "he": 2,
+   "price": 16.96,
+   "src": "web",
+   "q": "UVP Adam Hall",
+   "cols": 12,
+   "rows": 2
+  }
+ },
+ "art": {
+  "label": {
+   "n": "U-Rackblende 0,5 HE mit Beschriftungsstreifen",
+   "art": "Adam Hall 872205 LBL",
+   "price": 5.9,
+   "src": "cart"
+  },
+  "brush": {
+   "n": "U-Rackblende 1 HE mit Bürstenleiste (Öffnung 400 × 21 mm)",
+   "art": "Adam Hall 87221 BRUSH",
+   "price": 15.9,
+   "src": "web",
+   "q": "Thomann"
+  },
+  "m3": {
+   "n": "Rack Screw M3 × 12 schwarz, 48 Stk. (für D-Einsätze)",
+   "art": "Thon Rack Screw M3 x 12 BK",
+   "price": 9.6,
+   "src": "cart"
+  },
+  "tray1": {
+   "n": "Rackwanne 1 HE, 375 mm tief, 25 kg",
+   "art": "Adam Hall 87551",
+   "price": 24,
+   "src": "web",
+   "q": "envirel"
+  },
+  "tray2": {
+   "n": "Rackwanne 2 HE, 375 mm tief",
+   "art": "Adam Hall 87552",
+   "price": 29.5,
+   "src": "web",
+   "q": "aweo"
+  },
+  "vent0_5": {
+   "n": "U-Lüftungsblende 0,5 HE, Rundlochung, Stahl 1,5 mm",
+   "art": "Adam Hall 872205 VR",
+   "price": 5.5,
+   "src": "web",
+   "q": "Music Store / Thomann (dort als 872005 VR)"
+  },
+  "vent1": {
+   "n": "U-Lüftungsblende 1 HE, Rundlochung",
+   "art": "Adam Hall 87221 VR",
+   "price": 4.9,
+   "src": "web",
+   "q": "Rockshop"
+  },
+  "vent2": {
+   "n": "U-Lüftungsblende 2 HE, Rundlochung",
+   "art": "Adam Hall 87222 VR",
+   "price": 6.9,
+   "src": "web",
+   "q": "aweo"
+  },
+  "vent3": {
+   "n": "U-Lüftungsblende 3 HE, Rundlochung",
+   "art": "Adam Hall 87223 VR",
+   "price": null,
+   "src": "ref",
+   "q": "gelistet bei Huss, kein Preis"
+  },
+  "vent4": {
+   "n": "Gitterblende 4 HE",
+   "art": "",
+   "price": null,
+   "src": "check",
+   "q": "kein Adam-Hall-Artikel gefunden"
+  },
+  "blank1": {
+   "n": "U-Rackblende 1 HE, Stahl",
+   "art": "Adam Hall 87221 STL",
+   "price": 8.99,
+   "src": "web",
+   "q": "eBay"
+  },
+  "blank2": {
+   "n": "U-Rackblende 2 HE, Stahl",
+   "art": "Adam Hall 87222 STL",
+   "price": 4.85,
+   "src": "web",
+   "q": "Rockshop"
+  },
+  "blank3": {
+   "n": "U-Rackblende 3 HE, Stahl",
+   "art": "Adam Hall 87223 STL",
+   "price": 9,
+   "src": "web",
+   "q": "Rockshop"
+  },
+  "blank4": {
+   "n": "U-Rackblende 4 HE, Stahl",
+   "art": "Adam Hall 87224 STL",
+   "price": 13.5,
+   "src": "web",
+   "q": "Rockshop"
+  },
+  "drawer1": {
+   "n": "Rackschublade 1 HE Eco, Stahl, 392 mm tief",
+   "art": "Adam Hall 87401 E",
+   "price": 68,
+   "src": "web",
+   "q": "Thomann über Geizhals"
+  },
+  "drawer2": {
+   "n": "Rackschublade 2 HE, Stahl, Vollauszug, abschließbar, 392 mm",
+   "art": "Adam Hall 87402",
+   "price": null,
+   "src": "ref",
+   "q": "kein Euro-Preis gefunden"
+  },
+  "drawer3": {
+   "n": "Rackschublade 3 HE, Stahl, 392 mm tief",
+   "art": "Adam Hall 87403",
+   "price": 82,
+   "src": "web",
+   "q": "Thomann"
+  },
+  "drawer4": {
+   "n": "Rackschublade 4 HE, Stahl, abschließbar, 392 mm",
+   "art": "Adam Hall 87404",
+   "price": 85,
+   "src": "web",
+   "q": "Music Store"
+  },
+  "foam1": {
+   "n": "Schaumstoffeinlage für Schublade 1 HE",
+   "art": "",
+   "price": null,
+   "src": "check"
+  },
+  "foam2": {
+   "n": "Mikro-Schaumstoffeinlage für Schublade 2 HE",
+   "art": "Adam Hall 87402 MI",
+   "price": 38,
+   "src": "web",
+   "q": "Music Store"
+  },
+  "foam3": {
+   "n": "Schaumstoffeinlage für Schublade 3 HE",
+   "art": "",
+   "price": null,
+   "src": "check"
+  },
+  "foam4": {
+   "n": "Schaumstoffeinlage für Schublade 4 HE",
+   "art": "",
+   "price": null,
+   "src": "check"
+  },
+  "ma_fp2": {
+   "n": "MA 2Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)",
+   "art": "MA 130285",
+   "price": 73,
+   "src": "web",
+   "q": "Thomann (2Port Node 19\" Rack Mount Kit)"
+  },
+  "ma_fp4": {
+   "n": "MA 4Port Node 19″-Rackkit – XLR-Anschlüsse (Frontblende)",
+   "art": "MA 130282",
+   "price": 73,
+   "src": "web",
+   "q": "Thomann 562328"
+  },
+  "ma_cab2": {
+   "n": "MA Adapterkabelsatz 2Port Node (2× DMX, RJ45/etherCON)",
+   "art": "MA 210650",
+   "price": 119,
+   "src": "web",
+   "q": "Thomann"
+  },
+  "ma_cab4": {
+   "n": "MA Adapterkabelsatz 4Port Node (4× DMX)",
+   "art": "MA 210629",
+   "price": 185,
+   "src": "web",
+   "q": "Thomann · Ethernet zusätzlich: Kabelsatz 210628"
+  },
+  "ma_blank": {
+   "n": "MA 2Port/4Port Node 19″-Rackkit – Leerblende",
+   "art": "MA 130281",
+   "price": 68,
+   "src": "web",
+   "q": "Thomann"
+  },
+  "dr_ah2s": {
+   "n": "Rackschublade 2 HE Short, Stahl, abschließbar, 210 mm tief",
+   "art": "Adam Hall 87402 S",
+   "price": 52,
+   "src": "web",
+   "q": "Thomann 494619"
+  },
+  "dr_thon2s": {
+   "n": "Rackschublade 2 HE Short, Stahl, 210 mm tief",
+   "art": "Thon Rack Drawer 2U Short",
+   "price": 44,
+   "src": "web",
+   "q": "Thomann 417809"
+  },
+  "dr_fp2": {
+   "n": "Rackschublade 2 HE, Stahl, abschließbar, 280 mm Einbautiefe",
+   "art": "Flyht Pro Rack Drawer 19\" 2U 28 cm lock",
+   "price": 55,
+   "src": "web",
+   "q": "Thomann 429026"
+  },
+  "dr_fp3": {
+   "n": "Rackschublade 3 HE, Stahl, abschließbar, 280 mm Einbautiefe",
+   "art": "Flyht Pro Rack Drawer 19\" 3U 28 cm lock",
+   "price": 55,
+   "src": "web",
+   "q": "Thomann 429025"
+  }
+ },
+ "shelves": {
+  "ah_1u": {
+   "bom": "tray1",
+   "n": "Rackwanne 1 HE, 375 mm tief (Adam Hall 87551)",
+   "short": "Rackwanne 1 HE",
+   "mk": "Adam Hall",
+   "he": 1,
+   "mode": "free",
+   "innerW": 440,
+   "depth": 375,
+   "acc": [
+    "free",
+    "bmd",
+    "half"
+   ],
+   "url": "https://www.adamhall.com",
+   "info": "Rackwanne mit Rackohren. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).",
+   "art": "Adam Hall 87551",
+   "price": 24,
+   "src": "web",
+   "q": "envirel"
+  },
+  "ah_2u": {
+   "bom": "tray2",
+   "n": "Rackwanne 2 HE, 375 mm tief (Adam Hall 87552)",
+   "short": "Rackwanne 2 HE",
+   "mk": "Adam Hall",
+   "he": 2,
+   "mode": "free",
+   "innerW": 440,
+   "depth": 375,
+   "acc": [
+    "free",
+    "bmd",
+    "half"
+   ],
+   "url": "https://www.adamhall.com",
+   "info": "Rackwanne mit Rackohren, 2 HE. Geräte frei anordnen, bündig zur Vorderkante. Innenbreite ca. 440 mm (prüfen).",
+   "art": "Adam Hall 87552",
+   "price": 29.5,
+   "src": "web",
+   "q": "aweo"
+  },
+  "bmd_urs": {
+   "n": "Blackmagic Universal Rack Shelf",
+   "short": "BMD Universal Rack Shelf",
+   "mk": "Blackmagic Design",
+   "art": "CONVNTRM/YA/RSU",
+   "url": "https://www.blackmagicdesign.com/de/products/teranexmini",
+   "info": "Rackwanne mit festen Verschraubungspunkten für Blackmagic-Geräte: Raster in Sechsteln, 1/3 (2/6) und 1/2 (3/6) Rackbreite kombinierbar, z. B. 3 × Teranex Mini. Lieferumfang: 2 × 1/3- und 1 × 1/6-Blindplatte.",
+   "he": 1,
+   "depth": 260,
+   "price": 109,
+   "src": "web",
+   "q": "UVP blackmagicdesign.com 11/2026",
+   "shop": "Blackmagic Design",
+   "mode": "grid",
+   "cells": 6,
+   "acc": [
+    "bmd"
+   ]
+  },
+  "thon_1u": {
+   "n": "Thon Rack Adapter 1U 25 (Rackwanne)",
+   "short": "Thon Rackwanne 1 HE",
+   "mk": "Thomann",
+   "art": "Thomann 127151",
+   "url": "https://www.thomann.de/de/thon_rackwanne_1he.htm",
+   "info": "Offene Wanne, ca. 435 mm innen, 255 mm tief. Geräte mit Kabelbinder oder Schrauben befestigen, bündig zur Vorderkante.",
+   "he": 1,
+   "depth": 255,
+   "price": null,
+   "src": "check",
+   "q": "thomann.de · Preis prüfen",
+   "shop": "Thomann",
+   "mode": "free",
+   "innerW": 435,
+   "acc": [
+    "free",
+    "bmd",
+    "half"
+   ]
+  },
+  "ma_kit": {
+   "n": "MA Rackmontage-Kit für zwei Nodes (130283)",
+   "short": "MA-Rackkit",
+   "mk": "MA Lighting",
+   "art": "MA 130283",
+   "url": "https://www.malighting.com",
+   "info": "Zwei grandMA3 Nodes halber Breite (2Port/4Port) nebeneinander im 19″-Rack. Für einen einzelnen Node: Rackkit mit Blindblech (130281).",
+   "he": 1,
+   "price": null,
+   "src": "check",
+   "q": "Einzel-Node: Kit mit Blindblech 130281",
+   "shop": "MA Lighting",
+   "mode": "grid",
+   "cells": 2,
+   "acc": [
+    "half"
+   ],
+   "kit": true,
+   "kitType": "ma",
+   "depth": 0
+  },
+  "db_kit": {
+   "n": "d&b Rackmontage-Kit für zwei Geräte halber Breite",
+   "short": "d&b-Rackkit",
+   "mk": "d&b audiotechnik",
+   "art": "5D/5DM: im Lieferumfang · DN1: Z2624.000",
+   "url": "https://www.dbaudio.com",
+   "info": "Zwei d&b-Geräte halber Breite (5D, 5DM, DN1) nebeneinander mit Rackohren und 19″-Brückenadapter auf 1 HE.",
+   "he": 1,
+   "price": null,
+   "src": "ref",
+   "q": "liegt 5D/5DM bei; für DN1 als Z2624.000 (einzeln Z2624.001)",
+   "kitType": "db",
+   "mode": "grid",
+   "cells": 2,
+   "acc": [
+    "half"
+   ],
+   "kit": true,
+   "depth": 0
+  },
+  "shure_kit": {
+   "n": "Shure Rackmontage-Kit für zwei Geräte halber Breite",
+   "short": "Shure-Rackkit",
+   "mk": "Shure",
+   "art": "im Lieferumfang der Geräte",
+   "url": "https://www.shure.com/de-DE",
+   "info": "Zwei Geräte halber Breite mittig nebeneinander mit Verbindungsblech und Seitenteilen (Rackohren) verschrauben – liegt den Geräten bei. Optional Antennen nach vorn: BNC an den Seitenteilen.",
+   "he": 1,
+   "price": null,
+   "src": "ref",
+   "q": "liegt Shure-Empfängern/-Sendern halber Breite bei",
+   "kitType": "shure",
+   "mode": "grid",
+   "cells": 2,
+   "acc": [
+    "half"
+   ],
+   "kit": true,
+   "depth": 0
+  }
+ },
+ "drawers": {
+  "ah": {
+   "n": "Adam Hall Standard",
+   "short": "",
+   "hes": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "depth": {
+    "1": 392,
+    "2": 392,
+    "3": 392,
+    "4": 392
+   },
+   "lock": true,
+   "foam": true,
+   "info": "392 mm Außentiefe, Innentiefe 373 mm, 25 kg Traglast.",
+   "url": "https://www.adamhall.com/shop/en/19-rack-drawers",
+   "keys": {
+    "1": "drawer1",
+    "2": "drawer2",
+    "3": "drawer3",
+    "4": "drawer4"
+   }
+  },
+  "ah_2s": {
+   "n": "Adam Hall 87402 S Short",
+   "short": "Short",
+   "hes": [
+    2
+   ],
+   "depth": {
+    "2": 210
+   },
+   "lock": true,
+   "info": "210 mm Außentiefe, innen 401 × 74 × 200 mm, 25 kg, Vollauszug, abschließbar.",
+   "url": "https://www.adamhall.com/shop/en/brands/rack-drawer-02-short-87402s",
+   "keys": {
+    "2": "dr_ah2s"
+   }
+  },
+  "thon_2s": {
+   "n": "Thon Rack Drawer 2U Short",
+   "short": "Thon Short",
+   "hes": [
+    2
+   ],
+   "depth": {
+    "2": 210
+   },
+   "lock": false,
+   "info": "210 mm Einbautiefe, im Rack mind. 220 mm frei; innen 404 × 74 × 210 mm, ohne Schloss.",
+   "url": "https://www.thomann.de/de/thon_rack_drawer_2u_short.htm",
+   "keys": {
+    "2": "dr_thon2s"
+   }
+  },
+  "fp_28": {
+   "n": "Flyht Pro Rack Drawer 28 cm",
+   "short": "Flyht Pro 28 cm",
+   "hes": [
+    2,
+    3
+   ],
+   "depth": {
+    "2": 300,
+    "3": 295
+   },
+   "lock": true,
+   "info": "280 mm Einbautiefe (außen 300 / 295 mm), innen 410 × 70 × 270 mm (2 HE) bzw. 411 × 115 × 273 mm (3 HE), 20 kg, Vollauszug, abschließbar.",
+   "url": "https://www.thomann.de/de/flyht_pro_rack_drawer_19_2u_28_cm_lock.htm",
+   "keys": {
+    "2": "dr_fp2",
+    "3": "dr_fp3"
+   }
+  }
+ },
+ "cases": {
+  "pro560": {
+   "n": "ProCase Pro Rackmodul · 560 mm",
+   "short": "Pro Rackmodul 560",
+   "group": "ProCase · Rackmodule",
+   "maker": "ProCase",
+   "info": "Systemtiefe 560 mm · Nutztiefe Rackschiene bis Kastenende 482 mm · vorne stufenlose Alu-Rackschiene (RSS) mit Gummikeder · Seitenwände 12 mm, Boden/Deckel 15 mm Multiplex · inkl. 4 Geräteschrauben-Sätze.",
+   "shop": "ProCase",
+   "sys": 560,
+   "fix": true,
+   "rear": "opt",
+   "rail": "rss",
+   "incl": 4,
+   "lids": true,
+   "use": 482,
+   "he": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    20,
+    25
+   ],
+   "art": {
+    "1": "ProCase 135501",
+    "2": "ProCase 135502",
+    "3": "ProCase 135503",
+    "4": "ProCase 135504",
+    "5": "ProCase 135505",
+    "6": "ProCase 135506",
+    "7": "ProCase 135507",
+    "8": "ProCase 135508",
+    "9": "ProCase 135509",
+    "10": "ProCase 135510",
+    "11": "ProCase 135511",
+    "12": "ProCase 135512",
+    "13": "ProCase 135513",
+    "14": "ProCase 135514",
+    "15": "ProCase 135515",
+    "16": "ProCase 135516",
+    "17": "ProCase 135517",
+    "18": "ProCase 135518",
+    "20": "ProCase 135520",
+    "25": "ProCase 135525"
+   },
+   "price": {
+    "1": null,
+    "2": null,
+    "3": null,
+    "4": null,
+    "5": null,
+    "6": null,
+    "7": null,
+    "8": null,
+    "9": null,
+    "10": null,
+    "11": null,
+    "12": null,
+    "13": null,
+    "14": null,
+    "15": null,
+    "16": null,
+    "17": null,
+    "18": null,
+    "20": null,
+    "25": null
+   },
+   "src": "ref",
+   "outer": {
+    "1": "525 × 77 × 560 mm",
+    "2": "525 × 122 × 560 mm",
+    "3": "525 × 166 × 560 mm",
+    "4": "525 × 211 × 560 mm",
+    "5": "525 × 255 × 560 mm",
+    "6": "525 × 300 × 560 mm",
+    "7": "525 × 344 × 560 mm",
+    "8": "525 × 389 × 560 mm",
+    "9": "525 × 433 × 560 mm",
+    "10": "525 × 478 × 560 mm",
+    "11": "525 × 522 × 560 mm",
+    "12": "525 × 566 × 560 mm",
+    "13": "525 × 611 × 560 mm",
+    "14": "525 × 655 × 560 mm",
+    "15": "525 × 700 × 560 mm",
+    "16": "525 × 744 × 560 mm",
+    "17": "525 × 789 × 560 mm",
+    "18": "525 × 833 × 560 mm",
+    "20": "525 × 922 × 560 mm",
+    "25": "525 × 1144 × 560 mm"
+   }
+  },
+  "pro715": {
+   "n": "ProCase Pro Rackmodul · 715 mm",
+   "short": "Pro Rackmodul 715",
+   "group": "ProCase · Rackmodule",
+   "maker": "ProCase",
+   "info": "Innenrack, Systemtiefe 715 mm · stufenlose RSS-Rackschiene vorne · hinten je 2 Kabeldurchführungen · inkl. 4 Geräteschrauben-Sätze. Nutztiefe nicht angegeben, 637 mm abgeleitet – bitte messen.",
+   "shop": "ProCase",
+   "sys": 715,
+   "est": true,
+   "rear": "opt",
+   "rail": "rss",
+   "incl": 4,
+   "use": 637,
+   "he": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8
+   ],
+   "art": {
+    "1": "ProCase 135551",
+    "2": "ProCase 135552",
+    "3": "ProCase 135553",
+    "4": "ProCase 135554",
+    "5": "ProCase 135555",
+    "8": "ProCase 135558"
+   },
+   "price": {
+    "1": null,
+    "2": null,
+    "3": null,
+    "4": null,
+    "5": null,
+    "8": null
+   },
+   "src": "ref",
+   "outer": {
+    "1": "525 × 77 × 715 mm",
+    "2": "525 × 122 × 715 mm",
+    "3": "525 × 166 × 715 mm",
+    "4": "525 × 211 × 715 mm",
+    "5": "525 × 255 × 715 mm",
+    "8": "525 × 389 × 715 mm"
+   }
+  },
+  "qsd600": {
+   "n": "ProCase QSD-Rack 2.0 · 600 mm",
+   "short": "QSD-Rack 600",
+   "group": "ProCase · QSD Racks",
+   "maker": "ProCase",
+   "info": "Quick-Slide-Door: Deckel vorn und hinten schieben sich seitlich ins Case. Gummigelagerter Innenkäfig, Stahl-Rackschienen für Käfigmuttern vorn und hinten verstellbar (Schiene–Schiene 373–490 mm, Frontschiene bis Deckel hinten max. 548 mm). 200 kg, Rollen, LKW-Maß 60 × 60 cm, inkl. 24 Geräteschrauben.",
+   "shop": "ProCase",
+   "sys": 600,
+   "fix": true,
+   "rear": "std",
+   "rail": "steel",
+   "railMin": 373,
+   "railMax": 490,
+   "incl": 24,
+   "shock": true,
+   "use": 548,
+   "he": [
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20
+   ],
+   "art": {
+    "6": "ProCase 109606",
+    "8": "ProCase 109608",
+    "10": "ProCase 109610",
+    "12": "ProCase 109612",
+    "14": "ProCase 109614",
+    "16": "ProCase 109616",
+    "18": "ProCase 109618",
+    "20": "ProCase 109620"
+   },
+   "price": {
+    "6": null,
+    "8": null,
+    "10": null,
+    "12": null,
+    "14": null,
+    "16": null,
+    "18": null,
+    "20": null
+   },
+   "src": "ref",
+   "outer": {
+    "6": "600 × ca. 527 × 600 mm (mit Rollen)",
+    "8": "600 × ca. 616 × 600 mm (mit Rollen)",
+    "10": "600 × ca. 705 × 600 mm (mit Rollen)",
+    "12": "600 × ca. 793 × 600 mm (mit Rollen)",
+    "14": "600 × ca. 882 × 600 mm (mit Rollen)",
+    "16": "600 × ca. 971 × 600 mm (mit Rollen)",
+    "18": "600 × ca. 1060 × 600 mm (mit Rollen)",
+    "20": "600 × ca. 1149 × 600 mm (mit Rollen)"
+   }
+  },
+  "qsd800": {
+   "n": "ProCase QSD-Rack 2.0 · 800 mm",
+   "short": "QSD-Rack 800",
+   "group": "ProCase · QSD Racks",
+   "maker": "ProCase",
+   "info": "Wie QSD 600, aber tiefer: Schiene–Schiene 573–690 mm, Frontschiene bis Deckel hinten max. 748 mm. LKW-Maß 60 × 80 cm. 26 und 28 HE als „slam door“-Version. Inkl. 24 Geräteschrauben.",
+   "shop": "ProCase",
+   "sys": 800,
+   "fix": true,
+   "rear": "std",
+   "rail": "steel",
+   "railMin": 573,
+   "railMax": 690,
+   "incl": 24,
+   "shock": true,
+   "use": 748,
+   "he": [
+    6,
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    26,
+    28
+   ],
+   "art": {
+    "6": "ProCase 109806",
+    "8": "ProCase 109808",
+    "10": "ProCase 109810",
+    "12": "ProCase 109812",
+    "14": "ProCase 109814",
+    "16": "ProCase 109816",
+    "18": "ProCase 109818",
+    "20": "ProCase 109820",
+    "22": "ProCase 109822",
+    "26": "ProCase 109826",
+    "28": "ProCase 109828"
+   },
+   "price": {
+    "6": null,
+    "8": null,
+    "10": null,
+    "12": null,
+    "14": null,
+    "16": null,
+    "18": null,
+    "20": null,
+    "22": null,
+    "26": null,
+    "28": null
+   },
+   "src": "ref",
+   "outer": {
+    "6": "600 × ca. 527 × 800 mm (mit Rollen)",
+    "8": "600 × ca. 616 × 800 mm (mit Rollen)",
+    "10": "600 × ca. 705 × 800 mm (mit Rollen)",
+    "12": "600 × ca. 793 × 800 mm (mit Rollen)",
+    "14": "600 × ca. 882 × 800 mm (mit Rollen)",
+    "16": "600 × ca. 971 × 800 mm (mit Rollen)",
+    "18": "600 × ca. 1060 × 800 mm (mit Rollen)",
+    "20": "600 × ca. 1149 × 800 mm (mit Rollen)",
+    "22": "600 × ca. 1238 × 800 mm (mit Rollen)",
+    "26": "600 × ca. 1416 × 800 mm (mit Rollen)",
+    "28": "600 × ca. 1505 × 800 mm (mit Rollen)"
+   }
+  },
+  "thL45rr": {
+   "n": "Thon Rack Live 45 BK RR",
+   "short": "Thon Live 45 RR",
+   "group": "Thomann · Thon mit Schiene hinten",
+   "maker": "Thon",
+   "info": "7 mm Multiplex, schwarz. Stufenlose Rackschienen vorn und hinten, 45 cm zwischen den Schienen, 2 Deckel. Für Endstufen mit hoher Einbautiefe.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "std",
+   "rail": "alu",
+   "railMin": 450,
+   "railMax": 450,
+   "use": 450,
+   "he": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8
+   ],
+   "art": {
+    "2": "Thon Rack 2U Live 45 BK RR · Thomann 466792",
+    "3": "Thon Rack 3U Live 45 BK RR · Thomann 466793",
+    "4": "Thon Rack 4U Live 45 BK RR · Thomann 466794",
+    "5": "Thon Rack 5U Live 45 BK RR · Thomann 466795",
+    "6": "Thon Rack 6U Live 45 BK RR · Thomann 466796",
+    "8": "Thon Rack 8U Live 45 BK RR · Thomann 466797"
+   },
+   "price": {
+    "2": 215,
+    "3": 215,
+    "4": 222,
+    "5": 222,
+    "6": 235,
+    "8": 245
+   },
+   "src": "web",
+   "outer": {
+    "2": "555 × ca. 144 × 635 mm",
+    "3": "555 × ca. 188 × 635 mm",
+    "4": "555 × ca. 233 × 635 mm",
+    "5": "555 × ca. 277 × 635 mm",
+    "6": "555 × ca. 322 × 635 mm",
+    "8": "555 × ca. 411 × 635 mm"
+   }
+  },
+  "thL63rr": {
+   "n": "Thon Rack Live 63 RR",
+   "short": "Thon Live 63 RR",
+   "group": "Thomann · Thon mit Schiene hinten",
+   "maker": "Thon",
+   "info": "7 mm Multiplex. Einbautiefe 600 mm, stufenlos verstellbare Rackschienen vorn und hinten mit Gummikeder, 2 Deckel. Ab 8 HE mit Rollen. Verstellbereich der hinteren Schiene nicht angegeben.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "std",
+   "rail": "alu",
+   "railMin": 150,
+   "railMax": 600,
+   "use": 600,
+   "he": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10,
+    12,
+    15,
+    18,
+    20
+   ],
+   "art": {
+    "2": "Thon Rack 2U Live 63 RR · Thomann 651706",
+    "3": "Thon Rack 3U Live 63 RR · Thomann 651828",
+    "4": "Thon Rack 4U Live 63 RR · Thomann 651829",
+    "5": "Thon Rack 5U Live 63 RR · Thomann 651834",
+    "6": "Thon Rack 6U Live 63 RR · Thomann 651852",
+    "8": "Thon Rack 8U Live 63 RR Wheels · Thomann 651853",
+    "10": "Thon Rack 10U Live 63 RR Wheels · Thomann 651855",
+    "12": "Thon Rack 12U Live 63 RR Wheels · Thomann 651858",
+    "15": "Thon Rack 15U Live 63 RR Wheels · Thomann 651881",
+    "18": "Thon Rack 18U Live 63 RR Wheels · Thomann 651883",
+    "20": "Thon Rack 20U Live 63 RR Wheels · Thomann 651885"
+   },
+   "price": {
+    "2": 205,
+    "3": 209,
+    "4": 222,
+    "5": 229,
+    "6": 235,
+    "8": 333,
+    "10": 345,
+    "12": 355,
+    "15": 395,
+    "18": 415,
+    "20": 419
+   },
+   "src": "web",
+   "outer": {
+    "2": "555 × ca. 144 × 782 mm",
+    "3": "555 × ca. 188 × 782 mm",
+    "4": "555 × ca. 233 × 782 mm",
+    "5": "555 × ca. 277 × 782 mm",
+    "6": "555 × ca. 322 × 782 mm",
+    "8": "555 × ca. 411 × 782 mm",
+    "10": "555 × ca. 500 × 782 mm",
+    "12": "555 × ca. 588 × 782 mm",
+    "15": "555 × ca. 722 × 782 mm",
+    "18": "555 × ca. 855 × 782 mm",
+    "20": "555 × ca. 944 × 782 mm"
+   }
+  },
+  "thP48rr": {
+   "n": "Thon Rack Profi 48 RR",
+   "short": "Thon Profi 48 RR",
+   "group": "Thomann · Thon mit Schiene hinten",
+   "maker": "Thon",
+   "info": "9 mm Multiplex. Stufenlose Rackschienen vorn und hinten, 42 cm (5 HE) bzw. 45 cm (8 HE) von Schiene zu Schiene.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "std",
+   "rail": "alu",
+   "railMin": 420,
+   "railMax": 450,
+   "he": [
+    5,
+    8
+   ],
+   "art": {
+    "5": "Thon Rack 5U Profi 48 RR · Thomann 408520",
+    "8": "Thon Rack 8U Profi 48 RR · Thomann 408523"
+   },
+   "price": {
+    "5": 235,
+    "8": 269
+   },
+   "src": "web",
+   "outer": {
+    "5": "553 × ca. 282 × 645 mm",
+    "8": "553 × ca. 416 × 645 mm"
+   },
+   "use": {
+    "5": 420,
+    "8": 450
+   }
+  },
+  "thSD600": {
+   "n": "Thon SD System Rack 600",
+   "short": "Thon SD 600",
+   "group": "Thomann · Thon mit Schiene hinten",
+   "maker": "Thon",
+   "info": "9 mm Multiplex, Shockmount-Innenrack. Versetzbare Rackschienen vorn und hinten, variable Einbautiefe 40–50 cm. Außen ca. 615 × 605 mm.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "std",
+   "rail": "hole",
+   "railMin": 400,
+   "railMax": 500,
+   "shock": true,
+   "use": 500,
+   "he": [
+    6,
+    8,
+    10,
+    12,
+    14,
+    16
+   ],
+   "art": {
+    "6": "Thon SD 6U System Rack 600 · Thomann 513390",
+    "8": "Thon SD 8U System Rack 600 · Thomann 513391",
+    "10": "Thon SD 10U System Rack 600 · Thomann 513392",
+    "12": "Thon SD 12U System Rack 600 · Thomann 513393",
+    "14": "Thon SD 14U System Rack 600 · Thomann 551139",
+    "16": "Thon SD 16U System Rack 600 · Thomann 535730"
+   },
+   "price": {
+    "6": 585,
+    "8": 625,
+    "10": 645,
+    "12": 665,
+    "14": 739,
+    "16": 779
+   },
+   "src": "web",
+   "outer": {
+    "6": "ca. 615 × 527 × 605 mm",
+    "8": "ca. 615 × 616 × 605 mm",
+    "10": "ca. 615 × 705 × 605 mm",
+    "12": "ca. 615 × 793 × 605 mm",
+    "14": "ca. 615 × 882 × 605 mm",
+    "16": "ca. 615 × 971 × 605 mm"
+   }
+  },
+  "thEco": {
+   "n": "Thon Rack Eco II 35",
+   "short": "Thon Eco II 35",
+   "group": "Thomann · Thon nur vorne",
+   "maker": "Thon",
+   "info": "7 mm Doppelsteg-Kunststoff, stufenlose Rackschiene vorn, 2 Deckel mit Schnappschlössern. Keine hintere Rackschiene.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "none",
+   "rail": "alu",
+   "use": 330,
+   "he": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "art": {
+    "2": "Thon Rack 2U Eco II 35 · Thomann 103456",
+    "3": "Thon Rack 3U Eco II 35 · Thomann 142732",
+    "4": "Thon Rack 4U Eco II 35 · Thomann 103470",
+    "5": "Thon Rack 5U Eco II 35 · Thomann 107156",
+    "6": "Thon Rack 6U Eco II 35 · Thomann 103471"
+   },
+   "price": {
+    "2": 79,
+    "3": 85,
+    "4": 89,
+    "5": 95,
+    "6": 98
+   },
+   "src": "web",
+   "outer": {
+    "2": "535 × ca. 149 × 460 mm",
+    "3": "535 × ca. 193 × 460 mm",
+    "4": "535 × ca. 238 × 460 mm",
+    "5": "535 × ca. 282 × 460 mm",
+    "6": "535 × ca. 327 × 460 mm"
+   }
+  },
+  "thL40": {
+   "n": "Thon Rack Live 40",
+   "short": "Thon Live 40",
+   "group": "Thomann · Thon nur vorne",
+   "maker": "Thon",
+   "info": "7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten. Keine hintere Rackschiene.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "none",
+   "rail": "alu",
+   "use": 370,
+   "he": [
+    2,
+    3,
+    4,
+    5,
+    8,
+    10,
+    15
+   ],
+   "art": {
+    "2": "Thon Rack 2U Live 40 · Thomann 218179",
+    "3": "Thon Rack 3U Live 40 · Thomann 218177",
+    "4": "Thon Rack 4U Live 40 · Thomann 103469",
+    "5": "Thon Rack 5U Live 40 · Thomann 142729",
+    "8": "Thon Rack 8U Live 40 · Thomann 126863",
+    "10": "Thon Rack 10U Live 40 · Thomann 103462",
+    "15": "Thon Rack 15U Live 40 · Thomann 128775"
+   },
+   "price": {
+    "2": 155,
+    "3": 159,
+    "4": 165,
+    "5": 175,
+    "8": 185,
+    "10": 189,
+    "15": 235
+   },
+   "src": "web",
+   "outer": {
+    "2": "550 × ca. 144 × 545 mm",
+    "3": "550 × ca. 188 × 545 mm",
+    "4": "550 × ca. 233 × 545 mm",
+    "5": "550 × ca. 277 × 545 mm",
+    "8": "550 × ca. 411 × 545 mm",
+    "10": "550 × ca. 500 × 545 mm",
+    "15": "550 × ca. 722 × 545 mm"
+   }
+  },
+  "thL50": {
+   "n": "Thon Rack Live 50",
+   "short": "Thon Live 50",
+   "group": "Thomann · Thon nur vorne",
+   "maker": "Thon",
+   "info": "7 mm Multiplex, stufenlose Aluschiene mit Gummikeder vorn, Deckel vorn und hinten, ab 10 HE mit Rollen. Keine hintere Rackschiene.",
+   "shop": "Thomann",
+   "fix": true,
+   "rear": "none",
+   "rail": "alu",
+   "use": 470,
+   "he": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    10,
+    12
+   ],
+   "art": {
+    "2": "Thon Rack 2U Live 50 · Thomann 237558",
+    "3": "Thon Rack 3U Live 50 · Thomann 237562",
+    "4": "Thon Rack 4U Live 50 · Thomann 237564",
+    "5": "Thon Rack 5U Live 50 · Thomann 237567",
+    "6": "Thon Rack 6U Live 50 · Thomann 237568",
+    "8": "Thon Rack 8U Live 50 · Thomann 237569",
+    "10": "Thon Rack 10U Live 50 Wheels · Thomann 185963",
+    "12": "Thon Rack 12U Live 50 Wheels · Thomann 187891"
+   },
+   "price": {
+    "2": 175,
+    "3": 179,
+    "4": 185,
+    "5": 189,
+    "6": 195,
+    "8": 205,
+    "10": 325,
+    "12": 365
+   },
+   "src": "web",
+   "outer": {
+    "2": "550 × ca. 144 × 634 mm",
+    "3": "550 × ca. 188 × 634 mm",
+    "4": "550 × ca. 233 × 634 mm",
+    "5": "550 × ca. 277 × 634 mm",
+    "6": "550 × ca. 322 × 634 mm",
+    "8": "550 × ca. 411 × 634 mm",
+    "10": "550 × ca. 500 × 634 mm",
+    "12": "550 × ca. 588 × 634 mm"
+   }
+  }
+ },
+ "acc": [
+  {
+   "id": "rss",
+   "n": "Geräteschrauben-Satz für RSS-Schiene, 20 Stk.",
+   "art": "ProCase 119212",
+   "price": null,
+   "src": "ref",
+   "q": "procaseshop.de · auch 4er (11920) und 100er (11924)",
+   "pack": 20,
+   "auto": "rss",
+   "qty": 0
+  },
+  {
+   "id": "steel",
+   "n": "Geräteschrauben-Satz für Stahl-Rackschiene, 20 Stk.",
+   "art": "ProCase 119261",
+   "price": null,
+   "src": "ref",
+   "q": "procaseshop.de · auch 4er (11925) und 100er (11929)",
+   "pack": 20,
+   "auto": "steel",
+   "qty": 0
+  },
+  {
+   "id": "m6",
+   "n": "Rackschrauben-Set M6, 8 Stk. (Blister)",
+   "art": "Adam Hall 5924 BLP",
+   "price": null,
+   "src": "ref",
+   "q": "kein Preis gefunden",
+   "pack": 8,
+   "auto": "hole alu",
+   "qty": 0
+  },
+  {
+   "id": "cage",
+   "n": "Käfigmuttern M6, 20 Stk. (für 2-mm-Stahlschienen)",
+   "art": "Adam Hall 5653",
+   "price": 5.5,
+   "src": "web",
+   "q": "Thomann · für 3,5-mm-Alu-Schienen: 5650",
+   "pack": 20,
+   "auto": "hole",
+   "qty": 0
+  },
+  {
+   "id": "slide",
+   "n": "Gleitmuttern M6 für stufenlose Aluschiene",
+   "art": "",
+   "price": null,
+   "src": "check",
+   "q": "passend zur Thon-Schiene prüfen",
+   "pack": 10,
+   "auto": "alu",
+   "qty": 0
+  },
+  {
+   "id": "lace",
+   "n": "Kabelabfangschiene (Lacing Bar) 1 HE, Rückseite",
+   "art": "",
+   "price": null,
+   "src": "check",
+   "qty": 0
+  },
+  {
+   "id": "cable",
+   "n": "Kabelbinder für Zugentlastung (Pack)",
+   "art": "",
+   "price": null,
+   "src": "check",
+   "qty": 0
+  }
+ ],
+ "railRear": {
+  "n": "2. Rackschienenpaar hinten",
+  "art": "ProCase 11910",
+  "price": null,
+  "src": "ref",
+  "q": "procaseshop.de · Option am Rackmodul"
+ }
+}

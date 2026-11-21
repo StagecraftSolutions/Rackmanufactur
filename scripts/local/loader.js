@@ -1,6 +1,6 @@
 // Rack Manufaktur, local variant – loader (runs before the app)
 //
-// The local variant has no built-in product database. Devices, views, connectors, SYSBOXX and weights come from
+// The local variant has no built-in product database. Devices, views, connectors, SYSBOXX, rack parts and weights come from
 // the Stagecraft Library API (rackmanufaktur/*.json). The last downloaded state is kept in IndexedDB, and every
 // project carries a snapshot of the data it uses (state.lib), so the app also starts and works offline.
 //
@@ -9,7 +9,8 @@
 (() => {
   'use strict';
   const DEF = 'https://library.stagecraft.solutions/api/v1/';
-  const FILES = { dev: 'rackmanufaktur/devices.json', view: 'rackmanufaktur/views.json', con: 'rackmanufaktur/connectors.json', sbx: 'rackmanufaktur/sysboxx.json', kg: 'rackmanufaktur/weights.json' };
+  const FILES = { dev: 'rackmanufaktur/devices.json', view: 'rackmanufaktur/views.json', con: 'rackmanufaktur/connectors.json', sbx: 'rackmanufaktur/sysboxx.json', kg: 'rackmanufaktur/weights.json', part: 'rackmanufaktur/parts.json' };
+  const FMT = 2;   // cache format: 2 = with parts
   const KEY = 'rackwerk-v1', URLKEY = 'rm-library-url';
   const ls = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch (e) {} } };
 
@@ -41,22 +42,26 @@
     } finally { clearTimeout(t); }
   }
   const isObj = o => o && typeof o === 'object' && !Array.isArray(o);
+  const partsOk = p => isObj(p) && ['panels', 'art', 'shelves', 'drawers', 'cases', 'railRear'].every(k => isObj(p[k])) && Array.isArray(p.acc) && Object.keys(p.cases).length > 0;
   // Returns { cat, changed }; throws when the library is not reachable
   async function check(cat, ms = 10000) {
     const idx = await getJSON('index.json', ms);
     const commit = idx.commitFull || idx.commit || idx.generatedAt;
-    if (cat && cat.src === BASE && cat.commit === commit) return { cat, changed: false };
+    if (cat && cat.fmt === FMT && cat.src === BASE && cat.commit === commit) return { cat, changed: false };
     const keys = Object.keys(FILES), got = await Promise.all(keys.map(k => getJSON(FILES[k], Math.max(ms, 30000))));
     const d = Object.fromEntries(keys.map((k, i) => [k, got[i]]));
-    if (!isObj(d.dev) || !isObj(d.view) || !isObj(d.con) || !isObj(d.con.types) || !isObj(d.con.connectors) || !isObj(d.sbx) || !isObj(d.kg)) throw new Error('unexpected data from the library');
+    if (!isObj(d.dev) || !isObj(d.view) || !isObj(d.con) || !isObj(d.con.types) || !isObj(d.con.connectors) || !isObj(d.sbx) || !isObj(d.kg) || !partsOk(d.part)) throw new Error('unexpected data from the library');
     const { _source, ...sbx } = d.sbx;
-    const nc = { src: BASE, commit, short: idx.commit || String(commit).slice(0, 7), date: idx.commitDate || idx.generatedAt || new Date().toISOString(), fetched: new Date().toISOString(),
-      dev: d.dev, view: d.view, con: d.con, sbx, kg: d.kg };
+    const nc = { fmt: FMT, src: BASE, commit, short: idx.commit || String(commit).slice(0, 7), date: idx.commitDate || idx.generatedAt || new Date().toISOString(), fetched: new Date().toISOString(),
+      dev: d.dev, view: d.view, con: d.con, sbx, kg: d.kg, part: d.part };
     await cachePut(nc);
     return { cat: nc, changed: true };
   }
 
-  const R = window.__RMLIB = { BASE, DEF, check, cat: null, online: null, checked: null, error: '' };
+  // rack parts: object sections merge (snapshot wins), acc and railRear are taken as a whole
+  const PSECT = ['panels', 'art', 'shelves', 'drawers', 'cases'];
+  const mergeParts = (c, s) => { c = c || {}; s = s || {}; const o = {}; PSECT.forEach(k => { o[k] = { ...(c[k] || {}), ...(s[k] || {}) }; }); o.acc = s.acc || c.acc || []; o.railRear = s.railRear || c.railRear || {}; return o; };
+  const R = window.__RMLIB = { BASE, DEF, check, mergeParts, cat: null, online: null, checked: null, error: '' };
 
   // ---------- Start screen ----------
   const de = (ls.get('rm-lang') || (/^de\b/i.test(navigator.language || '') ? 'de' : 'en')) === 'de';
@@ -80,6 +85,7 @@
       CON: { ...((C.con || {}).connectors || {}), ...(S.con || {}) },
       SBX: S.sbx || C.sbx || {},
       KG: { ...(C.kg || {}), ...(S.kg || {}) },
+      PARTS: mergeParts(C.part, S.parts),
     };
     const sp = document.getElementById('rmSplash'); if (sp) sp.remove();
     const s = document.createElement('script');
@@ -91,11 +97,12 @@
     let snap = null;
     try { const p = JSON.parse(ls.get(KEY)); snap = p && p.lib && p.lib.con ? p.lib : null; } catch (e) {}
     R.cat = await cacheGet();
+    if (R.cat && R.cat.fmt !== FMT) R.cat = null;              // older cache without parts: load again
     if (R.cat) { start(snap); return; }                      // cached: start now, the client checks for news
     splash(`<b>Rack Manufaktur</b><p>${L('Lade Gerätedaten aus der Stagecraft Library …', 'Loading device data from the Stagecraft Library …')}</p><small>${BASE}</small>`);
     try { R.cat = (await check(null, 15000)).cat; R.online = true; R.checked = new Date().toISOString(); }
     catch (e) { R.online = false; R.error = String(e && e.message || e); }
-    if (R.cat || snap) { start(snap); return; }               // offline without cache: the open project brings its own data
+    if (R.cat || (snap && snap.parts)) { start(snap); return; }   // offline without cache: the open project brings its own data
     const el = splash(`<b>Rack Manufaktur</b><p>${L('Die Stagecraft Library ist nicht erreichbar und in diesem Browser liegen noch keine Gerätedaten.', 'The Stagecraft Library cannot be reached and this browser has no device data yet.')}</p>`
       + `<p>${L('Einmal mit Internetverbindung öffnen – danach funktioniert die App auch offline.', 'Open once while online – after that the app also works offline.')}</p><small>${BASE} · ${R.error}</small>`
       + `<p><button type="button" class="btn primary" id="rmRetry">${L('Erneut versuchen', 'Try again')}</button></p>`);

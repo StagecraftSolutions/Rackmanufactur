@@ -17,13 +17,15 @@
 //   /* DATA:CON */ const CON = {...};            <- data/connectors.json (connectors)
 //   /* DATA:I18N */ const I18N_EN = {...};       <- data/i18n/ui.json + data/i18n/catalog.json (only translated entries)
 //   /* DATA:SBX */ const SBX = {...};            <- data/sysboxx.json (Sommer Cable SYSBOXX housings and front plates)
+//   /* DATA:PARTS */ const PARTS = {...};        <- data/parts.json (panels, ART, shelves, drawers, cases, accessories, rear rail)
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 
 const ROOT = new URL('..', import.meta.url);
 const HTML = new URL('public/index.html', ROOT);
 const F = { DEVDB: 'data/devices.json', KG: 'data/weights.json', EXACT: 'data/views.json' };
-const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN', CTYPES: 'CTYPES', CON: 'CON', SBX: 'SBX' };
+const VAR = { DEVDB: 'DEVDB', KG: 'KG', EXACT: 'EXACT_JSON', I18N: 'I18N_EN', CTYPES: 'CTYPES', CON: 'CON', SBX: 'SBX', PARTS: 'PARTS' };
 const SBXF = 'data/sysboxx.json';
+const PARTSF = 'data/parts.json';
 const CONF = 'data/connectors.json';
 const CFIT = ['d', 'dblank', 'fp'];
 
@@ -37,7 +39,9 @@ function readBlock(src, k) {
   return JSON.parse(m[0].slice(m[0].indexOf('{'), m[0].lastIndexOf('}') + 1));
 }
 const fmt = obj => '{\n' + Object.entries(obj).map(([k, v]) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)}`).join(',\n') + '\n}';   // one entry per line: readable diffs
-const block = (k, obj) => `/* DATA:${k} */ const ${VAR[k]} = ${fmt(obj)};\n/* /DATA:${k} */`;
+// parts: one section per key, one entry per line
+const fmtParts = p => '{\n' + Object.entries(p).map(([k, v]) => `  ${JSON.stringify(k)}: ` + (Array.isArray(v) ? '[\n' + v.map(x => `    ${JSON.stringify(x)}`).join(',\n') + '\n  ]' : v && typeof v === 'object' && Object.values(v).every(x => x && typeof x === 'object') ? '{\n' + Object.entries(v).map(([a, x]) => `    ${JSON.stringify(a)}: ${JSON.stringify(x)}`).join(',\n') + '\n  }' : JSON.stringify(v))).join(',\n') + '\n}';
+const block = (k, obj) => `/* DATA:${k} */ const ${VAR[k]} = ${k === 'PARTS' ? fmtParts(obj) : fmt(obj)};\n/* /DATA:${k} */`;
 function writeBlock(src, k, obj) { if (!rx(k).test(src)) throw new Error(`block DATA:${k} missing`); return src.replace(rx(k), () => block(k, obj)); }
 const fileUrl = f => new URL(f, f.startsWith('/') ? 'file://' : new URL(process.cwd() + '/', 'file://'));
 
@@ -90,10 +94,62 @@ function checkSbx(sbx, err, cdb) {
     if (p.kind === 'cut') { if (!Array.isArray(p.cut) || !p.cut.length) err.push(`${at}: cut missing`); else p.cut.forEach((c, i) => { if (!['c', 'r'].includes(c.t) || (c.t === 'c' ? !(c.d > 0) : !(c.w > 0 && c.h > 0))) err.push(`${at}: cut[${i}] invalid (c: d · r: w, h)`); else if (!inside(c.x, c.y)) err.push(`${at}: cut[${i}] outside the plate`); }); }
   }
 }
-function check(devdb, kg, exact, i18n, cdb, sbx) {
+// Rack parts (data/parts.json). Values per height are tables keyed by the U as text.
+const RAILS = ['rss', 'steel', 'alu', 'hole'], REARS = ['opt', 'std', 'none'], SRC = ['cart', 'web', 'ref', 'check', 'user'];
+function checkParts(p, err) {
+  if (!p) return;
+  const isObj = o => o && typeof o === 'object' && !Array.isArray(o);
+  for (const s of ['panels', 'art', 'shelves', 'drawers', 'cases', 'railRear']) if (!isObj(p[s])) err.push(`parts: section ${s} missing`);
+  if (!Array.isArray(p.acc)) err.push('parts: acc must be a list');
+  if (err.some(e => e.startsWith('parts: section') || e.startsWith('parts: acc'))) return;
+  const price = (at, v) => { if (v != null && !(typeof v === 'number' && v >= 0)) err.push(`${at}: price must be a number or null`); };
+  const src = (at, v) => { if (v != null && !SRC.includes(v)) err.push(`${at}: src must be ${SRC.join(', ')}`); };
+  const heOk = h => typeof h === 'number' && h > 0 && h <= 50 && Number.isInteger(h * 2);
+  for (const [k, x] of Object.entries(p.panels)) { const at = `parts panel ${k}`;
+    for (const f of ['n', 'short', 'art']) if (typeof x[f] !== 'string') err.push(`${at}: ${f} missing`);
+    if (!heOk(x.he) || !(x.cols > 0) || !(x.rows > 0)) err.push(`${at}: he/cols/rows missing`); price(at, x.price); src(at, x.src); }
+  for (const [k, x] of Object.entries(p.art)) { const at = `parts art ${k}`;
+    if (!x.n) err.push(`${at}: n missing`); if (typeof x.art !== 'string') err.push(`${at}: art must be text ('' if unknown)`); price(at, x.price); src(at, x.src); }
+  for (const [k, x] of Object.entries(p.shelves)) { const at = `parts shelf ${k}`;
+    for (const f of ['n', 'short']) if (!x[f]) err.push(`${at}: ${f} missing`);
+    if (!heOk(x.he)) err.push(`${at}: he missing`);
+    if (!['free', 'grid'].includes(x.mode)) err.push(`${at}: mode must be free or grid`);
+    if (x.mode === 'grid' && !(x.cells > 0)) err.push(`${at}: grid needs cells`);
+    if (x.mode === 'free' && !(x.innerW > 0)) err.push(`${at}: free needs innerW`);
+    if (typeof x.depth !== 'number') err.push(`${at}: depth missing`);
+    if (!Array.isArray(x.acc) || !x.acc.length) err.push(`${at}: acc (accepted fit types) missing`);
+    if (x.bom && !p.art[x.bom]) err.push(`${at}: bom "${x.bom}" is not an ART key`);
+    price(at, x.price); src(at, x.src); }
+  for (const [k, x] of Object.entries(p.drawers)) { const at = `parts drawer ${k}`;
+    if (!x.n) err.push(`${at}: n missing`);
+    if (!Array.isArray(x.hes) || !x.hes.length || !x.hes.every(heOk)) { err.push(`${at}: hes missing`); continue; }
+    for (const h of x.hes) {
+      if (!((x.depth || {})[h] > 0)) err.push(`${at}: depth for ${h} U missing`);
+      const key = (x.keys || {})[h]; if (!key) err.push(`${at}: keys for ${h} U missing`); else if (!p.art[key]) err.push(`${at}: keys ${h} U → "${key}" is not an ART key`);
+    } }
+  for (const [k, x] of Object.entries(p.cases)) { const at = `parts case ${k}`;
+    if (k === 'custom') err.push(`${at}: custom is the input form in the code, not a part`);
+    for (const f of ['n', 'short', 'group']) if (!x[f]) err.push(`${at}: ${f} missing`);
+    if (!REARS.includes(x.rear)) err.push(`${at}: rear must be ${REARS.join(', ')}`);
+    if (!RAILS.includes(x.rail)) err.push(`${at}: rail must be ${RAILS.join(', ')}`);
+    src(at, x.src);
+    if (!Array.isArray(x.he) || !x.he.length || !x.he.every(heOk)) { err.push(`${at}: he (list of heights) missing`); continue; }
+    const tbl = (f, need, ok) => { const t = x[f]; if (t == null && !need) return; if (!isObj(t)) { err.push(`${at}: ${f} must be a table per height`); return; }
+      for (const h of x.he) if (!(String(h) in t)) err.push(`${at}: ${f} for ${h} U missing`); else if (!ok(t[h])) err.push(`${at}: ${f} for ${h} U invalid`);
+      for (const h of Object.keys(t)) if (!x.he.includes(+h)) err.push(`${at}: ${f} has ${h} U, which is not in he`); };
+    tbl('art', true, v => typeof v === 'string'); tbl('price', true, v => v === null || (typeof v === 'number' && v >= 0)); tbl('outer', false, v => typeof v === 'string');
+    if (isObj(x.use)) tbl('use', true, v => typeof v === 'number' && v > 0); else if (!(typeof x.use === 'number' && x.use > 0)) err.push(`${at}: use (usable depth) must be a number or a table per height`);
+    if (x.railMin != null && x.railMax != null && !(x.railMin <= x.railMax)) err.push(`${at}: railMin > railMax`); }
+  const ids = new Set();
+  p.acc.forEach((a, i) => { const at = `parts acc[${i}]`; if (!a.id || !a.n) err.push(`${at}: id/n missing`); if (ids.has(a.id)) err.push(`${at}: id ${a.id} twice`); ids.add(a.id); price(at, a.price); src(at, a.src);
+    if (a.auto && a.auto.split(' ').some(r => !RAILS.includes(r))) err.push(`${at}: auto must list rail types (${RAILS.join(', ')})`); });
+  if (!p.railRear.n) err.push('parts railRear: n missing');
+}
+function check(devdb, kg, exact, i18n, cdb, sbx, parts) {
   const err = [], warn = [];
   if (cdb) checkCon(cdb, err);
   checkSbx(sbx, err, cdb);
+  checkParts(parts, err);
   for (const [k, d] of Object.entries(devdb)) {
     const at = `device ${k}`;
     if (!/^[a-z0-9_]+$/.test(k)) err.push(`${at}: key may only use a–z, 0–9, _`);
@@ -176,12 +232,14 @@ if (cmd === 'export') {
   for (const k of Object.keys(F)) writeFileSync(new URL(F[k], ROOT), JSON.stringify(readBlock(src, k), null, 1) + '\n');
   writeFileSync(new URL(CONF, ROOT), JSON.stringify({ types: readBlock(src, 'CTYPES'), connectors: readBlock(src, 'CON') }, null, 1) + '\n');
   writeFileSync(new URL('data/devices.csv', ROOT), toCsv(readBlock(src, 'DEVDB')));
-  console.log('Exported: data/devices.json, data/weights.json, data/views.json, data/connectors.json, data/devices.csv');
+  writeFileSync(new URL(PARTSF, ROOT), JSON.stringify(readBlock(src, 'PARTS'), null, 1) + '\n');
+  console.log('Exported: data/devices.json, data/weights.json, data/views.json, data/connectors.json, data/parts.json, data/devices.csv');
 } else if (cmd === 'import' || cmd === 'check') {
   const load = k => existsSync(new URL(F[k], ROOT)) ? JSON.parse(readFileSync(new URL(F[k], ROOT), 'utf8')) : readBlock(src, k);
   let devdb = load('DEVDB'); const kg = load('KG'), exact = load('EXACT');
   const cdb = existsSync(new URL(CONF, ROOT)) ? JSON.parse(readFileSync(new URL(CONF, ROOT), 'utf8')) : { types: readBlock(src, 'CTYPES'), connectors: readBlock(src, 'CON') };
   const sbx = existsSync(new URL(SBXF, ROOT)) ? JSON.parse(readFileSync(new URL(SBXF, ROOT), 'utf8')) : null;
+  const parts = existsSync(new URL(PARTSF, ROOT)) ? JSON.parse(readFileSync(new URL(PARTSF, ROOT), 'utf8')) : readBlock(src, 'PARTS');
   const i18n = {};
   for (const f of ['data/i18n/ui.json', 'data/i18n/catalog.json']) if (existsSync(new URL(f, ROOT))) for (const [de, en] of Object.entries(JSON.parse(readFileSync(new URL(f, ROOT), 'utf8')))) if (en) i18n[de] = en;
   if (process.argv.includes('--csv')) devdb = mergeCsv(devdb, parseCsv(readFileSync(new URL('data/devices.csv', ROOT), 'utf8')));
@@ -209,7 +267,7 @@ if (cmd === 'export') {
     }
     console.log(`Weight list: ${n} values merged`);
   }
-  const { err, warn } = check(devdb, kg, exact, i18n, cdb, sbx);
+  const { err, warn } = check(devdb, kg, exact, i18n, cdb, sbx, parts);
   const missingKg = warn.filter(w => /weight missing/.test(w)).length;
   warn.filter(w => !/weight missing/.test(w)).forEach(w => console.log('Note:', w));
   if (missingKg) console.log(`Note: ${missingKg} devices without weight`);
@@ -217,10 +275,11 @@ if (cmd === 'export') {
   if (cmd === 'import') {
     for (const [k, v] of [['DEVDB', devdb], ['KG', kg], ['EXACT', exact]]) writeFileSync(new URL(F[k], ROOT), JSON.stringify(v, null, 1) + '\n');
     src = writeBlock(src, 'DEVDB', devdb); src = writeBlock(src, 'KG', kg); src = writeBlock(src, 'EXACT', exact); src = writeBlock(src, 'I18N', i18n); src = writeBlock(src, 'CTYPES', cdb.types); src = writeBlock(src, 'CON', cdb.connectors);
-    if (sbx) { const { _source, ...app } = sbx; src = writeBlock(src, 'SBX', app); }   // the source note stays in the data file
+    if (sbx) { const { _source, ...app } = sbx; src = writeBlock(src, 'SBX', app); }
+    src = writeBlock(src, 'PARTS', parts);   // the source note stays in the data file
     writeFileSync(new URL(CONF, ROOT), JSON.stringify(cdb, null, 1) + '\n');
     writeFileSync(HTML, src);
-    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${sbx ? Object.keys(sbx.plates).length : 0} SYSBOXX plates, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
+    console.log(`Imported: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${sbx ? Object.keys(sbx.plates).length : 0} SYSBOXX plates, ${Object.keys(parts.cases).length} cases, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations. Then: node scripts/manufacturers.mjs`);
     await import('./build-local.mjs');   // keep the local variant public/local.html in step with index.html
   } else console.log(`OK: ${Object.keys(devdb).length} devices, ${Object.keys(cdb.connectors).length} connectors, ${Object.keys(kg).length} weights, ${Object.keys(exact).length} views, ${Object.keys(i18n).length} translations`);
 } else { console.error('Usage: node scripts/data.mjs export|import|check [--csv] [--weights file] [--review file]'); process.exit(2); }

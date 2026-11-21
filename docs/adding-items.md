@@ -4,7 +4,8 @@ How devices, scale views, rack shelves, D-size inserts and rack parts get into R
 
 - **Devices, weights, views, translations** are JSON files in `data/` and are written into `public/index.html` with `node scripts/data.mjs import` (data blocks `DATA:DEVDB`, `DATA:KG`, `DATA:EXACT`, `DATA:I18N` – never edit them by hand).
 - **SYSBOXX housings and front plates** are in `data/sysboxx.json` (block `DATA:SBX`), see section 5.
-- **Cases, panels, inserts, shelves, drawers** are JavaScript objects in `public/index.html` (`CASES`, `PANELS`, `CON`, `ART`, `SHELVES`, `DRAWERS`).
+- **Cases, connector panels, blank/vent panels and other parts, shelves and kits, drawers, accessories and the rear rail** are in `data/parts.json` (block `DATA:PARTS`), see section 3a. Only the input form for an own case (`CASES.custom`) stays in the code.
+- **Connectors** are in `data/connectors.json` (blocks `DATA:CTYPES`, `DATA:CON`), see section 4.
 - Rules for AI assistants: [AGENTS.md](../AGENTS.md).
 
 ## Principles
@@ -91,11 +92,38 @@ Any element may carry `rot` (degrees) to draw it rotated around its x/y point, e
 
 Devices: field `kg`. All other items: `data/weights.json` with keys `art:<ART key>`, `con:<CON>`, `panel:<PANELS>`, `shelf:<SHELVES>`, `case:<type>:<U>`, `acc:<id>`, `x:rail_rear`. All keys: `data/weight-catalog.csv` (regenerate with `node scripts/weight-catalog.mjs`).
 
-## 3. Rack shelf or rack kit (`SHELVES` in index.html)
+## 3. Rack parts (`data/parts.json`)
 
-```js
-my_shelf: { n: 'Name', short: 'Short name', mk: 'Manufacturer', art: 'Part no.', price: 0, src: 'web', q: 'Source',
-  he: 1, mode: 'free', innerW: 440, depth: 375, acc: ['free', 'bmd', 'half'], url: '…', info: 'Text in the inspector' },
+`{ panels, art, shelves, drawers, cases, acc, railRear }` – the same format the Stagecraft Library serves as `api/v1/rackmanufaktur/parts.json`. `node scripts/data.mjs import` validates it and writes the block `DATA:PARTS`; the app builds `PANELS`, `ART`, `SHELVES`, `DRAWERS`, `CASES`, `ACC_DEFAULT` and `RAIL_REAR` from it.
+
+| Section | Key → entry |
+|---|---|
+| `panels` | D connector panels: `he`, `cols`, `rows`, `n`, `short`, `art`, `price`, `src`, `q` |
+| `art` | single parts (label/brush/vent/blank panels, drawers, foam, M3 screws, MA front panels …): `n`, `art` (`''` if unknown), `price`, `src`, `q` |
+| `shelves` | rack shelves and kits, see below |
+| `drawers` | drawer models: `hes`, `depth` and `keys` per U (`keys` = the `art` entry ordered for that height), `lock`, `foam`, `info`, `url` |
+| `cases` | case series, see below |
+| `acc` | accessories list (screws, cage nuts …) with `id`, `pack`, `auto` (rail types the screw suggestion fits), `qty: 0` |
+| `railRear` | second rail pair (ProCase option) |
+
+**Values per height are tables keyed by the U as text** (no functions in JSON). A case:
+
+```json
+"thL45rr": { "n": "Thon Rack Live 45 BK RR", "short": "Thon Live 45 RR", "group": "Thomann · Thon mit Schiene hinten",
+  "maker": "Thon", "shop": "Thomann", "src": "web", "use": 450, "fix": true, "rear": "std", "rail": "alu", "railMin": 450, "railMax": 450,
+  "he": [2, 3], "art": { "2": "Thon Rack 2U Live 45 BK RR · Thomann 466792", "3": "…" }, "price": { "2": 215, "3": 215 },
+  "outer": { "2": "555 × ca. 144 × 635 mm", "3": "…" }, "info": "…" }
+```
+
+- `he` lists the heights that exist; `art`, `price` (number or `null`) and `outer` (optional) need an entry for every listed height and no others. `use` (usable depth in mm) is a number or a table per height.
+- `rear`: `opt` (rear rail as an option), `std` (standard), `none`. `rail`: `rss` (ProCase stepless), `steel` (cage nuts), `alu` (Thon stepless), `hole`.
+- Weights stay in `data/weights.json` (`case:<key>:<U>`, `art:`, `panel:`, `shelf:`, `acc:`, `x:rail_rear`).
+
+### Rack shelf or rack kit (`shelves`)
+
+```json
+"my_shelf": { "n": "Name", "short": "Short name", "mk": "Manufacturer", "art": "Part no.", "price": 0, "src": "web", "q": "Source",
+  "he": 1, "mode": "free", "innerW": 440, "depth": 375, "acc": ["free", "bmd", "half"], "url": "…", "info": "Text in the inspector" }
 ```
 
 - `mode: 'free'`: devices placed freely in mm. `mode: 'grid'` with `cells`: fixed grid (BMD 6, kits 2).

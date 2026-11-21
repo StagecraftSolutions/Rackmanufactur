@@ -12,6 +12,7 @@ Only the product data, unless the task explicitly says otherwise:
 | `data/weights.json` | weights in kg for items without their own field (`art:`, `con:`, `panel:`, `shelf:`, `case:`, `acc:`, `x:`) |
 | `data/views.json` | scale views (key = device key), incl. connector function labels `l` |
 | `data/connectors.json` | connector database: types and parts per supplier, D-size or own footprint (see [docs/adding-items.md](docs/adding-items.md)) |
+| `data/parts.json` | rack parts: cases (tables per height), connector panels, blank/vent panels and other parts (`art`), shelves and kits, drawers, accessories, rear rail (see [docs/adding-items.md](docs/adding-items.md)) |
 | `data/sysboxx.json` | Sommer Cable SYSBOXX: housing kits per depth/height and front plates (width in BE, holes/elements in mm, see [docs/adding-items.md](docs/adding-items.md)) |
 | `data/devices.csv` | the same devices as a table (semicolon, UTF-8) |
 | `data/weight-catalog.csv` | all items with their weight key (`key;name;part_no;kg`), empty kg = missing |

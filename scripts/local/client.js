@@ -2,12 +2,16 @@
    Catalog = last state of library.stagecraft.solutions (window.__RMLIB.cat, cached in IndexedDB).
    Project snapshot state.lib = the data this project uses, so it opens and renders offline:
      dev {key: device}, view {key: view | null (no library view yet)}, con, types, sbx, kg,
-     rev {'dev:key' | 'view:key' | 'con' | 'types' | 'sbx' | 'kg': commit date of the library state taken}
+     parts {panels, art, shelves, drawers, cases, acc, railRear} (rack parts, see data/parts.json),
+     rev {'dev:key' | 'view:key' | 'con' | 'types' | 'sbx' | 'kg' | 'part:<section>': commit date of the library state taken}
    The app always draws the snapshot. A newer library state shows a refresh icon on the device (like the
    SYSBOXX pencil) and in the "Library" window; clicking it takes the library state into the project. */
 const RML = window.__RMLIB || { cat: null, online: false, check: async () => { throw new Error('no loader'); } };
 const LT = (de, en) => LANG === 'en' ? en : de;
 const RMS = { cur: null, upd: [], updKeys: new Set(), timer: null, busy: false, appliedViews: new Set() };
+const CASE_CUSTOM = CASES.custom;   // input form for an own case, not a part
+const PSECT = ['panels', 'art', 'shelves', 'drawers', 'cases'], PWHOLE = ['acc', 'railRear'];
+const PNAME = { panels: ['Steckerfeld-Bleche', 'Connector panels'], art: ['Blenden und Teile', 'Panels and parts'], shelves: ['Rackwannen und Kits', 'Shelves and kits'], drawers: ['Schubladen', 'Drawers'], cases: ['Cases', 'Cases'], acc: ['Zubehör', 'Accessories'], railRear: ['Hintere Rackschiene', 'Rear rail'] };
 const CODEV = {};   // views defined in code only (Teranex Mini fronts, MA nodes …), used when the library has none
 Object.keys(EXACT).forEach(k => { if (!(k in EXACT_JSON)) CODEV[k] = EXACT[k]; });
 // stripped() drops keys starting with '_' – snapshot view keys like _ma_fp2 are stored as ~ma_fp2
@@ -45,6 +49,11 @@ function libApply(s) {
   libRefill(CON, { ...((C.con || {}).connectors || {}), ...(L.con || {}) });
   libRefill(SBX, L.sbx || C.sbx || {});
   libRefill(KG, { ...(C.kg || {}), ...(L.kg || {}) });
+  const P = RMS.parts = RML.mergeParts(C.part, L.parts);
+  libRefill(PANELS, P.panels); libRefill(ART, P.art); libRefill(SHELVES, P.shelves); libRefill(RAIL_REAR, P.railRear);
+  libRefill(DRAWERS, Object.fromEntries(Object.entries(P.drawers).map(([k, o]) => [k, partDrawer(o)])));
+  libRefill(CASES, { ...Object.fromEntries(Object.entries(P.cases).map(([k, o]) => [k, partCase(o)])), custom: CASE_CUSTOM });
+  ACC_DEFAULT.splice(0, ACC_DEFAULT.length, ...P.acc);
   DEV_GROUPS.splice(0, DEV_GROUPS.length, ...new Set(Object.values(DEVDB).map(d => d.g)));
   PICK.splice(0, PICK.length, ...Object.keys(CTYPES).filter(t => conOf(t).some(k => CON[k].fit !== 'fp')));
   PICK_ALL.splice(0, PICK_ALL.length, ...Object.keys(CTYPES).filter(t => t !== 'open'));
@@ -78,6 +87,10 @@ function libCapture(s) {
     Object.keys(src).forEach(k => { if (!(k in t)) t[k] = libClone(src[k]); });
   }
   if (!L.sbx && Object.keys(SBX).length) { L.sbx = libClone(SBX); rev.sbx = date; }
+  // rack parts: all sections (about 20 KB), new entries are added; acc and railRear as a whole
+  const P = RMS.parts || {}, LP = L.parts = L.parts || {};
+  PSECT.forEach(sec => { const t = LP[sec] = LP[sec] || {}; if (!rev['part:' + sec] && date) rev['part:' + sec] = date; Object.keys(P[sec] || {}).forEach(k => { if (!(k in t)) t[k] = libClone(P[sec][k]); }); });
+  PWHOLE.forEach(sec => { if (LP[sec] == null && P[sec] != null) { LP[sec] = libClone(P[sec]); rev['part:' + sec] = date; } });
 }
 const libNewer = (L, key) => { const C = libCat(); return !!C && libTime(C.date) >= libTime((L.rev || {})[key]); };
 // list of library states that are newer than the snapshot
@@ -94,6 +107,9 @@ function libUpdates(s) {
   if ((con.length || types.length) && libNewer(L, 'con')) out.push({ kind: 'con', n: LT('Steckverbinder', 'Connectors'), count: con.length + types.length });
   if (L.sbx && !libSame(L.sbx, C.sbx) && libNewer(L, 'sbx')) out.push({ kind: 'sbx', n: 'SYSBOXX' });
   if (kg.length && libNewer(L, 'kg')) out.push({ kind: 'kg', n: LT('Gewichte', 'Weights'), count: kg.length });
+  const LP = L.parts || {}, CP = C.part || {};
+  PSECT.forEach(sec => { const d = diff(LP[sec], CP[sec]); if (d.length && libNewer(L, 'part:' + sec)) out.push({ kind: 'part', sec, n: LT(...PNAME[sec]), count: d.length }); });
+  PWHOLE.forEach(sec => { if (LP[sec] != null && CP[sec] != null && !libSame(LP[sec], CP[sec]) && libNewer(L, 'part:' + sec)) out.push({ kind: 'part', sec, n: LT(...PNAME[sec]) }); });
   return out;
 }
 // take one library state (or all) into the project
@@ -107,9 +123,19 @@ function libTake(list) {
     }
     if (u.kind === 'con') { Object.keys(L.con).forEach(k => { if (C.con.connectors[k]) L.con[k] = libClone(C.con.connectors[k]); }); Object.keys(L.types).forEach(k => { if (C.con.types[k]) L.types[k] = libClone(C.con.types[k]); }); rev.con = rev.types = C.date; }
     if (u.kind === 'sbx') { L.sbx = libClone(C.sbx); rev.sbx = C.date; }
+    if (u.kind === 'part') {
+      const LP = L.parts, CP = C.part || {};
+      if (PWHOLE.includes(u.sec)) LP[u.sec] = libClone(CP[u.sec]);
+      else Object.keys(LP[u.sec] || {}).forEach(k => { if (CP[u.sec] && CP[u.sec][k]) LP[u.sec][k] = libClone(CP[u.sec][k]); });
+      rev['part:' + u.sec] = C.date;
+    }
     if (u.kind === 'kg') { Object.keys(L.kg).forEach(k => { if (k in C.kg) L.kg[k] = C.kg[k]; }); rev.kg = C.date; }
   });
   libApply(state); RMS.cur = state;
+  if (list.some(u => u.kind === 'part' && u.sec === 'acc')) {   // the project keeps its own copy of the accessories (with quantities)
+    const old = state.acc || [];
+    state.acc = ACC_DEFAULT.map(d => ({ ...d, qty: old.find(a => a.id === d.id)?.qty ?? 0 })).concat(old.filter(a => !ACC_DEFAULT.some(d => d.id === a.id)));
+  }
   render();
   return list.length;
 }
@@ -183,13 +209,13 @@ function libRender() {
   let h = `<dl class="libinfo"><dt>${LT('Quelle', 'Source')}</dt><dd><a href="${esc(RML.BASE.replace(/api\/v1\/?$/, ''))}" target="_blank" rel="noopener">${esc(RML.BASE)}</a></dd>`
     + `<dt>${LT('Verbindung', 'Connection')}</dt><dd>${st}${RML.checked ? ` · ${LT('geprüft', 'checked')} ${libDate(RML.checked)}` : ''}${RML.online === false && RML.error ? ` · <small>${esc(RML.error)}</small>` : ''}</dd>`
     + `<dt>${LT('Library-Stand', 'Library state')}</dt><dd>${C ? `<code>${esc(C.short)}</code> · ${libDate(C.date)} · ${Object.keys(C.dev).length} ${LT('Geräte', 'devices')}, ${Object.keys(C.view).length} ${LT('Ansichten', 'views')}` : LT('keiner (nur Projektdaten)', 'none (project data only)')}</dd>`
-    + `<dt>${LT('Im Projekt', 'In the project')}</dt><dd>${Object.keys(L.dev || {}).length} ${LT('Geräte', 'devices')}, ${Object.values(L.view || {}).filter(Boolean).length} ${LT('Ansichten', 'views')}, ${Object.keys(L.con || {}).length} ${LT('Steckverbinder', 'connectors')} – ${LT('auch offline verfügbar', 'also available offline')}</dd></dl>`;
+    + `<dt>${LT('Im Projekt', 'In the project')}</dt><dd>${Object.keys(L.dev || {}).length} ${LT('Geräte', 'devices')}, ${Object.values(L.view || {}).filter(Boolean).length} ${LT('Ansichten', 'views')}, ${Object.keys(L.con || {}).length} ${LT('Steckverbinder', 'connectors')}, ${Object.keys((L.parts || {}).cases || {}).length} Cases ${LT('und Rack-Teile', 'and rack parts')} – ${LT('auch offline verfügbar', 'also available offline')}</dd></dl>`;
   h += `<div class="actions"><button type="button" class="btn sm" data-libact="check"${RMS.busy ? ' disabled' : ''}>${RMS.busy ? LT('Prüfe …', 'Checking …') : LT('Jetzt prüfen', 'Check now')}</button>${ups.length ? `<button type="button" class="btn sm primary" data-libact="all">${LT(`Alle ${ups.length} übernehmen`, `Take over all ${ups.length}`)}</button>` : ''}</div>`;
   if (ups.length) {
     h += `<p class="subh">${LT('Neuere Stände in der Library', 'Newer states in the library')}</p><ul class="plist">` + ups.map((u, i) => `<li class="prow"><div class="pinfo"><b>${esc(u.n)}</b><small>${u.kind === 'dev' ? esc(libWhat(u)) : u.count ? LT(`${u.count} Einträge geändert`, `${u.count} entries changed`) : LT('geändert', 'changed')}</small></div>`
       + `<div class="pbtns"><button type="button" class="btn sm primary" data-libact="one" data-k="${i}">${LT('Übernehmen', 'Take over')}</button></div></li>`).join('') + '</ul>';
   } else h += `<p class="hint">${C ? LT('Das Projekt entspricht dem Library-Stand.', 'The project matches the library state.') : LT('Ohne Verbindung zur Library werden die im Projekt gespeicherten Daten verwendet.', 'Without a connection to the library the data stored in the project is used.')}</p>`;
-  h += `<p class="hint">${LT('Geräte, Ansichten und Steckverbinder kommen aus der Stagecraft Library. Jedes Projekt speichert die Daten, die es verwendet, in der Projektdatei – so bleibt es unverändert und lässt sich auch offline bearbeiten. Neuere Stände werden nur auf Klick übernommen (↻ am Gerät).', 'Devices, views and connectors come from the Stagecraft Library. Every project stores the data it uses in the project file – it stays unchanged and can be edited offline. Newer states are only taken over on click (↻ on the device).')}</p>`;
+  h += `<p class="hint">${LT('Geräte, Ansichten, Steckverbinder, Cases und Rack-Teile kommen aus der Stagecraft Library. Jedes Projekt speichert die Daten, die es verwendet, in der Projektdatei – so bleibt es unverändert und lässt sich auch offline bearbeiten. Neuere Stände werden nur auf Klick übernommen (↻ am Gerät).', 'Devices, views, connectors, cases and rack parts come from the Stagecraft Library. Every project stores the data it uses in the project file – it stays unchanged and can be edited offline. Newer states are only taken over on click (↻ on the device).')}</p>`;
   $('#libBody').innerHTML = h;
 }
 function libOpen() { const d = $('#libDlg'); if (!d.open) { if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', ''); } libRender(); }

@@ -31,7 +31,7 @@ Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) a
 
 ## Product data
 
-Devices, weights, views and translations are plain JSON in `data/` and are written into `public/index.html` with a script that validates them:
+Devices, rack parts, weights, views and translations are plain JSON in `data/` and are written into `public/index.html` with a script that validates them:
 
 | File | Content |
 |---|---|
@@ -40,6 +40,8 @@ Devices, weights, views and translations are plain JSON in `data/` and are writt
 | `data/weight-catalog.csv` | every item with its weight key (empty kg = missing) |
 | `data/views.json` | scale views, incl. connector function labels (`l`) |
 | `data/connectors.json` | connector types and parts per supplier, footprints |
+| `data/parts.json` | cases, connector panels, blank/vent panels, shelves and kits, drawers, accessories, rear rail |
+| `data/sysboxx.json` | SYSBOXX housings and front plates |
 | `data/i18n/ui.json`, `catalog.json` | German → English dictionary |
 
 ```bash
@@ -54,11 +56,11 @@ More: [docs/adding-items.md](docs/adding-items.md) (data format), [docs/ai-workf
 
 ## Local variant with the Stagecraft Library
 
-`public/local.html` is the same app **without a built-in product database**. Devices, scale views, connectors, SYSBOXX and weights come from the [Stagecraft Library](https://library.stagecraft.solutions/) (`api/v1/rackmanufaktur/*.json`, same format as `data/*.json`).
+`public/local.html` is the same app **without a built-in product database**. Devices, scale views, connectors, SYSBOXX, rack parts and weights come from the [Stagecraft Library](https://library.stagecraft.solutions/) (`api/v1/rackmanufaktur/*.json`, same format as `data/*.json`).
 
 - **Catalog:** the last library state is cached in the browser (IndexedDB). With a cache the app starts at once and checks the library in the background (on start, every 5 minutes, when the tab becomes visible or the network returns). Only the first start needs a connection.
-- **Project snapshot:** every project stores the data it uses in the project file (`lib`: used devices and their views, connectors and types, SYSBOXX, weights). The project always draws this snapshot, so it opens and can be edited offline and does not change on its own.
-- **Updates:** when the library has a newer state of a device or a new/changed view, a **↻ icon** appears on the right rack ear (like the SYSBOXX pencil) and a note in the inspector; a click takes it into the project. The **Library** chip in the header shows the connection and the number of updates; its window lists them (also connectors, SYSBOXX, weights) with "Take over" / "Take over all" and "Check now".
+- **Project snapshot:** every project stores the data it uses in the project file (`lib`: used devices and their views, connectors and types, SYSBOXX, rack parts incl. case prices and part numbers, weights). The project always draws this snapshot, so it opens and can be edited offline and does not change on its own.
+- **Updates:** when the library has a newer state of a device or a new/changed view, a **↻ icon** appears on the right rack ear (like the SYSBOXX pencil) and a note in the inspector; a click takes it into the project. The **Library** chip in the header shows the connection and the number of updates; its window lists them (also connectors, SYSBOXX, cases and other rack parts, weights) with "Take over" / "Take over all" and "Check now".
 - Other source for testing: `local.html?library=http://localhost:8752/api/v1/` (remembered; `?library=default` resets).
 
 `public/local.html` is generated – never edit it by hand. It is rebuilt by `node scripts/data.mjs import`, or directly:
@@ -123,9 +125,9 @@ The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnit
 
 | Part | Content |
 |---|---|
-| `CTYPES`, `CON`, `PANELS` | connector database (data block), connector panel variants |
-| `ART`, `DRAWERS`, `SHELVES`, `CASES` | rack parts, drawers, shelves/kits, case series |
-| `DEVDB`, `EXACT` / `EXACT_JSON`, `KG`, `I18N_EN`, `CTYPES`, `CON` | data blocks written by `scripts/data.mjs` (do not edit by hand) |
+| `CTYPES`, `CON` | connector database (data blocks) |
+| `PARTS` → `PANELS`, `ART`, `DRAWERS`, `SHELVES`, `CASES`, `ACC_DEFAULT`, `RAIL_REAR` | rack parts (data block from `data/parts.json`; `partCase()`/`partDrawer()` turn the tables per height into functions, `CASES.custom` stays in the code) |
+| `DEVDB`, `EXACT` / `EXACT_JSON`, `KG`, `I18N_EN`, `CTYPES`, `CON`, `SBX`, `PARTS` | data blocks written by `scripts/data.mjs` (do not edit by hand) |
 | `rackSVG`, `sideSVG`, `faceSVG`, `backSVG`, `exactFace`, `devFace` | views as SVG in mm (1 U = 44.45; 19″ = 482.6) |
 | `bom()`, `weightOf()`, `notesData()` | bill of materials, weight, build notes |
 | `LIB` | project library (IndexedDB, project folder) |
