@@ -46,7 +46,7 @@ connect, filter/search, check (face family + gender via cable ends, `any` faces,
 the connector front: power ↔ signal = does not fit), cable choice from the Library with length estimate (height +
 depth of both ports + 40 cm), label per cable, EN translation. `wiring.json` is loaded (API and local folder,
 optional for older Library states) and kept in the project snapshot as offline fallback.
-Not yet: lines in the rear view (phase 3).
+
 
 Original notes:
 
@@ -78,7 +78,15 @@ Original notes:
 - BOM: patch cables per type and length, bulk cable in metres, cable plugs for solder ends, cable ties/labels.
 - Build notes per panel: "slot 3 (XLR3 F, solder): pin 1 shield, 2 hot, 3 cold → cable 12 to UniFi …".
 
-## Phase 3 – later
+## Phase 3 – lines in the rear view ✅ first version 2026-11-21
+
+Step 3 shows the rear view (mirrored, like step 2) with a point for every port and the cables as curves in their check
+colour, numbered like the connection list. Positions: holes of D panels, custom panel connectors, SYSBOXX holes, and
+device ports from the scale views (same type in the same order as the io groups); devices without a view and devices
+on shelves get evenly spread points. Ports that face the front are hollow. Tapping two points connects them,
+tapping a line highlights the row in the list.
+
+## Later
 
 - Lines in the rear view, signal flow view, pin assignment per face (multipin, Harting), external connections
   (stage box, mains) as "outside" endpoints, "fit-out" extras to be defined with the user.

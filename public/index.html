@@ -521,6 +521,29 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 .wbar input { flex: 1 1 160px; }
 .chip.on { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
 .wtab td { vertical-align: top; }
+.wdraw { grid-column: 1 / -1; }
+.wsvg svg { display: block; width: 100%; max-height: 72vh; }
+.wl-halo { fill: none; stroke: rgba(0, 0, 0, .55); stroke-width: 3.6; stroke-linecap: round; }
+.wl-line { fill: none; stroke-width: 1.7; stroke-linecap: round; }
+.wl-hit { fill: none; stroke: transparent; stroke-width: 9; cursor: pointer; pointer-events: stroke; }
+.wl-tag { fill: #14171a; stroke-width: 1; }
+.wl-no { fill: #fff; font-size: 4.4px; font-family: var(--f-mono); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.wl.on .wl-line { stroke-width: 3; }
+.wl.on .wl-halo { stroke-width: 6; stroke: rgba(255, 255, 255, .35); }
+.wdot { fill: #9aa3ad; stroke: #14171a; stroke-width: .6; cursor: pointer; }
+.wdot.hid { fill: transparent; stroke: #9aa3ad; stroke-width: .8; }
+.wdot.used { fill: #3ddc84; }
+.wdot.used.hid { fill: transparent; stroke: #3ddc84; }
+.wdot.on { fill: #4f8cff; stroke: #fff; stroke-width: .8; }
+.wdot:hover { stroke: #fff; stroke-width: 1; }
+.wtab tr.whi td { background: var(--accent-soft); }
+.wkey { display: inline-flex; align-items: center; gap: 4px; margin-right: 10px; white-space: nowrap; }
+.wkey i { display: inline-block; }
+.wkey i.d { width: 8px; height: 8px; border-radius: 50%; background: #9aa3ad; }
+.wkey i.d.u { background: #3ddc84; }
+.wkey i.d.h { background: transparent; border: 1.5px solid #9aa3ad; width: 6px; height: 6px; }
+.wkey i.l { width: 16px; height: 3px; border-radius: 2px; }
+.wkey i.l.ok { background: #3ddc84; } .wkey i.l.mk { background: #f0a050; } .wkey i.l.bd { background: #ff5a4f; }
 .wtab td small { display: block; color: var(--muted); font-size: 11px; }
 .wtab select, .wtab input { max-width: 100%; font-size: 12px; }
 .wst { font-size: 11.5px; padding: 1px 6px; border-radius: 4px; display: inline-block; }
@@ -926,6 +949,7 @@ document.documentElement.lang = LANG;
   "· 1-mm-Schritte statt 0,5-HE-Raster": "· 1 mm steps instead of the 0.5 U grid",
   "· bestückt:": "· fitted:",
   "· Gewicht fehlt": "· weight missing",
+  "· Linie antippen zeigt die Verbindung in der Liste.": "· Tap a line to show the connection in the list.",
   "· Maße am Gerät prüfen": "· check dimensions on the device",
   "· Maße prüfen": "· check dimensions",
   "· nicht bestellen": "· do not order",
@@ -984,13 +1008,13 @@ document.documentElement.lang = LANG;
   "{0} und {1} überlappen.": "{0} and {1} overlap.",
   "{0} von {1} mm": "{0} of {1} mm",
   "{0} von {1} Projekten übernommen": "{0} of {1} projects imported",
-  "{0} von {1} verbunden": "{0} of {1} connected",
   "{0}: {1}. Freie Felder mit den Blindplatten (1/3, 1/6) schließen.": "{0}: {1}. Close free cells with the blank plates (1/3, 1/6).",
   "{0}{1} ragt über den nutzbaren Bereich der Blende{2}.": "{0}{1} extends beyond the usable area of the panel{2}.",
   "{0}Gehäuse-Bausatz mit Rackohren. Je 2 HE eine Reihe mit 12 BE à {1} mm (12 BE = 19″). Freie BE werden in Ansicht und Stückliste mit Leerblechen gefüllt.": "{0}Housing kit with rack ears. One row of 12 WU per 2 U, {1} mm each (12 WU = 19″). Free WU are filled with blank plates in the view and the parts list.",
   "{1} – nach links/rechts ziehen": "{1} – drag left/right",
   "{1} öffnen": "Open {1}",
   "{1} Pos.": "{1} items",
+  "{1} von {2} verbunden": "{1} of {2} connected",
   "{10} ({11}, {12}) entfernen": "Remove {10} ({11}, {12})",
   "{2} · {3} BE frei": "{2} · {3} WU free",
   "{2} · {3} mm tief": "{2} · {3} mm deep",
@@ -1001,11 +1025,11 @@ document.documentElement.lang = LANG;
   "{2}RÜCKWAND {3} MM": "{2}REAR WALL {3} MM",
   "{4} – an den Rackohren ziehen": "{4} – drag by the rack ears",
   "{5} · {6} · Verschraubung für BMD-Geräte 1/3 + 1/2": "{5} · {6} · mounting points for BMD devices 1/3 + 1/2",
-  "{6} Kabel": "{6} cables",
+  "{7} Kabel": "{7} cables",
   "{7} löschen": "Delete {7}",
   "{8} entfernen": "Remove {8}",
-  "{8} Kabel und Stecker kommen aus der Stagecraft Library.": "{8} Cables and plugs come from the Stagecraft Library.",
   "{9} · {10} mm innen · 255 mm": "{9} · {10} mm inside · 255 mm",
+  "{9} Kabel und Stecker kommen aus der Stagecraft Library.": "{9} Cables and plugs come from the Stagecraft Library.",
   "← Konfigurator": "← Configurator",
   "← nach links": "← move left",
   "← Projekt & Case": "← Project & case",
@@ -1164,6 +1188,7 @@ document.documentElement.lang = LANG;
   "Ersten Anschluss antippen, dann den zweiten – daraus wird eine Verbindung. Blendenstecker zeigen ihre Rückseite (Löt-/Schraubanschluss oder Durchführung).": "Tap the first port, then the second – that makes a connection. Panel connectors show their rear side (solder/screw terminal or feed-through).",
   "Fertigung": "Build notes",
   "Filter": "Filter",
+  "frei": "free",
   "Freie Hälfte mit Blindblech schließen.": "Close the free half with a blank plate.",
   "Freie Hälfte mit Leerblende MA 130281 schließen.": "Close the free half with MA blank panel 130281.",
   "Freigabe": "Approval",
@@ -1189,7 +1214,7 @@ document.documentElement.lang = LANG;
   "Geräte kommen mit Herstellerpreis in die Bestellung; im Inspektor als „vorhanden“ markieren, wenn sie nicht gekauft werden. Ihre Tiefe zählt für die Kollisionsprüfung. Platzhalter und eigene Geräte: Reiter „Eigene Elemente“. Ist eine Rackwanne ausgewählt und passt das Gerät hinein, landet es dort; sonst wird eine passende Wanne bzw. ein Shure-Rackkit angelegt.": "Devices go into the order at the manufacturer price; mark them as “owned” in the inspector if they are not bought. Their depth counts for the collision check. Placeholders and custom devices: “Custom elements” tab. If a rack shelf is selected and the device fits, it goes there; otherwise a matching shelf or Shure rack kit is created.",
   "Geräteansichten prüfen": "Review device views",
   "Gerätedaten geprüft (HE, Tiefe, Gewicht, Anschlüsse)": "Device data checked (U, depth, weight, connectors)",
-  "geschätzt {8} m": "estimated {8} m",
+  "geschätzt {9} m": "estimated {9} m",
   "Gewählt:": "Selected:",
   "gewähltes Kabel passt nicht zu den Anschlüssen": "the chosen cable does not fit the ports",
   "Gewicht": "Weight",
@@ -1342,6 +1367,7 @@ document.documentElement.lang = LANG;
   "Ordner wieder verbinden": "Reconnect folder",
   "Ordnerzugriff ist hier nicht erlaubt": "Folder access is not allowed here",
   "Original {2} mm. In der Fertigung steht: mit Winkelschleifer kürzen.": "Original {2} mm. The build notes say: shorten with an angle grinder.",
+  "passt": "fits",
   "passt ins D-Loch": "fits the D hole",
   "passt nicht": "does not fit",
   "passt nicht zur Schiene dieses Cases": "does not fit this case's rail",
@@ -1422,6 +1448,7 @@ document.documentElement.lang = LANG;
   "Rück": "rear",
   "Rückansicht": "Rear view",
   "Rückansicht (seitenverkehrt)": "Rear view (mirrored)",
+  "Rückansicht mit Kabeln": "Rear view with cables",
   "Rückansicht, seitenverkehrt": "Rear view, mirrored",
   "RÜCKSCHIENE": "REAR RAIL",
   "RÜCKSCHIENE · {0} MM HINTER FRONT ·": "REAR RAIL · {0} MM BEHIND FRONT ·",
@@ -1444,6 +1471,8 @@ document.documentElement.lang = LANG;
   "Seite": "Side",
   "Seitenansicht": "Side view",
   "Seitenansicht mit Einbautiefen und Kollisionen": "Side view with mounting depths and collisions",
+  "seitenverkehrt · Punkte antippen zum Verbinden": "mirrored · tap points to connect",
+  "selbst konfektionieren / prüfen": "make up yourself / check",
   "Shockmount": "Shock mount",
   "Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)": "Shure antenna front mount kit (BNC on the side brackets)",
   "silber": "silver",
@@ -1494,6 +1523,7 @@ document.documentElement.lang = LANG;
   "Verbindung löschen": "Delete connection",
   "Verbindungen": "Connections",
   "Verbindungen aus Schritt 3 „Verkabelung“. Kabel, Meterware und Kabelstecker stehen in der Stückliste, Lötarbeiten unter Fertigung.": "Connections from step 3 \"Wiring\". Cables, bulk cable and cable plugs are in the bill of materials, soldering under Build.",
+  "verbunden": "connected",
   "Verkabelung": "Wiring",
   "Verkabelung prüfen": "Check wiring",
   "Versatz (mm)": "Offset (mm)",
@@ -1530,6 +1560,7 @@ document.documentElement.lang = LANG;
   "z. B. Shure ULXD4Q": "e.g. Shure ULXD4Q",
   "z. B. Steckdosenleiste 19″ 8-fach": "e.g. 19″ power strip, 8 sockets",
   "z. B. Thomann": "e.g. Thomann",
+  "zeigt nach vorn": "faces the front",
   "Zeilen je Teilung": "Lines per division",
   "Zoom": "Zoom",
   "Zugriff auf den Ordner wurde nicht erlaubt": "Access to the folder was not allowed",
@@ -1539,6 +1570,10 @@ document.documentElement.lang = LANG;
   "Zusätzlich hinten an der Rückschiene verschrauben": "Also fix at the rear rail",
   "zwei Ausgänge verbunden": "two outputs connected",
   "zwei Eingänge verbunden": "two inputs connected",
+  "{0} von {1} verbunden": "{0} of {1} connected",
+  "{6} Kabel": "{6} cables",
+  "{8} Kabel und Stecker kommen aus der Stagecraft Library.": "{8} Cables and plugs come from the Stagecraft Library.",
+  "geschätzt {8} m": "estimated {8} m",
   "Löcher · antippen zum Bearbeiten": "Holes · tap to edit",
   "Stecker für {0} · antippen": "Connector for {0} · tap",
   "(nur von vorn möglich)": "(front mounting only)",
@@ -1591,7 +1626,6 @@ document.documentElement.lang = LANG;
   "SYSBOXX {0}": "SYSBOXX {0}",
   "2 Stück je Profil": "2 pcs per profile",
   "Preis je Stück, VPE 50 prüfen": "price per piece, check pack of 50",
-  "passt": "fits",
   "selbst konfektionieren": "make up yourself",
   "selbst konfektionieren ({0})": "make up yourself ({0})",
   "Alle": "All",
@@ -4290,6 +4324,81 @@ function wireListHTML(groups, used, idx) {
     }).join('')}</div></div>`;
   }).join('') || '<p class="hint">Keine Anschlüsse für diesen Filter.</p>';
 }
+/* ---------- Verkabelung: Kabellinien in der Rückansicht ----------
+   Jeder Anschluss bekommt einen Punkt in der Rückansicht (rackSVG 'rear', seitenverkehrt):
+   Stecker vorn montierter Blenden und Geräterückseiten sieht man direkt; Anschlüsse, die nach vorn zeigen, werden an
+   derselben Stelle als hohler Punkt gezeichnet. Positionen aus den maßstäblichen Ansichten, sonst gleichmäßig verteilt. */
+const W_RV = W19 + CW * 2, wMx = x => W_RV - x;
+// Punkte aller Anschlüsse: Map key → { x, y, vis } (vis = in der Rückansicht direkt sichtbar)
+function wirePoints(groups) {
+  const pts = new Map(), xL = CW;
+  const y0 = it => CW + it.pos * HE;
+  const spread = (list, x0, w, y, mirror, vis) => list.forEach((p, k) => { const x = x0 + w * (k + .5) / list.length; pts.set(p.key, { x: mirror ? wMx(x) : x, y, vis }); });
+  groups.forEach(g => g.ports.forEach(P => {
+    if (pts.has(P.key)) return;
+    const it = P.item, front = it.side !== 'rear', k = P.key.split(':');
+    if (k[0] === 'p') { const h = holes(it).find(o => o.i === +k[2]); if (h) pts.set(P.key, { x: front ? wMx(xL + h.x) : xL + h.x, y: y0(it) + .4 + h.y, vis: front }); return; }
+    if (k[0] === 'c') { const c = it.cons.find(o => o.id === k[2]); if (c) pts.set(P.key, { x: front ? wMx(xL + c.x) : xL + c.x, y: y0(it) + c.y, vis: front }); return; }
+    if (k[0] === 'x') {
+      const E = sbxEar(), BE = sbxBE();
+      it.rows.forEach((row, r) => { let x = xL + E; row.forEach(p => { const Pp = sbxP(p.k); if (p.id === k[2] && Pp) { const [hx, hy] = sbxPos(Pp, +k[3]); pts.set(P.key, { x: front ? wMx(x + hx) : x + hx, y: y0(it) + r * SBX_ROW + hy, vis: front }); } x += Pp ? Pp.be * BE : 0; }); });
+      return;
+    }
+  }));
+  // Geräte: je Seite die Anschlüsse in den maßstäblichen Ansichten suchen (gleicher Typ, gleiche Reihenfolge), sonst verteilen
+  groups.forEach(g => {
+    const devPortsOf = g.ports.filter(p => p.key[0] === 'd' || p.key[0] === 's'); if (!devPortsOf.length) return;
+    const P0 = devPortsOf[0], it = P0.item, k0 = P0.key.split(':'), shelf = k0[0] === 's';
+    const o = shelf ? (it.devs || []).find(x => x.id === k0[2]) : null, devKey = shelf ? o && o.dev : it.dev, d = devOf(devKey); if (!d) return;
+    for (const side of ['f', 'r']) {
+      const list = devPortsOf.filter(p => p.side === side); if (!list.length) continue;
+      const vis = (it.side !== 'rear') === (side === 'r');   // Rückseite vorn montierter Geräte bzw. Front hinten montierter
+      const mirror = (it.side !== 'rear') !== (side === 'r');   // Ansicht von hinten: Front vorn montierter Geräte spiegeln
+      let box;   // Fläche des Geräts in der Rückansicht (ungespiegelt)
+      if (shelf) {
+        const S = shelfOf(it), x0 = xL + EAR + 3, iw = W19 - EAR * 2 - 6;
+        box = S.mode === 'grid' ? { x: x0 + o.x * iw / S.cells, w: cellsOf(d, S) * iw / S.cells } : { x: x0 + o.x * iw / S.innerW, w: devW(d) * iw / S.innerW };
+        box.y = y0(it) + it.he * HE / 2;
+        spread(list, box.x, box.w, box.y, it.side !== 'rear', vis); continue;
+      }
+      const E = isExact(devKey, side) && EXACT[devKey][side];
+      const ox = side === 'r' && E ? xL + (W19 - (EXACT[devKey].hw || W19)) / 2 : xL;
+      const used = new Set(), rest = [];
+      list.forEach(p => {
+        const t = (ioGroups(d.io && d.io[side])[+p.key.split(':')[shelf ? 4 : 3]] || {}).type;
+        const el = E ? E.findIndex((e, i) => !used.has(i) && e.t === t) : -1;
+        if (el < 0) { rest.push(p); return; }
+        used.add(el); const e = E[el];
+        const x = ox + e.x, y = y0(it) + e.y;   // Anschluss-Elemente: x/y = Mittelpunkt
+        pts.set(p.key, { x: side === 'r' ? (it.side === 'rear' ? wMx(x) : x) : (mirror ? wMx(x) : x), y, vis });
+      });
+      if (rest.length) spread(rest, xL + EAR + 6, W19 - EAR * 2 - 12, y0(it) + it.he * HE * (side === 'r' ? .62 : .38), side === 'r' ? it.side === 'rear' : mirror, vis);
+    }
+  });
+  return pts;
+}
+const W_LCOL = { ok: '#3ddc84', make: '#f0a050', warn: '#f0a050', bad: '#ff5a4f' };
+let WHI = null;   // hervorgehobene Verbindung (id)
+function wireDrawing(groups, idx, used) {
+  const L = layout(), pts = wirePoints(groups);
+  let svg = rackSVG(L, 'rear', { sfx: 'w', still: true });
+  let g = '<g class="wlines">';
+  // Kabel zuerst, Punkte darüber
+  state.wires.forEach((w, i) => {
+    const a = pts.get(w.a), b = pts.get(w.b), A = idx.get(w.a), B = idx.get(w.b); if (!a || !b || !A || !B) return;
+    const st = wireCheck(A, B).st, sag = 14 + Math.abs(a.x - b.x) * .12 + Math.abs(a.y - b.y) * .15;
+    const dpath = `M${a.x.toFixed(1)} ${a.y.toFixed(1)} C${a.x.toFixed(1)} ${(a.y + sag).toFixed(1)} ${b.x.toFixed(1)} ${(b.y + sag).toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
+    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + sag * .75, on = WHI === w.id;
+    g += `<g class="wl${on ? ' on' : ''}" data-wline="${w.id}"><title>${esc(`${i + 1}${w.label ? ' „' + w.label + '“' : ''}: ${wireEndTxt(A)} → ${wireEndTxt(B)}`)}</title>`
+      + `<path d="${dpath}" class="wl-halo"/><path d="${dpath}" class="wl-line" style="stroke:${W_LCOL[st]}"/><path d="${dpath}" class="wl-hit"/>`
+      + `<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="4.2" class="wl-tag" style="stroke:${W_LCOL[st]}"/><text x="${mx.toFixed(1)}" y="${my.toFixed(1)}" class="wl-no">${i + 1}</text></g>`;
+  });
+  pts.forEach((p, key) => {
+    const cls = key === WSEL ? ' on' : used.has(key) ? ' used' : '', P = idx.get(key); if (!P) return;
+    g += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${key === WSEL ? 3.4 : 2.3}" class="wdot${cls}${p.vis ? '' : ' hid'}" data-wport="${esc(key)}"><title>${esc(`${P.owner} · ${P.lbl} · ${sideName(P.mate)}${p.vis ? '' : ' · ' + tr('zeigt nach vorn')}`)}</title></circle>`;
+  });
+  return svg.slice(0, -6) + g + '</g></svg>';
+}
 function renderWiring() {
   const el = $('#wiring'); if (!el) return;
   if (!WIRE.ioFaces || !WIRE.faces) { el.innerHTML = `<section class="card"><header><h2>Verkabelung</h2></header><div class="body"><p class="hint">Die geladene Stagecraft Library enthält noch keine Verkabelungsdaten (wiring.json). Library im Fenster „Library“ aktualisieren.</p></div></section>`; return; }
@@ -4308,7 +4417,7 @@ function renderWiring() {
     const lens = cur && cur.lengths ? cur.lengths : null;
     const st = cur && !list.some(c => c.id === cur.id) ? 'warn' : ck.st;
     const end = (P) => `<b>${esc(P.owner)}</b><small>${esc(P.lbl)} · ${esc(sideName(P.mate))}</small><small>${esc(P.where)}</small>`;
-    return `<tr data-wrow="${w.id}"><td>${i + 1}</td><td>${end(A)}</td><td>${end(B)}</td>
+    return `<tr data-wrow="${w.id}"${WHI === w.id ? ' class="whi"' : ''}><td>${i + 1}</td><td>${end(A)}</td><td>${end(B)}</td>
       <td><select data-wf="cable" data-wid="${w.id}"><option value="">selbst konfektionieren${bulk ? ' (' + esc(bulk.n) + ')' : ''}</option>${opts.map(c => `<option value="${c.id}" ${c.id === w.cable ? 'selected' : ''}>${esc(c.n)}</option>`).join('')}</select>
         ${lens ? `<select data-wf="len" data-wid="${w.id}">${lens.map(v => `<option value="${v}" ${v === w.len ? 'selected' : ''}>${fmtN(v)} m</option>`).join('')}</select>` : `<input type="number" min="0.1" step="0.1" value="${w.len ?? ''}" data-wf="len" data-wid="${w.id}" style="width:5.5em" aria-label="Länge in m"> m`}
         <small>geschätzt ${fmtN(Math.round(wireLen(A, B) * 10) / 10)} m</small></td>
@@ -4316,7 +4425,10 @@ function renderWiring() {
       <td><span class="wst ${st}" title="${esc(ck.msg)}"><span aria-hidden="true">${W_ICON[st]}</span> ${W_ST[st]}</span>${ck.msg ? `<small>${esc(ck.msg)}</small>` : ''}${cur && !list.some(c => c.id === cur.id) ? '<small>gewähltes Kabel passt nicht zu den Anschlüssen</small>' : ''}</td>
       <td><button type="button" class="btn sm danger" data-wdel="${w.id}" title="Verbindung löschen">✕</button></td></tr>`;
   });
-  el.innerHTML = `<section class="card"><header><h2>Anschlüsse</h2><span class="eyebrow">${nUsed} von ${nPorts} verbunden</span></header>
+  el.innerHTML = `<section class="card wdraw"><header><h2>Rückansicht mit Kabeln</h2><span class="eyebrow">seitenverkehrt · Punkte antippen zum Verbinden</span></header>
+      <div class="body"><div class="wsvg">${wireDrawing(groups, idx, used)}</div>
+      <p class="hint"><span class="wkey"><i class="d"></i>frei</span><span class="wkey"><i class="d u"></i>verbunden</span><span class="wkey"><i class="d h"></i>zeigt nach vorn</span><span class="wkey"><i class="l ok"></i>passt</span><span class="wkey"><i class="l mk"></i>selbst konfektionieren / prüfen</span><span class="wkey"><i class="l bd"></i>passt nicht</span> · Linie antippen zeigt die Verbindung in der Liste.</p></div></section>
+    <section class="card"><header><h2>Anschlüsse</h2><span class="eyebrow">${nUsed} von ${nPorts} verbunden</span></header>
       <div class="body">
         <p class="hint">${S ? `Gewählt: <b>${esc(S.owner)} · ${esc(S.lbl)}</b> (${esc(sideName(S.mate))}). Jetzt den zweiten Anschluss antippen – grün umrandet passt direkt, blass passt nicht. Nochmal antippen hebt die Auswahl auf.` : 'Ersten Anschluss antippen, dann den zweiten – daraus wird eine Verbindung. Blendenstecker zeigen ihre Rückseite (Löt-/Schraubanschluss oder Durchführung).'}</p>
         <div class="wbar"><div class="chips">${[['all', 'Alle'], ['free', 'Frei'], ['used', 'Verbunden']].map(([k, t]) => `<button type="button" class="chip${WFILT === k ? ' on' : ''}" data-wfilt="${k}">${t}</button>`).join('')}</div>
@@ -4331,6 +4443,7 @@ function renderWiring() {
 $('#wiring').addEventListener('click', e => {
   const t = e.target;
   const f = t.closest('[data-wfilt]'); if (f) { WFILT = f.dataset.wfilt; renderWiring(); return; }
+  const ln = t.closest('[data-wline]'); if (ln) { WHI = WHI === ln.dataset.wline ? null : ln.dataset.wline; renderWiring(); const r = WHI && document.querySelector(`[data-wrow="${WHI}"]`); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
   const d = t.closest('[data-wdel]'); if (d) { state.wires = state.wires.filter(w => w.id !== d.dataset.wdel); renderSoft(); return; }
   const p = t.closest('[data-wport]'); if (!p) return;
   const k = p.dataset.wport, ctx = $('#wiring')._wctx || {}, idx = ctx.idx || new Map();
