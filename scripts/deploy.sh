@@ -6,6 +6,7 @@
 #   scripts/deploy.sh --yes      upload without asking
 #   scripts/deploy.sh --dry-run  only check and show what would be uploaded
 #   scripts/deploy.sh --check    only test the connection
+#   scripts/deploy.sh --dir DIR  upload DIR instead of public/ (e.g. redirect/td-media-rackwerk)
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -13,9 +14,12 @@ PUBLIC="$ROOT/public"
 ENV_FILE="$ROOT/.env"
 KH_FILE="$ROOT/.deploy/known_hosts"
 
-MODE=upload; ASSUME_YES=0
-for arg in "$@"; do
+MODE=upload; ASSUME_YES=0; CUSTOM_DIR=0
+while [[ $# -gt 0 ]]; do
+  arg="$1"; shift
   case "$arg" in
+    --dir) [[ $# -gt 0 ]] || { echo "--dir needs a folder" >&2; exit 2; }
+           PUBLIC="$(cd "$1" && pwd)" || exit 2; CUSTOM_DIR=1; shift ;;
     --yes|-y) ASSUME_YES=1 ;;
     --dry-run|-n) MODE=dry ;;
     --check) MODE=check ;;
@@ -119,10 +123,15 @@ if [[ "$MODE" == check ]]; then
 fi
 
 # ---------- Check the site ----------
-say "Checking public/ …"
 site_ok=1
+if [[ $CUSTOM_DIR == 1 ]]; then
+  say "Uploading $PUBLIC (no site checks)"
+  [[ -f "$PUBLIC/index.html" ]] || fail "$PUBLIC/index.html missing."
+else
+say "Checking public/ …"
 check_site || site_ok=0
-if [[ $site_ok == 1 ]]; then say "  ✓ Legal notice and privacy policy complete, no external sources"; fi
+fi
+if [[ $site_ok == 1 && $CUSTOM_DIR == 0 ]]; then say "  ✓ Legal notice and privacy policy complete, no external sources"; fi
 if [[ $site_ok == 0 && "$MODE" == upload ]]; then
   fail "Upload cancelled. Fix the points above first (dry run: scripts/deploy.sh --dry-run)."
 fi
@@ -170,7 +179,7 @@ fi
     if [[ -n "$acc" ]]; then acc="$acc/$p"; elif [[ "$remote" == /* ]]; then acc="/$p"; else acc="$p"; fi
     echo "-mkdir $(bq "$acc")"
   done
-  for d in "${dirs[@]}"; do echo "-mkdir $(bq "$remote/$d")"; done
+  for d in ${dirs[@]+"${dirs[@]}"}; do echo "-mkdir $(bq "$remote/$d")"; done
   for f in "${all[@]}"; do echo "put -p $(bq "$f") $(bq "$remote/$f")"; done
   echo "ls -l $(bq "$remote")"
 } >"$BATCH"
@@ -198,7 +207,7 @@ else
 fi
 say ""
 say "Target:  $SFTP_USER@$SFTP_HOST:$SFTP_REMOTE_PATH (port $SFTP_PORT, login: $SFTP_AUTH)"
-say "Content: ${#all[@]} files from public/, revision $rev"
+say "Content: ${#all[@]} files from ${PUBLIC#$ROOT/}, revision $rev"
 if [[ $ASSUME_YES == 0 ]]; then
   read -r -p "Upload now? [y/N]: " a || true
   [[ "$a" =~ ^[jJyY] ]] || { say "Cancelled."; exit 0; }
@@ -214,7 +223,11 @@ set -e
 say "✓ Uploaded."
 
 # ---------- Quick check that the site responds ----------
-if [[ -n "${SITE_URL:-}" ]] && command -v curl >/dev/null; then
+if [[ $CUSTOM_DIR == 1 ]]; then
+  if [[ -n "${SITE_URL:-}" ]] && command -v curl >/dev/null; then
+    say "  $(curl -s -o /dev/null -w '%{http_code} → %{redirect_url}' --max-time 15 "${SITE_URL%/}/" || echo 'no answer')"
+  fi
+elif [[ -n "${SITE_URL:-}" ]] && command -v curl >/dev/null; then
   base="${SITE_URL%/}"
   for p in "" impressum.html datenschutz.html assets/vendor/jspdf-2.5.1.umd.min.js; do
     code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$base/$p" || echo 000)"

@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-11-21 – Move to Stagecraft Solutions
+
+- Repository moved to **github.com/StagecraftSolutions/Rackmanufactur**, live instance now at **rack.stagecraft.solutions**. Footer source and commit links, README and the AI workflow doc point to the new addresses.
+- The old address td-media.eu/rackwerk gets a permanent redirect (301, path and #hash kept) from `redirect/td-media-rackwerk/` (`.htaccess` plus `index.html` fallback).
+- `scripts/deploy.sh --dir DIR` uploads another folder instead of `public/` (no site checks), used for the redirect.
+
 ## 2026-11-20 – Version 31 · Sommer Cable SYSBOXX
 
 - **New module SYSBOXX (Sommer Cable housing system):** 19″ housing kit in 2, 4, 6 or 8 U and 80 or 140 mm depth (SYG12-0x-xx). Every 2 U hold one row of 12 width units (1 WU = 35.6 mm, 12 WU = 19″). Rows are filled with front plates from the Sommer catalogue: blank plates, D-hole plates (1×, 2×, 2× rotated, 8×, 10× D, connectors chosen from the connector database like in a D panel), fitted connector modules (XLR 8×/4+4, HDMI, DisplayPort, USB, powerCON TRUE1, RCA, speakON, Schuko) and plates with cutouts (TRUE1, Keystone, CEE, LK37, speakON …, connector not included).

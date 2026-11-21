@@ -2,7 +2,7 @@
 
 Web configurator for 19″ rack cases with connector panels, devices and rack parts. The app is a single HTML file in `public/` (plus local fonts and jsPDF), no build step: open `public/index.html` in a browser or upload the folder to a web server.
 
-**Live instance: <https://td-media.eu/rackwerk/>** – runs the current `main` branch; the page footer links the exact commit that is deployed. Interface in **English and German** (switch in the header).
+**Live instance: <https://rack.stagecraft.solutions/>** – runs the current `main` branch; the page footer links the exact commit that is deployed. Interface in **English and German** (switch in the header).
 
 Cases: **ProCase Pro rack modules** and **ProCase QSD racks** (procaseshop.de) and **Thon** racks from Thomann. Connector panels, blank/vent panels, rack shelves and drawers from Adam Hall, D-size inserts from Seetronic and Neutrik. Device database with 213 devices from 21 manufacturers.
 
@@ -98,7 +98,7 @@ scripts/deploy.sh --dry-run
 scripts/deploy.sh
 ```
 
-Before each upload the script checks that the legal pages exist, that no placeholders `⟦…⟧` are left and that no external sources (fonts, CDNs, tracking) are referenced. It only uploads, never deletes; HTML comes last; with `SITE_URL` set it verifies the pages afterwards.
+Before each upload the script checks that the legal pages exist, that no placeholders `⟦…⟧` are left and that no external sources (fonts, CDNs, tracking) are referenced. It only uploads, never deletes; HTML comes last; with `SITE_URL` set it verifies the pages afterwards. `scripts/deploy.sh --dir redirect/td-media-rackwerk` uploads the redirect for the old address td-media.eu/rackwerk instead.
 
 The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz, hosted at STRATO; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
 

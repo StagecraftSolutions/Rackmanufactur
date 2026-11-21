@@ -22,7 +22,7 @@ The rules for the AI are in [`AGENTS.md`](../AGENTS.md). Codex reads the file au
 
 Codex works directly in the GitHub repository and delivers every change as a pull request.
 
-1. ChatGPT desktop app → **Codex** → connect GitHub → choose the repository `TD-Media-Chemnitz/rackwerk`.
+1. ChatGPT desktop app → **Codex** → connect GitHub → choose the repository `StagecraftSolutions/Rackmanufactur`.
 2. Paste a task from the templates below and start it.
 3. Codex opens a pull request. Review it (or let Claude review: "Review PR #… against the sources"), then merge.
 4. Locally `git pull`, test the app, `scripts/deploy.sh`.
@@ -69,7 +69,7 @@ node scripts/data.mjs import --weights data/weight-catalog.csv
 
 ## Review and approve (you)
 
-1. Open the app: **Projects → Review device views**, in a device's inspector **Review / edit view**, or directly `…/rackwerk/#pruefen=<key>`.
+1. Open the app: **Projects → Review device views**, in a device's inspector **Review / edit view**, or directly `https://rack.stagecraft.solutions/#pruefen=<key>`.
 2. **Load manufacturer image** (photo or drawing from your computer – it stays in the browser). Align it with "Move image", x/y and width so that the front plate lies exactly on 482.6 mm. Adjust the opacity as needed.
 3. Click and drag deviating elements (Shift: 0.5 mm grid) or enter values on the right; arrow keys move by 0.1 mm. Add missing ones via "New element". Check the function label of each connector.
 4. Tick **Front checked**, **Rear checked**, **Device data checked**. The device list then shows ✓.
