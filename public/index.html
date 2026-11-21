@@ -1491,6 +1491,7 @@ document.documentElement.lang = LANG;
   "SYSBOXX {0}": "SYSBOXX {0}",
   "2 Stück je Profil": "2 pcs per profile",
   "Preis je Stück, VPE 50 prüfen": "price per piece, check pack of 50",
+  "eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)": "own hole, also fits a D hole (drilled blank plate)",
   "12G-Eignung prüfen": "check 12G suitability",
   "2 × Keystone-Modul": "2 × keystone module",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
@@ -1836,7 +1837,12 @@ document.documentElement.lang = LANG;
   "Harting Han E 10-pol Buchse (Han 10B)": "Harting Han E 10-pin female (Han 10B)",
   "Harting Han E 10-pol Stecker (Han 10B)": "Harting Han E 10-pin male (Han 10B)",
   "Frontblech Rechteck-Ausschnitt MP06 (Harting Han 6B, ILME), 2 HE, 3 BE": "Front plate rectangular cutout MP06 (Harting Han 6B, ILME), 2 U, 3 WU",
-  "Frontblech Rechteck-Ausschnitt MP06/MP10 (Harting Han 6B/10B, ILME), 2 HE, 4 BE": "Front plate rectangular cutout MP06/MP10 (Harting Han 6B/10B, ILME), 2 U, 4 WU"
+  "Frontblech Rechteck-Ausschnitt MP06/MP10 (Harting Han 6B/10B, ILME), 2 HE, 4 BE": "Front plate rectangular cutout MP06/MP10 (Harting Han 6B/10B, ILME), 2 U, 4 WU",
+  "Einbaustecker mit eigener Bohrung Ø 6,5 mm; Flanschmaß 10 × 10 geschätzt (Sechskantmutter).": "Panel connector with its own hole Ø 6.5 mm; flange 10 × 10 estimated (hex nut).",
+  "Einbaustecker mit eigener Bohrung Ø 8 mm; Flanschmaß 12 × 12 geschätzt (Mutter/Scheibe).": "Panel connector with its own hole Ø 8 mm; flange 12 × 12 estimated (nut/washer).",
+  "Einbaustecker mit eigener Bohrung Ø 9,5 mm; Flanschmaß 16 × 16 geschätzt (Mutter/Frontplatte).": "Panel connector with its own hole Ø 9.5 mm; flange 16 × 16 estimated (nut/front plate).",
+  "Klinken-Einbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm",
+  "SMA-Einbaubuchse (Schottverbinder Buchse/Buchse), Bohrung Ø 6,5 mm": "SMA panel socket (bulkhead female/female), hole Ø 6.5 mm"
 };
 /* /DATA:I18N */
 const TERMS_EN = [
@@ -1933,34 +1939,48 @@ const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 /* CTYPES: Stagecraft Library, see loader at the end */ const CTYPES = window.__RM.CTYPES;
 /* CON: Stagecraft Library, see loader at the end */ const CON = window.__RM.CON;
 const conOf = t => Object.keys(CON).filter(k => CON[k].type === t);
-const PICK = Object.keys(CTYPES).filter(t => conOf(t).some(k => CON[k].fit !== 'fp'));   // Typen für D-Steckerfelder
+// Einbaustecker mit eigenem Ausschnitt, der auch ins D-Loch passt: genau eine mittige runde Bohrung, keine Schraublöcher,
+// Flansch ≤ 24 × 24 mm (gleiche Regel wie dDrillOf in der Library). Ergebnis: Bohrungs-Ø in der D-Blindplatte, sonst 0.
+// Ältere Projektdaten: fit 'dblank' mit drill.
+const dDrill = c => {
+  if (!c) return 0;
+  if (c.fit === 'dblank') return c.drill || 0;
+  const F = c.fit === 'fp' && c.fp;
+  if (!F || F.w > 24 || F.h > 24 || (F.cut || []).length !== 1) return 0;
+  const q = F.cut[0];
+  return q.t === 'c' && !q.x && !q.y ? q.d : 0;
+};
+const dOK = c => !!c && (c.fit !== 'fp' || dDrill(c) > 0);   // passt ins D-Loch (ggf. mit gebohrter Blindplatte)
+const PICK = Object.keys(CTYPES).filter(t => conOf(t).some(k => dOK(CON[k])));   // Typen für D-Steckerfelder
 const PICK_ALL = Object.keys(CTYPES).filter(t => t !== 'open');                          // Typen für eigene Steckerfelder
 // Stecker eines Typs wählen, möglichst vom selben Zulieferer
 function pickProd(t, mk, fpOK) {
-  const list = conOf(t).filter(k => fpOK || CON[k].fit !== 'fp');
+  const list = conOf(t).filter(k => fpOK || dOK(CON[k]));
   return list.find(k => CON[k].mk === mk) || (list.includes(CTYPES[t].def) ? CTYPES[t].def : list[0]);
 }
 const conLabel = k => { const c = CON[k]; return [c.mk && c.mk !== '–' ? c.mk : '', c.art && !c.art.startsWith(c.mk) ? c.art : c.art ? c.art.slice(c.mk.length).trim() : '', c.price != null ? EUR.format(c.price) : ''].filter(Boolean).join(' · ') || c.n; };
 // Footprint: D-Norm (Ø 24 mm, 2 × M3 diagonal 19 × 24 mm, Flansch 26 × 31 mm) oder eigener Ausschnitt aus der Datenbank
 const D_FP = { w: 26, h: 31, cut: [{ t: 'c', d: 24 }, { t: 'h', x: 9.5, y: -12, d: 3.2 }, { t: 'h', x: -9.5, y: 12, d: 3.2 }] };
 const fpOf = k => { const c = CON[k] || CON.blank; return c.fit === 'fp' ? c.fp : D_FP; };
-function cutTxt(k) {   // Ausschnitt als Text, direkt zweisprachig (Maße)
+function cutTxt(k, inD = false) {   // Ausschnitt als Text, direkt zweisprachig (Maße); inD = Stecker sitzt im D-Loch
   const c = CON[k] || CON.blank, E = LANG === 'en', N = v => E ? String(Math.round(v * 100) / 100) : fmtN(v);
-  if (c.fit !== 'fp') return (E ? 'D cutout Ø 24 mm + 2 × Ø 3.2 mm (M3)' : 'D-Ausschnitt Ø 24 mm + 2 × Ø 3,2 mm (M3)') + (c.fit === 'dblank' ? (E ? `, drill the blank plate in the centre Ø ${N(c.drill)} mm` : `, Blindplatte mittig Ø ${N(c.drill)} mm bohren`) : '') + (k === 'pc_out' ? (E ? ', drill out the hole for TRUE1 Out' : ', Loch für TRUE1 Out aufbohren') : '');
+  const dd = dDrill(c);
+  if (c.fit !== 'fp' || (inD && dd)) return (E ? 'D cutout Ø 24 mm + 2 × Ø 3.2 mm (M3)' : 'D-Ausschnitt Ø 24 mm + 2 × Ø 3,2 mm (M3)') + (dd ? (E ? `, drill the blank plate in the centre Ø ${N(dd)} mm` : `, Blindplatte mittig Ø ${N(dd)} mm bohren`) : '') + (k === 'pc_out' ? (E ? ', drill out the hole for TRUE1 Out' : ', Loch für TRUE1 Out aufbohren') : '');
   const cs = c.fp.cut, main = cs.filter(x => x.t !== 'h'), hs = cs.filter(x => x.t === 'h');
   const sp = hs.length > 1 ? ` (${E ? 'hole pattern' : 'Lochbild'} ${N(Math.max(...hs.map(x => x.x)) - Math.min(...hs.map(x => x.x)))} × ${N(Math.max(...hs.map(x => x.y)) - Math.min(...hs.map(x => x.y)))} mm)` : '';
   return main.map(x => x.t === 'c' ? `Ø ${N(x.d)} mm` : `${E ? 'rectangle' : 'Rechteck'} ${N(x.w)} × ${N(x.h)} mm`).join(' + ') + (hs.length ? ` + ${hs.length} × Ø ${N(hs[0].d)} mm${sp}` : '') + (c.chk ? (E ? ' – check dimensions' : ' – Maße prüfen') : '');
 }
 // Eigenschaften eines Steckers (Typ, Zulieferer, Name, Einbau) – für ein Loch im D-Steckerfeld oder einen frei platzierten Stecker
 function conForm(who, k, label, mount, fpOK) {
-  const c = CON[k] || CON.blank, t = c.type, prods = conOf(t).filter(p => fpOK || CON[p].fit !== 'fp');
-  const fixed = !!c.mount || k === 'open' || c.fit === 'fp';
+  const c = CON[k] || CON.blank, t = c.type, prods = conOf(t).filter(p => fpOK || dOK(CON[p]));
+  const own = c.fit === 'fp' && fpOK;   // eigener Ausschnitt direkt in der Blende
+  const fixed = !!c.mount || k === 'open' || own;
   return `<div class="conform" data-cfwho="${who}">
     <div class="field"><label>Typ</label><select data-cf="type">${(fpOK ? PICK_ALL : PICK).map(x => `<option value="${x}" ${x === t ? 'selected' : ''}>${esc(CTYPES[x].n)}</option>`).join('')}</select></div>
     <div class="field"><label>Zulieferer · Artikel</label><select data-cf="prod" ${prods.length < 2 ? 'disabled' : ''}>${prods.map(p => `<option value="${p}" ${p === k ? 'selected' : ''}>${esc(conLabel(p))}</option>`).join('')}</select></div>
     <div class="field"><label>Name / Bemerkung</label><input type="text" data-cf="label" value="${esc(label || '')}" placeholder="z. B. Mic 1, Strom Bühne"></div>
     <div class="field"><label>Einbau</label><select data-cf="mount" ${fixed ? 'disabled' : ''}><option value="r" ${mount !== 'f' ? 'selected' : ''}>von hinten</option><option value="f" ${mount === 'f' ? 'selected' : ''}>von vorn</option></select></div>
-    <p class="hint">${esc(c.n)} · ${c.fit === 'fp' ? 'eigener Ausschnitt, nur in eigenen Steckerfeldern' : c.fit === 'dblank' ? 'in gebohrter Blindplatte im D-Loch' : 'passt ins D-Loch'}${c.mount ? ' · nur von vorn einbaubar' : ''}${k !== 'open' ? ' · ' + esc(cutTxt(k)) : ''}${c.q ? ' · ' + esc(c.q) : ''}</p>
+    <p class="hint">${esc(c.n)} · ${own ? (dDrill(c) ? 'eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)' : 'eigener Ausschnitt, nur in eigenen Steckerfeldern') : dDrill(c) ? 'in gebohrter Blindplatte im D-Loch' : 'passt ins D-Loch'}${c.mount ? ' · nur von vorn einbaubar' : ''}${k !== 'open' ? ' · ' + esc(cutTxt(k, !own)) : ''}${c.q ? ' · ' + esc(c.q) : ''}</p>
   </div>`;
 }const HOLE_LABELS = false;   // Lochbeschriftung (müsste gelasert werden) – vorerst abgeschaltet
 
@@ -1983,7 +2003,7 @@ const sbxHousing = it => ((SBX.housings || {})[it.depth] || {})[it.he] || null;
 const sbxN = P => !P ? 0 : P.kind === 'd' ? P.holes.length : P.kind === 'cut' && P.acc ? P.cut.length : 0;
 const sbxEmpty = P => P && P.kind === 'd' ? 'blank' : '';
 const sbxPos = (P, i) => P.kind === 'd' ? P.holes[i] : [P.cut[i].x, P.cut[i].y, 0];
-const sbxOK = (P, s) => P.kind === 'd' ? !!(CON[s] && CON[s].fit !== 'fp') : s === '' || !!(CON[s] && (P.acc || []).includes(CON[s].type));
+const sbxOK = (P, s) => P.kind === 'd' ? dOK(CON[s]) : s === '' || !!(CON[s] && (P.acc || []).includes(CON[s].type));
 const sbxConName = s => s && CON[s] ? CON[s].n : 'leer (Ausschnitt offen)';
 function sbxPlate(k) { const P = sbxP(k), n = sbxN(P); return { id: uid(), k, slots: Array(n).fill(sbxEmpty(P)), labels: Array(n).fill(''), mounts: Array(n).fill('f') }; }
 // Lücke am Reihenende mit möglichst wenigen Leerblechen schließen (12, 6, 3, 2, 1 BE)
@@ -2003,7 +2023,7 @@ function sbxFix(it) {   // Reihen an die Höhe anpassen, unbekannte Bleche verwe
   it.rows.forEach(row => row.forEach(p => sbxMount(p)));
 }
 function sbxAssign(P, p, i, t) { p.slots[i] = t ? pickProd(t, (CON[p.slots[i]] || {}).mk, P.kind === 'cut') : sbxEmpty(P); sbxMount(p); }
-function sbxMount(p) { p.slots.forEach((s, i) => { const C = CON[s]; if (C && (C.mount || C.fit === 'fp')) p.mounts[i] = C.mount || 'f'; }); }   // eigene Ausschnitte: Flansch vorn
+function sbxMount(p) { const inD = (sbxP(p.k) || {}).kind === 'd'; p.slots.forEach((s, i) => { const C = CON[s]; if (C && (C.mount || (C.fit === 'fp' && !inD))) p.mounts[i] = C.mount || 'f'; }); }   // eigene Ausschnitte: Flansch vorn (im D-Loch frei wählbar)
 let sbxSel = null, sbxHole = null, sbxRow = 0, sbxLastK = 'syfb23_8d', sbxEdit = null, sbxDrag = null;   // sbxEdit: id des SYSBOXX im Bearbeitungsmodus   // gewähltes Frontblech { r, i }, Loch darin, Zielreihe und zuletzt gewähltes Blech
 function sbxCur(it) {   // gewähltes Frontblech des ausgewählten SYSBOXX-Moduls (oder null)
   if (!it || it.kind !== 'sysboxx' || it.id !== sel || !sbxSel) return null;
@@ -2651,7 +2671,7 @@ function normalize(s) {
       it.he = P.he;
       it.slots = (it.slots || []).slice(0, n); while (it.slots.length < n) it.slots.push('blank');
       it.labels = (it.labels || []).slice(0, n); while (it.labels.length < n) it.labels.push('');
-      it.slots = it.slots.map(s => CON[s] ? s : 'blank');
+      it.slots = it.slots.map(s => dOK(CON[s]) ? s : 'blank');   // nur Stecker, die ins D-Loch passen
       it.mounts = (it.mounts || []).slice(0, n); while (it.mounts.length < n) it.mounts.push('r');
     }
     if (it.kind === 'cpanel') {
@@ -2883,12 +2903,16 @@ function compact(side) { let p = 0; sideItems(side).forEach(it => { it.pos = p; 
 
 /* ---------- Stecker-Glyphen (mm, Mittelpunkt cx/cy) ---------- */
 // mount: 'r' = von hinten eingebaut (Flansch hinter der Blende, vorn nur Lochrand + Schrauben) · 'f' = von vorn (Flansch sichtbar)
+//        'own' = Einbaustecker mit eigener Bohrung direkt in der Blende (ohne Blindplatte)
 function glyph(t, cx, cy, mount = 'f') {
-  const c = CON[t] || CON.blank, g = c.g;
+  const c = CON[t] || CON.blank, g = c.g, dd = dDrill(c);
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
   const screws = `<circle cx="${cx + 9.5}" cy="${cy - 12}" r="1.3" class="screw"/><circle cx="${cx - 9.5}" cy="${cy + 12}" r="1.3" class="screw"/>`;
   let s;
-  if (c.drill) {   // Einsatz in gebohrter Blindplatte
+  if (mount === 'own') {   // eigene Bohrung: nur Mutter/Flansch um den Stecker
+    const F = c.fp || { w: 12, h: 12 };
+    s = `<circle cx="${cx}" cy="${cy}" r="${(Math.max(F.w, F.h) / 2).toFixed(2)}" class="flange"/>`;
+  } else if (dd) {   // Einsatz in gebohrter Blindplatte
     s = mount === 'r' ? `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>${screws}<circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>` : `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>${screws}`;
   } else if (mount === 'r') {
     s = `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>` + screws;
@@ -2926,10 +2950,10 @@ function glyph(t, cx, cy, mount = 'f') {
     case 'ocon':
       s += `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><rect x="${cx - 4.6}" y="${cy - 3}" width="9.2" height="6" rx="1.2" class="face"/><circle cx="${cx - 2}" cy="${cy}" r="1.1" class="ocfib"/><circle cx="${cx + 2}" cy="${cy}" r="1.1" class="ocfib"/><rect x="${cx - 1.4}" y="${cy - 10.6}" width="2.8" height="2" class="face"/>`; break;
     case 'rca':
-      s += c.drill ? `<circle cx="${cx}" cy="${cy}" r="5.2" class="pin"/><circle cx="${cx}" cy="${cy}" r="3.4" class="rcaring"/><circle cx="${cx}" cy="${cy}" r="1.1" class="facedk"/>`
+      s += dd ? `<circle cx="${cx}" cy="${cy}" r="5.2" class="pin"/><circle cx="${cx}" cy="${cy}" r="3.4" class="rcaring"/><circle cx="${cx}" cy="${cy}" r="1.1" class="facedk"/>`
                    : `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r="4.6" class="pin"/><circle cx="${cx}" cy="${cy}" r="3" class="rcaring"/><circle cx="${cx}" cy="${cy}" r="1" class="facedk"/>`; break;
     case 'jack':
-      s += c.drill ? `<circle cx="${cx}" cy="${cy}" r="6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4.2" class="face"/><circle cx="${cx}" cy="${cy}" r="3.1" class="facedk"/>`
+      s += dd ? `<circle cx="${cx}" cy="${cy}" r="6" class="pin"/><circle cx="${cx}" cy="${cy}" r="4.2" class="face"/><circle cx="${cx}" cy="${cy}" r="3.1" class="facedk"/>`
                    : `<circle cx="${cx}" cy="${cy}" r="11" class="face"/><circle cx="${cx}" cy="${cy}" r="8.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r="4.4" class="face"/><circle cx="${cx}" cy="${cy}" r="3.1" class="facedk"/>`; break;
     case 'sma':
       s += `<polygon points="${[0, 60, 120, 180, 240, 300].map(a => { const q = a * Math.PI / 180; return `${(cx + Math.cos(q) * 4.2).toFixed(2)},${(cy + Math.sin(q) * 4.2).toFixed(2)}`; }).join(' ')}" class="gold"/><circle cx="${cx}" cy="${cy}" r="2.4" class="facedk"/><circle cx="${cx}" cy="${cy}" r=".7" class="gold"/>`; break;
@@ -2943,7 +2967,7 @@ function rearGlyph(t, cx, cy, n, mount = 'r') {
   if (g === 'open') return `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`;
   if (g === 'blank') return mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`;
   const tr = g === 'pcin' || g === 'pcout';
-  if (c.drill) return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`)
+  if (dDrill(c)) return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="blankp"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/><circle cx="${cx}" cy="${cy}" r="11.2" class="blankp"/>`)
     + `<circle cx="${cx}" cy="${cy}" r="6.5" class="cbody"/><text x="${cx}" y="${cy}" class="cnum" style="font-size:6px">${n}</text>`;
   return (mount === 'r' ? `<rect x="${cx - 13}" y="${cy - 15.5}" width="26" height="31" rx="2" class="flange"/>` : `<circle cx="${cx}" cy="${cy}" r="12" class="hole"/>`)
     + `<circle cx="${cx}" cy="${cy}" r="10.5" class="${tr ? 'tr1' : 'cbody'}"/>`
@@ -2972,6 +2996,7 @@ function cpDraw(c, cx, cy, back) {
   const C = CON[c.k] || CON.blank, f = v => (+v).toFixed(2);
   if (C.fit === 'fp') {
     if (back) { const F = C.fp; return `<rect x="${f(cx - F.w / 2)}" y="${f(cy - F.h / 2)}" width="${F.w}" height="${F.h}" rx="2" class="flange"/><circle cx="${f(cx)}" cy="${f(cy)}" r="${f(Math.min(F.w, F.h) * .34)}" class="facedk"/>`; }
+    if (!C.el && dDrill(C)) return glyph(c.k, +f(cx), +f(cy), 'own');   // kleiner Einbaustecker mit eigener Bohrung
     return exEls([{ ...C.el, x: +cx, y: +cy }], 0, 0);
   }
   return back ? rearGlyph(c.k, +f(cx), +f(cy), '', c.mount) : glyph(c.k, +f(cx), +f(cy), c.mount);
@@ -3421,12 +3446,13 @@ function bom() {
   if (ct.lids && c.lidF) add('lidF', { n: `Deckel vorne für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}D`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de' : 'Art.-Nr. nach Muster 135502D abgeleitet', kg: kgv(`case:${c.type}:lidF:${c.he}`) }, 1);
   if (ct.lids && c.lidR) add('lidR', { n: `Deckel hinten für Rackmodul ${c.he} HE`, art: `ProCase 1355${he2}DH`, src: c.he === 2 ? 'ref' : 'check', q: c.he === 2 ? 'procaseshop.de · montiert: 135502DHM' : 'Art.-Nr. nach Muster 135502DH abgeleitet', kg: kgv(`case:${c.type}:lidR:${c.he}`) }, 1);
   let m3 = 0;
-  const addCon = t => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q, kg: kgv('con:' + t) }, 1); if (cn.fit === 'dblank') add('c_blank', { n: CON.blank.n, art: CON.blank.art, price: CON.blank.price, src: CON.blank.src, kg: kgv('con:blank') }, 1); if (cn.fit !== 'fp') m3 += 2; };
+  // inD: Stecker sitzt im D-Loch (D-Steckerfeld, SYSBOXX-D-Blech) – kleine Einbaustecker mit eigener Bohrung brauchen dort eine Blindplatte
+  const addCon = (t, inD = false) => { const cn = CON[t]; if (!cn || cn.nobom) return; add('c_' + t, { n: cn.n, art: cn.art, price: cn.price, src: cn.src, q: cn.q, kg: kgv('con:' + t) }, 1); if (cn.fit === 'dblank' || (inD && cn.fit === 'fp' && dDrill(cn))) add('c_blank', { n: CON.blank.n, art: CON.blank.art, price: CON.blank.price, src: CON.blank.src, kg: kgv('con:blank') }, 1); if (cn.fit !== 'fp' || inD) m3 += 2; };
   state.items.forEach(it => {
     switch (it.kind) {
       case 'dpanel':
         add('p_' + it.variant, withKg(PANELS[it.variant], 'panel:' + it.variant), 1);
-        it.slots.forEach(addCon);
+        it.slots.forEach(t => addCon(t, true));
         break;
       case 'sysboxx': {
         const Hs = sbxHousing(it), X = SBX.extra || {}, SC = 'Sommer Cable', q = 'sommercable.com';
@@ -3436,7 +3462,7 @@ function bom() {
         if (joints > 0) { sx('sbx_joint', X.joint, joints); sx('sbx_strip', X.strip, joints * 2, 'je Verbindungsprofil 2 Gewindestreifen'); }
         let screws = 0;
         const plate = (k, note, p) => { const P = sbxP(k), open = P.kind === 'cut' && !(p && P.acc && p.slots.every(Boolean)); screws += P.screws; add('sbx_p_' + k + (open ? '' : '_f'), { n: `SYSBOXX ${P.n}${open ? ' – Stecker nicht enthalten' + (P.fits ? ' (passend: ' + P.fits + ')' : '') : P.kind === 'cut' ? ' (Stecker siehe eigene Position)' : ''}`, art: `${SC} ${P.art}`, price: P.price ?? null, src: P.price != null ? 'web' : 'check', q, shop: SC, kg: P.kg ?? null }, 1, note); };
-        it.rows.forEach(row => { row.forEach(p => { plate(p.k, undefined, p); p.slots.forEach(k => { if (k) addCon(k); }); }); sbxFill(12 - sbxUsed(row)).forEach(k => plate(k, 'füllt freie BE automatisch')); });
+        it.rows.forEach(row => { row.forEach(p => { plate(p.k, undefined, p); p.slots.forEach(k => { if (k) addCon(k, sbxP(p.k).kind === 'd'); }); }); sbxFill(12 - sbxUsed(row)).forEach(k => plate(k, 'füllt freie BE automatisch')); });
         sx('sbx_screw', X.screw, screws, `${screws} Stk. für die Frontbleche`);
         break;
       }
@@ -3785,7 +3811,7 @@ function notesData() {
       const drills = it.slots.map((t, i) => t === 'pc_out' ? i + 1 : 0).filter(Boolean), drill = drills.length > 0;
       const fr = it.slots.map((t, i) => t !== 'open' && it.mounts[i] === 'f' ? i + 1 : 0).filter(Boolean);
       const mountTxt = !fr.length ? 'Alle Einsätze von hinten einbauen (Flansch hinter der Blende), M3-Schrauben von vorn.' : fr.length === it.slots.filter(t => t !== 'open').length ? 'Alle Einsätze von vorn einbauen.' : `Einsätze von hinten einbauen, außer Loch ${fr.join(', ')} von vorn.`;
-      const bd = it.slots.map((t, i) => CON[t] && CON[t].drill ? `Loch ${i + 1}: Ø ${String(CON[t].drill).replace('.', ',')} mm (${CON[t].s.replace('*', '')})` : '').filter(Boolean);
+      const bd = it.slots.map((t, i) => dDrill(CON[t]) ? `Loch ${i + 1}: Ø ${String(dDrill(CON[t])).replace('.', ',')} mm (${CON[t].s.replace('*', '')})` : '').filter(Boolean);
       out.push({ drill: drill || bd.length > 0, h: `Steckerfeld ${it._letter} · ${where} · ${PANELS[it.variant].art}`, t: (drill ? `Loch ${drills.join(', ')} für powerCON TRUE1 Out (SAC3FPX-LY TR1) aufbohren. ` : '') + (bd.length ? `Blindplatten mittig bohren – ${bd.join(', ')}. ` : '') + mountTxt + (PANELS[it.variant].art.match(/872215|872225/) ? ' Kabel an der Zugentlastung hinten mit Kabelbindern fixieren.' : '') + (it.side === 'rear' ? ' Blende hinten an die Rückschiene, Front nach hinten.' : ''), map });
     }
     if (it.kind === 'cpanel') {
@@ -5193,7 +5219,7 @@ function libApply(s) {
   libRefill(CASES, { ...Object.fromEntries(Object.entries(P.cases).map(([k, o]) => [k, partCase(o)])), custom: CASE_CUSTOM });
   ACC_DEFAULT.splice(0, ACC_DEFAULT.length, ...P.acc);
   DEV_GROUPS.splice(0, DEV_GROUPS.length, ...new Set(Object.values(DEVDB).map(d => d.g)));
-  PICK.splice(0, PICK.length, ...Object.keys(CTYPES).filter(t => conOf(t).some(k => CON[k].fit !== 'fp')));
+  PICK.splice(0, PICK.length, ...Object.keys(CTYPES).filter(t => conOf(t).some(k => dOK(CON[k]))));
   PICK_ALL.splice(0, PICK_ALL.length, ...Object.keys(CTYPES).filter(t => t !== 'open'));
 }
 // before normalize(): add what a project brings along, so nothing of it gets dropped (other projects, files)
