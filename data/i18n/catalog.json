@@ -344,5 +344,10 @@
  "Harting Han E 10-pol Buchse (Han 10B)": "Harting Han E 10-pin female (Han 10B)",
  "Harting Han E 10-pol Stecker (Han 10B)": "Harting Han E 10-pin male (Han 10B)",
  "Frontblech Rechteck-Ausschnitt MP06 (Harting Han 6B, ILME), 2 HE, 3 BE": "Front plate rectangular cutout MP06 (Harting Han 6B, ILME), 2 U, 3 WU",
- "Frontblech Rechteck-Ausschnitt MP06/MP10 (Harting Han 6B/10B, ILME), 2 HE, 4 BE": "Front plate rectangular cutout MP06/MP10 (Harting Han 6B/10B, ILME), 2 U, 4 WU"
+ "Frontblech Rechteck-Ausschnitt MP06/MP10 (Harting Han 6B/10B, ILME), 2 HE, 4 BE": "Front plate rectangular cutout MP06/MP10 (Harting Han 6B/10B, ILME), 2 U, 4 WU",
+ "Einbaustecker mit eigener Bohrung Ø 6,5 mm; Flanschmaß 10 × 10 geschätzt (Sechskantmutter).": "Panel connector with its own hole Ø 6.5 mm; flange 10 × 10 estimated (hex nut).",
+ "Einbaustecker mit eigener Bohrung Ø 8 mm; Flanschmaß 12 × 12 geschätzt (Mutter/Scheibe).": "Panel connector with its own hole Ø 8 mm; flange 12 × 12 estimated (nut/washer).",
+ "Einbaustecker mit eigener Bohrung Ø 9,5 mm; Flanschmaß 16 × 16 geschätzt (Mutter/Frontplatte).": "Panel connector with its own hole Ø 9.5 mm; flange 16 × 16 estimated (nut/front plate).",
+ "Klinken-Einbaubuchse 6,3 mm stereo, Bohrung Ø 9,5 mm": "6.3 mm stereo jack panel socket, hole Ø 9.5 mm",
+ "SMA-Einbaubuchse (Schottverbinder Buchse/Buchse), Bohrung Ø 6,5 mm": "SMA panel socket (bulkhead female/female), hole Ø 6.5 mm"
 }
