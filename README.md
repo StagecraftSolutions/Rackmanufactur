@@ -107,9 +107,9 @@ node scripts/i18n.mjs import
 | `public/assets/vendor/` | jsPDF 2.5.1 (MIT) |
 | `scripts/` | translation tools |
 
-The public instance runs as a Docker container on TD Media's own server; the deployment setup is not part of this repository. The old address td-media.eu/rackwerk redirects (301) to rack.stagecraft.solutions; that redirect lives in the td-media.eu website repository.
+The public instance runs as a Docker container on Stagecraft Solutions' own server; the deployment setup is not part of this repository. The old address td-media.eu/rackwerk redirects (301) to rack.stagecraft.solutions; that redirect lives in the td-media.eu website repository.
 
-The public instance is run by Bachmann, Schmidt & Seerig GbR (TD Media), Chemnitz, on its own server; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
+The public instance is run by Stagecraft Solutions (represented by Marcel Seerig), Chemnitz, on its own server; no cookies, no tracking, no third-party services. If you host your own instance, replace `impressum.html` and `datenschutz.html` with your own legal pages.
 
 ## Code structure (`public/index.html`)
 
