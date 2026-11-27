@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-27 – Panel editor: grid, text, smart guides, DXF
+
+- **Grid:** in the custom connector panel editor the grid can be switched on (1 / 2 / 2.5 / 5 / 10 mm, origin at the panel centre or top left). With the grid on, item centres snap to it. The settings are kept in the browser.
+- **Text:** labels with six open fonts (Barlow, Barlow Condensed, IBM Plex Sans, IBM Plex Mono, Roboto Slab, Allerta Stencil), bold, height as cap height in mm, multi-line with left/centre/right alignment. "Text above" puts a label over the selected connector. Texts are drawn as outlines (opentype.js, fonts in `public/assets/engrave/`, WOFF, OFL) – the same outlines appear in the editor, the rack view, the drill template PDF and the DXF. Warnings when a text extends beyond the usable area or lies under a connector flange.
+- **Smart guides:** while dragging, items snap to edges and centres of other items, to the panel centre, to the mirrored position of another item and to equal spacing in the row. Pink lines show what the item aligns to; equal gaps show their dimension. Shift = fine move without snapping.
+- **DXF export (R12, mm):** "DXF cutouts + text" with layers PANEL (outline and ear slots, reference), CUT (cutouts and holes) and ENGRAVE (text outlines); "DXF text only (engraving)" as a separate file for the laser, with the panel outline as reference.
+
 ## 2026-11-21 – SFTP upload removed
 
 - The public instance now runs as a Docker container on TD Media's own server; the SFTP upload to the old web space is gone.

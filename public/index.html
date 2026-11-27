@@ -408,6 +408,21 @@ details summary { cursor: pointer; font-size: 13px; color: var(--muted); }
 .cpcut { fill: none; stroke: #ff5a4f; stroke-width: .5; }
 .cpfl { fill: none; stroke: rgba(255, 255, 255, .45); stroke-width: .35; stroke-dasharray: 1.4 1; }
 .cpbad { fill: rgba(255, 90, 79, .18); stroke: #ff5a4f; stroke-width: .5; }
+.cptxt { fill: var(--hw-ink); }
+.vegrid.maj line { stroke: rgba(255, 255, 255, .2); }
+.cpgorg line { stroke: var(--accent); stroke-width: .35; }
+.cpg { stroke: #ff3da5; stroke-width: .35; }
+.cpg.mid, .cpg.sym { stroke-dasharray: 2 1; }
+.cpg.dim { stroke-width: .3; }
+.cpgbox { fill: none; stroke: #ff3da5; stroke-width: .3; stroke-dasharray: 1 .8; }
+.cpgdot { fill: #ff3da5; }
+.cpglbl { fill: #ff3da5; font-family: var(--f-mono); font-size: 3.4px; font-weight: 600; text-anchor: middle; paint-order: stroke; stroke: #0b0c0e; stroke-width: .9px; }
+.cpgridctl { display: inline-flex; gap: 6px; align-items: center; }
+.cpexp { margin-top: -2px; }
+.cptxts { display: flex; flex-wrap: wrap; gap: 6px; }
+.cptxtopt { align-items: center; gap: 12px; }
+#cpTs { width: 100%; resize: vertical; font: inherit; }
+.pal-txt b { font-family: var(--f-display); font-size: 20px; line-height: 1; }
 .cpwarn { margin: 6px 0 0; padding-left: 18px; color: var(--warn); font-size: 12.5px; }
 [data-slotrow].dropon { border-color: var(--accent); background: var(--accent-soft); }
 
@@ -905,6 +920,7 @@ document.documentElement.lang = LANG;
   "„{0}“ soll hinten verschraubt werden, das Case hat aber keine hintere Rackschiene.": "“{0}” should be fixed at the rear, but the case has no rear rack rail.",
   "„{0}“ und „{1}“ überlappen {2}.": "“{0}” and “{1}” overlap {2}.",
   "„{0}“: Gerät „{1}“ ist in dieser Version der Datenbank unbekannt – wird als Platzhalter gezeigt, der Schlüssel bleibt in der Projektdatei erhalten.": "\"{0}\": device \"{1}\" is unknown in this version of the database – shown as a placeholder, the key is kept in the project file.",
+  "„Text“ oben setzt eine Beschriftung über den gewählten Stecker (sonst in die Mitte).": "“Text” above adds a label over the selected connector (otherwise in the centre).",
   "„Warenkorb“ = Preis aus deiner Liste. „Webpreis 11/2026“ = Händlerpreis aus der Recherche; vor der Bestellung prüfen. Art.-Nr., Lieferant und leere Preise kannst du direkt eintragen, sie bleiben in diesem Browser gespeichert.": "“Cart” = price from your list. “Web price 11/2026” = dealer price from research; check before ordering. You can enter part no., supplier and missing prices directly; they are stored in this browser.",
   "({0} liegen dem Case bei)": "({0} included with the case)",
   "({0} Position{1} ohne Gewicht)": "({0} item(s) without weight)",
@@ -936,8 +952,10 @@ document.documentElement.lang = LANG;
   "{0} HE frei": "{0} U free",
   "{0} hinten, {1} vorn": "{0} rear, {1} front",
   "{0} ist {1} mm hoch und ragt aus der Wanne ({2}).": "{0} is {1} mm high and sticks out of the shelf ({2}).",
+  "{0} liegt unter dem Flansch von {1}.": "{0} lies under the flange of {1}.",
   "{0} Projekte": "{0} projects",
   "{0} Projekte aus dem Ordner aktualisiert": "{0} projects updated from the folder",
+  "{0} ragt über den nutzbaren Bereich der Blende.": "{0} extends beyond the usable area of the panel.",
   "{0} Schrauben nötig · Pack à {1} Stk.": "{0} screws needed · pack of {1}",
   "{0} Stk. für die Frontbleche": "{0} pcs for the front plates",
   "{0} Teilungen à {1} mm, {2} Zeile{3}. Streifen {4} × {5} mm als PDF drucken (100 %), schneiden, einschieben.": "{0} divisions of {1} mm, {2} line(s). Print strip {4} × {5} mm as PDF (100 %), cut, slide in.",
@@ -1026,6 +1044,7 @@ document.documentElement.lang = LANG;
   "Bearbeitungsmodus:": "Edit mode:",
   "Bedarf {0} Stk.{1} → {2} Pack": "Need {0} pcs{1} → {2} pack",
   "bei {0} mm hinter der Frontschiene": "at {0} mm behind the front rail",
+  "Beim Ziehen an Kanten, Mitten, Blendenmitte, spiegelbildlich und auf gleiche Abstände ausrichten": "While dragging, align to edges, centres, the panel centre, mirrored positions and equal spacing",
   "Beispiel": "Example",
   "Beispiel · Anschlussrack": "Example · connector rack",
   "Beispiel als neues Projekt": "Example as new project",
@@ -1033,6 +1052,7 @@ document.documentElement.lang = LANG;
   "Beispiel laden": "Load example",
   "belegt · schiebt nach unten": "occupied · pushes down",
   "Belegung": "Layout",
+  "Beschriftung ({0} {1}) gravieren oder lasern – DXF-Datei „Gravur“ aus dem Steckerfeld-Editor.": "Engrave or laser the lettering ({0} {1}) – “engraving” DXF file from the connector panel editor.",
   "Beschriftung {0}: {1} × {2} mm = {3} mm ist breiter als der Streifen ({4} mm).": "Label {0}: {1} × {2} mm = {3} mm is wider than the strip ({4} mm).",
   "Beschriftungen als PDF": "Labels as PDF",
   "Beschriftungsblende": "Label panel",
@@ -1050,6 +1070,7 @@ document.documentElement.lang = LANG;
   "Blende": "Panel",
   "Blende hinten an die Rückschiene, Front nach hinten.": "Panel on the rear rail, front facing backwards.",
   "Blenden": "Panels",
+  "Blendenkontur, Ausschnitte und Texte auf getrennten Ebenen (PANEL, CUT, ENGRAVE)": "Panel outline, cutouts and texts on separate layers (PANEL, CUT, ENGRAVE)",
   "Bohrschablone 1:1 · {0} · Vorderseite · Maße in mm ab linker Blendenkante und Oberkante · drucken mit „Tatsächliche Größe“ (100 %) und am Kontrollmaß prüfen": "Drill template 1:1 · {0} · front · dimensions in mm from the left panel edge and the top edge · print at \"Actual size\" (100 %) and check the control dimension",
   "Bohrschablone PDF (1:1)": "Drill template PDF (1:1)",
   "Box bearbeiten (Ziehen in der Box)": "Edit box (drag inside the box)",
@@ -1075,6 +1096,9 @@ document.documentElement.lang = LANG;
   "Dort ist kein Platz": "No space there",
   "Download hier nicht möglich": "Download not possible here",
   "Duplizieren": "Duplicate",
+  "DXF Ausschnitte + Text": "DXF cutouts + text",
+  "DXF nur Text (Gravur)": "DXF text only (engraving)",
+  "eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)": "own hole, also fits a D hole (drilled blank plate)",
   "Eigene Elemente": "Custom elements",
   "Eigene lose Position": "Custom loose item",
   "Eigenes Element": "Custom element",
@@ -1102,7 +1126,9 @@ document.documentElement.lang = LANG;
   "Entwurf verwerfen": "Discard draft",
   "Entwurf verworfen": "Draft discarded",
   "Ergebnis": "Result",
+  "Export": "Export",
   "Fertigung": "Build notes",
+  "Fett": "Bold",
   "Filter": "Filter",
   "Freie Hälfte mit Blindblech schließen.": "Close the free half with a blank plate.",
   "Freie Hälfte mit Leerblende MA 130281 schließen.": "Close the free half with MA blank panel 130281.",
@@ -1141,11 +1167,15 @@ document.documentElement.lang = LANG;
   "Hälften": "halves",
   "Hersteller": "Manufacturer",
   "Herstellerbild laden …": "Load manufacturer image …",
+  "Hilfslinien": "Smart guides",
   "Hinten": "Rear",
   "Hinten an der Rückschiene ({0} mm) montiert, Front zeigt nach hinten. Die Tiefe zählt von der Rückschiene nach vorn.": "Mounted on the rear rail ({0} mm), front facing backwards. Depth counts from the rear rail forward.",
   "Hinter {0} {1} verschrauben, Tiefe {2} mm, bündig zur Unterkante.": "Fix behind {0} {1}, depth {2} mm, flush with the bottom edge.",
   "Hinzufügen": "Add",
   "Höhe": "Height",
+  "Höhe (mm)": "Height (mm)",
+  "Höhe = Versalhöhe (Großbuchstaben). Für Gravur mind. 2,5 mm, für Lasermarkierung mind. 1,5 mm. Text wird als Umriss exportiert – die Schrift muss in der Werkstatt nicht installiert sein.": "Height = cap height (capital letters). At least 2.5 mm for engraving, 1.5 mm for laser marking. Text is exported as outlines – the font does not need to be installed in the workshop.",
+  "Horizontal mittig": "Centre horizontally",
   "Im Rack": "In the rack",
   "Impressum": "Legal notice",
   "In „Meine Elemente“ merken": "Keep in “My elements”",
@@ -1177,6 +1207,7 @@ document.documentElement.lang = LANG;
   "Keine Beschriftungsblende im Rack": "No label panel in the rack",
   "Keine Cases für diesen Filter.": "No cases for this filter.",
   "keine Schiene": "no rail",
+  "Keine Texte auf der Blende": "No texts on the panel",
   "Klick auf ein Modul oder Loch wählt es aus.": "Click a module or hole to select it.",
   "klicken. Module per Ziehen verschieben.": ". Drag modules to move them.",
   "Kollision {0}: „{1}“ (vorn, bis {2} mm) trifft „{3}“ (hinten, ab {4} mm) – {5} mm Überdeckung.": "Collision {0}: “{1}” (front, to {2} mm) hits “{3}” (rear, from {4} mm) – {5} mm overlap.",
@@ -1250,6 +1281,7 @@ document.documentElement.lang = LANG;
   "noch nicht geprüft": "not checked yet",
   "Notiz": "Note",
   "Notiz zum Case": "Case note",
+  "Nur die Texte als Umrisse (Ebene ENGRAVE) mit Blendenkontur als Bezug (Ebene PANEL)": "Texts only, as outlines (layer ENGRAVE), with the panel outline as reference (layer PANEL)",
   "nur mit Händler-Login": "dealer login only",
   "nur vorne": "front only",
   "Oben einen Stecker wählen – er wird an die erste freie Stelle gesetzt.": "Choose a connector above – it is placed at the first free spot.",
@@ -1257,6 +1289,8 @@ document.documentElement.lang = LANG;
   "Oder in der Vorder- bzw. Rückansicht mit der Maus über eine freie Stelle fahren und auf": "Or hover over a free spot in the front or rear view and click",
   "Öffnen": "Open",
   "Ohne Gewicht: {0}{1}.": "Without weight: {0}{1}.",
+  "opentype fehlt": "opentype missing",
+  "opentype konnte nicht geladen werden": "opentype could not be loaded",
   "optional": "optional",
   "Ordner wieder verbinden": "Reconnect folder",
   "Ordnerzugriff ist hier nicht erlaubt": "Folder access is not allowed here",
@@ -1328,9 +1362,12 @@ document.documentElement.lang = LANG;
   "Rackwanne Adam Hall": "Rack shelf Adam Hall",
   "Rackwanne von {0} mm auf {1} mm Tiefe kürzen: Schnittlinie anreißen, mit Winkelschleifer (Flex, Trennscheibe) trennen, Kante entgraten und mit Lack/Zinkspray schützen.": "Shorten rack shelf from {0} mm to {1} mm depth: mark the cut line, cut with an angle grinder (cutting disc), deburr the edge and protect with paint/zinc spray.",
   "Rackwannen · Geräte lassen sich in jede Wanne setzen": "Rack shelves · devices fit into any shelf",
+  "Raster": "Grid",
   "Raster + Texte vom Steckerfeld": "Grid + labels from connector panel",
   "Raster 10 mm": "Grid 10 mm",
   "Raster und Texte von Steckerfeld {0} übernommen": "Grid and labels taken from connector panel {0}",
+  "Rasterursprung": "Grid origin",
+  "Rasterweite": "Grid spacing",
   "rechte Hälfte": "right half",
   "Rechtliches": "Legal",
   "Reihe": "Row",
@@ -1352,6 +1389,9 @@ document.documentElement.lang = LANG;
   "Schienen ohne Lochraster: Module millimetergenau in der Höhe verschieben statt im 0,5-HE-Raster": "Rails without hole pattern: move modules vertically to the millimetre instead of in the 0.5 U grid",
   "Schließen": "Close",
   "Schrauben, Zubehör": "Screws, accessories",
+  "Schrift": "Font",
+  "Schrift konnte nicht geladen werden": "Font could not be loaded",
+  "Schrift konnte nicht geladen werden – DXF ohne Text": "Font could not be loaded – DXF without text",
   "SCHUBLADE {2} · RÜCKWAND": "DRAWER {2} · REAR WALL",
   "Schublade Adam Hall": "Drawer Adam Hall",
   "Schubladen · kurze Modelle für flache Racks": "Drawers · short models for shallow racks",
@@ -1368,9 +1408,8 @@ document.documentElement.lang = LANG;
   "Speichern abgebrochen": "Saving cancelled",
   "Stand": "Date",
   "Startwerte: Streifen {6} × {7} mm, Teilungsabstand = D-Raster der Zeichnung ({8} mm bei 12 Löchern). Maße bitte am Streifen und an der Blende nachmessen. PDF in 100 % drucken.": "Starting values: strip {6} × {7} mm, division pitch = D grid of the drawing ({8} mm for 12 holes). Please measure on the strip and panel. Print the PDF at 100 %.",
-  "Stecker ({8})": "Connectors ({8})",
+  "Stecker ({16})": "Connectors ({16})",
   "Stecker für {0} · antippen oder auf ein Loch in der Ansicht ziehen": "Connector for {0} · tap or drag onto a hole in the view",
-  "Stecker hinzufügen": "Add connector",
   "Stecker mit D-Norm passen auch in die fertigen Steckerfelder; CEE, Schuko und Kaltgeräte brauchen einen eigenen Ausschnitt. Die Steckerdatenbank kommt aus der Stagecraft Library.": "D-size connectors also fit the ready-made connector panels; CEE, Schuko and IEC need their own cutout. The connector database comes from the Stagecraft Library.",
   "Steckerfeld-Editor öffnen": "Open connector panel editor",
   "Steckerfelder": "Connector panels",
@@ -1393,7 +1432,13 @@ document.documentElement.lang = LANG;
   "SYSBOXX-Gehäuse-Bausatz 19″, {0} HE, Tiefe {1} mm (2 Profile, 2 Seitenteile mit Rackohr, 4 Gewindestreifen, Erdung)": "SYSBOXX housing kit 19″, {0} U, depth {1} mm (2 profiles, 2 side parts with rack ears, 4 thread strips, earthing)",
   "Teilungen": "Divisions",
   "Teilungsabstand (mm)": "Division pitch (mm)",
+  "Text": "Text",
+  "Text (Zeilenumbruch mit Enter)": "Text (Enter for a new line)",
+  "Text darüber": "Text above",
+  "Text in der Blendenmitte": "Text in the panel centre",
   "Text markiert – mit Strg/Cmd+C kopieren": "Text selected – copy with Ctrl/Cmd+C",
+  "Text über dem gewählten Stecker": "Text above the selected connector",
+  "Texte ({18})": "Texts ({18})",
   "Tiefe": "Depth",
   "Tiefe (mm)": "Depth (mm)",
   "Tischgerät {0} × {1} mm · nicht rackfähig": "Desktop device {0} × {1} mm · not rack-mountable",
@@ -1403,6 +1448,8 @@ document.documentElement.lang = LANG;
   "Übernehmen: die Datei in die Stagecraft Library einpflegen.": "Apply: add the file to the Stagecraft Library.",
   "Übersicht": "Overview",
   "unbekannt": "unknown",
+  "Ursprung links oben": "Origin top left",
+  "Ursprung Mitte": "Origin centre",
   "Versatz (mm)": "Offset (mm)",
   "Vertikal mittig": "Centre vertically",
   "von hinten": "from the rear",
@@ -1411,7 +1458,7 @@ document.documentElement.lang = LANG;
   "Vorderansicht": "Front view",
   "Vorderseite": "Front",
   "Vorderseite geprüft": "Front checked",
-  "Vorderseite, Rackblende 482,6 mm × {6} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {6} mm. Drag connectors (0.5 mm grid, with Shift 0.1 mm), arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
+  "Vorderseite, Rackblende 482,6 mm × {14} mm. Stecker und Texte ziehen: Hilfslinien richten an Kanten und Mitten anderer Elemente, an der Blendenmitte, spiegelbildlich und auf gleiche Abstände aus, sonst rastet die Mitte im Raster ein (ohne Raster 0,5 mm). Mit Umschalt fein ohne Einrasten (0,1 mm). Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {14} mm. Drag connectors and texts: smart guides align to edges and centres of other items, the panel centre, mirrored positions and equal spacing; otherwise the centre snaps to the grid (without grid 0.5 mm). Hold Shift for fine moves without snapping (0.1 mm). Arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
   "vorhanden": "owned",
   "Vorhanden (nicht bestellen)": "Owned (do not order)",
   "Vorn": "Front",
@@ -1432,6 +1479,7 @@ document.documentElement.lang = LANG;
   "z. B. Shure ULXD4Q": "e.g. Shure ULXD4Q",
   "z. B. Steckdosenleiste 19″ 8-fach": "e.g. 19″ power strip, 8 sockets",
   "z. B. Thomann": "e.g. Thomann",
+  "Zeilen ausrichten": "Align lines",
   "Zeilen je Teilung": "Lines per division",
   "Zoom": "Zoom",
   "Zugriff auf den Ordner wurde nicht erlaubt": "Access to the folder was not allowed",
@@ -1439,6 +1487,9 @@ document.documentElement.lang = LANG;
   "Zulieferer · Artikel": "Supplier · part",
   "Zusätzlich hinten an der Rackschiene bei {0} mm verschrauben (Rackohren oder Stützwinkel). Gerätetiefe {1} mm.": "Also fix at the rear rack rail at {0} mm (rack ears or support brackets). Device depth {1} mm.",
   "Zusätzlich hinten an der Rückschiene verschrauben": "Also fix at the rear rail",
+  "Stecker ({8})": "Connectors ({8})",
+  "Stecker hinzufügen": "Add connector",
+  "Vorderseite, Rackblende 482,6 mm × {6} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {6} mm. Drag connectors (0.5 mm grid, with Shift 0.1 mm), arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
   "Löcher · antippen zum Bearbeiten": "Holes · tap to edit",
   "Stecker für {0} · antippen": "Connector for {0} · tap",
   "(nur von vorn möglich)": "(front mounting only)",
@@ -1459,6 +1510,11 @@ document.documentElement.lang = LANG;
   "Eigenes Steckerfeld {0}": "Custom connector panel {0}",
   "Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten.": "Mark the cutouts from the drill plan – centres in mm from the left panel edge (incl. rack ear) and from the top edge –, drill or punch and deburr.",
   "Bohrschablone 1:1 als PDF im Steckerfeld-Editor.": "Drill template 1:1 as PDF in the connector panel editor.",
+  "Bohrschablone 1:1 als PDF und DXF im Steckerfeld-Editor.": "Drill template 1:1 as PDF and DXF in the connector panel editor.",
+  "Texte": "texts",
+  "links": "left",
+  "mittig": "centred",
+  "rechts": "right",
   "Raster 0,5 HE: Positionen eingerastet": "0.5 U grid: positions snapped",
   "1 mm": "1 mm",
   "{0} von 12 BE belegt": "{0} of 12 WU used",
@@ -1491,7 +1547,6 @@ document.documentElement.lang = LANG;
   "SYSBOXX {0}": "SYSBOXX {0}",
   "2 Stück je Profil": "2 pcs per profile",
   "Preis je Stück, VPE 50 prüfen": "price per piece, check pack of 50",
-  "eigene Bohrung, passt auch ins D-Loch (gebohrte Blindplatte)": "own hole, also fits a D hole (drilled blank plate)",
   "12G-Eignung prüfen": "check 12G suitability",
   "2 × Keystone-Modul": "2 × keystone module",
   "2. Rackschienenpaar hinten": "2nd rack rail pair, rear",
@@ -1931,6 +1986,94 @@ if (LANG === 'en') {
 }
 const EUR = new Intl.NumberFormat(LANG === 'en' ? 'en-IE' : 'de-DE', { style: 'currency', currency: 'EUR' });
 const uid = () => Math.random().toString(36).slice(2, 9);
+/* ---------- Beschriftung eigener Steckerfelder: Schriften als Umrisse (opentype.js, lokal) ----------
+   Text t = { id, s, x, y, h, font, b, al }: x/y = Mitte des Textblocks (Breite = Tinte, Höhe = Versalhöhe bis
+   letzte Grundlinie), h = Versalhöhe in mm, al = Zeilenausrichtung l/c/r. Dieselben Umrisse gehen in Ansicht, PDF und DXF. */
+const TFONTS = {
+  'barlow': { n: 'Barlow', w: [400, 700] },
+  'barlow-condensed': { n: 'Barlow Condensed', w: [500, 700] },
+  'ibm-plex-sans': { n: 'IBM Plex Sans', w: [400, 700] },
+  'ibm-plex-mono': { n: 'IBM Plex Mono', w: [400, 700] },
+  'roboto-slab': { n: 'Roboto Slab', w: [400, 700] },
+  'allerta-stencil': { n: 'Allerta Stencil', w: [400] },
+};
+const TLINE = 1.55;   // Zeilenabstand in Versalhöhen
+const txtFix = t => ({ id: t.id || uid(), s: String(t.s || '').replace(/\r/g, '').slice(0, 400), x: Math.round((+t.x || 0) * 100) / 100, y: Math.round((+t.y || 0) * 100) / 100,
+  h: Math.min(40, Math.max(1, +t.h || 5)), font: TFONTS[t.font] ? t.font : 'barlow', b: !!t.b && TFONTS[TFONTS[t.font] ? t.font : 'barlow'].w.length > 1, al: ['l', 'r'].includes(t.al) ? t.al : 'c' });
+const TF = {};          // 'barlow-700' → opentype.Font | Promise | false
+const TGEO = new Map(); // Umriss-Cache
+let otP = null;
+function loadOT() {
+  if (window.opentype) return Promise.resolve(window.opentype);
+  return otP = otP || new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'assets/vendor/opentype-1.3.4.min.js';
+    s.onload = () => window.opentype ? res(window.opentype) : rej(new Error('opentype fehlt'));
+    s.onerror = () => { otP = null; rej(new Error('opentype konnte nicht geladen werden')); };
+    document.head.appendChild(s);
+  });
+}
+const tfKey = t => { const k = TFONTS[t.font] ? t.font : 'barlow', W = TFONTS[k].w; return `${k}-${t.b && W[1] ? W[1] : W[0]}`; };
+function tfLoad(key) {
+  if (TF[key] && !(TF[key] instanceof Promise)) return Promise.resolve(TF[key]);
+  if (TF[key] instanceof Promise) return TF[key];
+  return TF[key] = loadOT()
+    .then(ot => fetch(`assets/engrave/${key}.woff`).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); }).then(b => TF[key] = ot.parse(b)))
+    .catch(() => { TF[key] = false; setTimeout(() => { if (TF[key] === false) delete TF[key]; }, 15000); return false; });
+}
+// fehlende Schriften nachladen und danach neu zeichnen (bis dahin Ersatzdarstellung)
+function tfEnsure(texts) {
+  const miss = [...new Set((texts || []).map(tfKey))].filter(k => TF[k] === undefined);
+  if (!miss.length) return;
+  Promise.all(miss.map(tfLoad)).then(r => { if (!r.some(Boolean)) return; if ($('#cpDlg').open) renderCP(); renderSoft(); });
+}
+const tfAll = texts => Promise.all([...new Set(texts.map(tfKey))].map(tfLoad)).then(r => r.every(Boolean));
+// Kurven in Polylinien zerlegen (Toleranz über Sehnenlänge, für DXF und PDF)
+function txtFlat(cmds) {
+  const out = []; let cur = null, x = 0, y = 0;
+  const seg = (len) => Math.max(2, Math.min(24, Math.ceil(len / .2)));
+  cmds.forEach(c => {
+    if (c.type === 'M') { cur = [[c.x, c.y]]; out.push(cur); }
+    else if (c.type === 'L') cur.push([c.x, c.y]);
+    else if (c.type === 'Q') { const n = seg(Math.hypot(c.x1 - x, c.y1 - y) + Math.hypot(c.x - c.x1, c.y - c.y1)); for (let i = 1; i <= n; i++) { const t = i / n, u = 1 - t; cur.push([u * u * x + 2 * u * t * c.x1 + t * t * c.x, u * u * y + 2 * u * t * c.y1 + t * t * c.y]); } }
+    else if (c.type === 'C') { const n = seg(Math.hypot(c.x1 - x, c.y1 - y) + Math.hypot(c.x2 - c.x1, c.y2 - c.y1) + Math.hypot(c.x - c.x2, c.y - c.y2)); for (let i = 1; i <= n; i++) { const t = i / n, u = 1 - t; cur.push([u * u * u * x + 3 * u * u * t * c.x1 + 3 * u * t * t * c.x2 + t * t * t * c.x, u * u * u * y + 3 * u * u * t * c.y1 + 3 * u * t * t * c.y2 + t * t * t * c.y]); } }
+    if (c.type !== 'Z') { x = c.x; y = c.y; } else if (cur) { const a = cur[0], z = cur[cur.length - 1]; if (cur.length > 1 && Math.abs(a[0] - z[0]) < 1e-6 && Math.abs(a[1] - z[1]) < 1e-6) cur.pop(); x = a[0]; y = a[1]; }
+  });
+  return out.filter(p => p.length > 2);
+}
+// Geometrie relativ zur Blockmitte: d (SVG-Pfad), polys (Polylinien), w/h (Box)
+function txtGeo(t) {
+  const key = tfKey(t), font = TF[key], lines = String(t.s || '').split('\n'), h = t.h, pitch = h * TLINE, total = h + pitch * (lines.length - 1);
+  if (!font || font instanceof Promise) return { ok: false, w: Math.max(0, ...lines.map(l => l.length)) * h * .62, h: total, lines, pitch };
+  const ck = [key, h, t.al, t.s].join('|');
+  if (TGEO.has(ck)) return TGEO.get(ck);
+  const upm = font.unitsPerEm, cap = (font.tables.os2 && font.tables.os2.sCapHeight) || upm * .7, fs = h * upm / cap;
+  const ws = lines.map(l => font.getAdvanceWidth(l, fs, { kerning: true })), wmax = Math.max(0, ...ws);
+  let polys = [], cmds = [];
+  lines.forEach((l, i) => {
+    const x = t.al === 'l' ? 0 : t.al === 'r' ? wmax - ws[i] : (wmax - ws[i]) / 2;
+    const p = font.getPath(l, x, -total / 2 + h + i * pitch, fs, { kerning: true });
+    cmds = cmds.concat(p.commands); polys = polys.concat(txtFlat(p.commands));
+  });
+  let x0 = Infinity, x1 = -Infinity; polys.forEach(pl => pl.forEach(([px]) => { if (px < x0) x0 = px; if (px > x1) x1 = px; }));
+  if (!isFinite(x0)) { x0 = 0; x1 = 0; }
+  const dx = -(x0 + x1) / 2, r = v => Math.round(v * 1000) / 1000;
+  polys = polys.map(pl => pl.map(([px, py]) => [r(px + dx), r(py)]));
+  const n = v => (Math.round(v * 1000) / 1000).toString();
+  const d = cmds.map(c => c.type === 'Z' ? 'Z' : c.type === 'M' || c.type === 'L' ? `${c.type}${n(c.x + dx)} ${n(c.y)}` : c.type === 'Q' ? `Q${n(c.x1 + dx)} ${n(c.y1)} ${n(c.x + dx)} ${n(c.y)}` : `C${n(c.x1 + dx)} ${n(c.y1)} ${n(c.x2 + dx)} ${n(c.y2)} ${n(c.x + dx)} ${n(c.y)}`).join('');
+  const g = { ok: true, w: x1 - x0, h: total, d, polys };
+  if (TGEO.size > 400) TGEO.clear();
+  TGEO.set(ck, g); return g;
+}
+const txtRect = t => { const g = txtGeo(t); return { x0: t.x - g.w / 2, x1: t.x + g.w / 2, y0: t.y - g.h / 2, y1: t.y + g.h / 2 }; };
+// als SVG (ox/oy = Blendenecke links oben)
+function txtSVG(t, ox, oy, cls = 'cptxt') {
+  const g = txtGeo(t), f = v => (+v).toFixed(2);
+  if (g.ok) return `<path d="${g.d}" transform="translate(${f(ox + t.x)} ${f(oy + t.y)})" class="${cls}"/>`;
+  const fam = TFONTS[t.font] ? TFONTS[t.font].n : 'Barlow';
+  return `<text class="${cls}" font-family="${esc(fam)}, sans-serif" font-weight="${t.b ? 700 : 400}" font-size="${f(t.h / .7)}" text-anchor="middle">${g.lines.map((l, i) => `<tspan x="${f(ox + t.x)}" y="${f(oy + t.y - g.h / 2 + t.h + i * g.pitch)}">${esc(l)}</tspan>`).join('')}</text>`;
+}
+const txtTip = t => `Text „${t.s.replace(/\n/g, ' / ')}“ · ${(TFONTS[t.font] || TFONTS.barlow).n}${t.b ? ' fett' : ''} · ${fmtN(t.h)} mm`;
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 /* ---------- Katalog ---------- */
@@ -2288,7 +2431,7 @@ function makeItem(kind, o = {}) {
     it.labels = Array(n).fill('');
     it.mounts = Array(n).fill('r');   // Einsätze von hinten (r) oder vorn (f) eingebaut
   }
-  if (kind === 'cpanel') { it.he = o.he ?? 1; it.name = o.name || ''; it.cons = (o.cons || []).map(c => ({ ...c, id: uid() })); }
+  if (kind === 'cpanel') { it.he = o.he ?? 1; it.name = o.name || ''; it.cons = (o.cons || []).map(c => ({ ...c, id: uid() })); it.texts = (o.texts || []).map(t => ({ ...t, id: uid() })); }
   if (kind === 'sysboxx') { it.he = o.he ?? 2; it.depth = o.depth ?? 80; it.name = o.name || ''; it.rows = (o.rows || []).map(r => r.map(p => typeof p === 'string' ? sbxPlate(p) : p)); sbxFix(it); }
   if (kind === 'vent' || kind === 'blank') it.tray = null;
   if (kind === 'tray') { it.he = o.he ?? 1; it.depth = 375; }
@@ -2676,7 +2819,8 @@ function normalize(s) {
     }
     if (it.kind === 'cpanel') {
       it.he = [1, 2, 3, 4].includes(+it.he) ? +it.he : 1; it.name = String(it.name || '');
-      it.cons = (Array.isArray(it.cons) ? it.cons : []).filter(c => c && CON[c.k]).map(c => ({ id: c.id || uid(), k: c.k, x: Math.round((+c.x || 0) * 10) / 10, y: Math.round((+c.y || 0) * 10) / 10, label: String(c.label || ''), mount: CON[c.k].fit === 'fp' || CON[c.k].mount ? 'f' : c.mount === 'f' ? 'f' : 'r' }));
+      it.cons = (Array.isArray(it.cons) ? it.cons : []).filter(c => c && CON[c.k]).map(c => ({ id: c.id || uid(), k: c.k, x: Math.round((+c.x || 0) * 100) / 100, y: Math.round((+c.y || 0) * 100) / 100, label: String(c.label || ''), mount: CON[c.k].fit === 'fp' || CON[c.k].mount ? 'f' : c.mount === 'f' ? 'f' : 'r' }));
+      it.texts = (Array.isArray(it.texts) ? it.texts : []).filter(t => t && typeof t.s === 'string').map(txtFix);
     }
     if (it.kind === 'sysboxx') { it.name = String(it.name || ''); sbxFix(it); }
     if (it.kind === 'label' && !Array.isArray(it.cells)) {
@@ -2851,6 +2995,13 @@ function cpIssues(it, ids) {
     const r = R[i];
     if (r.x0 < CP_EAR || r.x1 > W19 - CP_EAR || r.y0 < 1.5 || r.y1 > H - 1.5) { out.push(`${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''} ragt über den nutzbaren Bereich der Blende${fpOf(c.k).h > H - 3 ? ` (braucht mind. ${fmtHE(Math.ceil((fpOf(c.k).h + 3) / HE))})` : ''}.`); ids && ids.add(c.id); }
     for (let j = i + 1; j < it.cons.length; j++) { const q = R[j]; if (r.x0 < q.x1 - .01 && q.x0 < r.x1 - .01 && r.y0 < q.y1 - .01 && q.y0 < r.y1 - .01) { out.push(`${CON[c.k].s} und ${CON[it.cons[j].k].s} überlappen.`); ids && (ids.add(c.id), ids.add(it.cons[j].id)); } }
+  });
+  (it.texts || []).forEach(t => {
+    if (!t.s.trim()) return;
+    const r = txtRect(t), nm = `Text „${t.s.split('\n')[0]}“`;
+    if (r.x0 < CP_EAR || r.x1 > W19 - CP_EAR || r.y0 < 1 || r.y1 > H - 1) { out.push(`${nm} ragt über den nutzbaren Bereich der Blende.`); ids && ids.add(t.id); }
+    const k = it.cons.findIndex((c, i) => { const q = R[i]; return r.x0 < q.x1 - .01 && q.x0 < r.x1 - .01 && r.y0 < q.y1 - .01 && q.y0 < r.y1 - .01; });
+    if (k >= 0) { out.push(`${nm} liegt unter dem Flansch von ${CON[it.cons[k].k].s}.`); ids && ids.add(t.id); }
   });
   return out;
 }
@@ -3103,6 +3254,7 @@ function faceSVG(it, xL, W, live = false) {
       g += panelBase(xL, y, W19, h);
       g += `<text x="${xL + EAR / 2}" y="${y + h / 2}" class="pletter">${it._letter}</text>`;
       it.cons.forEach(c => { g += `<g><title>${esc(cpTip(c))}</title>${cpDraw(c, xL + c.x, y - .4 + c.y, false)}</g>`; });
+      if (it.texts && it.texts.length) { tfEnsure(it.texts); it.texts.forEach(t => { g += txtSVG(t, xL, y - .4); }); }
       break;
     }
     case 'dpanel': {
@@ -3834,9 +3986,9 @@ function notesData() {
     }
     if (it.kind === 'cpanel') {
       const cs = it.cons.slice().sort((a, b) => a.x - b.x || a.y - b.y), nD = cs.filter(c => CON[c.k].fit !== 'fp').length, nF = cs.length - nD;
-      const fr = cs.filter(c => CON[c.k].fit !== 'fp' && c.mount === 'f').length;
+      const fr = cs.filter(c => CON[c.k].fit !== 'fp' && c.mount === 'f').length, nT = (it.texts || []).filter(t => t.s.trim()).length;
       out.push({ drill: cs.length > 0, h: `${title(it)} · ${where} · ${(ART[artKey('blank', it.he)] || {}).art || 'Rackblende'} (eigenes Steckerfeld)`,
-        t: cs.length ? `Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten. Bohrschablone 1:1 als PDF im Steckerfeld-Editor.${nD ? ` D-Einsätze ${fr === 0 ? 'von hinten' : fr === nD ? 'von vorn' : 'wie angegeben'} einbauen, je 2 × M3.` : ''}${nF ? ' Einbausteckdosen/-stecker mit Schrauben nach Herstellerangabe befestigen.' : ''}${cs.some(c => CON[c.k].chk) ? ' Ausschnitte mit „Maße prüfen“ vor dem Bohren mit dem Maßblatt des Herstellers abgleichen.' : ''}` : 'Noch keine Stecker platziert.',
+        t: (cs.length ? `Ausschnitte nach Bohrplan anreißen – Mittelpunkte in mm ab linker Blendenkante (mit Rackohr) und ab Oberkante –, bohren bzw. stanzen und entgraten. Bohrschablone 1:1 als PDF und DXF im Steckerfeld-Editor.${nD ? ` D-Einsätze ${fr === 0 ? 'von hinten' : fr === nD ? 'von vorn' : 'wie angegeben'} einbauen, je 2 × M3.` : ''}${nF ? ' Einbausteckdosen/-stecker mit Schrauben nach Herstellerangabe befestigen.' : ''}${cs.some(c => CON[c.k].chk) ? ' Ausschnitte mit „Maße prüfen“ vor dem Bohren mit dem Maßblatt des Herstellers abgleichen.' : ''}` : 'Noch keine Stecker platziert.') + (nT ? ` Beschriftung (${nT} ${nT === 1 ? 'Text' : 'Texte'}) gravieren oder lasern – DXF-Datei „Gravur“ aus dem Steckerfeld-Editor.` : ''),
         map: cs.map((c, i) => `${i + 1} ${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''}: x ${fmtN(c.x)} / y ${fmtN(c.y)} mm, ${cutTxt(c.k)}${CON[c.k].fit !== 'fp' && c.mount === 'f' ? ', von vorn' : ''}`).join(' · ') });
     }
     if ((it.kind === 'vent' || it.kind === 'blank') && it.tray) out.push({ h: `Rackwanne ${fmtHE(it.tray.he)} · ${where}`, t: `Hinter ${it.kind === 'vent' ? 'Gitterblende' : 'Rackblende'} ${fmtHE(it.he)} verschrauben, Tiefe ${it.tray.depth} mm, bündig zur Unterkante.` });
@@ -4364,16 +4516,28 @@ document.addEventListener('drop', e => {
   render(); toast(`Loch ${d.i + 1}: ${CON[d.it.slots[d.i]].n}`);
 });
 
-/* ---------- Editor für eigene Steckerfelder ---------- */
-const CP = { id: null, sel: null, cuts: true, grid: false, drag: null };
+/* ---------- Editor für eigene Steckerfelder ----------
+   Elemente = Stecker (it.cons) und Texte (it.texts), beide mit x/y = Mitte. Beim Ziehen richten Hilfslinien an Kanten und
+   Mitten anderer Elemente, an der Blendenmitte, spiegelbildlich zur Mitte und auf gleiche Abstände in der Reihe aus;
+   sonst rastet die Mitte im Raster ein (wenn eingeschaltet). Umschalt = fein ohne Einrasten. */
+const CP_STEPS = [1, 2, 2.5, 5, 10];
+const CP = { id: null, sel: null, cuts: true, grid: false, gstep: 5, gorg: 'c', guides: true, drag: null, gd: '' };
+try { const o = JSON.parse(localStorage.getItem('rm-cpgrid') || '{}'); if (o && typeof o === 'object') { CP.grid = !!o.grid; CP.guides = o.guides !== false; if (CP_STEPS.includes(o.gstep)) CP.gstep = o.gstep; if (o.gorg === 'l') CP.gorg = 'l'; } } catch (e) { /* ohne Speicher */ }
+const cpPrefs = () => { try { localStorage.setItem('rm-cpgrid', JSON.stringify({ grid: CP.grid, gstep: CP.gstep, gorg: CP.gorg, guides: CP.guides })); } catch (e) { /* ohne Speicher */ } };
 const cpIt = () => state.items.find(i => i.id === CP.id && i.kind === 'cpanel');
+const cpEls = it => [...it.cons.map(o => ({ t: 'c', o })), ...it.texts.map(o => ({ t: 't', o }))];
+const cpEl = (it, id) => cpEls(it).find(e => e.o.id === id) || null;
+const cpBox = e => e.t === 'c' ? cpRect(e.o) : txtRect(e.o);
+const cpNum = v => LANG === 'en' ? String(Math.round(v * 100) / 100) : fmtN(v);
 function openCP(id, conId) {
   const it = state.items.find(i => i.id === id && i.kind === 'cpanel'); if (!it) return;
+  if (!Array.isArray(it.texts)) it.texts = [];
   CP.id = id; CP.sel = conId || (it.cons[0] && it.cons[0].id) || null; sel = id;
   const dl = $('#cpDlg'); if (!dl.open) { if (typeof dl.showModal === 'function') dl.showModal(); else dl.setAttribute('open', ''); }
+  tfEnsure(it.texts.length ? it.texts : [{ font: 'barlow' }]);
   renderCP();
 }
-function closeCP() { const dl = $('#cpDlg'); if (dl.open) { if (typeof dl.close === 'function') dl.close(); else dl.removeAttribute('open'); } CP.drag = null; render(); }
+function closeCP() { const dl = $('#cpDlg'); if (dl.open) { if (typeof dl.close === 'function') dl.close(); else dl.removeAttribute('open'); } CP.drag = null; CP.gd = ''; render(); }
 function cpFree(it, k) {   // erster freier Platz für einen neuen Stecker
   const F = fpOf(k), H = it.he * HE, y = Math.max(F.h / 2 + 2, Math.min(H / 2, H - F.h / 2 - 2));
   for (let x = CP_EAR + F.w / 2 + 6; x <= W19 - CP_EAR - F.w / 2; x += 1) {
@@ -4382,56 +4546,154 @@ function cpFree(it, k) {   // erster freier Platz für einen neuen Stecker
   }
   return [W19 / 2, Math.round(H / 2 * 2) / 2];
 }
+function cpAddText(it) {
+  const H = it.he * HE, ref = it.cons.find(x => x.id === CP.sel), h = H < 50 ? 3.5 : 5;
+  const t = txtFix({ s: ref ? (ref.label || CON[ref.k].s) : 'TEXT', h, font: 'barlow-condensed', b: true, x: ref ? ref.x : W19 / 2, y: H / 2 });
+  if (ref) { const r = cpRect(ref); t.y = r.y0 - h / 2 - 1.5 >= h / 2 + 1 ? r.y0 - h / 2 - 1.5 : r.y1 + h / 2 + 1.5 <= H - h / 2 - 1 ? r.y1 + h / 2 + 1.5 : H / 2; t.y = Math.round(t.y * 10) / 10; }
+  it.texts.push(t); CP.sel = t.id; tfEnsure([t]);
+}
 function renderCP() {
   const it = cpIt(); if (!it) { closeCP(); return; }
-  if (!it.cons.some(c => c.id === CP.sel)) CP.sel = null;
-  const c = it.cons.find(x => x.id === CP.sel), bad = new Set(), iss = cpIssues(it, bad);
+  if (!Array.isArray(it.texts)) it.texts = [];
+  if (!cpEl(it, CP.sel)) CP.sel = null;
+  const e = cpEl(it, CP.sel), c = e && e.t === 'c' ? e.o : null, tx = e && e.t === 't' ? e.o : null, bad = new Set(), iss = cpIssues(it, bad);
+  const xy = o => `<div class="row"><div class="field"><label for="cpX">x (mm)</label><input id="cpX" type="number" step="0.5" value="${o.x}" data-cpxy="x"></div><div class="field"><label for="cpY">y (mm)</label><input id="cpY" type="number" step="0.5" value="${o.y}" data-cpxy="y"></div></div>`;
+  const acts = extra => `<div class="actions"><button type="button" class="btn sm" data-cpact="center">Vertikal mittig</button><button type="button" class="btn sm" data-cpact="hcenter">Horizontal mittig</button>${extra}<button type="button" class="btn sm" data-cpact="dup">Duplizieren</button><button type="button" class="btn sm danger" data-cpact="del">Entfernen</button></div>`;
+  const TF0 = tx && (TFONTS[tx.font] || TFONTS.barlow);
   $('#cpTitle').textContent = title(it);
   $('#cpBody').innerHTML = `
     <div class="ve-tools">
       <label>Bezeichnung <input type="text" id="cpName" value="${esc(it.name)}" placeholder="Eigenes Steckerfeld ${esc(it._letter || '')}" style="width:220px"></label>
       <label>Höhe <select id="cpHe">${[1, 2, 3, 4].map(x => `<option value="${x}" ${x === it.he ? 'selected' : ''}>${fmtHE(x)}</option>`).join('')}</select></label>
       <label class="check"><input type="checkbox" id="cpCuts" ${CP.cuts ? 'checked' : ''}> Ausschnitte zeigen</label>
-      <label class="check"><input type="checkbox" id="cpGrid" ${CP.grid ? 'checked' : ''}> Raster 10 mm</label>
-      <button type="button" class="btn sm" data-cpact="pdf">Bohrschablone PDF (1:1)</button>
+      <span class="cpgridctl"><label class="check"><input type="checkbox" id="cpGrid" ${CP.grid ? 'checked' : ''}> Raster</label>
+        <label for="cpGstep" class="sr">Rasterweite</label><select id="cpGstep" ${CP.grid ? '' : 'disabled'}>${CP_STEPS.map(v => `<option value="${v}" ${v === CP.gstep ? 'selected' : ''}>${cpNum(v)} mm</option>`).join('')}</select>
+        <label for="cpGorg" class="sr">Rasterursprung</label><select id="cpGorg" ${CP.grid ? '' : 'disabled'}><option value="c" ${CP.gorg === 'c' ? 'selected' : ''}>Ursprung Mitte</option><option value="l" ${CP.gorg === 'l' ? 'selected' : ''}>Ursprung links oben</option></select></span>
+      <label class="check" title="Beim Ziehen an Kanten, Mitten, Blendenmitte, spiegelbildlich und auf gleiche Abstände ausrichten"><input type="checkbox" id="cpGuides" ${CP.guides ? 'checked' : ''}> Hilfslinien</label>
     </div>
-    <div><span class="eyebrow">Stecker hinzufügen</span><div class="cppal palette">${PICK_ALL.map(t => `<button type="button" class="pal" data-cpadd="${t}" title="${esc(CTYPES[t].n)}">${CON[CTYPES[t].def].fit === 'fp' ? `<svg viewBox="${-fpOf(CTYPES[t].def).w / 2 - 2} ${-fpOf(CTYPES[t].def).h / 2 - 2} ${fpOf(CTYPES[t].def).w + 4} ${fpOf(CTYPES[t].def).h + 4}" aria-hidden="true">${cpDraw({ k: CTYPES[t].def, mount: 'f' }, 0, 0, false)}</svg>` : miniGlyph(CTYPES[t].def)}<span>${esc(CTYPES[t].s)}</span></button>`).join('')}</div></div>
+    <div class="ve-tools cpexp"><span class="eyebrow">Export</span>
+      <button type="button" class="btn sm" data-cpact="pdf">Bohrschablone PDF (1:1)</button>
+      <button type="button" class="btn sm" data-cpact="dxf" title="Blendenkontur, Ausschnitte und Texte auf getrennten Ebenen (PANEL, CUT, ENGRAVE)">DXF Ausschnitte + Text</button>
+      <button type="button" class="btn sm" data-cpact="dxftxt" title="Nur die Texte als Umrisse (Ebene ENGRAVE) mit Blendenkontur als Bezug (Ebene PANEL)" ${it.texts.some(t => t.s.trim()) ? '' : 'disabled'}>DXF nur Text (Gravur)</button>
+    </div>
+    <div><span class="eyebrow">Hinzufügen</span><div class="cppal palette"><button type="button" class="pal pal-txt" data-cpact="addtxt" title="${c ? 'Text über dem gewählten Stecker' : 'Text in der Blendenmitte'}"><b aria-hidden="true">Aa</b><span>Text</span></button>${PICK_ALL.map(t => `<button type="button" class="pal" data-cpadd="${t}" title="${esc(CTYPES[t].n)}">${CON[CTYPES[t].def].fit === 'fp' ? `<svg viewBox="${-fpOf(CTYPES[t].def).w / 2 - 2} ${-fpOf(CTYPES[t].def).h / 2 - 2} ${fpOf(CTYPES[t].def).w + 4} ${fpOf(CTYPES[t].def).h + 4}" aria-hidden="true">${cpDraw({ k: CTYPES[t].def, mount: 'f' }, 0, 0, false)}</svg>` : miniGlyph(CTYPES[t].def)}<span>${esc(CTYPES[t].s)}</span></button>`).join('')}</div></div>
     <div class="ve-grid">
       <div>
         <div class="ve-stage" id="cpStage"></div>
-        <p class="hint">Vorderseite, Rackblende 482,6 mm × ${fmtN(it.he * HE)} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.</p>
+        <p class="hint">Vorderseite, Rackblende 482,6 mm × ${fmtN(it.he * HE)} mm. Stecker und Texte ziehen: Hilfslinien richten an Kanten und Mitten anderer Elemente, an der Blendenmitte, spiegelbildlich und auf gleiche Abstände aus, sonst rastet die Mitte im Raster ein (ohne Raster 0,5 mm). Mit Umschalt fein ohne Einrasten (0,1 mm). Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.</p>
         ${iss.length ? `<ul class="cpwarn">${iss.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
       </div>
       <div class="ve-panel">
         <section><h3 class="subh">Stecker (${it.cons.length})</h3>${it.cons.length ? `<div class="holes free">${it.cons.map(x => `<button type="button" class="hole-b${x.id === CP.sel ? ' on' : ''}" data-cpsel="${x.id}" title="${esc(cpTip(x))}">${CON[x.k].fit === 'fp' ? `<svg viewBox="${-fpOf(x.k).w / 2 - 2} ${-fpOf(x.k).h / 2 - 2} ${fpOf(x.k).w + 4} ${fpOf(x.k).h + 4}" aria-hidden="true">${cpDraw(x, 0, 0, false)}</svg>` : miniGlyph(x.k)}<span>${esc(CON[x.k].s)}</span>${x.label ? `<small data-noi18n>${esc(x.label)}</small>` : ''}</button>`).join('')}</div>` : '<p class="hint">Oben einen Stecker wählen – er wird an die erste freie Stelle gesetzt.</p>'}</section>
+        <section><h3 class="subh">Texte (${it.texts.length})</h3>${it.texts.length ? `<div class="cptxts">${it.texts.map(x => `<button type="button" class="chip${x.id === CP.sel ? ' on' : ''}" data-cpsel="${x.id}" title="${esc(txtTip(x))}" data-noi18n>${esc(x.s.replace(/\n/g, ' / ').slice(0, 28) || '…')}</button>`).join('')}</div>` : '<p class="hint">„Text“ oben setzt eine Beschriftung über den gewählten Stecker (sonst in die Mitte).</p>'}</section>
         ${c ? `<section class="selhole"><h3 class="subh">${esc(CON[c.k].s)}${c.label ? ` · <span data-noi18n>${esc(c.label)}</span>` : ''}</h3>${conForm('cp:' + c.id, c.k, c.label, c.mount, true)}
-          <div class="row"><div class="field"><label for="cpX">x (mm)</label><input id="cpX" type="number" step="0.5" value="${c.x}" data-cpxy="x"></div><div class="field"><label for="cpY">y (mm)</label><input id="cpY" type="number" step="0.5" value="${c.y}" data-cpxy="y"></div></div>
-          <div class="actions"><button type="button" class="btn sm" data-cpact="center">Vertikal mittig</button><button type="button" class="btn sm" data-cpact="dup">Duplizieren</button><button type="button" class="btn sm danger" data-cpact="del">Entfernen</button></div></section>` : ''}
+          ${xy(c)}${acts('<button type="button" class="btn sm" data-cpact="addtxt">Text darüber</button>')}</section>` : ''}
+        ${tx ? `<section class="selhole"><h3 class="subh">Text</h3>
+          <div class="field"><label for="cpTs">Text (Zeilenumbruch mit Enter)</label><textarea id="cpTs" rows="2" data-noi18n>${esc(tx.s)}</textarea></div>
+          <div class="row"><div class="field"><label for="cpTf">Schrift</label><select id="cpTf">${Object.entries(TFONTS).map(([k, v]) => `<option value="${k}" ${k === tx.font ? 'selected' : ''}>${esc(v.n)}</option>`).join('')}</select></div>
+            <div class="field"><label for="cpTh">Höhe (mm)</label><input id="cpTh" type="number" step="0.5" min="1" max="40" value="${tx.h}"></div></div>
+          <div class="row cptxtopt"><label class="check"><input type="checkbox" id="cpTb" ${tx.b ? 'checked' : ''} ${TF0.w.length > 1 ? '' : 'disabled'}> Fett</label>
+            <span class="seg" role="group" aria-label="Zeilen ausrichten">${[['l', 'links'], ['c', 'mittig'], ['r', 'rechts']].map(([k, n]) => `<button type="button" data-cptal="${k}" aria-pressed="${tx.al === k}">${n}</button>`).join('')}</span></div>
+          ${xy(tx)}${acts('')}
+          <p class="hint">Höhe = Versalhöhe (Großbuchstaben). Für Gravur mind. 2,5 mm, für Lasermarkierung mind. 1,5 mm. Text wird als Umriss exportiert – die Schrift muss in der Werkstatt nicht installiert sein.</p></section>` : ''}
         <section><p class="hint">Stecker mit D-Norm passen auch in die fertigen Steckerfelder; CEE, Schuko und Kaltgeräte brauchen einen eigenen Ausschnitt. Die Steckerdatenbank kommt aus der Stagecraft Library.</p></section>
       </div>
     </div>`;
   cpStage(bad);
+}
+function cpGridSVG(H) {
+  const st = CP.gstep, ox = CP.gorg === 'c' ? W19 / 2 : 0, oy = CP.gorg === 'c' ? H / 2 : 0, maj = st >= 10 ? 5 : Math.round(10 / st), f = v => (+v).toFixed(2);
+  const mn = [], mj = [];
+  for (let i = Math.ceil(-ox / st); ox + i * st <= W19 + 1e-6; i++) { const x = ox + i * st; (i % maj === 0 ? mj : mn).push(`<line x1="${f(x)}" y1="0" x2="${f(x)}" y2="${f(H)}"/>`); }
+  for (let i = Math.ceil(-oy / st); oy + i * st <= H + 1e-6; i++) { const y = oy + i * st; (i % maj === 0 ? mj : mn).push(`<line x1="0" y1="${f(y)}" x2="${W19}" y2="${f(y)}"/>`); }
+  return `<g class="vegrid" pointer-events="none">${mn.join('')}</g><g class="vegrid maj" pointer-events="none">${mj.join('')}</g>`
+    + `<g class="cpgorg" pointer-events="none"><line x1="${f(ox - 3)}" y1="${f(oy)}" x2="${f(ox + 3)}" y2="${f(oy)}"/><line x1="${f(ox)}" y1="${f(oy - 3)}" x2="${f(ox)}" y2="${f(oy + 3)}"/></g>`;
 }
 function cpStage(bad) {
   const box = $('#cpStage'), it = cpIt(); if (!box || !it) return;
   if (!bad) { bad = new Set(); cpIssues(it, bad); }
   const H = it.he * HE, f = v => (+v).toFixed(2), m = 10;
   let g = panelBase(0, 0, W19, H);
-  if (CP.grid) { let gl = ''; for (let x = 10; x < W19; x += 10) gl += `<line x1="${x}" y1="0" x2="${x}" y2="${f(H)}"/>`; for (let y = 10; y < H; y += 10) gl += `<line x1="0" y1="${y}" x2="${W19}" y2="${y}"/>`; g += `<g class="vegrid" pointer-events="none">${gl}</g>`; }
+  if (CP.grid) g += cpGridSVG(H);
   g += `<line x1="${CP_EAR}" y1="0" x2="${CP_EAR}" y2="${f(H)}" class="cpfl"/><line x1="${W19 - CP_EAR}" y1="0" x2="${W19 - CP_EAR}" y2="${f(H)}" class="cpfl"/>`;
   it.cons.forEach(c => {
     const F = fpOf(c.k), r = cpRect(c);
     g += `<g data-cpi="${c.id}">${cpDraw(c, c.x, c.y, false)}`;
     if (CP.cuts) {
       g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="cpfl"/>`;
-      F.cut.forEach(q => { g += q.t === 'r' ? `<rect x="${f(c.x - q.w / 2)}" y="${f(c.y - q.h / 2)}" width="${q.w}" height="${q.h}" class="cpcut"/>` : `<circle cx="${f(c.x + (q.x || 0))}" cy="${f(c.y + (q.y || 0))}" r="${f(q.d / 2)}" class="cpcut"/>`; });
+      F.cut.forEach(q => { g += q.t === 'r' ? `<rect x="${f(c.x + (q.x || 0) - q.w / 2)}" y="${f(c.y + (q.y || 0) - q.h / 2)}" width="${q.w}" height="${q.h}" class="cpcut"/>` : `<circle cx="${f(c.x + (q.x || 0))}" cy="${f(c.y + (q.y || 0))}" r="${f(q.d / 2)}" class="cpcut"/>`; });
     }
     if (bad.has(c.id)) g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="cpbad" pointer-events="none"/>`;
     g += `<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${F.w}" height="${F.h}" class="vehit"><title>${esc(cpTip(c))} · x ${c.x} / y ${c.y} mm</title></rect></g>`;
   });
-  const s = it.cons.find(c => c.id === CP.sel);
-  if (s) { const r = cpRect(s); g += `<rect x="${f(r.x0 - 1)}" y="${f(r.y0 - 1)}" width="${f(r.x1 - r.x0 + 2)}" height="${f(r.y1 - r.y0 + 2)}" class="vesel"/>`; }
+  it.texts.forEach(t => {
+    const r = txtRect(t), w = Math.max(4, r.x1 - r.x0), x0 = (r.x0 + r.x1) / 2 - w / 2;
+    g += `<g data-cpi="${t.id}">${txtSVG(t, 0, 0)}`;
+    if (bad.has(t.id)) g += `<rect x="${f(x0 - .6)}" y="${f(r.y0 - .6)}" width="${f(w + 1.2)}" height="${f(r.y1 - r.y0 + 1.2)}" class="cpbad" pointer-events="none"/>`;
+    g += `<rect x="${f(x0 - .6)}" y="${f(r.y0 - .6)}" width="${f(w + 1.2)}" height="${f(r.y1 - r.y0 + 1.2)}" class="vehit"><title>${esc(txtTip(t))} · x ${t.x} / y ${t.y} mm</title></rect></g>`;
+  });
+  const s = cpEl(it, CP.sel);
+  if (s) { const r = cpBox(s), p = s.t === 't' ? .8 : 1; g += `<rect x="${f(r.x0 - p)}" y="${f(r.y0 - p)}" width="${f(r.x1 - r.x0 + 2 * p)}" height="${f(r.y1 - r.y0 + 2 * p)}" class="vesel"/>`; }
+  g += CP.gd ? `<g pointer-events="none">${CP.gd}</g>` : '';
   box.innerHTML = `<svg viewBox="${-m} ${-m} ${f(W19 + 2 * m)} ${f(H + 2 * m)}" style="width:100%" role="img" aria-label="${esc(title(it))}"><rect x="${-m}" y="${-m}" width="${f(W19 + 2 * m)}" height="${f(H + 2 * m)}" class="vebg"/>${g}</svg>`;
+}
+// Einrasten: Hilfslinien (Kanten/Mitten, Blendenmitte, Spiegelung, gleiche Abstände) vor Raster vor 0,5 mm
+function cpSnap(it, id, nx, ny, fine, th) {
+  const H = it.he * HE, me = cpEl(it, id), b = cpBox(me), hw = (b.x1 - b.x0) / 2, hh = (b.y1 - b.y0) / 2, R = v => Math.round(v * 100) / 100;
+  if (fine) return { x: Math.round(nx * 10) / 10, y: Math.round(ny * 10) / 10, gd: '' };
+  const oth = cpEls(it).filter(e => e.o.id !== id && !(e.t === 't' && !e.o.s.trim())).map(e => { const r = cpBox(e); return { ...r, cx: (r.x0 + r.x1) / 2, cy: (r.y0 + r.y1) / 2 }; });
+  const best = { x: null, y: null };
+  const cand = (ax, target, off, gd, pen = 0) => {   // pen: Blendenmitte knapp hinter Nachbarelementen, damit diese bei Gleichstand gewinnen
+    const d = Math.abs((ax === 'x' ? nx : ny) + off - target) + pen; if (d > th + pen) return;
+    const pos = target - off, B = best[ax];
+    if (!B || d < B.d - 1e-6) best[ax] = { d, v: pos, gd: B && Math.abs(pos - B.v) < 1e-6 ? [...B.gd, gd] : [gd] };
+    else if (Math.abs(pos - B.v) < 1e-6) B.gd.push(gd);
+  };
+  if (CP.guides) {
+    cand('x', W19 / 2, 0, { k: 'cx' }, .2); cand('y', H / 2, 0, { k: 'cy' }, .2);
+    oth.forEach(q => {
+      [[q.x0, -hw], [q.cx, 0], [q.x1, hw]].forEach(([tg, off]) => cand('x', tg, off, { k: 'v', at: tg, q }));
+      [[q.y0, -hh], [q.cy, 0], [q.y1, hh]].forEach(([tg, off]) => cand('y', tg, off, { k: 'h', at: tg, q }));
+      if (Math.abs(q.cx - W19 / 2) > .5) cand('x', W19 - q.cx, 0, { k: 'sym', q });
+    });
+    // gleiche Abstände in der Reihe (Elemente, die sich in der Höhe überschneiden)
+    const row = oth.filter(q => q.y0 < ny + hh && ny - hh < q.y1);
+    const Ls = row.filter(q => q.x1 <= nx - hw + th).sort((a, c) => c.x1 - a.x1), Rs = row.filter(q => q.x0 >= nx + hw - th).sort((a, c) => a.x0 - c.x0);
+    const [L1, L2] = Ls, [R1, R2] = Rs;
+    if (L1 && R1 && R1.x0 - L1.x1 > 2 * hw) cand('x', (L1.x1 + R1.x0) / 2, 0, { k: 'gap', segs: [[L1, 'me'], ['me', R1]] });
+    if (L1 && L2 && L1.x0 - L2.x1 > .5) cand('x', L1.x1 + (L1.x0 - L2.x1), -hw, { k: 'gap', segs: [[L2, L1], [L1, 'me']] });
+    if (R1 && R2 && R2.x0 - R1.x1 > .5) cand('x', R1.x0 - (R2.x0 - R1.x1), hw, { k: 'gap', segs: [['me', R1], [R1, R2]] });
+  }
+  const ox = CP.gorg === 'c' ? W19 / 2 : 0, oy = CP.gorg === 'c' ? H / 2 : 0, grid = (v, o) => o + Math.round((v - o) / CP.gstep) * CP.gstep;
+  const x = best.x ? best.x.v : CP.grid ? grid(nx, ox) : Math.round(nx * 2) / 2;
+  const y = best.y ? best.y.v : CP.grid ? grid(ny, oy) : Math.round(ny * 2) / 2;
+  const m = { x0: x - hw, x1: x + hw, y0: y - hh, y1: y + hh, cx: x, cy: y };
+  return { x: R(x), y: R(y), gd: cpGuides([...(best.x ? best.x.gd : []), ...(best.y ? best.y.gd : [])], m, H) };
+}
+// Hilfslinien zeichnen: an der Ausrichtung beteiligte Elemente gestrichelt umrandet, gleiche Abstände mit Maß
+function cpGuides(gd, m, H) {
+  const f = v => (+v).toFixed(2), out = new Set();
+  const line = (x1, y1, x2, y2, cls = 'cpg') => out.add(`<line x1="${f(x1)}" y1="${f(y1)}" x2="${f(x2)}" y2="${f(y2)}" class="${cls}"/>`);
+  const box = r => out.add(`<rect x="${f(r.x0)}" y="${f(r.y0)}" width="${f(r.x1 - r.x0)}" height="${f(r.y1 - r.y0)}" class="cpgbox"/>`);
+  const dot = (x, y) => out.add(`<circle cx="${f(x)}" cy="${f(y)}" r=".9" class="cpgdot"/>`);
+  // gleich große Elemente fluchten oben, mittig und unten zugleich – dann nur die Mittellinie; Spiegelung nur zum nächsten Partner
+  const mid = (k, c) => new Set(gd.filter(g => g.k === k && Math.abs(g.at - g.q[c]) < 1e-6).map(g => g.q));
+  const mv = mid('v', 'cx'), mh = mid('h', 'cy'), sy = gd.filter(g => g.k === 'sym').sort((a, b) => Math.abs(a.q.cy - m.cy) - Math.abs(b.q.cy - m.cy))[0];
+  gd = gd.filter(g => (g.k === 'v' ? !mv.has(g.q) || Math.abs(g.at - g.q.cx) < 1e-6 : g.k === 'h' ? !mh.has(g.q) || Math.abs(g.at - g.q.cy) < 1e-6 : g.k === 'sym' ? g === sy : true));
+  gd.forEach(g => {
+    if (g.k === 'cx') { line(W19 / 2, -6, W19 / 2, H + 6, 'cpg mid'); dot(m.cx, m.cy); }
+    if (g.k === 'cy') { line(-6, H / 2, W19 + 6, H / 2, 'cpg mid'); dot(m.cx, m.cy); }
+    if (g.k === 'v') { line(g.at, Math.min(m.y0, g.q.y0) - 3, g.at, Math.max(m.y1, g.q.y1) + 3); box(g.q); }
+    if (g.k === 'h') { line(Math.min(m.x0, g.q.x0) - 3, g.at, Math.max(m.x1, g.q.x1) + 3, g.at); box(g.q); }
+    if (g.k === 'sym') { line(W19 / 2, -6, W19 / 2, H + 6, 'cpg mid'); line(g.q.cx, g.q.cy, m.cx, m.cy, 'cpg sym'); dot(g.q.cx, g.q.cy); dot(m.cx, m.cy); box(g.q); out.add(`<text x="${f(W19 / 2)}" y="${f(-2)}" class="cpglbl">⇋</text>`); }
+    if (g.k === 'gap') g.segs.forEach(([a, b]) => {
+      const A = a === 'me' ? m : a, B = b === 'me' ? m : b, y = (Math.max(A.y0, B.y0) + Math.min(A.y1, B.y1)) / 2;
+      line(A.x1, y, B.x0, y, 'cpg dim'); line(A.x1, y - 2, A.x1, y + 2, 'cpg dim'); line(B.x0, y - 2, B.x0, y + 2, 'cpg dim');
+      if (a !== 'me') box(A); if (b !== 'me') box(B);
+      out.add(`<text x="${f((A.x1 + B.x0) / 2)}" y="${f(y - 1.4)}" class="cpglbl">${cpNum(B.x0 - A.x1)}</text>`);
+    });
+  });
+  return [...out].join('');
 }
 function cpAdd(t) {
   const it = cpIt(); if (!it) return;
@@ -4442,23 +4704,29 @@ function cpAdd(t) {
 document.addEventListener('pointerdown', e => {
   const svg = e.target.closest && e.target.closest('#cpStage svg'); if (!svg) return;
   const gi = e.target.closest('[data-cpi]'), it = cpIt(); if (!it) return;
-  if (gi) { const c = it.cons.find(x => x.id === gi.dataset.cpi); if (!c) return; CP.sel = c.id; CP.drag = { id: c.id, p0: veP(svg, e), x0: c.x, y0: c.y }; e.preventDefault(); cpStage(); return; }
+  if (gi) {
+    const el = cpEl(it, gi.dataset.cpi); if (!el) return;
+    const sc = (svg.getScreenCTM() || { a: 2 }).a || 2, was = CP.sel;
+    CP.sel = el.o.id; CP.drag = { id: el.o.id, p0: veP(svg, e), x0: el.o.x, y0: el.o.y, th: Math.max(.3, Math.min(5, 7 / sc)) }; e.preventDefault();
+    if (was !== el.o.id) renderCP(); else cpStage(); return;
+  }
   if (CP.sel) { CP.sel = null; renderCP(); }
 });
 document.addEventListener('pointermove', e => {
   if (!CP.drag) return; const svg = $('#cpStage svg'), it = cpIt(); if (!svg || !it) return;
-  const c = it.cons.find(x => x.id === CP.drag.id); if (!c) return;
-  const p = veP(svg, e), k = e.shiftKey ? 10 : 2, q = v => Math.round(v * k) / k;
-  c.x = q(CP.drag.x0 + p.x - CP.drag.p0.x); c.y = q(CP.drag.y0 + p.y - CP.drag.p0.y); CP.drag.moved = true; cpStage();
+  const el = cpEl(it, CP.drag.id); if (!el) return;
+  const p = veP(svg, e), S = cpSnap(it, el.o.id, CP.drag.x0 + p.x - CP.drag.p0.x, CP.drag.y0 + p.y - CP.drag.p0.y, e.shiftKey, CP.drag.th);
+  el.o.x = S.x; el.o.y = S.y; CP.gd = S.gd; CP.drag.moved = true; cpStage();
 });
-document.addEventListener('pointerup', () => { if (!CP.drag) return; const d = CP.drag; CP.drag = null; if (d.moved) { renderCP(); renderSoft(); } });
+document.addEventListener('pointerup', () => { if (!CP.drag) return; const d = CP.drag; CP.drag = null; CP.gd = ''; if (d.moved) { renderCP(); renderSoft(); } else cpStage(); });
 document.addEventListener('keydown', e => {
   if (!$('#cpDlg').open || !CP.sel || /INPUT|TEXTAREA|SELECT/.test((document.activeElement || {}).tagName || '')) return;
-  const it = cpIt(), c = it && it.cons.find(x => x.id === CP.sel); if (!c) return;
+  const it = cpIt(), el = it && cpEl(it, CP.sel); if (!el) return;
   const st = e.shiftKey ? 5 : .5, mv = { ArrowLeft: [-st, 0], ArrowRight: [st, 0], ArrowUp: [0, -st], ArrowDown: [0, st] }[e.key];
-  if (mv) { c.x = Math.round((c.x + mv[0]) * 10) / 10; c.y = Math.round((c.y + mv[1]) * 10) / 10; renderCP(); renderSoft(); e.preventDefault(); return; }
-  if (e.key === 'Delete' || e.key === 'Backspace') { it.cons = it.cons.filter(x => x.id !== c.id); CP.sel = null; renderCP(); renderSoft(); e.preventDefault(); }
+  if (mv) { el.o.x = Math.round((el.o.x + mv[0]) * 100) / 100; el.o.y = Math.round((el.o.y + mv[1]) * 100) / 100; renderCP(); renderSoft(); e.preventDefault(); return; }
+  if (e.key === 'Delete' || e.key === 'Backspace') { cpDel(it, el.o.id); CP.sel = null; renderCP(); renderSoft(); e.preventDefault(); }
 });
+function cpDel(it, id) { it.cons = it.cons.filter(x => x.id !== id); it.texts = it.texts.filter(x => x.id !== id); }
 document.addEventListener('click', e => {
   const t = e.target; if (!t.closest) return;
   const ed = t.closest('[data-cpedit]'); if (ed && !t.closest('#cpDlg')) { openCP(ed.dataset.cpedit, ed.dataset.cpsel); return; }
@@ -4467,28 +4735,51 @@ document.addEventListener('click', e => {
   const it = cpIt(); if (!it) return;
   const ad = t.closest('[data-cpadd]'); if (ad) { cpAdd(ad.dataset.cpadd); return; }
   const sl = t.closest('[data-cpsel]'); if (sl) { CP.sel = sl.dataset.cpsel; renderCP(); return; }
+  const el = cpEl(it, CP.sel), al = t.closest('[data-cptal]');
+  if (al && el && el.t === 't') { el.o.al = al.dataset.cptal; renderCP(); renderSoft(); return; }
   const a = t.closest('[data-cpact]'); if (!a) return;
-  const c = it.cons.find(x => x.id === CP.sel), act = a.dataset.cpact;
+  const act = a.dataset.cpact, H = it.he * HE;
   if (act === 'pdf') { cpPdf(it); return; }
-  if (!c) return;
-  if (act === 'del') { it.cons = it.cons.filter(x => x.id !== c.id); CP.sel = null; }
-  if (act === 'center') c.y = Math.round(it.he * HE / 2 * 10) / 10;
-  if (act === 'dup') { const [x, y] = cpFree(it, c.k), d = { ...c, id: uid(), x, y }; it.cons.push(d); CP.sel = d.id; }
+  if (act === 'dxf' || act === 'dxftxt') { cpDxf(it, act === 'dxftxt'); return; }
+  if (act === 'addtxt') { cpAddText(it); renderCP(); renderSoft(); setTimeout(() => { const ta = $('#cpTs'); if (ta) { ta.focus(); ta.select(); } }, 0); return; }
+  if (!el) return;
+  const o = el.o;
+  if (act === 'del') { cpDel(it, o.id); CP.sel = null; }
+  if (act === 'center') o.y = Math.round(H / 2 * 100) / 100;
+  if (act === 'hcenter') o.x = Math.round(W19 / 2 * 100) / 100;
+  if (act === 'dup') {
+    if (el.t === 'c') { const [x, y] = cpFree(it, o.k), d = { ...o, id: uid(), x, y }; it.cons.push(d); CP.sel = d.id; }
+    else { const r = txtRect(o), d = { ...o, id: uid(), x: Math.round((r.x1 + 5 + (r.x1 - r.x0) / 2) * 10) / 10 }; it.texts.push(d); CP.sel = d.id; }
+  }
   renderCP(); renderSoft();
 });
 document.addEventListener('dblclick', e => { const g = e.target.closest && e.target.closest('#stage [data-id]'); if (!g) return; const it = state.items.find(i => i.id === g.dataset.id); if (it && it.kind === 'cpanel') openCP(it.id); });
+document.addEventListener('input', e => {
+  const t = e.target; if (t.id !== 'cpTs' || !t.closest('#cpDlg')) return;
+  const it = cpIt(), el = it && cpEl(it, CP.sel); if (!el || el.t !== 't') return;
+  el.o.s = t.value.replace(/\r/g, '').slice(0, 400); cpStage();
+});
 document.addEventListener('change', e => {
   const t = e.target; if (!t.closest || !t.closest('#cpDlg')) return;
   const it = cpIt(); if (!it) return;
+  const el = cpEl(it, CP.sel), tx = el && el.t === 't' ? el.o : null;
   if (t.id === 'cpName') { it.name = t.value.trim(); renderCP(); renderSoft(); }
   if (t.id === 'cpHe') { it.he = +t.value; place(it, it.pos); renderCP(); renderSoft(); }
   if (t.id === 'cpCuts') { CP.cuts = t.checked; cpStage(); }
-  if (t.id === 'cpGrid') { CP.grid = t.checked; cpStage(); }
-  if (t.dataset.cpxy) { const c = it.cons.find(x => x.id === CP.sel), v = parseNum(t.value); if (c && v != null) { c[t.dataset.cpxy] = Math.round(v * 10) / 10; renderCP(); renderSoft(); } }
+  if (t.id === 'cpGrid') { CP.grid = t.checked; cpPrefs(); renderCP(); }
+  if (t.id === 'cpGstep') { CP.gstep = +t.value; cpPrefs(); cpStage(); }
+  if (t.id === 'cpGorg') { CP.gorg = t.value === 'l' ? 'l' : 'c'; cpPrefs(); cpStage(); }
+  if (t.id === 'cpGuides') { CP.guides = t.checked; cpPrefs(); }
+  if (tx && t.id === 'cpTs') { tx.s = t.value.replace(/\r/g, '').slice(0, 400); renderCP(); renderSoft(); }
+  if (tx && t.id === 'cpTf') { tx.font = t.value; Object.assign(tx, txtFix(tx)); tfEnsure([tx]); renderCP(); renderSoft(); }
+  if (tx && t.id === 'cpTb') { tx.b = t.checked; Object.assign(tx, txtFix(tx)); tfEnsure([tx]); renderCP(); renderSoft(); }
+  if (tx && t.id === 'cpTh') { const v = parseNum(t.value); if (v != null) { tx.h = Math.min(40, Math.max(1, Math.round(v * 10) / 10)); } renderCP(); renderSoft(); }
+  if (t.dataset.cpxy && el) { const v = parseNum(t.value); if (v != null) { el.o[t.dataset.cpxy] = Math.round(v * 100) / 100; renderCP(); renderSoft(); } }
 });
 // Bohrschablone 1:1 (eigenes Seitenformat, Druck mit „Tatsächliche Größe“)
 async function cpPdf(it) {
   let jsPDF; try { ({ jsPDF } = await loadJsPDF()); } catch (e) { toast('PDF-Bibliothek nicht geladen'); return; }
+  const txts = it.texts.filter(t => t.s.trim()), fontsOk = txts.length ? await tfAll(txts) : true;
   const H = it.he * HE, M = 12, PW = W19 + 2 * M, PH = H + 2 * M + 30 + Math.ceil(it.cons.length / 2) * 3.4;
   const doc = new jsPDF({ unit: 'mm', format: [PW, PH], orientation: 'landscape' }), X = M, Y = M + 22;
   const T = (s, x, y, o) => doc.text(pdfTxt(s), x, y, o);
@@ -4498,17 +4789,55 @@ async function cpPdf(it) {
   doc.setLineWidth(.3); doc.line(X, M + 12, X + 100, M + 12); doc.line(X, M + 10.5, X, M + 13.5); doc.line(X + 100, M + 10.5, X + 100, M + 13.5); T('Kontrollmaß 100 mm', X + 102, M + 13);
   doc.setLineWidth(.25); doc.rect(X, Y, W19, H);
   doc.setLineDashPattern([1.5, 1], 0); doc.line(X + CP_EAR, Y, X + CP_EAR, Y + H); doc.line(X + W19 - CP_EAR, Y, X + W19 - CP_EAR, Y + H); doc.setLineDashPattern([], 0);
-  const ys = H >= HE * .9 ? [6.35, H - 6.35] : [H / 2]; for (let u = 1; u < it.he; u++) ys.push(u * HE + 6.35, u * HE - 6.35);
-  ys.forEach(yy => [8, W19 - 8].forEach(xx => doc.roundedRect(X + xx - 3.5, Y + yy - 1.7, 7, 3.4, 1.7, 1.7)));
+  cpEarYs(it).forEach(yy => [8, W19 - 8].forEach(xx => doc.roundedRect(X + xx - 3.5, Y + yy - 1.7, 7, 3.4, 1.7, 1.7)));
   it.cons.slice().sort((a, b) => a.x - b.x).forEach((c, i) => {
     const F = fpOf(c.k), cx = X + c.x, cy = Y + c.y;
     doc.setLineWidth(.15); doc.line(cx - 3, cy, cx + 3, cy); doc.line(cx, cy - 3, cx, cy + 3);
-    doc.setLineWidth(.3); F.cut.forEach(q => { if (q.t === 'r') doc.rect(cx - q.w / 2, cy - q.h / 2, q.w, q.h); else doc.circle(cx + (q.x || 0), cy + (q.y || 0), q.d / 2); });
+    doc.setLineWidth(.3); F.cut.forEach(q => { if (q.t === 'r') doc.rect(cx + (q.x || 0) - q.w / 2, cy + (q.y || 0) - q.h / 2, q.w, q.h); else doc.circle(cx + (q.x || 0), cy + (q.y || 0), q.d / 2); });
     doc.setLineWidth(.1); doc.setLineDashPattern([.8, .8], 0); doc.rect(cx - F.w / 2, cy - F.h / 2, F.w, F.h); doc.setLineDashPattern([], 0);
     doc.setFontSize(5.5); T(`${i + 1} ${CON[c.k].s}`, cx, cy - F.h / 2 - 1.2, { align: 'center' });
     doc.setFontSize(6); T(`${i + 1}: ${CON[c.k].s}${c.label ? ' „' + c.label + '“' : ''} · x ${fmtN(c.x)} / y ${fmtN(c.y)} · ${cutTxt(c.k)}`, X + (i % 2) * (W19 / 2), Y + H + 6 + Math.floor(i / 2) * 3.4);
   });
+  // Beschriftung als Umriss (nur zur Kontrolle der Lage – Gravur aus dem DXF)
+  if (fontsOk) { doc.setLineWidth(.1); txts.forEach(t => txtGeo(t).polys.forEach(pl => { const d = pl.slice(1).map((p, i) => [p[0] - pl[i][0], p[1] - pl[i][1]]); doc.lines(d, X + t.x + pl[0][0], Y + t.y + pl[0][1], [1, 1], 'S', true); })); }
   await saveFile(`${slug()}-${slugOf({ project: { name: title(it) } })}-${LANG === 'en' ? 'drill-template' : 'bohrschablone'}.pdf`, doc.output('blob'), 'PDF');
+}
+// Langlöcher der Rackohren (wie Bohrschablone): oben/unten je HE
+function cpEarYs(it) { const H = it.he * HE, ys = H >= HE * .9 ? [6.35, H - 6.35] : [H / 2]; for (let u = 1; u < it.he; u++) ys.push(u * HE + 6.35, u * HE - 6.35); return ys; }
+/* DXF (R12, mm, Ursprung links unten an der Blende): Ebene PANEL = Blendenkontur und Langlöcher (Bezug),
+   CUT = Ausschnitte und Bohrungen, ENGRAVE = Texte als geschlossene Umrisse. textOnly → eigene Gravur-Datei. */
+async function cpDxf(it, textOnly) {
+  const txts = it.texts.filter(t => t.s.trim());
+  if (textOnly && !txts.length) { toast('Keine Texte auf der Blende'); return; }
+  const ok = txts.length ? await tfAll(txts) : true;
+  if (!ok && textOnly) { toast('Schrift konnte nicht geladen werden'); return; }
+  if (!ok) toast('Schrift konnte nicht geladen werden – DXF ohne Text');
+  const H = it.he * HE, L = [], n = v => String(Math.round(v * 1000) / 1000), Yd = y => H - y;
+  const p = (...a) => { for (let i = 0; i < a.length; i += 2) L.push(String(a[i]), String(a[i + 1])); };
+  const poly = (pts, ly) => { p(0, 'POLYLINE', 8, ly, 66, 1, 70, 1, 10, 0, 20, 0, 30, 0); pts.forEach(([x, y]) => p(0, 'VERTEX', 8, ly, 10, n(x), 20, n(Yd(y)), 30, 0)); p(0, 'SEQEND', 8, ly); };
+  const circ = (x, y, r, ly) => p(0, 'CIRCLE', 8, ly, 10, n(x), 20, n(Yd(y)), 30, 0, 40, n(r));
+  const rrect = (x0, y0, w, h, r, ly) => {
+    r = Math.min(r || 0, w / 2, h / 2);
+    if (r <= 0) return poly([[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]], ly);
+    const pts = [], arc = (cx, cy, a0) => { for (let i = 0; i <= 8; i++) { const a = a0 + i / 8 * Math.PI / 2; pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]); } };
+    arc(x0 + w - r, y0 + h - r, 0); arc(x0 + r, y0 + h - r, Math.PI / 2); arc(x0 + r, y0 + r, Math.PI); arc(x0 + w - r, y0 + r, Math.PI * 1.5);
+    poly(pts, ly);
+  };
+  const layers = [['PANEL', 8], ...(textOnly ? [] : [['CUT', 1]]), ...(txts.length && ok ? [['ENGRAVE', 5]] : [])];
+  p(0, 'SECTION', 2, 'HEADER', 9, '$ACADVER', 1, 'AC1009', 9, '$INSUNITS', 70, 4, 9, '$EXTMIN', 10, 0, 20, 0, 30, 0, 9, '$EXTMAX', 10, n(W19), 20, n(H), 30, 0, 0, 'ENDSEC');
+  p(0, 'SECTION', 2, 'TABLES', 0, 'TABLE', 2, 'LTYPE', 70, 1, 0, 'LTYPE', 2, 'CONTINUOUS', 70, 0, 3, 'Solid line', 72, 65, 73, 0, 40, '0.0', 0, 'ENDTAB');
+  p(0, 'TABLE', 2, 'LAYER', 70, layers.length); layers.forEach(([nm, col]) => p(0, 'LAYER', 2, nm, 70, 0, 62, col, 6, 'CONTINUOUS')); p(0, 'ENDTAB', 0, 'ENDSEC');
+  p(0, 'SECTION', 2, 'ENTITIES');
+  rrect(0, 0, W19, H, 0, 'PANEL');
+  cpEarYs(it).forEach(yy => [8, W19 - 8].forEach(xx => rrect(xx - 3.5, yy - 1.7, 7, 3.4, 1.7, 'PANEL')));
+  if (!textOnly) it.cons.forEach(c => fpOf(c.k).cut.forEach(q => {
+    const cx = c.x + (q.x || 0), cy = c.y + (q.y || 0);
+    if (q.t === 'r') rrect(cx - q.w / 2, cy - q.h / 2, q.w, q.h, q.r, 'CUT'); else circ(cx, cy, q.d / 2, 'CUT');
+  }));
+  if (ok) txts.forEach(t => txtGeo(t).polys.forEach(pl => poly(pl.map(([x, y]) => [t.x + x, t.y + y]), 'ENGRAVE')));
+  p(0, 'ENDSEC', 0, 'EOF');
+  const nm = `${slug()}-${slugOf({ project: { name: title(it) } })}-${textOnly ? (LANG === 'en' ? 'engraving' : 'gravur') : (LANG === 'en' ? 'cutouts' : 'ausschnitte')}.dxf`;
+  await saveFile(nm, new Blob([L.join('\r\n') + '\r\n'], { type: 'application/dxf' }), 'DXF');
 }
 
 /* ---------- Projektdatei laden ---------- */
