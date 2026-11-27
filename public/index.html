@@ -538,9 +538,28 @@ button.opt:hover, .opt .chip:hover { border-color: var(--accent); }
 .wtab td { vertical-align: top; }
 .wdraw { grid-column: 1 / -1; }
 .wsvg svg { display: block; width: 100%; max-height: 72vh; }
-.wsvg.narrow > svg { max-height: none; }
-.wvhead { fill: var(--muted); font-family: var(--f-mono); font-size: 7px; font-weight: 600; letter-spacing: .08em; text-anchor: middle; text-transform: uppercase; }
-.whide { margin-bottom: 4px; }
+.wdraw .wbar { margin-bottom: 6px; }
+.whide { white-space: nowrap; }
+.wselhint { color: var(--accent); }
+.wl.stub .wl-line { stroke-dasharray: 2 1.5; }
+.w3d { position: relative; }
+.w3wrap { position: relative; height: min(72vh, 680px); border-radius: 8px; overflow: hidden; background: linear-gradient(#f3f5f8, #c9d1db); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .w3wrap { background: linear-gradient(#2b3038, #14171b); } }
+:root[data-theme="dark"] .w3wrap { background: linear-gradient(#2b3038, #14171b); }
+.w3wrap canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.w3cube { position: absolute; top: 14px; right: 18px; width: 64px; height: 64px; }
+.w3cb { position: absolute; inset: 0; transform-style: preserve-3d; }
+.w3f { position: absolute; inset: 0; display: grid; place-items: center; font: 600 10px/1 var(--f-mono); letter-spacing: .04em; text-transform: uppercase; color: #39424e; background: rgba(236, 240, 245, .94); border: 1px solid #8995a3; backface-visibility: hidden; cursor: pointer; user-select: none; }
+.w3f:hover { background: #cfe0ff; color: #1d5bd0; }
+.w3f-f { transform: translateZ(32px); } .w3f-b { transform: rotateY(180deg) translateZ(32px); }
+.w3f-r { transform: rotateY(90deg) translateZ(32px); } .w3f-l { transform: rotateY(-90deg) translateZ(32px); }
+.w3f-t { transform: rotateX(90deg) translateZ(32px); } .w3f-u { transform: rotateX(-90deg) translateZ(32px); }
+.w3bar { position: absolute; left: 10px; top: 10px; display: flex; gap: 6px; align-items: center; background: rgba(255, 255, 255, .82); color: #1b1f24; border-radius: 6px; padding: 4px 8px; font-size: 12.5px; }
+.w3btn { border: 1px solid #a9b3bf; background: #fff; color: #1b1f24; border-radius: 5px; padding: 2px 8px; font-size: 12px; cursor: pointer; }
+.w3btn:hover { border-color: #1d5bd0; color: #1d5bd0; }
+.w3bar .check { color: #1b1f24; }
+.w3tip { position: absolute; max-width: 360px; pointer-events: none; background: rgba(15, 18, 22, .9); color: #fff; font-size: 12px; padding: 4px 7px; border-radius: 5px; }
+.w3busy { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); background: rgba(15, 18, 22, .8); color: #fff; font-size: 12px; padding: 4px 10px; border-radius: 12px; }
 .wl-halo { fill: none; stroke: rgba(0, 0, 0, .55); stroke-width: 3.6; stroke-linecap: round; }
 .wl-line { fill: none; stroke-width: 1.7; stroke-linecap: round; }
 .wl-hit { fill: none; stroke: transparent; stroke-width: 9; cursor: pointer; pointer-events: stroke; }
@@ -958,6 +977,7 @@ const LANG = (() => { try { const l = localStorage.getItem('rm-lang'); if (l ===
 const LOC = LANG === 'en' ? 'en-GB' : 'de-DE';
 document.documentElement.lang = LANG;
 /* DATA:I18N */ const I18N_EN = {
+  "– bleibt beim Umschalten der Ansicht gewählt. Jetzt den zweiten Anschluss antippen.": "– stays selected when switching the view. Now tap the second port.",
   "– Maße prüfen": "– check dimensions",
   "– Stecker nicht enthalten": "– connector not included",
   ", in der Ansicht ziehen zum Tauschen": ", drag in the view to swap",
@@ -1019,8 +1039,9 @@ document.documentElement.lang = LANG;
   "{0} HE frei": "{0} U free",
   "{0} hinten, {1} vorn": "{0} rear, {1} front",
   "{0} ist {1} mm hoch und ragt aus der Wanne ({2}).": "{0} is {1} mm high and sticks out of the shelf ({2}).",
-  "{0} m für {1} Kabel, auf volle Meter aufgerundet": "{0} m for {1} cables, rounded up to full metres",
+  "{0} Kabel ohne kollisionsfreien Weg (rot gestrichelt) – Anschluss eingebaut (Kollision?) oder kein Durchgang: Bürstenblende oder freie HE vorsehen": "{0} cables without a collision-free route (dashed red) – port enclosed (collision?) or no passage: provide a brush panel or a free U",
   "{0} liegt unter dem Flansch von {1}.": "{0} lies under the flange of {1}.",
+  "{0} m für {1} Kabel, auf volle Meter aufgerundet": "{0} m for {1} cables, rounded up to full metres",
   "{0} Projekte": "{0} projects",
   "{0} Projekte aus dem Ordner aktualisiert": "{0} projects updated from the folder",
   "{0} ragt über den nutzbaren Bereich der Blende.": "{0} extends beyond the usable area of the panel.",
@@ -1037,20 +1058,20 @@ document.documentElement.lang = LANG;
   "{1} öffnen": "Open {1}",
   "{1} Pos.": "{1} items",
   "{10} ({11}, {12}) entfernen": "Remove {10} ({11}, {12})",
-  "{11} Kabel und Stecker kommen aus der Stagecraft Library.": "{11} Cables and plugs come from the Stagecraft Library.",
+  "{12} Kabel": "{12} cables",
+  "{14} Kabel und Stecker kommen aus der Stagecraft Library.": "{14} Cables and plugs come from the Stagecraft Library.",
   "{2} · {3} BE frei": "{2} · {3} WU free",
   "{2} · {3} mm tief": "{2} · {3} mm deep",
   "{2} · eigenes Modul mit Rackohren, 375 mm tief.": "{2} · separate module with rack ears, 375 mm deep.",
   "{2} · RÜCKKANTE BEI {3} MM": "{2} · REAR EDGE AT {3} MM",
   "{2} duplizieren": "Duplicate {2}",
   "{2}RÜCKWAND {3} MM": "{2}REAR WALL {3} MM",
-  "{3} von {4} verbunden": "{3} of {4} connected",
   "{4} – an den Rackohren ziehen": "{4} – drag by the rack ears",
   "{5} · {6} · Verschraubung für BMD-Geräte 1/3 + 1/2": "{5} · {6} · mounting points for BMD devices 1/3 + 1/2",
+  "{6} von {7} verbunden": "{6} of {7} connected",
   "{7} löschen": "Delete {7}",
   "{8} entfernen": "Remove {8}",
   "{9} · {10} mm innen · 255 mm": "{9} · {10} mm inside · 255 mm",
-  "{9} Kabel": "{9} cables",
   "← Konfigurator": "← Configurator",
   "← nach links": "← move left",
   "← Projekt & Case": "← Project & case",
@@ -1064,6 +1085,10 @@ document.documentElement.lang = LANG;
   "◀ Front": "◀ Front",
   "✕ Anschluss fehlt": "✕ Port missing",
   "19″-Rackgeräte · eigene Rackohren": "19″ rack devices · own rack ears",
+  "3D aus Vorder-, Rückansicht und Einbautiefe. Links ziehen dreht, rechts oder mit dem Mausrad gedrückt ziehen verschiebt (Umschalt + Mitte dreht), Rad zoomt zum Mauszeiger, Doppelklick zeigt alles, Würfel oben rechts wählt die Ansicht. Kabel laufen kollisionsfrei um Geräte, Blenden und Schienen (Bürstenblenden sind durchlässig). Anschlüsse antippen verbindet wie in 2D.": "3D from the front view, rear view and mounting depth. Left drag orbits, right or middle drag pans (Shift + middle orbits), the wheel zooms towards the pointer, double-click shows everything, the cube at the top right picks a view. Cables run collision-free around devices, panels and rails (brush panels let cables through). Tap ports to connect, as in 2D.",
+  "3D-Ansicht konnte nicht aufgebaut werden.": "The 3D view could not be built.",
+  "3D-Ansicht nicht möglich: WebGL ist in diesem Browser nicht verfügbar.": "3D view not possible: WebGL is not available in this browser.",
+  "3D-Bibliothek (three.js) konnte nicht geladen werden.": "The 3D library (three.js) could not be loaded.",
   "ab {0} mm von links": "from {0} mm from the left",
   "ab Oberkante (mm)": "from top edge (mm)",
   "Abstand auf D-Raster": "Spacing on D grid",
@@ -1084,10 +1109,13 @@ document.documentElement.lang = LANG;
   "Alle von hinten": "All from the rear",
   "alle von vorn": "all from the front",
   "Alle von vorn": "All from the front",
+  "Alles": "All",
+  "Alles zeigen (Doppelklick)": "Show everything (double-click)",
   "Als Datei": "As file",
   "Als Tabelle kopieren": "Copy as table",
   "An dieser Stelle passt kein Gerät aus der Datenbank.": "No device from the database fits here.",
   "Anderen Ordner wählen …": "Choose another folder …",
+  "anderes Ende in der anderen Ansicht": "other end in the other view",
   "ändern": "change",
   "Anschluss fehlt": "Port missing",
   "Anschluss ist schon verbunden": "Port is already connected",
@@ -1104,6 +1132,7 @@ document.documentElement.lang = LANG;
   "Ansicht prüfen": "Review view",
   "Ansicht prüfen / bearbeiten": "Review / edit view",
   "Ansichten konnten nicht gerendert werden": "Views could not be rendered",
+  "Ansichten werden als Texturen gerendert …": "Rendering the views as textures …",
   "Antennen nach vorn (BNC an den Seitenteilen)": "Antennas to the front (BNC on the side brackets)",
   "Antennen nach vorn: BNC-Kabel zu den Seitenteilen führen.": "Antennas to the front: route BNC cables to the side brackets.",
   "Arbeitsschritte": "Work steps",
@@ -1149,7 +1178,6 @@ document.documentElement.lang = LANG;
   "Blende": "Panel",
   "Blende hinten an die Rückschiene, Front nach hinten.": "Panel on the rear rail, front facing backwards.",
   "Blenden": "Panels",
-  "Blendet in jeder Ansicht die Schiene davor samt ihren Modulen aus. So sind die Anschlüsse auf der Rückseite der gegenüberliegenden Module erreichbar, auch wenn vorn und hinten alle HE belegt sind.": "Hides the rail in front, with its modules, in each view. This makes the ports on the back of the opposite modules reachable, even when every U is taken at the front and rear.",
   "Blendenkontur, Ausschnitte und Texte auf getrennten Ebenen (PANEL, CUT, ENGRAVE)": "Panel outline, cutouts and texts on separate layers (PANEL, CUT, ENGRAVE)",
   "Bohrschablone 1:1 · {0} · Vorderseite · Maße in mm ab linker Blendenkante und Oberkante · drucken mit „Tatsächliche Größe“ (100 %) und am Kontrollmaß prüfen": "Drill template 1:1 · {0} · front · dimensions in mm from the left panel edge and the top edge · print at \"Actual size\" (100 %) and check the control dimension",
   "Bohrschablone PDF (1:1)": "Drill template PDF (1:1)",
@@ -1293,8 +1321,10 @@ document.documentElement.lang = LANG;
   "Kabel für selbst konfektionierte Verbindungen (Typ offen)": "Cable for self-made connections (type open)",
   "Kabel stecken und beschriften · {0} Verbindungen": "Plug in and label cables · {0} connections",
   "Kabelliste": "Cable list",
+  "Kabelwege werden berechnet …": "Calculating cable routes …",
   "Kann über eine Rackwanne gelegt werden (gleiche HE) – die Wanne mit Geräten liegt dann dahinter.": "Can be placed over a rack shelf (same U) – the shelf with devices then sits behind it.",
   "kein IndexedDB": "no IndexedDB",
+  "kein kollisionsfreier Weg": "no collision-free route",
   "Kein Modul ausgewählt. Klicke ein Modul in der Ansicht an oder füge eines hinzu.": "No module selected. Click a module in the view or add one.",
   "kein passendes Kabel in der Library – Adapter oder eigenes Kabel": "no matching cable in the library – adapter or own cable",
   "Kein Platz mehr für ein weiteres Blech dieser Breite": "No space left for another plate of this width",
@@ -1463,6 +1493,7 @@ document.documentElement.lang = LANG;
   "Rack Manufaktur": "Rack Manufaktur",
   "Rack Manufaktur Konfigurator": "Rack Manufaktur configurator",
   "Rack Manufaktur-Projekt": "Rack Manufaktur project",
+  "Rack mit Kabeln": "Rack with cables",
   "Rack-Elemente lassen sich nicht verschieben. In der Ansicht Bleche ziehen zum Umsortieren (auch in eine andere Reihe), bestückte Löcher auf ein anderes Loch ziehen zum Tauschen, Stecker aus der Palette auf ein Loch oder einen Ausschnitt ziehen. Beenden mit dem Stift oder Esc.": "Rack items cannot be moved. In the view, drag plates to reorder them (also into another row), drag a fitted hole onto another hole to swap, drag connectors from the palette onto a hole or cutout. Finish with the pencil or Esc.",
   "Rack-Elemente sind gesperrt – SYSBOXX-Bearbeitung mit dem Stift oder Esc beenden": "Rack items are locked – finish SYSBOXX editing with the pencil or Esc",
   "Rackblende": "Blank panel",
@@ -1499,7 +1530,6 @@ document.documentElement.lang = LANG;
   "RÜCKWAND": "REAR WALL",
   "Schaumstoffeinlage dazu": "Add foam insert",
   "Schiene bei {0} mm": "Rail at {0} mm",
-  "Schiene davor ausgeblendet": "rail in front hidden",
   "Schiene hinten": "Rear rail",
   "Schiene hinten optional": "Rear rail optional",
   "Schienen ohne Lochraster: Module millimetergenau in der Höhe verschieben statt im 0,5-HE-Raster": "Rails without hole pattern: move modules vertically to the millimetre instead of in the 0.5 U grid",
@@ -1515,6 +1545,8 @@ document.documentElement.lang = LANG;
   "Seite": "Side",
   "Seitenansicht": "Side view",
   "Seitenansicht mit Einbautiefen und Kollisionen": "Side view with mounting depths and collisions",
+  "Seitenansicht zur Orientierung (Einbautiefen) – zum Verbinden Vorder- oder Rückansicht wählen.": "Side view for orientation (mounting depths) – choose the front or rear view to connect.",
+  "seitenverkehrt · Punkte antippen zum Verbinden": "mirrored · tap points to connect",
   "selbst konfektionieren / prüfen": "make up yourself / check",
   "Shockmount": "Shock mount",
   "Shure Antennen-Frontmontage-Kit (BNC an den Seitenteilen)": "Shure antenna front mount kit (BNC on the side brackets)",
@@ -1525,6 +1557,8 @@ document.documentElement.lang = LANG;
   "speakON 8: 1± … 4± je Weg": "speakON 8: 1± … 4± per way",
   "Speichern abgebrochen": "Saving cancelled",
   "Stand": "Date",
+  "Start": "Home",
+  "Startansicht (Isometrie)": "Home view (isometric)",
   "Startwerte: Streifen {6} × {7} mm, Teilungsabstand = D-Raster der Zeichnung ({8} mm bei 12 Löchern). Maße bitte am Streifen und an der Blende nachmessen. PDF in 100 % drucken.": "Starting values: strip {6} × {7} mm, division pitch = D grid of the drawing ({8} mm for 12 holes). Please measure on the strip and panel. Print the PDF at 100 %.",
   "Stecker ({16})": "Connectors ({16})",
   "Stecker für {0} · antippen oder auf ein Loch in der Ansicht ziehen": "Connector for {0} · tap or drag onto a hole in the view",
@@ -1559,6 +1593,8 @@ document.documentElement.lang = LANG;
   "Text markiert – mit Strg/Cmd+C kopieren": "Text selected – copy with Ctrl/Cmd+C",
   "Text über dem gewählten Stecker": "Text above the selected connector",
   "Texte ({18})": "Texts ({18})",
+  "three fehlt": "three missing",
+  "three konnte nicht geladen werden": "three could not be loaded",
   "Tiefe": "Depth",
   "Tiefe (mm)": "Depth (mm)",
   "Tischgerät {0} × {1} mm · nicht rackfähig": "Desktop device {0} × {1} mm · not rack-mountable",
@@ -1568,6 +1604,8 @@ document.documentElement.lang = LANG;
   "Übernehmen: die Datei in die Stagecraft Library einpflegen.": "Apply: add the file to the Stagecraft Library.",
   "Übersicht": "Overview",
   "unbekannt": "unknown",
+  "Ursprung links oben": "Origin top left",
+  "Ursprung Mitte": "Origin centre",
   "Verbindung löschen": "Delete connection",
   "Verbindungen": "Connections",
   "Verbindungen aus Schritt 3 „Verkabelung“. Kabel, Meterware und Kabelstecker stehen in der Stückliste, Lötarbeiten unter Fertigung.": "Connections from step 3 \"Wiring\". Cables, bulk cable and cable plugs are in the bill of materials, soldering under Build.",
@@ -1576,17 +1614,15 @@ document.documentElement.lang = LANG;
   "verdeckt – zum Verbinden die vordere Ebene ausblenden": "covered – hide the front layer to connect it",
   "Verkabelung": "Wiring",
   "Verkabelung prüfen": "Check wiring",
-  "Ursprung links oben": "Origin top left",
-  "Ursprung Mitte": "Origin centre",
   "Versatz (mm)": "Offset (mm)",
   "Vertikal mittig": "Centre vertically",
   "Von": "From",
   "von hinten": "from the rear",
   "Von hinten gesehen, seitenverkehrt. Hinten montierte Module per Ziehen verschieben; vorne montierte sind abgedunkelt und zeigen ihre Rückseite (bearbeiten in der Vorderansicht).": "Seen from behind, mirrored. Drag rear mounted modules to move them; front mounted ones are dimmed and show their rear (edit in the front view).",
   "von vorn": "from the front",
-  "Vorder- und Rückansicht mit Kabeln": "Front and rear view with cables",
   "Vorderansicht": "Front view",
   "Vordere Ebene ausblenden": "Hide front layer",
+  "Vordere Ebene ausblenden nimmt die Schiene davor samt ihren Modulen weg. So sind die Rückseiten der Module der anderen Schiene erreichbar, auch wenn vorn und hinten alle HE belegt sind.": "Hide front layer removes the rail in front, with its modules. This makes the backs of the modules on the other rail reachable, even when every U is taken at the front and rear.",
   "Vorderseite": "Front",
   "Vorderseite geprüft": "Front checked",
   "Vorderseite, Rackblende 482,6 mm × {14} mm. Stecker und Texte ziehen: Hilfslinien richten an Kanten und Mitten anderer Elemente, an der Blendenmitte, spiegelbildlich und auf gleiche Abstände aus, sonst rastet die Mitte im Raster ein (ohne Raster 0,5 mm). Mit Umschalt fein ohne Einrasten (0,1 mm). Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {14} mm. Drag connectors and texts: smart guides align to edges and centres of other items, the panel centre, mirrored positions and equal spacing; otherwise the centre snaps to the grid (without grid 0.5 mm). Hold Shift for fine moves without snapping (0.1 mm). Arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
@@ -1624,13 +1660,13 @@ document.documentElement.lang = LANG;
   "Zusätzlich hinten an der Rückschiene verschrauben": "Also fix at the rear rail",
   "zwei Ausgänge verbunden": "two outputs connected",
   "zwei Eingänge verbunden": "two inputs connected",
+  "Stecker ({8})": "Connectors ({8})",
+  "Stecker hinzufügen": "Add connector",
+  "Vorderseite, Rackblende 482,6 mm × {6} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {6} mm. Drag connectors (0.5 mm grid, with Shift 0.1 mm), arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
   "{0} von {1} verbunden": "{0} of {1} connected",
   "{6} Kabel": "{6} cables",
   "{8} Kabel und Stecker kommen aus der Stagecraft Library.": "{8} Cables and plugs come from the Stagecraft Library.",
   "geschätzt {8} m": "estimated {8} m",
-  "Stecker ({8})": "Connectors ({8})",
-  "Stecker hinzufügen": "Add connector",
-  "Vorderseite, Rackblende 482,6 mm × {6} mm. Stecker ziehen (Raster 0,5 mm, mit Umschalt 0,1 mm), Pfeiltasten 0,5 mm (mit Umschalt 5 mm), Entf löscht. Koordinaten = Mittelpunkt ab linker Blendenkante (mit Rackohr) und ab Oberkante.": "Front, rack panel 482.6 mm × {6} mm. Drag connectors (0.5 mm grid, with Shift 0.1 mm), arrow keys 0.5 mm (with Shift 5 mm), Delete removes. Coordinates = centre from the left panel edge (incl. rack ear) and from the top edge.",
   "Löcher · antippen zum Bearbeiten": "Holes · tap to edit",
   "Stecker für {0} · antippen": "Connector for {0} · tap",
   "(nur von vorn möglich)": "(front mounting only)",
@@ -1712,6 +1748,11 @@ document.documentElement.lang = LANG;
   "Kabel": "Cable",
   "Nr.": "No.",
   "Verkabelung · {0}": "Wiring · {0}",
+  "Kabelweg 3D {0} m": "3D cable route {0} m",
+  "Vorne": "Front",
+  "Rechts": "Right",
+  "Oben": "Top",
+  "Unten": "Bottom",
   "110 Ω, 2 × 0,22 mm², geschirmt, für XLR 5-pol/AES3": "110 Ω, 2 × 0.22 mm², shielded, for XLR 5-pin/AES3",
   "12G-Eignung prüfen": "check 12G suitability",
   "2 × 0,22 mm², geschirmt, für XLR 3-pol": "2 × 0.22 mm², shielded, for XLR 3-pin",
@@ -4510,11 +4551,11 @@ function wireListHTML(groups, used, idx) {
     }).join('')}</div></div>`;
   }).join('') || '<p class="hint">Keine Anschlüsse für diesen Filter.</p>';
 }
-/* ---------- Verkabelung: Vorder- und Rückansicht mit Kabellinien ----------
+/* ---------- Verkabelung: Rackansicht mit Kabellinien (vorn / Seite / hinten umschaltbar) ----------
    Jeder Anschluss bekommt einen Punkt in der Ansicht, zu der er zeigt: Gerätefronten vorn montierter Geräte in der
    Vorderansicht, Geräterückseiten und Blendenstecker vorn montierter Module in der Rückansicht (seitenverkehrt), bei hinten
    montierten Modulen umgekehrt. Anschlüsse im Rackinneren, vor denen ein Modul der anderen Schiene sitzt, sind hohl –
-   „Vordere Ebene ausblenden“ nimmt diese Schiene aus beiden Ansichten. Positionen aus den maßstäblichen Ansichten
+   „Vordere Ebene ausblenden“ nimmt in Vorder- und Rückansicht die Schiene davor weg. Positionen aus den maßstäblichen Ansichten
    (auch in Rackwannen), sonst gleichmäßig über die Gerätefläche verteilt. */
 const W_RV = W19 + CW * 2, wMx = x => W_RV - x;
 let WHIDE = false;   // vordere Ebene (Schiene der jeweiligen Ansicht) ausgeblendet
@@ -4587,34 +4628,438 @@ function wirePoints(groups) {
 const W_LCOL = { ok: '#3ddc84', make: '#f0a050', warn: '#f0a050', bad: '#ff5a4f' };
 let WHI = null;   // hervorgehobene Verbindung (id)
 // Vorder- und Rückansicht in einer Zeichnung (nebeneinander, schmal untereinander), Kabel darüber
-function wireDrawing(groups, idx, used, narrow) {
-  const L = layout(), pts = wirePoints(groups), rows = Math.max(state.case.he, L.maxEnd);
-  const W = W_RV, H = rows * HE + CW * 2, TOP = 14, GAP = 24;
-  const off = { f: [0, TOP], r: narrow ? [0, TOP * 2 + H + GAP] : [W + GAP, TOP] };
-  const VW = narrow ? W : W * 2 + GAP, VH = narrow ? (H + TOP) * 2 + GAP : H + TOP;
-  const view = (v, mode) => { const [x, y] = off[v], keep = sel; sel = null; const r = rackSVG(L, mode, { sfx: 'w', still: true, inner: WHIDE }); sel = keep; return `<g transform="translate(${x} ${y})">${r.slice(r.indexOf('>') + 1, -6)}</g>`; };   // Inhalt ohne äußeres svg
-  const head = (v, t) => `<text x="${off[v][0] + W / 2}" y="${off[v][1] - 4.5}" class="wvhead">${[t, WHIDE && 'Schiene davor ausgeblendet'].filter(Boolean).join(' · ')}</text>`;
-  let s = `<svg viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Vorder- und Rückansicht mit Kabeln">`
-    + head('f', 'Vorderansicht') + head('r', 'Rückansicht (seitenverkehrt)')
-    + view('f', 'front') + view('r', 'rear');
-  const P = p => ({ x: p.x + off[p.v][0], y: p.y + off[p.v][1] });
+// eine Rackansicht, umschaltbar (WVIEW): Vorderansicht, Seitenansicht oder Rückansicht (seitenverkehrt). Ein gewählter
+// Anschluss bleibt beim Umschalten gewählt – so lässt sich eine Verbindung in der anderen Ansicht abschließen.
+let WVIEW = 'r';
+function wireDrawing(groups, idx, used) {
+  const L = layout();
+  if (WVIEW === 's') return sideSVG(L);
+  if (WVIEW === '3d') return '<div id="w3d" class="w3d"></div>';
+  const pts = wirePoints(groups), keep = sel; sel = null;
+  const svg = rackSVG(L, WVIEW === 'f' ? 'front' : 'rear', { sfx: 'w', still: true, inner: WHIDE }); sel = keep;
+  const here = p => p && p.v === WVIEW;
   let g = '<g class="wlines">';
-  // Kabel zuerst, Punkte darüber
+  // Kabel zuerst, Punkte darüber. Liegt ein Ende in der anderen Ansicht, nur ein kurzes gestricheltes Stück mit Nummer.
   state.wires.forEach((w, i) => {
     const a0 = pts.get(w.a), b0 = pts.get(w.b), A = idx.get(w.a), B = idx.get(w.b); if (!a0 || !b0 || !A || !B) return;
-    const a = P(a0), b = P(b0), st = wireCheck(A, B).st, sag = Math.min(70, 14 + Math.abs(a.x - b.x) * .12 + Math.abs(a.y - b.y) * .15);
-    const dpath = `M${a.x.toFixed(1)} ${a.y.toFixed(1)} C${a.x.toFixed(1)} ${(a.y + sag).toFixed(1)} ${b.x.toFixed(1)} ${(b.y + sag).toFixed(1)} ${b.x.toFixed(1)} ${b.y.toFixed(1)}`;
-    const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + sag * .75, on = WHI === w.id;
-    g += `<g class="wl${on ? ' on' : ''}" data-wline="${w.id}"><title>${esc(`${i + 1}${w.label ? ' „' + w.label + '“' : ''}: ${wireEndTxt(A)} → ${wireEndTxt(B)}`)}</title>`
+    if (!here(a0) && !here(b0)) return;
+    const st = wireCheck(A, B).st, on = WHI === w.id, f = v => v.toFixed(1);
+    const tip = `${i + 1}${w.label ? ' „' + w.label + '“' : ''}: ${wireEndTxt(A)} → ${wireEndTxt(B)}`;
+    let dpath, mx, my, stub = '';
+    if (here(a0) && here(b0)) {
+      const a = a0, b = b0, sag = Math.min(70, 14 + Math.abs(a.x - b.x) * .12 + Math.abs(a.y - b.y) * .15);
+      dpath = `M${f(a.x)} ${f(a.y)} C${f(a.x)} ${f(a.y + sag)} ${f(b.x)} ${f(b.y + sag)} ${f(b.x)} ${f(b.y)}`;
+      mx = (a.x + b.x) / 2; my = (a.y + b.y) / 2 + sag * .75;
+    } else {
+      const a = here(a0) ? a0 : b0;
+      dpath = `M${f(a.x)} ${f(a.y)} C${f(a.x)} ${f(a.y + 10)} ${f(a.x + 8)} ${f(a.y + 14)} ${f(a.x + 14)} ${f(a.y + 14)}`;
+      mx = a.x + 18.5; my = a.y + 14; stub = ' stub';
+    }
+    g += `<g class="wl${on ? ' on' : ''}${stub}" data-wline="${w.id}"><title>${esc(tip + (stub ? ' · ' + tr('anderes Ende in der anderen Ansicht') : ''))}</title>`
       + `<path d="${dpath}" class="wl-halo"/><path d="${dpath}" class="wl-line" style="stroke:${W_LCOL[st]}"/><path d="${dpath}" class="wl-hit"/>`
-      + `<circle cx="${mx.toFixed(1)}" cy="${my.toFixed(1)}" r="4.2" class="wl-tag" style="stroke:${W_LCOL[st]}"/><text x="${mx.toFixed(1)}" y="${my.toFixed(1)}" class="wl-no">${i + 1}</text></g>`;
+      + `<circle cx="${f(mx)}" cy="${f(my)}" r="4.2" class="wl-tag" style="stroke:${W_LCOL[st]}"/><text x="${f(mx)}" y="${f(my)}" class="wl-no">${i + 1}</text></g>`;
   });
-  pts.forEach((p0, key) => {
+  pts.forEach((p, key) => {
+    if (!here(p)) return;
     const cls = key === WSEL ? ' on' : used.has(key) ? ' used' : '', Q = idx.get(key); if (!Q) return;
-    const p = P(p0);
-    g += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${key === WSEL ? 3.4 : 2.3}" class="wdot${cls}${p0.vis ? '' : ' hid'}${p0.ghost ? ' ghost' : ''}" data-wport="${esc(key)}"><title>${esc(`${Q.owner} · ${Q.lbl} · ${sideName(Q.mate)}${p0.vis ? '' : ' · ' + tr('verdeckt – zum Verbinden die vordere Ebene ausblenden')}`)}</title></circle>`;
+    g += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${key === WSEL ? 3.4 : 2.3}" class="wdot${cls}${p.vis ? '' : ' hid'}${p.ghost ? ' ghost' : ''}" data-wport="${esc(key)}"><title>${esc(`${Q.owner} · ${Q.lbl} · ${sideName(Q.mate)}${p.vis ? '' : ' · ' + tr('verdeckt – zum Verbinden die vordere Ebene ausblenden')}`)}</title></circle>`;
   });
-  return s + g + '</g></svg>';
+  return svg.slice(0, -6) + g + '</g></svg>';
+}
+/* ---------- Verkabelung 3D: Rack aus Vorder-/Rückansicht und Einbautiefe, Kabelwege kollisionsfrei geroutet ----------
+   Modell in mm: x/y wie in der Vorderansicht (inkl. Casewand CW), z = Tiefe ab Frontschiene (nach hinten positiv).
+   three.js: X = x − W_RV/2, Y = Unterkante − y, Z = −z. Jedes Element wird zum Körper: Frontplatte (Vorderansicht als
+   Textur), Gehäuse bis zur Einbautiefe (Rückansicht als Textur hinten). Anschlüsse sitzen auf der vorderen bzw. hinteren
+   Ebene ihres Elements. Kabel: A* auf einem 10-mm-Raster durch den freien Raum des Cases – Geräte, Blenden, Schienen und
+   Casewände sind Hindernisse (Bürstenblenden durchlässig); Abbiegen kostet extra, Wege an Flächen entlang und neben schon
+   verlegten Kabeln sind billiger (Bündel). Navigation wie Fusion 360: links ziehen dreht, rechts/Mitte ziehen verschiebt
+   (Umschalt + Mitte dreht), Rad zoomt zum Mauszeiger, ViewCube oben rechts. */
+let threeP = null;
+function loadThree() {
+  if (window.THREE) return Promise.resolve(window.THREE);
+  return threeP = threeP || new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'assets/vendor/three-0.149.0.min.js';
+    s.onload = () => window.THREE ? res(window.THREE) : rej(new Error('three fehlt'));
+    s.onerror = () => { threeP = null; rej(new Error('three konnte nicht geladen werden')); };
+    document.head.appendChild(s);
+  });
+}
+const W3G = 10;   // Rasterweite der Kabelwege (mm)
+const W3 = { wrap: null, r: null, scene: null, cam: null, tgt: null, sph: { th: .55, ph: 1.05, r: 1500 }, sigGeo: '', sigW: '', model: null,
+  gItems: null, gPorts: null, gCables: null, gCase: null, ports: [], cables: [], len: new Map(), showCase: true, busy: false, tex: null, ctx: null, fitDone: false, build: 0, route: 0 };
+const PANEL_KINDS = ['dpanel', 'cpanel', 'sysboxx', 'label', 'brush', 'vent', 'blank'];
+// Geometriemodell (ohne three.js): Körper mit Texturflächen, Anschlüsse mit Richtung
+function w3Model(groups) {
+  const L = layout(), c = state.case, rows = Math.max(c.he, L.maxEnd), RR = +c.railRear || railZ(), D = +c.depth || 450;
+  const boxes = [], T = 3, xL = CW;
+  const fx = (v, x, w) => v[0] === 'R' ? W_RV - x - w : x;   // Rechteck einer Ansicht → x in Vorderansicht
+  // tex: { o: [view, rect] Fläche, die nach außen zeigt (Front des Elements), b: [view, rect] Rückseite }
+  const add = (it, x0, x1, y0, y1, z0, z1, tex, o = {}) => boxes.push({ id: it.id, it, x0, x1, y0, y1, z0, z1, tex, pass: !!o.pass, plain: !!o.plain });
+  state.items.forEach(it => {
+    const rear = it.side === 'rear', y0 = CW + it.pos * HE + .4, h = it.he * HE - .8, y1 = y0 + h, [a, b] = span(it);
+    const V1 = rear ? 'R' : 'F', V2 = rear ? 'Fi' : 'Ri';
+    const plateZ = rear ? [RR, RR + T] : [-T, 0];
+    if (it.kind === 'shelf') {
+      const S = shelfOf(it), sd = shelfDepth(it);
+      add(it, xL, xL + EAR + 3, y0, y1, ...plateZ, { o: [V1, [xL, y0, EAR + 3, h]], b: [V2, [W_RV - xL - EAR - 3, y0, EAR + 3, h]] });
+      add(it, xL + W19 - EAR - 3, xL + W19, y0, y1, ...plateZ, { o: [V1, [xL + W19 - EAR - 3, y0, EAR + 3, h]], b: [V2, [xL, y0, EAR + 3, h]] });
+      add(it, xL + EAR, xL + W19 - EAR, y1 - 2, y1, ...(rear ? [RR - sd, RR] : [0, sd]), null, { plain: true });
+      (it.devs || []).forEach(o => {
+        const d = devOf(o.dev); if (!d) return;
+        const bf = shelfDevBox(it, o, d, 'f'), br = shelfDevBox(it, o, d, 'r'), dd = Math.max(20, +d.d || sd - 10);
+        const x0 = fx(V1, bf.x, bf.w);
+        add(it, x0, x0 + bf.w, bf.y, bf.y + bf.h, ...(rear ? [RR - dd - 2, RR - 2] : [2, 2 + dd]), { o: [V1, [bf.x, bf.y, bf.w, bf.h]], b: [V2, [br.x, br.y, br.w, br.h]] });
+      });
+      return;
+    }
+    const full = [xL, y0, W19, h], fullB = [W_RV - xL - W19, y0, W19, h];
+    if (PANEL_KINDS.includes(it.kind)) { add(it, xL, xL + W19, y0, y1, ...plateZ, { o: [V1, full], b: [V2, fullB] }, { pass: it.kind === 'brush' }); return; }
+    // Gerät, Schublade, Wanne, eigenes Element: Frontplatte + Gehäuse
+    add(it, xL, xL + W19, y0, y1, ...plateZ, { o: [V1, full], b: null });
+    const hw = Math.min(W19 - 2 * EAR, (isDev(it) && EXACT[it.dev] && EXACT[it.dev].hw) || W19 - 2 * EAR), bx = xL + (W19 - hw) / 2;
+    const z0 = rear ? a : 0, z1 = rear ? RR : b;
+    if (z1 - z0 > 4) add(it, bx, bx + hw, y0 + .6, y1 - .6, z0, z1, { o: null, b: [V2, [W_RV - bx - hw, y0, hw, h]] });
+  });
+  // Anschlüsse: Punkt aus der Ansicht, Tiefe aus dem Port, Richtung nach außen (vorn −z, hinten +z)
+  const pts = wirePoints(groups), ports = [];
+  groups.forEach(g => g.ports.forEach(P => {
+    const p = pts.get(P.key); if (!p) return;
+    const n = p.v === 'f' ? -1 : 1, x = p.v === 'r' ? W_RV - p.x : p.x, rear = P.item.side === 'rear';
+    let z = P.z || 0;
+    if (P.panel) z += n * 22;   // Löt-/Schraubseite hinter der Blende
+    else if (P.item.kind !== 'shelf' && ((n < 0 && !rear) || (n > 0 && rear))) z += n * T;   // vor der Frontplatte
+    ports.push({ key: P.key, P, x, y: p.y, z, n });
+  }));
+  const zMin = -40, zMax = Math.max(D, ...boxes.map(b => b.z1)) + 10;
+  return { boxes, ports, rows, D, RR, zMin, zMax, yTop: CW, yBot: CW + rows * HE, he: c.he };
+}
+// Raster mit Hindernissen
+function w3Grid(M) {
+  const G = W3G, x0 = CW, nx = Math.ceil((W_RV - 2 * CW) / G), ny = Math.ceil((M.yBot - M.yTop) / G), nz = Math.ceil((M.zMax - M.zMin) / G);
+  const N = nx * ny * nz, blk = new Uint8Array(N), near = new Uint8Array(N);
+  const id = (i, j, k) => (k * ny + j) * nx + i;
+  const cx = i => x0 + (i + .5) * G, cy = j => M.yTop + (j + .5) * G, cz = k => M.zMin + (k + .5) * G;
+  const mark = (X0, X1, Y0, Y1, Z0, Z1, m = 2.5) => {
+    const i0 = Math.max(0, Math.floor((X0 - m - x0) / G)), i1 = Math.min(nx - 1, Math.floor((X1 + m - x0) / G));
+    const j0 = Math.max(0, Math.floor((Y0 - m - M.yTop) / G)), j1 = Math.min(ny - 1, Math.floor((Y1 + m - M.yTop) / G));
+    const k0 = Math.max(0, Math.floor((Z0 - m - M.zMin) / G)), k1 = Math.min(nz - 1, Math.floor((Z1 + m - M.zMin) / G));
+    for (let k = k0; k <= k1; k++) for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) {
+      const X = cx(i), Y = cy(j), Z = cz(k);
+      if (X >= X0 - m && X <= X1 + m && Y >= Y0 - m && Y <= Y1 + m && Z >= Z0 - m && Z <= Z1 + m) blk[id(i, j, k)] = 1;
+    }
+  };
+  M.boxes.forEach(b => { if (!b.pass) mark(b.x0, b.x1, b.y0, b.y1, b.z0, b.z1); });
+  // Schienen (vorn, ggf. hinten) – nur in der Höhe des Cases
+  const yR = [CW, CW + M.he * HE];
+  [[CW, CW + EAR], [W_RV - CW - EAR, W_RV - CW]].forEach(([a, b]) => { mark(a, b, ...yR, -3, 2, 1); if (state.case.rear) mark(a, b, ...yR, M.RR - 2, M.RR + 3, 1); });
+  // Nähe zu Flächen (Kabel an Wänden/Geräten entlang)
+  for (let k = 0; k < nz; k++) for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const q = id(i, j, k); if (blk[q]) continue;
+    if (i === 0 || j === 0 || k === nz - 1 || i === nx - 1 || j === ny - 1 || blk[q - 1] || blk[q + 1] || blk[q - nx] || blk[q + nx] || blk[q - nx * ny] || blk[q + nx * ny]) near[q] = 1;
+  }
+  const cell = (x, y, z) => [Math.max(0, Math.min(nx - 1, Math.floor((x - x0) / G))), Math.max(0, Math.min(ny - 1, Math.floor((y - M.yTop) / G))), Math.max(0, Math.min(nz - 1, Math.floor((z - M.zMin) / G)))];
+  return { G, nx, ny, nz, N, blk, near, id, cx, cy, cz, cell, used: new Float32Array(N) };
+}
+// nächste freie Zelle, bevorzugt in Richtung n (aus dem Gerät heraus)
+function w3Free(R, p) {
+  for (let s = 1; s <= 4; s++) { const [i, j, k] = R.cell(p.x, p.y, p.z + p.n * R.G * s); const q = R.id(i, j, k); if (!R.blk[q]) return q; }
+  const [i0, j0, k0] = R.cell(p.x, p.y, p.z + p.n * R.G);
+  for (let r = 1; r <= 5; r++) for (let dk = -r; dk <= r; dk++) for (let dj = -r; dj <= r; dj++) for (let di = -r; di <= r; di++) {
+    const i = i0 + di, j = j0 + dj, k = k0 + dk; if (i < 0 || j < 0 || k < 0 || i >= R.nx || j >= R.ny || k >= R.nz) continue;
+    const q = R.id(i, j, k); if (!R.blk[q]) return q;
+  }
+  return -1;
+}
+// A* mit Abbiege-Kosten (Richtung je Zelle gemerkt), Kosten: Grundschritt 1, an Flächen 0,8, neben Kabeln 0,6
+function w3Route(R, s, t) {
+  if (s < 0 || t < 0) return null;
+  const { nx, ny, nz, N, blk, near, used } = R, sl = nx * ny;
+  const g = new Float32Array(N).fill(Infinity), came = new Int32Array(N).fill(-1), dir = new Int8Array(N).fill(-1), done = new Uint8Array(N);
+  const ti = t % nx, tj = Math.floor(t / nx) % ny, tk = Math.floor(t / sl);
+  const H = q => .55 * (Math.abs(q % nx - ti) + Math.abs(Math.floor(q / nx) % ny - tj) + Math.abs(Math.floor(q / sl) - tk));
+  const hp = [], push = (f, q) => { hp.push([f, q]); let i = hp.length - 1; while (i) { const p = (i - 1) >> 1; if (hp[p][0] <= hp[i][0]) break; [hp[p], hp[i]] = [hp[i], hp[p]]; i = p; } };
+  const pop = () => { const top = hp[0], last = hp.pop(); if (hp.length) { hp[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < hp.length && hp[l][0] < hp[m][0]) m = l; if (r < hp.length && hp[r][0] < hp[m][0]) m = r; if (m === i) break; [hp[m], hp[i]] = [hp[i], hp[m]]; i = m; } } return top; };
+  const D6 = [1, -1, nx, -nx, sl, -sl];
+  g[s] = 0; push(H(s), s);
+  let it = 0;
+  while (hp.length && it++ < 600000) {
+    const [, q] = pop(); if (done[q]) continue; done[q] = 1;
+    if (q === t) break;
+    const i = q % nx, j = Math.floor(q / nx) % ny, k = Math.floor(q / sl);
+    for (let d = 0; d < 6; d++) {
+      if ((d === 0 && i === nx - 1) || (d === 1 && i === 0) || (d === 2 && j === ny - 1) || (d === 3 && j === 0) || (d === 4 && k === nz - 1) || (d === 5 && k === 0)) continue;
+      const r = q + D6[d]; if (done[r] || (blk[r] && r !== t)) continue;
+      const c = g[q] + (used[r] ? .6 : near[r] ? .8 : 1) + (dir[q] >= 0 && dir[q] !== d ? 2.5 : 0);
+      if (c < g[r]) { g[r] = c; came[r] = q; dir[r] = d; push(c + H(r), r); }
+    }
+  }
+  if (!done[t]) return null;
+  const path = []; for (let q = t; q >= 0; q = came[q]) { path.push(q); if (q === s) break; }
+  path.reverse(); path.forEach(q => { R.used[q] = 1; });
+  return path;
+}
+// Signaturen: Geometrie (Elemente, Case) und Verbindungen getrennt
+const w3Sig = () => JSON.stringify([state.case, state.items.map(i => [i.id, i.kind, i.pos, i.he, i.side, i.depth, i.dev, i.shelf, (i.devs || []).map(o => [o.dev, o.x]), (i.cons || []).map(c => [c.k, c.x, c.y]), i.slots, i.rows && i.rows.length, i.tray])]);
+const w3SigW = () => JSON.stringify(state.wires.map(w => [w.id, w.a, w.b]));
+// Ansicht als Canvas (Textur)
+async function w3Canvas(mode, inner) {
+  const L = layout(), keep = sel, ks = selSlot; sel = null; selSlot = null;
+  const s = rackSVG(L, mode, { sfx: '3' + (inner ? 'i' : ''), still: true, inner }); sel = keep; selSlot = ks;
+  return (await svgToPng(s, 2.5)).canvas;
+}
+function w3Mount(groups, idx, used) {
+  const host = $('#w3d'); if (!host) return;
+  W3.ctx = { groups, idx, used };
+  loadThree().then(THREE => {
+    if (!W3.r) { if (!w3Init(THREE)) { host.innerHTML = '<p class="hint">3D-Ansicht nicht möglich: WebGL ist in diesem Browser nicht verfügbar.</p>'; return; } }
+    host.appendChild(W3.wrap); w3Resize();
+    const sg = w3Sig(), sw = w3SigW();
+    if (sg !== W3.sigGeo) { W3.sigGeo = sg; W3.sigW = ''; w3Build(THREE, groups); }
+    else w3Ports(THREE);
+    if (sw !== W3.sigW || !W3.cables.length && state.wires.length) { W3.sigW = sw; w3Cables(THREE); } else w3Paint();
+  }).catch(e => { console.error(e); host.innerHTML = window.THREE ? '<p class="hint">3D-Ansicht konnte nicht aufgebaut werden.</p>' : '<p class="hint">3D-Bibliothek (three.js) konnte nicht geladen werden.</p>'; });
+}
+function w3Init(THREE) {
+  let r; try { r = new THREE.WebGLRenderer({ antialias: true, alpha: true }); } catch (e) { return false; }
+  r.setPixelRatio(Math.min(2, devicePixelRatio || 1)); r.outputEncoding = THREE.sRGBEncoding;
+  const wrap = document.createElement('div'); wrap.className = 'w3wrap';
+  wrap.innerHTML = `<div class="w3cube" aria-hidden="true"><div class="w3cb">${[['f', 'Vorne'], ['b', 'Hinten'], ['r', 'Rechts'], ['l', 'Links'], ['t', 'Oben'], ['u', 'Unten']].map(([k, t]) => `<div class="w3f w3f-${k}" data-w3v="${k}">${t}</div>`).join('')}</div></div>
+    <div class="w3bar"><button type="button" class="w3btn" data-w3v="home" title="Startansicht (Isometrie)">Start</button><button type="button" class="w3btn" data-w3v="fit" title="Alles zeigen (Doppelklick)">Alles</button>
+      <label class="check"><input type="checkbox" data-w3case ${W3.showCase ? 'checked' : ''}> Case</label></div>
+    <div class="w3tip" hidden></div><div class="w3busy" hidden></div>`;
+  wrap.prepend(r.domElement);
+  const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(32, 1, 5, 30000);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x8a96a6, .95));
+  const dl = new THREE.DirectionalLight(0xffffff, .55); dl.position.set(.5, 1, .8); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0xffffff, .25); dl2.position.set(-.6, .3, -1); scene.add(dl2);
+  Object.assign(W3, { r, wrap, scene, cam, tgt: new THREE.Vector3(), THREE });
+  w3Events(THREE);
+  if (typeof ResizeObserver === 'function') new ResizeObserver(() => w3Resize()).observe(wrap);
+  return true;
+}
+function w3Resize() {
+  if (!W3.r || !W3.wrap.isConnected) return;
+  const w = W3.wrap.clientWidth || 600, h = W3.wrap.clientHeight || 420;
+  W3.r.setSize(w, h, false); W3.cam.aspect = w / h; W3.cam.updateProjectionMatrix(); w3Draw();
+}
+const w3X = x => x - W_RV / 2;
+function w3Build(THREE, groups) {
+  const M = W3.model = w3Model(groups), S = W3.scene, Yb = M.yBot + CW;
+  const Y = y => Yb - y;
+  [W3.gItems, W3.gCase].forEach(g => { if (g) { S.remove(g); g.traverse(o => { if (o.geometry) o.geometry.dispose(); }); } });
+  const gI = W3.gItems = new THREE.Group(), gC = W3.gCase = new THREE.Group();
+  const side = new THREE.MeshLambertMaterial({ color: 0x3b4048 }), sideL = new THREE.MeshLambertMaterial({ color: 0x8d949d });
+  const edgeM = new THREE.LineBasicMaterial({ color: 0x15181c, transparent: true, opacity: .55 });
+  // Kollisionen (Seitenansicht) und Überstand über Front/Rückwand rot
+  const hot = new Set(collisions().flatMap(c => [c.a.id, c.b.id])), hotM = new THREE.MeshLambertMaterial({ color: 0xc8463d, transparent: true, opacity: .55, depthWrite: false });
+  M.boxes.forEach(b => { if (b.z0 < -4 || b.z1 > M.D + 1) hot.add(b.id); });
+  const faces = [];   // [mesh, faceIndex, view, rect] für die Texturen
+  M.boxes.forEach(b => {
+    const w = b.x1 - b.x0, h = b.y1 - b.y0, d = b.z1 - b.z0; if (w <= 0 || h <= 0 || d <= 0) return;
+    const geo = new THREE.BoxGeometry(w, h, d), body = !b.tex || !b.tex.o;
+    const mats = [0, 1, 2, 3, 4, 5].map(() => b.plain ? sideL : body && hot.has(b.id) ? hotM : side);
+    const m = new THREE.Mesh(geo, mats); m.position.set(w3X((b.x0 + b.x1) / 2), Y((b.y0 + b.y1) / 2), -(b.z0 + b.z1) / 2);
+    m.userData = { item: b.id }; gI.add(m);
+    const ed = new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeM); ed.position.copy(m.position); gI.add(ed);
+    if (b.tex) {
+      const rear = b.it.side === 'rear', fo = rear ? 5 : 4, fb = rear ? 4 : 5;   // BoxGeometry: 4 = +Z (vorn), 5 = −Z (hinten)
+      if (b.tex.o) faces.push([m, fo, ...b.tex.o]);
+      if (b.tex.b) faces.push([m, fb, ...b.tex.b]);
+    }
+    if (body && !b.plain) m.renderOrder = 0;
+  });
+  // Case: Wände, Boden, Deckel halbtransparent, Schienen dunkel
+  const shell = new THREE.MeshLambertMaterial({ color: 0x9aa6b4, transparent: true, opacity: .13, depthWrite: false, side: THREE.DoubleSide });
+  const cEdge = new THREE.LineBasicMaterial({ color: 0x5b6573, transparent: true, opacity: .7 });
+  const z0 = -30, z1 = M.D + 6, cb = (x0, x1, y0, y1, za, zb, mat) => {
+    const geo = new THREE.BoxGeometry(x1 - x0, y1 - y0, zb - za), m = new THREE.Mesh(geo, mat); m.position.set(w3X((x0 + x1) / 2), Y((y0 + y1) / 2), -(za + zb) / 2);
+    gC.add(m); const ed = new THREE.LineSegments(new THREE.EdgesGeometry(geo), cEdge); ed.position.copy(m.position); gC.add(ed);
+  };
+  const caseB = CW + M.he * HE;
+  cb(0, CW, 0, caseB + CW, z0, z1, shell); cb(W_RV - CW, W_RV, 0, caseB + CW, z0, z1, shell);
+  cb(CW, W_RV - CW, 0, CW, z0, z1, shell); cb(CW, W_RV - CW, caseB, caseB + CW, z0, z1, shell); cb(CW, W_RV - CW, CW, caseB, M.D, z1, shell);
+  const rail = new THREE.MeshLambertMaterial({ color: 0x23272d });
+  [[CW, CW + EAR], [W_RV - CW - EAR, W_RV - CW]].forEach(([a, b2]) => { cb(a, b2, CW, caseB, 0, 2, rail); if (state.case.rear) cb(a, b2, CW, caseB, M.RR - 2, M.RR, rail); });
+  gC.visible = W3.showCase;
+  S.add(gI); S.add(gC);
+  if (!W3.grid) { W3.grid = new THREE.GridHelper(3000, 60, 0x8f99a5, 0xb9c1ca); W3.grid.material.transparent = true; W3.grid.material.opacity = .5; S.add(W3.grid); }
+  W3.grid.position.set(0, -1, -M.D / 2);
+  if (!W3.fitDone) { w3View('home', true); W3.fitDone = true; }
+  w3Ports(THREE); w3Draw();
+  // Texturen aus den Ansichten (async)
+  const seq = ++W3.build;
+  W3.busy = true; w3Busy('Ansichten werden als Texturen gerendert …');
+  const need = [...new Set(faces.map(f => f[2]))];
+  Promise.all(need.map(v => w3Canvas(v[0] === 'F' ? 'front' : 'rear', v.length > 1).then(cv => [v, cv]))).then(list => {
+    if (seq !== W3.build) return;
+    const cvs = Object.fromEntries(list);
+    (W3.tex || []).forEach(t => t.dispose()); W3.tex = [];
+    const base = Object.fromEntries(list.map(([v, cv]) => { const t = new THREE.CanvasTexture(cv); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; return [v, t]; }));
+    faces.forEach(([m, fi, v, [x, y, w, h]]) => {
+      const cv = cvs[v], W = W_RV, H = cv.height / cv.width * W_RV, t = base[v].clone();
+      t.needsUpdate = true; t.repeat.set(w / W, h / H); t.offset.set(x / W, 1 - (y + h) / H);
+      W3.tex.push(t);
+      m.material[fi] = new THREE.MeshLambertMaterial({ map: t });
+    });
+    Object.values(base).forEach(t => W3.tex.push(t));
+    W3.busy = false; w3Busy(''); w3Draw();
+  }).catch(() => { W3.busy = false; w3Busy(''); });
+}
+function w3Busy(t) { const b = W3.wrap && W3.wrap.querySelector('.w3busy'); if (b) { b.hidden = !t; b.textContent = t ? tr(t) : ''; } }
+const w3P = (THREE, x, y, z) => new THREE.Vector3(w3X(x), W3.model.yBot + CW - y, -z);
+// Anschlüsse als Kugeln (Farbe je Zustand, wie die Punkte in der 2D-Ansicht)
+function w3Ports(THREE) {
+  const S = W3.scene, M = W3.model; if (!M) return;
+  if (W3.gPorts) { S.remove(W3.gPorts); }
+  const g = W3.gPorts = new THREE.Group(), geo = W3.sphere || (W3.sphere = new THREE.SphereGeometry(3.2, 14, 10));
+  W3.ports = M.ports.map(p => { const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: 0xd8dde3 })); m.position.copy(w3P(THREE, p.x, p.y, p.z + p.n * 2)); m.userData = { port: p.key }; g.add(m); return m; });
+  S.add(g); w3Paint();
+}
+// Kabelwege berechnen (asynchron in Häppchen) und als Rohre zeichnen
+async function w3Cables(THREE) {
+  const S = W3.scene, M = W3.model; if (!M) return;
+  if (W3.gCables) { S.remove(W3.gCables); W3.gCables.traverse(o => { if (o.geometry) o.geometry.dispose(); }); }
+  const g = W3.gCables = new THREE.Group(); S.add(g); W3.cables = []; W3.len = new Map();
+  if (!state.wires.length) { w3Paint(); return; }
+  const seq = ++W3.route, R = w3Grid(M), pm = new Map(M.ports.map(p => [p.key, p]));
+  w3Busy('Kabelwege werden berechnet …');
+  for (const [i, w] of state.wires.entries()) {
+    if (seq !== W3.route) return;
+    const a = pm.get(w.a), b = pm.get(w.b), A = W3.ctx.idx.get(w.a), B = W3.ctx.idx.get(w.b); if (!a || !b || !A || !B) continue;
+    const path = w3Route(R, w3Free(R, a), w3Free(R, b));
+    let pts;
+    if (path) {
+      pts = [[a.x, a.y, a.z], [a.x, a.y, a.z + a.n * W3G * .8], ...path.map(q => [R.cx(q % R.nx), R.cy(Math.floor(q / R.nx) % R.ny), R.cz(Math.floor(q / (R.nx * R.ny)))]), [b.x, b.y, b.z + b.n * W3G * .8], [b.x, b.y, b.z]];
+      pts = w3Simplify(pts);
+    } else pts = [[a.x, a.y, a.z], [b.x, b.y, b.z]];
+    let len = 0; for (let k = 1; k < pts.length; k++) len += Math.hypot(pts[k][0] - pts[k - 1][0], pts[k][1] - pts[k - 1][1], pts[k][2] - pts[k - 1][2]);
+    W3.len.set(w.id, { m: len / 1000, ok: !!path });
+    const st = wireCheck(A, B).st, col = path ? W_LCOL[st] : '#ff5a4f';
+    let tube;
+    if (path) tube = new THREE.Mesh(new THREE.TubeGeometry(w3Curve(THREE, pts.map(p => w3P(THREE, ...p))), Math.max(16, pts.length * 10), 2.4, 8, false), new THREE.MeshLambertMaterial({ color: col, emissive: 0x000000 }));
+    else { tube = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts.map(p => w3P(THREE, ...p))), new THREE.LineDashedMaterial({ color: col, dashSize: 8, gapSize: 6 })); tube.computeLineDistances(); }
+    tube.userData = { wire: w.id, no: i + 1, ok: !!path, col };
+    g.add(tube); W3.cables.push(tube);
+    if (i % 3 === 2) { w3Draw(); await new Promise(r => setTimeout(r, 0)); }
+  }
+  w3Busy(''); w3Paint();
+  const bad = [...W3.len.values()].filter(x => !x.ok).length;
+  if (bad) toast(`${bad} Kabel ohne kollisionsfreien Weg (rot gestrichelt) – Anschluss eingebaut (Kollision?) oder kein Durchgang: Bürstenblende oder freie HE vorsehen`);
+  const el = $('#wiring'); if (el && state.step === 3) el.querySelectorAll('[data-w3len]').forEach(s => { const L2 = W3.len.get(s.dataset.w3len); if (L2 && L2.ok) s.textContent = tr(`Kabelweg 3D ${fmtN(Math.round(L2.m * 100) / 100)} m`); });
+}
+// gerade Abschnitte zusammenfassen
+function w3Simplify(p) {
+  const out = [p[0]];
+  for (let i = 1; i < p.length - 1; i++) {
+    const a = out[out.length - 1], b = p[i], c = p[i + 1];
+    const u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], v = [c[0] - b[0], c[1] - b[1], c[2] - b[2]];
+    const cr = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    if (Math.hypot(...cr) > 1e-6 && Math.hypot(...u) > 1e-6) out.push(b);
+  }
+  out.push(p[p.length - 1]);
+  return out;
+}
+// Polylinie mit gerundeten Ecken (Biegeradius ≤ 14 mm)
+function w3Curve(THREE, P) {
+  const cp = new THREE.CurvePath();
+  if (P.length < 3) { cp.add(new THREE.LineCurve3(P[0], P[P.length - 1])); return cp; }
+  let cur = P[0].clone();
+  for (let i = 1; i < P.length - 1; i++) {
+    const a = P[i - 1], b = P[i], c = P[i + 1];
+    const r = Math.min(14, a.distanceTo(b) / 2, b.distanceTo(c) / 2);
+    const p1 = b.clone().add(a.clone().sub(b).setLength(r)), p2 = b.clone().add(c.clone().sub(b).setLength(r));
+    if (cur.distanceTo(p1) > .01) cp.add(new THREE.LineCurve3(cur, p1));
+    cp.add(new THREE.QuadraticBezierCurve3(p1, b.clone(), p2)); cur = p2;
+  }
+  cp.add(new THREE.LineCurve3(cur, P[P.length - 1]));
+  return cp;
+}
+// Farben/Hervorhebung nach Auswahl (WSEL), Verbindungen (used) und hervorgehobenem Kabel (WHI)
+function w3Paint() {
+  if (!W3.r || !W3.ctx) return;
+  const { idx, used } = W3.ctx, S = WSEL && idx.get(WSEL);
+  W3.ports.forEach(m => {
+    const k = m.userData.port, P = idx.get(k); let col = 0xd8dde3, sc = 1, op = 1;
+    if (k === WSEL) { col = 0x4f8cff; sc = 1.6; }
+    else if (used.has(k)) col = 0x3ddc84;
+    else if (S && P) { const st = wireCheck(S, P).st; if (st === 'ok') { col = 0x3ddc84; sc = 1.3; } else if (st === 'bad') { op = .25; } else col = 0xf0a050; }
+    m.material.color.setHex(col); m.material.transparent = op < 1; m.material.opacity = op; m.scale.setScalar(sc);
+  });
+  W3.cables.forEach(t => { const on = t.userData.wire === WHI; if (t.material.emissive) t.material.emissive.setHex(on ? 0x335577 : 0); t.material.opacity = WHI && !on ? .35 : 1; t.material.transparent = !!WHI && !on; });
+  w3Draw();
+}
+function w3Draw() {
+  if (!W3.r || !W3.wrap.isConnected) return;
+  const { th, ph, r } = W3.sph, c = W3.cam;
+  c.position.set(W3.tgt.x + r * Math.sin(ph) * Math.sin(th), W3.tgt.y + r * Math.cos(ph), W3.tgt.z + r * Math.sin(ph) * Math.cos(th));
+  c.lookAt(W3.tgt); c.updateMatrixWorld();
+  W3.r.render(W3.scene, c);
+  // ViewCube: Kamerarotation (three, y oben) → CSS (y unten)
+  const e = c.matrixWorldInverse.elements, cb = W3.wrap.querySelector('.w3cb');
+  if (cb) cb.style.transform = `translateZ(-60px) matrix3d(${e[0]},${-e[1]},${e[2]},0,${-e[4]},${e[5]},${-e[6]},0,${e[8]},${-e[9]},${e[10]},0,0,0,0,1)`;
+}
+// Standardansichten: Fusion-Ansichtswürfel
+function w3View(v, instant) {
+  const M = W3.model; if (!M) return;
+  const H = M.yBot - M.yTop + 2 * CW, D = M.zMax - M.zMin;
+  const fitR = Math.max(W_RV, H, D) * 1.9;
+  const to = { f: [0, Math.PI / 2], b: [Math.PI, Math.PI / 2], r: [Math.PI / 2, Math.PI / 2], l: [-Math.PI / 2, Math.PI / 2], t: [0, .0001], u: [0, Math.PI - .0001], home: [.55, 1.05], fit: [W3.sph.th, W3.sph.ph] }[v];
+  if (!to) return;
+  W3.tgt.set(0, H / 2, -M.D / 2);
+  const end = { th: to[0], ph: to[1], r: fitR };
+  if (instant) { Object.assign(W3.sph, end); w3Draw(); return; }
+  const st = { ...W3.sph }, t0 = performance.now();
+  let dth = end.th - st.th; dth = Math.atan2(Math.sin(dth), Math.cos(dth));
+  const step = now => { const k = Math.min(1, (now - t0) / 320), e2 = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+    W3.sph.th = st.th + dth * e2; W3.sph.ph = st.ph + (end.ph - st.ph) * e2; W3.sph.r = st.r + (end.r - st.r) * e2; w3Draw(); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function w3Events(THREE) {
+  const el = W3.r.domElement, wrap = W3.wrap, ray = new THREE.Raycaster(), tip = wrap.querySelector('.w3tip');
+  let drag = null;
+  el.addEventListener('contextmenu', e => e.preventDefault());
+  const ndc = e => { const r = el.getBoundingClientRect(); return new THREE.Vector2((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); };
+  const pick = e => { ray.setFromCamera(ndc(e), W3.cam); ray.params.Line = { threshold: 4 }; const hit = ray.intersectObjects([...W3.ports, ...W3.cables], false)[0]; return hit ? hit.object : null; };
+  el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); drag = { x: e.clientX, y: e.clientY, b: e.button, sh: e.shiftKey, moved: false }; });
+  el.addEventListener('pointermove', e => {
+    if (!drag) {   // Hover: Anschluss/Kabel benennen
+      const o = pick(e), ctx = W3.ctx; if (!o || !ctx) { tip.hidden = true; el.style.cursor = 'grab'; return; }
+      el.style.cursor = 'pointer';
+      let t = '';
+      if (o.userData.port) { const P = ctx.idx.get(o.userData.port); t = P ? `${P.owner} · ${P.lbl} · ${sideName(P.mate)}` : ''; }
+      else { const w = state.wires.find(x => x.id === o.userData.wire), A = w && ctx.idx.get(w.a), B = w && ctx.idx.get(w.b), L2 = W3.len.get(o.userData.wire); t = A && B ? `${o.userData.no}${w.label ? ' „' + w.label + '“' : ''}: ${wireEndTxt(A)} → ${wireEndTxt(B)}${L2 ? ' · ' + fmtN(Math.round(L2.m * 100) / 100) + ' m' + (L2.ok ? '' : ' · ' + tr('kein kollisionsfreier Weg')) : ''}` : ''; }
+      const r = wrap.getBoundingClientRect(); tip.textContent = t; tip.hidden = !t; tip.style.left = (e.clientX - r.left + 12) + 'px'; tip.style.top = (e.clientY - r.top + 12) + 'px'; return;
+    }
+    const dx = e.clientX - drag.x, dy = e.clientY - drag.y; if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+    drag.x = e.clientX; drag.y = e.clientY; tip.hidden = true;
+    const orbit = drag.b === 0 || (drag.b === 1 && (e.shiftKey || drag.sh));
+    if (orbit) { W3.sph.th -= dx * .006; W3.sph.ph = Math.max(.02, Math.min(Math.PI - .02, W3.sph.ph - dy * .006)); }
+    else {   // verschieben in der Bildebene
+      const c = W3.cam, k = W3.sph.r * Math.tan(c.fov * Math.PI / 360) * 2 / el.clientHeight;
+      const right = new THREE.Vector3().setFromMatrixColumn(c.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(c.matrixWorld, 1);
+      W3.tgt.add(right.multiplyScalar(-dx * k)).add(up.multiplyScalar(dy * k));
+    }
+    w3Draw();
+  });
+  el.addEventListener('pointerup', e => {
+    const d = drag; drag = null; if (!d || d.moved || d.b !== 0) return;
+    const o = pick(e); if (!o) return;
+    if (o.userData.port) wirePort(o.userData.port);
+    else if (o.userData.wire) { WHI = WHI === o.userData.wire ? null : o.userData.wire; renderWiring(); const r = WHI && document.querySelector(`[data-wrow="${WHI}"]`); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
+  });
+  // Rad: zum Mauszeiger zoomen
+  el.addEventListener('wheel', e => {
+    e.preventDefault();
+    const f = Math.exp(Math.max(-60, Math.min(60, e.deltaY)) * .0015), c = W3.cam;
+    ray.setFromCamera(ndc(e), c);
+    const n = new THREE.Vector3(); c.getWorldDirection(n);
+    const p = new THREE.Vector3(); if (ray.ray.intersectPlane(new THREE.Plane().setFromNormalAndCoplanarPoint(n, W3.tgt), p)) W3.tgt.lerp(p, 1 - f);
+    W3.sph.r = Math.max(80, Math.min(12000, W3.sph.r * f)); w3Draw();
+  }, { passive: false });
+  el.addEventListener('dblclick', () => w3View('fit'));
+  wrap.addEventListener('click', e => { const v = e.target.closest('[data-w3v]'); if (v) w3View(v.dataset.w3v); });
+  wrap.addEventListener('change', e => { if (e.target.matches('[data-w3case]')) { W3.showCase = e.target.checked; if (W3.gCase) W3.gCase.visible = W3.showCase; w3Draw(); } });
 }
 function renderWiring() {
   const el = $('#wiring'); if (!el) return;
@@ -4637,16 +5082,18 @@ function renderWiring() {
     return `<tr data-wrow="${w.id}"${WHI === w.id ? ' class="whi"' : ''}><td>${i + 1}</td><td>${end(A)}</td><td>${end(B)}</td>
       <td><select data-wf="cable" data-wid="${w.id}"><option value="">selbst konfektionieren${bulk ? ' (' + esc(bulk.n) + ')' : ''}</option>${opts.map(c => `<option value="${c.id}" ${c.id === w.cable ? 'selected' : ''}>${esc(c.n)}</option>`).join('')}</select>
         ${lens ? `<select data-wf="len" data-wid="${w.id}">${lens.map(v => `<option value="${v}" ${v === w.len ? 'selected' : ''}>${fmtN(v)} m</option>`).join('')}</select>` : `<input type="number" min="0.1" step="0.1" value="${w.len ?? ''}" data-wf="len" data-wid="${w.id}" style="width:5.5em" aria-label="Länge in m"> m`}
-        <small>geschätzt ${fmtN(Math.round(wireLen(A, B) * 10) / 10)} m</small></td>
+        <small>geschätzt ${fmtN(Math.round(wireLen(A, B) * 10) / 10)} m</small><small data-w3len="${w.id}">${W3.len.has(w.id) && W3.len.get(w.id).ok ? `Kabelweg 3D ${fmtN(Math.round(W3.len.get(w.id).m * 100) / 100)} m` : ''}</small></td>
       <td><input type="text" value="${esc(w.label)}" data-wf="label" data-wid="${w.id}" placeholder="z. B. Mic 1"></td>
       <td><span class="wst ${st}" title="${esc(ck.msg)}"><span aria-hidden="true">${W_ICON[st]}</span> ${W_ST[st]}</span>${ck.msg ? `<small>${esc(ck.msg)}</small>` : ''}${cur && !list.some(c => c.id === cur.id) ? '<small>gewähltes Kabel passt nicht zu den Anschlüssen</small>' : ''}</td>
       <td><button type="button" class="btn sm danger" data-wdel="${w.id}" title="Verbindung löschen">✕</button></td></tr>`;
   });
-  const narrow = (el.clientWidth || innerWidth) < 760;
-  el.innerHTML = `<section class="card wdraw"><header><h2>Vorder- und Rückansicht mit Kabeln</h2><span class="eyebrow">Punkte antippen zum Verbinden</span></header>
-      <div class="body"><label class="check whide"><input type="checkbox" id="whide" ${WHIDE ? 'checked' : ''}> Vordere Ebene ausblenden</label>
-      <p class="hint">Blendet in jeder Ansicht die Schiene davor samt ihren Modulen aus. So sind die Anschlüsse auf der Rückseite der gegenüberliegenden Module erreichbar, auch wenn vorn und hinten alle HE belegt sind.</p>
-      <div class="wsvg${narrow ? ' narrow' : ''}">${wireDrawing(groups, idx, used, narrow)}</div>
+  const VIEWS = [['f', 'Vorderansicht'], ['s', 'Seitenansicht'], ['r', 'Rückansicht'], ['3d', '3D']];
+  el.innerHTML = `<section class="card wdraw"><header><h2>Rack mit Kabeln</h2><span class="eyebrow">${WVIEW === 'r' ? 'seitenverkehrt · Punkte antippen zum Verbinden' : 'Punkte antippen zum Verbinden'}</span></header>
+      <div class="body"><div class="wbar"><div class="chips" role="group" aria-label="Ansicht">${VIEWS.map(([k, t]) => `<button type="button" class="chip${WVIEW === k ? ' on' : ''}" data-wview="${k}">${t}</button>`).join('')}</div>
+        ${WVIEW === 's' || WVIEW === '3d' ? '' : `<label class="check whide"><input type="checkbox" id="whide" ${WHIDE ? 'checked' : ''}> Vordere Ebene ausblenden</label>`}</div>
+      <p class="hint">${WVIEW === '3d' ? '3D aus Vorder-, Rückansicht und Einbautiefe. Links ziehen dreht, rechts oder mit dem Mausrad gedrückt ziehen verschiebt (Umschalt + Mitte dreht), Rad zoomt zum Mauszeiger, Doppelklick zeigt alles, Würfel oben rechts wählt die Ansicht. Kabel laufen kollisionsfrei um Geräte, Blenden und Schienen (Bürstenblenden sind durchlässig). Anschlüsse antippen verbindet wie in 2D.' : WVIEW === 's' ? 'Seitenansicht zur Orientierung (Einbautiefen) – zum Verbinden Vorder- oder Rückansicht wählen.' : 'Vordere Ebene ausblenden nimmt die Schiene davor samt ihren Modulen weg. So sind die Rückseiten der Module der anderen Schiene erreichbar, auch wenn vorn und hinten alle HE belegt sind.'}</p>
+      ${S ? `<p class="hint wselhint">Gewählt: <b>${esc(S.owner)} · ${esc(S.lbl)}</b> – bleibt beim Umschalten der Ansicht gewählt. Jetzt den zweiten Anschluss antippen.</p>` : ''}
+      <div class="wsvg">${wireDrawing(groups, idx, used)}</div>
       <p class="hint"><span class="wkey"><i class="d"></i>frei</span><span class="wkey"><i class="d u"></i>verbunden</span><span class="wkey"><i class="d h"></i>verdeckt</span><span class="wkey"><i class="l ok"></i>passt</span><span class="wkey"><i class="l mk"></i>selbst konfektionieren / prüfen</span><span class="wkey"><i class="l bd"></i>passt nicht</span> · Linie antippen zeigt die Verbindung in der Liste.</p></div></section>
     <section class="card"><header><h2>Anschlüsse</h2><span class="eyebrow">${nUsed} von ${nPorts} verbunden</span></header>
       <div class="body">
@@ -4659,14 +5106,20 @@ function renderWiring() {
       ${state.wires.length ? `<div class="tablewrap"><table class="wtab"><thead><tr><th>#</th><th>Von</th><th>Nach</th><th>Kabel · Länge</th><th>Bezeichnung</th><th>Prüfung</th><th></th></tr></thead><tbody>${rows.join('')}</tbody></table></div>` : ''}
       <div class="body"><p class="hint">${state.wires.length ? 'Längen sind aus den Rackpositionen geschätzt (Höhen- und Tiefenabstand + 40 cm Führung und Reserve) und auf die nächste lieferbare Länge aufgerundet.' : 'Noch keine Verbindungen.'} Kabel und Stecker kommen aus der Stagecraft Library.</p></div></section>`;
   el._wctx = { groups, used, idx };
+  if (WVIEW === '3d') w3Mount(groups, idx, used);
 }
 $('#wiring').addEventListener('click', e => {
   const t = e.target;
+  const vw = t.closest('[data-wview]'); if (vw) { WVIEW = vw.dataset.wview; renderWiring(); return; }
   const f = t.closest('[data-wfilt]'); if (f) { WFILT = f.dataset.wfilt; renderWiring(); return; }
   const ln = t.closest('[data-wline]'); if (ln) { WHI = WHI === ln.dataset.wline ? null : ln.dataset.wline; renderWiring(); const r = WHI && document.querySelector(`[data-wrow="${WHI}"]`); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
   const d = t.closest('[data-wdel]'); if (d) { state.wires = state.wires.filter(w => w.id !== d.dataset.wdel); renderSoft(); return; }
   const p = t.closest('[data-wport]'); if (!p) return;
-  const k = p.dataset.wport, ctx = $('#wiring')._wctx || {}, idx = ctx.idx || new Map();
+  wirePort(p.dataset.wport);
+});
+// Anschluss antippen (Liste, 2D- oder 3D-Ansicht): erster wählt, zweiter verbindet
+function wirePort(k) {
+  const ctx = $('#wiring')._wctx || {}, idx = ctx.idx || new Map();
   const w = state.wires.find(x => x.a === k || x.b === k);
   if (!WSEL) { if (w) { toast('Anschluss ist schon verbunden – Verbindung in der Liste rechts löschen, um ihn neu zu verbinden'); const r = document.querySelector(`[data-wrow="${w.id}"]`); if (r) r.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; } WSEL = k; renderWiring(); return; }
   if (WSEL === k) { WSEL = null; renderWiring(); return; }
@@ -4677,7 +5130,7 @@ $('#wiring').addEventListener('click', e => {
   const nw = newWire(A, B); state.wires.push(nw);
   const ck = wireCheck(A, B); if (ck.st === 'bad') toast(`Verbunden, aber: ${ck.msg}`);
   renderSoft();
-});
+}
 $('#wiring').addEventListener('input', e => {
   if (e.target.id === 'wq') { WQ = e.target.value; const c = $('#wiring')._wctx; if (c) $('#wlist').innerHTML = wireListHTML(c.groups, c.used, c.idx); return; }
   const t = e.target.closest('[data-wf="label"]'); if (t) { const w = state.wires.find(x => x.id === t.dataset.wid); if (w) { w.label = t.value; save(); } }
@@ -5027,7 +5480,7 @@ function svgToPng(svgText, scale = 4) {
     img.onload = () => {
       const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
       const ctx = cv.getContext('2d'); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H); ctx.drawImage(img, 0, 0, W, H);
-      cv.toBlob(bl => bl ? res({ blob: bl, jpg: () => cv.toDataURL('image/jpeg', 0.88), w: W, h: H }) : rej(new Error('PNG fehlgeschlagen')), 'image/png');
+      cv.toBlob(bl => bl ? res({ blob: bl, jpg: () => cv.toDataURL('image/jpeg', 0.88), w: W, h: H, canvas: cv }) : rej(new Error('PNG fehlgeschlagen')), 'image/png');
     };
     img.onerror = () => rej(new Error('SVG konnte nicht gerendert werden'));
     img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(new XMLSerializer().serializeToString(clone));

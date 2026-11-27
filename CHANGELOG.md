@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-11-27 – Wiring: 3D view with routed cables (experimental)
+
+- **3D view** in step 3 next to front, side and rear view (three.js r149, local in `public/assets/vendor/`). Every rack item becomes a body: front plate with the front view as texture, housing up to the mounting depth with the rear view as texture on its back; shelves show their devices as separate bodies. The case is drawn semi-transparent and can be hidden.
+- **Navigation like Fusion 360:** left drag orbits, right or middle drag pans (Shift + middle orbits), the wheel zooms towards the pointer, double-click fits everything, a view cube (front, back, left, right, top, bottom) and "Home" / "All" buttons.
+- **Ports** sit on the front or rear plane of their item (panel connectors on the solder side behind the panel); tapping two ports connects them, as in 2D. Hover names ports and cables.
+- **Cable routing:** A* on a 10 mm grid through the free space of the case – devices, panels, rails and case walls are obstacles, brush panels let cables through. Bends cost extra, routes along surfaces and next to existing cables are cheaper (bundles). Routed cables are drawn as tubes with rounded bends in the check colour; without a route a dashed red line and a hint appear. The route length is shown in the cable list ("3D cable route").
+- Collisions from the side view and items that stick out of the case are tinted red.
+
 ## 2026-11-27 – Panel editor: grid, text, smart guides, DXF
 
 - **Grid:** in the custom connector panel editor the grid can be switched on (1 / 2 / 2.5 / 5 / 10 mm, origin at the panel centre or top left). With the grid on, item centres snap to it. The settings are kept in the browser.
